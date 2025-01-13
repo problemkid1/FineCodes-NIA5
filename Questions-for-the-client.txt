@@ -1,0 +1,22 @@
+Questions for the client
+
+Current System and Pain Points
+1.	Can you provide a walkthrough of the existing Airtable setup, including the data structure and the key features you use?
+2.	Are there particular data points or columns that are currently missing or disorganized?
+3.	Are there common issues with duplicate or outdated data that need to be addressed?
+
+Desired Features and Functionality
+4.	What are the "must-have" features for the new platform (e.g., reporting, automation, user roles)?
+5.	Are there any specific automations or workflows you envision for managing member data?
+
+User Experience
+6.	How many users will interact with the platform, and what roles will they play (e.g., admin, read-only)?
+7.	Are there specific accessibility or design preferences for the interface?
+8.	What is your preferred method of accessing the platform (e.g., desktop, mobile, web)?
+
+Security and Data Integrity
+9.	How should the system manage user authentication and permissions?
+
+Future Expansion
+10.	Would you like the system to include a public-facing portal for members or potential members?
+11.	Are there other similar tools or platforms that you admire and would like to emulate?
