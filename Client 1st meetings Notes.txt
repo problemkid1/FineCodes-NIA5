@@ -1,0 +1,88 @@
+Sage 50 for accounting software..
+quick books online  for accounting(cloud base..)
+
+clients who are past their due to membership will be not in the good standing..
+
+Microsoft dynamics (integrating with MS suite,  ease of use, word processing, keep it simple, automation,)
+
+
+He is available and does not mind getting the question even at night but he will get back to you by next morning..
+
+colors and designs are integrated to the theme of the website..
+
+for now the changes in the members profiles are done manually.. so, automation is required..
+
+
+the current website is a WordPress website..
+
+if someone says they are gonna close their business and cancels the membership then, 
+1st in the CRM (update in the CRM software)
+2nd accounting software (clear all the billings)
+3rd membership portal (remove them)
+
+
+English and French Language..
+
+Responsive for multiple displays sizes(M,T,L,D)..
+
+All of the members data should be downloaded able in (excel form and pdf)..
+
+automate (membership renewals and members in good standing..)
+
+enable the field for the members to choose from..
+
+mail cham
+Mass sending email should be there in order to perform newsletter and notifications(it should also be choose able among different types of members..)..(nice to have)
+
+
+A Nice to have is different window for the profile of the members..
+
+filtration should be available based on the terms or NIA codes..
+
+organizational continuality and database organization for backups data..
+
+highlight the duplication or incomplete information's..
+
+the VIP contact are the go to contact for those members with multiple point of contacts..
+
+the logos or uploading contents should be available..(optional or might be in future..)
+
+If the members cancels the membership completely their info should be archived and automated email should be sent..
+
+There should be a customizable dashboard with key sections information's..
+
+Payments will be handled by the Quick books and the accounting software's. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
