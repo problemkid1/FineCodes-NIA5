@@ -1,12 +1,37 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\NIA-5 Fine Codes\\CRMProject\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\member.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\member.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Member.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Member.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\Member.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Member.cs",
+              "RelativeToolTip": "CRMProject\\Models\\Member.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:18:57.219Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
