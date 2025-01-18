@@ -22,5 +22,10 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
         public string CancellationNotes { get; set; } = "";
+
+        [Required(ErrorMessage = "You must select the Member.")]
+        [Display(Name = "Member")]
+        public int MemberID { get; set; }
+        public Member? Member { get; set; }
     }
 }

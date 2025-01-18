@@ -1,12 +1,173 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "F:\\College Works\\Winter 2025\\Community Project\\NIA-5 Fine Codes\\CRMProject\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\data\\crminitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\data\\crminitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\cancellation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\cancellation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\address.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\membermembershiptype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\membermembershiptype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\member.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\member.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\opportunity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\opportunity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\opportunitystatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\opportunitystatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\data\\crmcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\data\\crmcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\geisy\\source\\repos\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\models\\memberindustry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\models\\memberindustry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Cancellation.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Cancellation.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\Cancellation.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Cancellation.cs",
+              "RelativeToolTip": "CRMProject\\Models\\Cancellation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:22:44.639Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MemberMembershipType.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\MemberMembershipType.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\MemberMembershipType.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\MemberMembershipType.cs",
+              "RelativeToolTip": "CRMProject\\Models\\MemberMembershipType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:19:17.359Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Member.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Member.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\Member.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Member.cs",
+              "RelativeToolTip": "CRMProject\\Models\\Member.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:18:57.219Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Address.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Address.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\Address.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Address.cs",
+              "RelativeToolTip": "CRMProject\\Models\\Address.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAewCYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:11:59.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Opportunity.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Opportunity.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\Opportunity.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\Opportunity.cs",
+              "RelativeToolTip": "CRMProject\\Models\\Opportunity.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:04:40.015Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "OpportunityStatus.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\OpportunityStatus.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\OpportunityStatus.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\OpportunityStatus.cs",
+              "RelativeToolTip": "CRMProject\\Models\\OpportunityStatus.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T08:04:36.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MemberIndustry.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\MemberIndustry.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Models\\MemberIndustry.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Models\\MemberIndustry.cs",
+              "RelativeToolTip": "CRMProject\\Models\\MemberIndustry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T07:36:30.069Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CRMInitializer.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Data\\CRMInitializer.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Data\\CRMInitializer.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Data\\CRMInitializer.cs",
+              "RelativeToolTip": "CRMProject\\Data\\CRMInitializer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T07:34:45.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CRMContext.cs",
+              "DocumentMoniker": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Data\\CRMContext.cs",
+              "RelativeDocumentMoniker": "CRMProject\\Data\\CRMContext.cs",
+              "ToolTip": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Data\\CRMContext.cs",
+              "RelativeToolTip": "CRMProject\\Data\\CRMContext.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABIAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-18T07:31:22.671Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -18,12 +18,12 @@ namespace CRMProject.Models
         [Display(Name = "Membership Type Fees")]
         [Required(ErrorMessage = "You must enter the fee for the membership type.")]
         [DataType(DataType.Currency)]
-        public double MembershipTypeFees { get; set; }
+        public double MembershipTypeFee { get; set; } 
 
         [Display(Name = "Membership Type Benefit")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for benefit.")]
         [DataType(DataType.MultilineText)]
-        public string MembershipTypeBenefit { get; set; } = "";
+        public string MembershipTypeBenefits { get; set; } = ""; //Changed Benefit to Benefits
 
 
     }

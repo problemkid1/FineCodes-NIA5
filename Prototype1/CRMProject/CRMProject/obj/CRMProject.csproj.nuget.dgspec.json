@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\NIA-5 Fine Codes\\CRMProject\\CRMProject\\CRMProject.csproj": {}
+    "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\NIA-5 Fine Codes\\CRMProject\\CRMProject\\CRMProject.csproj": {
+    "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\NIA-5 Fine Codes\\CRMProject\\CRMProject\\CRMProject.csproj",
+        "projectUniqueName": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj",
         "projectName": "CRMProject",
-        "projectPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\NIA-5 Fine Codes\\CRMProject\\CRMProject\\CRMProject.csproj",
+        "projectPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj",
         "packagesPath": "C:\\Users\\geisy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\NIA-5 Fine Codes\\CRMProject\\CRMProject\\obj\\",
+        "outputPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
