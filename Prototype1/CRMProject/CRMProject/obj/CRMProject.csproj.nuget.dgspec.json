@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj": {}
+    "C:\\Users\\DELL\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj": {
+    "C:\\Users\\DELL\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj",
         "projectName": "CRMProject",
-        "projectPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj",
-        "packagesPath": "C:\\Users\\geisy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\geisy\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\obj\\",
+        "projectPath": "C:\\Users\\DELL\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\CRMProject.csproj",
+        "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DELL\\source\\repos\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\geisy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,8 +44,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -95,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

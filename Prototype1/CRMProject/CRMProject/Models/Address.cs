@@ -34,7 +34,7 @@ namespace CRMProject.Models
         [Display(Name = "Address Type")]
         public AddressType AddressType { get; set; }
 
-        [Required(ErrorMessage = "You must select the Member.")]
+        [Required(ErrorMessage = "You must select a Member.")]
         [Display(Name = "Member")]
         public int MemberID { get; set; }
         public Member? Member { get; set; }

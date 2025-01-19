@@ -24,7 +24,7 @@ namespace CRMProject.Models
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please follow the correct email format test@email.com")]
         [StringLength(255)]
         [DataType(DataType.EmailAddress)]
-        public string MemberAccountsPayableEmail { get; set; }
+        public string MemberAccountsPayableEmail { get; set; } = "";
 
         [Display(Name = "Member Start Date")]
         [Required(ErrorMessage = "Member start date is required.")]
@@ -43,6 +43,21 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
         public string MemberNotes { get; set; } = "";
+
+        [Display(Name = "Addresses")]
+        public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
+
+        [Display(Name = "Industries")]
+        public ICollection<MemberIndustry> MemberIndustries { get; set; } = new HashSet<MemberIndustry>();
+
+        [Display(Name = "Membership Type")]
+        public ICollection<MemberMembershipType> MemberMembershipTypes { get; set; } = new HashSet<MemberMembershipType>();
+
+        [Display(Name = "Cancellation")]
+        public ICollection<Cancellation> Cancellations { get; set; } = new HashSet<Cancellation>();
+
+        [Display(Name = "Contact")]
+        public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();
 
     }
 }

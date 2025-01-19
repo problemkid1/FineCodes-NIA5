@@ -4,9 +4,7 @@ namespace CRMProject.Models
 {
     public class ContactEmail
     {
-        public int ContactEmailId { get; set; }
-
-        public int ContactId { get; set; }
+        public int ID { get; set; }
 
         [Required(ErrorMessage = "You cannot leave the email type blank.")]
         [Display(Name = "Email Type")]
@@ -17,8 +15,9 @@ namespace CRMProject.Models
         [StringLength(255)]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
-        public string EmailAddress { get; set; }
-               
-        public Contact Contact { get; set; }
+        public string EmailAddress { get; set; } = "";
+
+        public int ContactID { get; set; }
+        public Contact? Contact { get; set; }
     }
 }
