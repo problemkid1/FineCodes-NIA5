@@ -23,8 +23,9 @@ namespace CRMProject.Models
         [Display(Name = "Membership Type Benefit")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for benefit.")]
         [DataType(DataType.MultilineText)]
-        public string MembershipTypeBenefits { get; set; } = ""; //Changed Benefit to Benefits
+        public string MembershipTypeBenefits { get; set; } = "";
 
-
+        [Display(Name = "Member")]
+        public ICollection<MemberMembershipType> MemberMembershipTypes { get; set; } = new HashSet<MemberMembershipType>();
     }
 }

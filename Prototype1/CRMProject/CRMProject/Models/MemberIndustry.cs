@@ -2,12 +2,11 @@
 {
     public class MemberIndustry
     {
-        public int MemberId { get; set; }
-        public Member Member { get; set; }
+        public int MemberID { get; set; }
+        public Member? Member { get; set; }
 
-        public int IndustryId { get; set; }
-        public Industry Industry { get; set; }
-
+        public int IndustryID { get; set; }
+        public Industry? Industry { get; set; }
 
     }
 }
