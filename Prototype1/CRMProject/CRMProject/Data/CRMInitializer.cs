@@ -421,8 +421,8 @@ namespace CRMProject.Data
                             // Create new MemberIndustry record
                             MemberIndustry memberIndustry = new MemberIndustry
                             {
-                                MemberId = randomMemberId,
-                                IndustryId = randomIndustryId
+                                MemberID = randomMemberId,
+                                IndustryID = randomIndustryId
                             };
 
                             try
@@ -581,7 +581,7 @@ namespace CRMProject.Data
                     if (!context.ContactEmails.Any())
                     {
                         // Get the array of Contact primary keys
-                        int[] contactIDs = context.Contacts.Select(a => a.ContactId).ToArray();
+                        int[] contactIDs = context.Contacts.Select(a => a.ID).ToArray();
                         int contactCount = contactIDs.Length;
 
                         // Create 10 random ContactEmail records
@@ -597,7 +597,7 @@ namespace CRMProject.Data
                             // Create a new ContactEmail record
                             ContactEmail contactEmail = new ContactEmail
                             {
-                                ContactId = randomContactId,
+                                ContactID = randomContactId,
                                 EmailType = randomEmailType,
                                 EmailAddress = $"{Guid.NewGuid().ToString().Substring(0, 8)}@example.com"  // Generate a random email address
                             };
@@ -615,7 +615,7 @@ namespace CRMProject.Data
                     {
                         // Get the array of Member and Contact primary keys
                         int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int[] contactIDs = context.Contacts.Select(a => a.ContactId).ToArray();
+                        int[] contactIDs = context.Contacts.Select(a => a.ID).ToArray();
                         int memberCount = memberIDs.Length;
                         int contactCount = contactIDs.Length;
 
@@ -633,8 +633,8 @@ namespace CRMProject.Data
                             // Create new MemberContact record
                             MemberContact memberContact = new MemberContact
                             {
-                                MemberId = randomMemberId,
-                                ContactId = randomContactId,
+                                MemberID = randomMemberId,
+                                ContactID = randomContactId,
                                 MemberContactRelationshipType = randomRelationshipType
                             };
 
