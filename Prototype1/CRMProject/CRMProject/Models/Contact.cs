@@ -18,25 +18,25 @@ namespace CRMProject.Models
 
         [Display(Name = "Title/Role")]
         [MaxLength(100)]
-        public string ContactTitleRole { get; set; } = "";
+        public string? ContactTitleRole { get; set; } = "";
 
         [Display(Name = "Phone")]
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [MaxLength(10)]
-        public string ContactPhone { get; set; } = "";
+        public string? ContactPhone { get; set; } = "";
 
         [Display(Name = "Website")]
         [MaxLength(100)]
-        public string ContactWebsite { get; set; } = "";
+        public string? ContactWebsite { get; set; } = "";
 
         [MaxLength(255)]
         [Display(Name = "Interactions")]
-        public string ContactInteractions { get; set; } = "";
+        public string? ContactInteractions { get; set; } = "";
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Notes")]
-        public string ContactNotes { get; set; } = "";
+        public string? ContactNotes { get; set; } = "";
 
         [Display(Name = "Member")]
         public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();

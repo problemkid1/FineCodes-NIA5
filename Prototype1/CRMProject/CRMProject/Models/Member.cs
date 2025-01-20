@@ -36,13 +36,13 @@ namespace CRMProject.Models
         [Required(ErrorMessage = "Member end date is required.")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? MemberEndDate { get; set; } = DateTime.Today.AddYears(1);  // Nullable DateTime
+        public DateTime? MemberEndDate { get; set; }
 
         [Display(Name = "Member Notes")]
         [Required(ErrorMessage = "You must enter comments about the member.")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
-        public string MemberNotes { get; set; } = "";
+        public string? MemberNotes { get; set; } = "";
 
         [Display(Name = "Addresses")]
         public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
