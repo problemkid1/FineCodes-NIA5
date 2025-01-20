@@ -12,7 +12,6 @@ namespace CRMProject.Models
         public string IndustryName { get; set; } = "";
 
         [Display(Name = "Industry NAICS Code")]
-        [Required(ErrorMessage = "You cannot leave the Industry NAICS Code blank.")]
         [MaxLength(6, ErrorMessage = "Industry NAICS Code cannot be more than 6 characters long.")]
         [RegularExpression(@"^\d{2,6}$", ErrorMessage = "Industry NAICS Code must consist of between 2 and 6 numeric digits.")]
         public string? IndustryNAICSCode { get; set; } = "";

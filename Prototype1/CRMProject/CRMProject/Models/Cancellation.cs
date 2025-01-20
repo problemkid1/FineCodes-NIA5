@@ -13,7 +13,6 @@ namespace CRMProject.Models
         public DateTime CancellationDate { get; set; } = DateTime.Today.AddYears(-3);
 
         [Display(Name = "Cancellation Reason")]
-        [Required(ErrorMessage = "You must enter a reason for the cancellation.")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for Reason.")]
         [DataType(DataType.MultilineText)]
         public string? CancellationReason { get; set; } = "";

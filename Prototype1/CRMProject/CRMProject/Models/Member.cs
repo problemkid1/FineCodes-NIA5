@@ -32,14 +32,12 @@ namespace CRMProject.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime MemberStartDate { get; set; } = DateTime.Today;
 
-        [Display(Name = "Member End Date")]
-        [Required(ErrorMessage = "Member end date is required.")]
+        [Display(Name = "Member End Date")]        
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? MemberEndDate { get; set; }
 
-        [Display(Name = "Member Notes")]
-        [Required(ErrorMessage = "You must enter comments about the member.")]
+        [Display(Name = "Member Notes")]        
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
         public string? MemberNotes { get; set; } = "";

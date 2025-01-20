@@ -16,7 +16,6 @@ namespace CRMProject.Models
         public string? MembershipTypeDescription { get; set; } = "";
 
         [Display(Name = "Membership Type Fee")]
-        [Required(ErrorMessage = "You must enter the fee for the membership type.")]
         [DataType(DataType.Currency)]
         public double? MembershipTypeFee { get; set; } 
 

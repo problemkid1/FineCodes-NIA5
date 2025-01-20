@@ -21,12 +21,10 @@ namespace CRMProject.Models
         public string AddressCity { get; set; } = "";
 
         [Display(Name = "Province")]
-        [Required(ErrorMessage = "You cannot leave the province blank.")]
         [MaxLength(100, ErrorMessage = "Province cannot be more than 100 characters long.")]
         public string? Province { get; set; } = "";
 
         [Display(Name = "Postal Code")]
-        [Required]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid postal code.")]
         public string? PostalCode { get; set; } = "";
 

@@ -52,8 +52,7 @@ namespace CRMProject.Data
                     //To randomly generate data
                     Random random = new Random();
 
-                    //Seed a few specific Instructors and GroupClasses. We will add more with random values later,
-                    //but it can be useful to know we will have some specific records in the sample data.
+                    //Seed a few specific Members. We will add more with random values later.                   
                     try
                     {
                         // Seed Members if there aren't any.
@@ -137,7 +136,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "billing@globaltextiles.com",
                                     MemberStartDate = DateTime.Parse("2017-04-15"),
-                                    MemberEndDate = DateTime.Parse("2023-11-31"),
+                                    MemberEndDate = DateTime.Parse("2023-11-30"),
                                     MemberNotes = "Awaiting payment confirmation."
                                 },
                                 new Member
@@ -274,39 +273,68 @@ namespace CRMProject.Data
                                 MembershipTypeDescription = "Associate membership for smaller organizations.",
                                 MembershipTypeFee = 300.00,
                                 MembershipTypeBenefits = "Basic Access"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.LocalIndustrial,
-                                MembershipTypeDescription = "Local manufacturing businesses.",
-                                MembershipTypeFee = 1200.00,
-                                MembershipTypeBenefits = "Manufacturing Resources, Discounted Services"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.NonLocalIndustrial,
-                                MembershipTypeDescription = "National or international manufacturing companies.",
-                                MembershipTypeFee = 1800.00,
-                                MembershipTypeBenefits = "Premium Services, Cross-Border Networking"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.InKind,
-                                MembershipTypeDescription = "Donations of goods or services instead of cash.",
-                                MembershipTypeFee = 0.00, // Free for donations
-                                MembershipTypeBenefits = "Recognition, Event Sponsorship"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.GovernmentAndEducation,
-                                MembershipTypeDescription = "Government agencies and educational institutions.",
-                                MembershipTypeFee = 450.00,
-                                MembershipTypeBenefits = "Government Access, Educational Discounts"
                             }
                         );
                         context.SaveChanges();
                     }
 
+                    // Seed Addresses if there aren't any.
+                    if (!context.Addresses.Any())
+                    {
+                        // Get the array of Member primary keys
+                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
+                        int memberCount = memberIDs.Length;
+
+                        // Address Types
+                        var addressTypes = new[] { "Headquarters", "Branch", "Warehouse" };
+
+                        // Create 10 random Address records
+                        // Ensure memberIDs and addressTypes have elements
+                        if (memberIDs.Length > 0 && addressTypes.Length > 0)
+                        {
+                            // Create 10 random Address records
+                            for (int i = 0; i < 10; i++)
+                            {
+                                // Randomly select MemberId
+                                int randomMemberId = memberIDs[random.Next(memberIDs.Length)]; // Fixed
+
+                                // Randomly select AddressType
+                                string randomAddressType = addressTypes[random.Next(addressTypes.Length)];
+
+                                // Randomly generate AddressLine1, AddressLine2, and AddressCity
+                                string randomAddressLine1 = $"Street {random.Next(1, 100)}";
+                                string randomAddressLine2 = $"Suite {random.Next(1, 20)}";
+                                string randomAddressCity = $"City{random.Next(1, 10)}";
+                                string randomProvince = $"Province{random.Next(1, 5)}";
+
+                                // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
+                                string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
+
+                                // Create a new Address record
+                                Address address = new Address
+                                {
+                                    MemberID = randomMemberId,
+                                    AddressLine1 = randomAddressLine1,
+                                    AddressLine2 = randomAddressLine2,
+                                    AddressCity = randomAddressCity,
+                                    Province = randomProvince,
+                                    PostalCode = randomPostalCode,
+                                    AddressType = Enum.Parse<AddressType>(randomAddressType)
+                                };
+
+                                // Add the new Address record to the context
+                                context.Addresses.Add(address);
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception("memberIDs or addressTypes array is empty.");
+                        }
+
+
+                        // Save changes to the database
+                        context.SaveChanges();
+                    }
 
                     // Seed MemberMembershipType relationships if there aren't any.
                     if (!context.MemberMembershipTypes.Any())
