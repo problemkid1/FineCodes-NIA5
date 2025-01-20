@@ -47,4 +47,13 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+//To prepare the database and seed data.  Can comment this out some of the time.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    CRMInitializer.Initialize(serviceProvider: services, DeleteDatabase: false,
+        UseMigrations: true, SeedSampleData: true);
+}
+
 app.Run();

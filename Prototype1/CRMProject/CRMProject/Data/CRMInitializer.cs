@@ -77,7 +77,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.OverduePayment,  // Enum value
                                     MemberAccountsPayableEmail = "finance@greenenergy.com",
                                     MemberStartDate = DateTime.Parse("2020-06-10"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2023-12-31"),
                                     MemberNotes = "Pending payment for the last quarter."
                                 },
                                 new Member
@@ -97,7 +97,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payroll@freshfoods.com",
                                     MemberStartDate = DateTime.Parse("2019-11-05"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2023-01-31"),
                                     MemberNotes = "Key sponsor of annual events."
                                 },
                                 new Member
@@ -117,7 +117,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@edutech.com",
                                     MemberStartDate = DateTime.Parse("2022-05-12"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2027-12-31"),
                                     MemberNotes = "Recently joined, active participation."
                                 },
                                 new Member
@@ -127,7 +127,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payments@autohub.com",
                                     MemberStartDate = DateTime.Parse("2021-09-30"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2029-12-31"),
                                     MemberNotes = "Active in automotive industry programs."
                                 },
                                 new Member
@@ -137,7 +137,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "billing@globaltextiles.com",
                                     MemberStartDate = DateTime.Parse("2017-04-15"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2023-11-31"),
                                     MemberNotes = "Awaiting payment confirmation."
                                 },
                                 new Member
@@ -147,7 +147,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "accounting@nextgen.com",
                                     MemberStartDate = DateTime.Parse("2019-07-22"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2023-12-01"),
                                     MemberNotes = "Frequent host of tech workshops."
                                 },
                                 new Member
@@ -157,7 +157,7 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@primelogistics.com",
                                     MemberStartDate = DateTime.Parse("2020-02-10"),
-                                    MemberEndDate = null,
+                                    MemberEndDate = DateTime.Parse("2023-12-04"),
                                     MemberNotes = "Specializes in logistics management."
                                 }
                             );
@@ -181,38 +181,48 @@ namespace CRMProject.Data
                         var addressTypes = new[] { "Headquarters", "Branch", "Warehouse" };
 
                         // Create 10 random Address records
-                        for (int i = 0; i < 10; i++)
+                        // Ensure memberIDs and addressTypes have elements
+                        if (memberIDs.Length > 0 && addressTypes.Length > 0)
                         {
-                            // Randomly select MemberId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
-
-                            // Randomly select AddressType
-                            string randomAddressType = addressTypes[random.Next(addressTypes.Length)];
-
-                            // Randomly generate AddressLine1, AddressLine2, and AddressCity
-                            string randomAddressLine1 = $"Street {random.Next(1, 100)}";
-                            string randomAddressLine2 = $"Suite {random.Next(1, 20)}";
-                            string randomAddressCity = $"City{random.Next(1, 10)}";
-                            string randomProvince = $"Province{random.Next(1, 5)}";
-
-                            // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
-                            string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
-
-                            // Create a new Address record
-                            Address address = new Address
+                            // Create 10 random Address records
+                            for (int i = 0; i < 10; i++)
                             {
-                                MemberID = randomMemberId,
-                                AddressLine1 = randomAddressLine1,
-                                AddressLine2 = randomAddressLine2,
-                                AddressCity = randomAddressCity,
-                                Province = randomProvince,
-                                PostalCode = randomPostalCode,
-                                AddressType = Enum.Parse<AddressType>(randomAddressType)
-                            };
+                                // Randomly select MemberId
+                                int randomMemberId = memberIDs[random.Next(memberIDs.Length)]; // Fixed
 
-                            // Add the new Address record to the context
-                            context.Addresses.Add(address);
+                                // Randomly select AddressType
+                                string randomAddressType = addressTypes[random.Next(addressTypes.Length)];
+
+                                // Randomly generate AddressLine1, AddressLine2, and AddressCity
+                                string randomAddressLine1 = $"Street {random.Next(1, 100)}";
+                                string randomAddressLine2 = $"Suite {random.Next(1, 20)}";
+                                string randomAddressCity = $"City{random.Next(1, 10)}";
+                                string randomProvince = $"Province{random.Next(1, 5)}";
+
+                                // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
+                                string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
+
+                                // Create a new Address record
+                                Address address = new Address
+                                {
+                                    MemberID = randomMemberId,
+                                    AddressLine1 = randomAddressLine1,
+                                    AddressLine2 = randomAddressLine2,
+                                    AddressCity = randomAddressCity,
+                                    Province = randomProvince,
+                                    PostalCode = randomPostalCode,
+                                    AddressType = Enum.Parse<AddressType>(randomAddressType)
+                                };
+
+                                // Add the new Address record to the context
+                                context.Addresses.Add(address);
+                            }
                         }
+                        else
+                        {
+                            throw new Exception("memberIDs or addressTypes array is empty.");
+                        }
+
 
                         // Save changes to the database
                         context.SaveChanges();

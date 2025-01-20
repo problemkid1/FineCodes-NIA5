@@ -4,6 +4,8 @@ namespace CRMProject.Models
 {
     public class Opportunity
     {
+        public int ID { get; set; }
+
         [Display(Name = "Opportunity Name")]
         [Required(ErrorMessage = "You cannot leave the opportunity name blank.")]
         [MaxLength(255, ErrorMessage = "Opportunity name cannot be more than 255 characters long.")]
