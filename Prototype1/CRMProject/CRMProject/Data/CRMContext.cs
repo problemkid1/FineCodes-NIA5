@@ -27,12 +27,12 @@ namespace CRMProject.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Prevent Cascade Delete from Contact to ContactEmail
+            //Allow Cascade Delete from Contact to ContactEmail
             modelBuilder.Entity<ContactEmail>()
                 .HasOne(ce => ce.Contact)
                 .WithMany(c => c.ContactEmails)
                 .HasForeignKey(ce => ce.ContactID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             //Prevent Cascade Delete from Industry to MemberIndustry
             modelBuilder.Entity<MemberIndustry>()
@@ -90,7 +90,7 @@ namespace CRMProject.Data
 
             //Unique Index for Members name
             modelBuilder.Entity<Member>()
-                .HasIndex(m => new { m.MemberName, m.MemberSize, m.MemberStatus })
+                .HasIndex(m => m.MemberName)
                 .IsUnique();
 
             //Unique Index for Opportunity Name
@@ -109,6 +109,11 @@ namespace CRMProject.Data
             //Unique Index for Industry Name
             modelBuilder.Entity<Industry>()
                 .HasIndex(i => i.IndustryName)
+                .IsUnique();
+
+            //Unique Index for IndustryNAICSCode
+            modelBuilder.Entity<Industry>()
+                .HasIndex(i => i.IndustryNAICSCode)
                 .IsUnique();
 
             //Unique Index for MembershipTypeName
