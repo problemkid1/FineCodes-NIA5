@@ -25,4 +25,14 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\theme - Copy\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\theme\vendor\fontawesome-free\package.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
