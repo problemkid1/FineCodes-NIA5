@@ -6,6 +6,14 @@ namespace CRMProject.Models
     {
         public int ID { get; set; }
 
+        public string Summary
+        {
+            get
+            {
+                return AddressCity + ", " + AddressType;
+            }
+        }
+
         [Display(Name = "Address Line 1")]
         [Required(ErrorMessage = "You cannot leave the address line 1 blank.")]
         [MaxLength(255, ErrorMessage = "Address line 1 cannot be more than 255 characters long.")]

@@ -6,10 +6,40 @@ namespace CRMProject.Models
     {
         public int ID { get; set; }
 
+        [Display(Name = "Contact")]
+        public string Summary
+        {
+            get
+            {
+                return FirstName
+                    + (string.IsNullOrEmpty(MiddleName) ? " " :
+                        (" " + (char?)MiddleName[0] + ". ").ToUpper())
+                    + LastName;
+            }
+        }
+
+        public string FormalName
+        {
+            get
+            {
+                return LastName + ", " + FirstName
+                    + (string.IsNullOrEmpty(MiddleName) ? "" :
+                        (" " + (char?)MiddleName[0] + ".").ToUpper());
+            }
+        }
+
+        [Display(Name = "Phone")]
+        public string PhoneFormatted => "(" + ContactPhone?.Substring(0, 3) + ") "
+            + ContactPhone?.Substring(3, 3) + "-" + ContactPhone?[6..];
+
         [Required(ErrorMessage = "You cannot leave the first name type blank.")]
         [Display(Name = "First Name")]
         [MaxLength(50, ErrorMessage = "First name cannot be more than 50 characters long.")]
         public string FirstName { get; set; } = "";
+
+        [Display(Name = "Middle Name")]
+        [StringLength(50, ErrorMessage = "Middle name cannot be more than 50 characters long.")]
+        public string? MiddleName { get; set; }
 
         [Required(ErrorMessage = "You cannot leave the last name type blank.")]
         [Display(Name = "Last Name")]
