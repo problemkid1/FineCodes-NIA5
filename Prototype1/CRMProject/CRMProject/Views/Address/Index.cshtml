@@ -8,52 +8,77 @@
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- Your existing create form content here -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h1 mb-0 text-gray-1400">Address Index</h1>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Create New
+                </a>
+            </div>
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h1 mb-0 text-gray-1400">Address Index</h1>
-    <a asp-action="Create" class="btn btn-primary btn-lg">
-        <i class="fas fa-plus"></i> Create New
-    </a>
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.AddressLine1)</th>
+                                <th>@Html.DisplayNameFor(model => model.AddressLine2)</th>
+                                <th>@Html.DisplayNameFor(model => model.AddressCity)</th>
+                                <th>@Html.DisplayNameFor(model => model.Province)</th>
+                                <th>@Html.DisplayNameFor(model => model.PostalCode)</th>
+                                <th>@Html.DisplayNameFor(model => model.AddressType)</th>
+                                <th>@Html.DisplayNameFor(model => model.Member)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.AddressLine1)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Province)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AddressType)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Member.MemberName)</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                               role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                &#x270D;
+                                            </a>
+
+                                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                               role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                &#x1F50E;
+                                            </a>
+
+                                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                               role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                &#x274C;
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<table class="table table-bordered table-striped">
-    <thead class="table-light">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.AddressLine1)</th>
-            <th>@Html.DisplayNameFor(model => model.AddressLine2)</th>
-            <th>@Html.DisplayNameFor(model => model.AddressCity)</th>
-            <th>@Html.DisplayNameFor(model => model.Province)</th>
-            <th>@Html.DisplayNameFor(model => model.PostalCode)</th>
-            <th>@Html.DisplayNameFor(model => model.AddressType)</th>
-            <th>@Html.DisplayNameFor(model => model.Member)</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.AddressLine1)</td>
-                <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
-                <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
-                <td>@Html.DisplayFor(modelItem => item.Province)</td>
-                <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
-                <td>@Html.DisplayFor(modelItem => item.AddressType)</td>
-                <td>@Html.DisplayFor(modelItem => item.Member.MemberName)</td>
-                <td>
-                    <div class="btn-group">
-                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-md">
-                            @* <i class="fas fa-edit"></i> Edit *@ Edit
-                        </a>
-                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-md">
-                            @* <i class="fas fa-info-circle"></i> Details *@ Details
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-md">
-                            @* <i class="fas fa-trash"></i> Delete *@ Delete
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@section Scripts {
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

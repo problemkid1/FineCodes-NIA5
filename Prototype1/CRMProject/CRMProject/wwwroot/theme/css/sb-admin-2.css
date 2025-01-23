@@ -558,8 +558,11 @@ pre code {
   margin-left: auto;
 }
 
+
+
+
 @media (min-width: 576px) {
-  .container, .container-sm {
+    .container, .container-sm {
     max-width: 540px;
   }
 }
@@ -9817,16 +9820,16 @@ a:focus {
 }
 
 .scroll-to-top {
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  display: none;
-  width: 2.75rem;
-  height: 2.75rem;
-  text-align: center;
-  color: #fff;
-  background: rgba(90, 92, 105, 0.5);
-  line-height: 46px;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    text-align: center;
+    color: #fff;
+    background: rgba(90, 92, 105, 0.5);
+    line-height: 46px;
 }
 
 .scroll-to-top:focus, .scroll-to-top:hover {

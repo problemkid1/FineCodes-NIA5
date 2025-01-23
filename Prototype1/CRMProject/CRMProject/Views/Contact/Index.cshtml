@@ -8,67 +8,86 @@
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h1 mb-0 text-gray-1400">Contacts</h1>
-    <a asp-action="Create" class="btn btn-primary btn-lg">
-        <i class="fas fa-plus"></i> Create New
-    </a>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- Your existing create form content here -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h1 mb-0 text-gray-1400">Contacts</h1>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Create New
+                </a>
+            </div>
+
+            <div class="card">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactPhone)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactWebsite)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactInteractions)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactNotes)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center">No contacts available.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.Summary)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ContactTitleRole)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ContactPhone)</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.ContactWebsite))
+                                            {
+                                                <a href="@item.ContactWebsite" target="_blank">@item.ContactWebsite</a>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.ContactInteractions)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ContactNotes)</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                    &#x270D;
+                                                </a>
+
+                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                    &#x1F50E;
+                                                </a>
+
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                    &#x274C;
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<table class="table table-bordered table-striped">
-    <thead class="table-light">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>            
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactPhone)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactWebsite)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactInteractions)</th>
-            <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactNotes)</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="8" class="text-center">No contacts available.</td>
-            </tr>
-        }
-        else
-        {
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Summary)</td>                    
-                    <td>@Html.DisplayFor(modelItem => item.ContactTitleRole)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ContactPhone)</td>
-                    <td>
-                        @if (!string.IsNullOrEmpty(item.ContactWebsite))
-                        {
-                            <a href="@item.ContactWebsite" target="_blank">@item.ContactWebsite</a>
-                        }
-                        else
-                        {
-                            <span>N/A</span>
-                        }
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => item.ContactInteractions)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ContactNotes)</td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-warning btn-md">
-                                Edit
-                            </a>
-                            <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-info btn-md">
-                                 Details
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-md">
-                                 Delete
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
+

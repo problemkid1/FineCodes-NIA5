@@ -62,11 +62,11 @@ namespace CRMProject.Data
                                 new Member
                                 {
                                     MemberName = "Tech Solutions Inc.",
-                                    MemberSize = 50, 
+                                    MemberSize = 50,  // Using string to match the data type
                                     MemberStatus = MemberStatus.GoodStanding,  // Enum value
                                     MemberAccountsPayableEmail = "ap@techsolutions.com",
                                     MemberStartDate = DateTime.Parse("2021-01-15"),
-                                    MemberEndDate = null, 
+                                    MemberEndDate = null,  // Assuming null is allowed for EndDate
                                     MemberNotes = "Loyal member with regular participation."
                                 },
                                 new Member
@@ -83,7 +83,7 @@ namespace CRMProject.Data
                                 {
                                     MemberName = "Urban Builders",
                                     MemberSize = 70,
-                                    MemberStatus = MemberStatus.Cancelled,  // Enum value
+                                    MemberStatus = MemberStatus.Canceled,  // Enum value
                                     MemberAccountsPayableEmail = "billing@urbanbuilders.com",
                                     MemberStartDate = DateTime.Parse("2018-03-20"),
                                     MemberEndDate = DateTime.Parse("2023-01-10"),
@@ -103,7 +103,7 @@ namespace CRMProject.Data
                                 {
                                     MemberName = "Smart Solutions",
                                     MemberSize = 15,
-                                    MemberStatus = MemberStatus.Cancelled,  // Enum value
+                                    MemberStatus = MemberStatus.Canceled,  // Enum value
                                     MemberAccountsPayableEmail = "accounting@smartsolutions.com",
                                     MemberStartDate = DateTime.Parse("2020-08-01"),
                                     MemberEndDate = DateTime.Parse("2022-08-01"),
