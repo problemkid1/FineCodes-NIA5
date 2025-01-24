@@ -6,13 +6,18 @@ namespace CRMProject.Models
     {
         public int ID { get; set; }
 
+
+        [Display(Name = "Address")]
         public string Summary
         {
             get
             {
-                return AddressCity + ", " + AddressType;
+                return AddressLine1
+                       + (string.IsNullOrEmpty(AddressLine2) ? "" :
+                          ", " + AddressLine2);
             }
         }
+
 
         [Display(Name = "Address Line 1")]
         [Required(ErrorMessage = "You cannot leave the address line 1 blank.")]
@@ -30,7 +35,7 @@ namespace CRMProject.Models
 
         [Display(Name = "Province")]
         [MaxLength(100, ErrorMessage = "Province cannot be more than 100 characters long.")]
-        public string? Province { get; set; } = "";
+        public Province? Province { get; set; } = Models.Province.Ontario;
 
         [Display(Name = "Postal Code")]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid postal code.")]

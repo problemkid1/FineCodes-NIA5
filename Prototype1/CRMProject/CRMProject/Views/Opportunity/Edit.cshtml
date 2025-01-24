@@ -1,0 +1,69 @@
+﻿@model CRMProject.Models.Opportunity
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Opportunity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="OpportunityName" class="control-label"></label>
+                <input asp-for="OpportunityName" class="form-control" />
+                <span asp-validation-for="OpportunityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityStatus" class="control-label"></label>
+                <select asp-for="OpportunityStatus" class="form-control"></select>
+                <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityPriority" class="control-label"></label>
+                <input asp-for="OpportunityPriority" class="form-control" />
+                <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityAction" class="control-label"></label>
+                <input asp-for="OpportunityAction" class="form-control" />
+                <span asp-validation-for="OpportunityAction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityContact" class="control-label"></label>
+                <input asp-for="OpportunityContact" class="form-control" />
+                <span asp-validation-for="OpportunityContact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityAccount" class="control-label"></label>
+                <input asp-for="OpportunityAccount" class="form-control" />
+                <span asp-validation-for="OpportunityAccount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityLastContactDate" class="control-label"></label>
+                <input asp-for="OpportunityLastContactDate" class="form-control" />
+                <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpportunityInteractions" class="control-label"></label>
+                <input asp-for="OpportunityInteractions" class="form-control" />
+                <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
