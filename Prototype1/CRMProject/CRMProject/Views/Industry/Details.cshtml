@@ -1,36 +1,36 @@
 ﻿@model CRMProject.Models.Industry
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Details - " + Model?.IndustryName;
 }
 
-<h1>Details</h1>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <h1>Industry Information</h1>
+                <hr />
 
-<div>
-    <h4>Industry</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IndustryName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IndustryName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IndustryNAICSCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IndustryNAICSCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IndustryDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IndustryDescription)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                <dl class="row">
+                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustryName)</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustryName)</dd>
+
+                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustryNAICSCode)</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustryNAICSCode)</dd>
+
+                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustryDescription)</dt>
+                    <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustryDescription)</dd>
+                </dl>
+            </div>
+
+            <div class="form-group text-center">
+                @if (Model?.ID != null)
+                {
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit</a>
+                }
+                <a class="btn btn-secondary ml-2" asp-action="Index">Back to Industries</a>
+            </div>
+        </div>
+    </div>
 </div>

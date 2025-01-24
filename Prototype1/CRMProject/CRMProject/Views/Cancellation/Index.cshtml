@@ -1,53 +1,88 @@
 ﻿@model IEnumerable<CRMProject.Models.Cancellation>
 
 @{
-    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Cancellation Index";
 }
 
-<h1>Index</h1>
+<!-- Custom styles for this template-->
+<link href="~/customs/css/style.css" rel="stylesheet">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CancellationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CancellationReason)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CancellationNotes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Member)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CancellationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CancellationReason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CancellationNotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Member.MemberAccountsPayableEmail)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- Header Section -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h1 mb-0 text-gray-1400">Cancellation</h1>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Add New Cancellation
+                </a>
+            </div>
+
+            <div class="card">
+                <!-- Table Section -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.CancellationDate)</th>
+                                <th>@Html.DisplayNameFor(model => model.CancellationReason)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberAccountsPayableEmail)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">No cancellations available.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.CancellationDate.ToString("MMM dd, yyyy")</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>
+                                        <td class="d-none d-sm-table-cell">
+                                            @if (item.Member != null)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.Member.MemberAccountsPayableEmail)
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Edit Cancellation">
+                                                    &#x270D;
+                                                </a>
+
+                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="View Details">
+                                                    &#x1F50E;
+                                                </a>
+
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Delete Cancellation"
+                                                   onclick="return confirm('Are you sure you want to delete this cancellation?');">
+                                                    &#x274C;
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
