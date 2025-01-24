@@ -22,7 +22,13 @@ namespace CRMProject.Controllers
         // GET: Industry
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Industries.ToListAsync());
+            var industries = await _context.Industries
+            .Include(i => i.MemberIndustries)
+            .ThenInclude(i => i.Member)
+            .AsNoTracking()
+            .ToListAsync();
+
+            return View(industries);
         }
 
         // GET: Industry/Details/5
@@ -34,6 +40,7 @@ namespace CRMProject.Controllers
             }
 
             var industry = await _context.Industries
+                 .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (industry == null)
             {
@@ -125,6 +132,7 @@ namespace CRMProject.Controllers
             }
 
             var industry = await _context.Industries
+                .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (industry == null)
             {
@@ -139,7 +147,10 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var industry = await _context.Industries.FindAsync(id);
+            var industry = await _context.Industries
+              .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
+              .FirstOrDefaultAsync(i=>i.ID == id);
+
             if (industry != null)
             {
                 _context.Industries.Remove(industry);

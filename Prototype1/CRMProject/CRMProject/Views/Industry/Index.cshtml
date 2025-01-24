@@ -27,6 +27,7 @@
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.IndustryName)</th>
                                 <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode)</th>
+                                <th>@Html.DisplayNameFor(model => model.MemberIndustries)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.IndustryDescription)</th>
                                 <th>Actions</th>
                             </tr>
@@ -45,6 +46,13 @@
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.IndustryName)</td>
                                         <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
+                                        <td>
+                                            @foreach (var m in item.MemberIndustries)
+                                            {
+                                                @m.Member.MemberName <br />
+                                            }
+                                        </td>
+
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustryDescription)</td>
                                         <td>
                                             <div class="btn-group">
@@ -59,8 +67,7 @@
                                                 </a>
 
                                                 <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Delete Industry"
-                                                   onclick="return confirm('Are you sure you want to delete this industry?');">
+                                                   role="button" data-bs-toggle="tooltip" title="Delete Industry">
                                                     &#x274C;
                                                 </a>
                                             </div>

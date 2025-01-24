@@ -48,7 +48,8 @@ namespace CRMProject.Controllers
         // GET: Address/Create
         public IActionResult Create()
         {
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail");
+
+            PopulateDropDownLists();
             return View();
         }
 
@@ -82,7 +83,7 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", address.MemberID);
+            PopulateDropDownLists();
             return View(address);
         }
 
@@ -118,7 +119,7 @@ namespace CRMProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", address.MemberID);
+            PopulateDropDownLists();
             return View(address);
         }
 
@@ -156,6 +157,18 @@ namespace CRMProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        private SelectList MemberSelectList(int? selectedId)
+        {
+            return new SelectList(_context.Members
+                .OrderBy(m => m.MemberName)
+                .ThenBy(m => m.MemberName), "ID", "MemberName", selectedId);
+        }
+
+        private void PopulateDropDownLists(Address? address = null)
+        {
+            ViewData["MemberID"] = MemberSelectList(address?.MemberID);
+           
+        }
         private bool AddressExists(int id)
         {
             return _context.Addresses.Any(e => e.ID == id);

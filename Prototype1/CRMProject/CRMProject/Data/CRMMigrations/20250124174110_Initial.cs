@@ -18,6 +18,7 @@ namespace CRMProject.Data.CRMMigrations
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    MiddleName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     ContactTitleRole = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     ContactPhone = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
@@ -37,7 +38,7 @@ namespace CRMProject.Data.CRMMigrations
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     IndustryName = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    IndustryNAICSCode = table.Column<string>(type: "TEXT", maxLength: 6, nullable: false),
+                    IndustryNAICSCode = table.Column<string>(type: "TEXT", maxLength: 6, nullable: true),
                     IndustryDescription = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -56,8 +57,8 @@ namespace CRMProject.Data.CRMMigrations
                     MemberStatus = table.Column<int>(type: "INTEGER", nullable: false),
                     MemberAccountsPayableEmail = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     MemberStartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    MemberEndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    MemberNotes = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false)
+                    MemberEndDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    MemberNotes = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,7 +73,7 @@ namespace CRMProject.Data.CRMMigrations
                         .Annotation("Sqlite:Autoincrement", true),
                     MembershipTypeName = table.Column<int>(type: "INTEGER", nullable: false),
                     MembershipTypeDescription = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    MembershipTypeFee = table.Column<double>(type: "REAL", nullable: false),
+                    MembershipTypeFee = table.Column<double>(type: "REAL", nullable: true),
                     MembershipTypeBenefits = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -130,8 +131,8 @@ namespace CRMProject.Data.CRMMigrations
                     AddressLine1 = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     AddressLine2 = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     AddressCity = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Province = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    PostalCode = table.Column<string>(type: "TEXT", nullable: false),
+                    Province = table.Column<int>(type: "INTEGER", nullable: true),
+                    PostalCode = table.Column<string>(type: "TEXT", nullable: true),
                     AddressType = table.Column<int>(type: "INTEGER", nullable: false),
                     MemberID = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -153,7 +154,7 @@ namespace CRMProject.Data.CRMMigrations
                     ID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CancellationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    CancellationReason = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
+                    CancellationReason = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     CancellationNotes = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     MemberID = table.Column<int>(type: "INTEGER", nullable: false)
                 },

@@ -47,7 +47,6 @@ namespace CRMProject.Data.CRMMigrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Province")
-                        .HasMaxLength(100)
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
