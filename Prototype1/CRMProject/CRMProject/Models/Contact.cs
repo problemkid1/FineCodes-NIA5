@@ -39,7 +39,7 @@ namespace CRMProject.Models
 
         [Display(Name = "Middle Name")]
         [StringLength(50, ErrorMessage = "Middle name cannot be more than 50 characters long.")]
-        public string? MiddleName { get; set; }
+        public string? MiddleName { get; set; } = "";
 
         [Required(ErrorMessage = "You cannot leave the last name type blank.")]
         [Display(Name = "Last Name")]

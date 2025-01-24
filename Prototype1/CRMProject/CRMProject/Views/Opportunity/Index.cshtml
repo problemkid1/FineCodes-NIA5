@@ -56,9 +56,8 @@
                                                    role="button" data-bs-toggle="tooltip" title="View Details">
                                                     &#x1F50E;
                                                 </a>
-                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Delete Opportunity"
-                                                   onclick="return confirm('Are you sure you want to delete this opportunity?');">
+                                                     <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     &#x274C;
                                                 </a>
                                             </div>

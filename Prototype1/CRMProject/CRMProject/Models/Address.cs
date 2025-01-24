@@ -34,8 +34,7 @@ namespace CRMProject.Models
         public string AddressCity { get; set; } = "";
 
         [Display(Name = "Province")]
-        [MaxLength(100, ErrorMessage = "Province cannot be more than 100 characters long.")]
-        public Province? Province { get; set; } = Models.Province.Ontario;
+        public Province? Province { get; set; } 
 
         [Display(Name = "Postal Code")]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid postal code.")]

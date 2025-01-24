@@ -21,6 +21,15 @@
 
                     <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustryDescription)</dt>
                     <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustryDescription)</dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.MemberIndustries)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @foreach (var c in Model.MemberIndustries)
+                        {
+                            @c.Member.MemberName <br />
+                        }
+                    </dd>
                 </dl>
             </div>
 

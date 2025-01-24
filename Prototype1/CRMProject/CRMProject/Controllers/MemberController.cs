@@ -34,6 +34,12 @@ namespace CRMProject.Controllers
             }
 
             var member = await _context.Members
+                .Include(m => m.Addresses)
+                .Include(m => m.MemberIndustries)
+                .ThenInclude(mi => mi.Industry)
+                .Include(m => m.MemberContacts)
+                .ThenInclude(mi => mi.Contact)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {

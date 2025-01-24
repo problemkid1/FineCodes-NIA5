@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    [Migration("20250123215159_AddedEnumProvince")]
-    partial class AddedEnumProvince
+    [Migration("20250124174110_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,6 @@ namespace CRMProject.Data.CRMMigrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Province")
-                        .HasMaxLength(100)
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");

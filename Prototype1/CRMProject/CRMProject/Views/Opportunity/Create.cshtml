@@ -30,11 +30,11 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label asp-for="OpportunityStatus" class="control-label"></label>
-                                    <select asp-for="OpportunityStatus" class="form-control"></select>
+                                    <select asp-for="OpportunityStatus" class="form-control"
+                                            asp-items="Html.GetEnumSelectList<OpportunityStatus>()"></select>
                                     <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
                                 </div>
                             </div>
-
                             <!-- Opportunity Priority -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
