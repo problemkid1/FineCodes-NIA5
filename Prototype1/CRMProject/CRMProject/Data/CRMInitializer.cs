@@ -179,49 +179,56 @@ namespace CRMProject.Data
                         // Address Types
                         var addressTypes = new[] { "Headquarters", "Branch", "Warehouse" };
 
-                        // Create 10 random Address records
-                        // Ensure memberIDs and addressTypes have elements
-                        if (memberIDs.Length > 0 && addressTypes.Length > 0)
+                        // Cities in the Niagara Region (and Ontario)
+                        var cities = new[] { "St. Catharines", "Niagara Falls", "Welland", "Thorold", "Fort Erie", "Grimsby", "Port Colborne", "Beamsville" };
+
+                        // Real street names in Niagara region
+                        var streetNames = new[]
                         {
-                            // Create 10 random Address records
-                            for (int i = 0; i < 10; i++)
+                            "Queenston St", "Lakeshore Rd", "Mountain Rd", "Victoria Ave", "Glenridge Ave",
+                            "King St", "Ontario St", "Ridge Rd", "Willowdale Ave", "Lundy's Lane"
+                        };
+
+                        // Provinces (Ontario)
+                        var provinces = new[] { "Ontario" };
+
+                        // Create 10 random Address records using Niagara Region cities and Ontario province
+                        for (int i = 0; i < 10; i++)
+                        {
+                            int randomMemberId = memberIDs[random.Next(memberIDs.Length)];
+
+                            // Fixed AddressType and Province for these records
+                            AddressType randomAddressType = Enum.Parse<AddressType>(addressTypes[random.Next(addressTypes.Length)]);
+                            Province randomProvince = Enum.Parse<Province>(provinces[0]);
+
+                            // Select city from Niagara Region
+                            string randomCity = cities[random.Next(cities.Length)];
+
+                            // Select a random street name from the streetNames array
+                            string randomStreetName = streetNames[random.Next(streetNames.Length)];
+
+                            // Generate fixed AddressLine1 and AddressLine2 (AddressLine2 is optional)
+                            string randomAddressLine1 = $"{randomStreetName} {random.Next(1, 100)}"; // e.g., "Queenston St 10"
+                            string randomAddressLine2 = $"Suite {random.Next(1, 20)}"; // Optional Suite number
+
+                            // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
+                            string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
+
+                            // Create the Address record
+                            Address address = new Address
                             {
-                                // Randomly select MemberId
-                                int randomMemberId = memberIDs[random.Next(memberIDs.Length)]; // Fixed
+                                MemberID = randomMemberId,
+                                AddressLine1 = randomAddressLine1,
+                                AddressLine2 = randomAddressLine2,
+                                AddressCity = randomCity,
+                                Province = randomProvince,
+                                PostalCode = randomPostalCode,
+                                AddressType = randomAddressType
+                            };
 
-                                // Randomly select AddressType
-                                string randomAddressType = addressTypes[random.Next(addressTypes.Length)];
-
-                                // Randomly generate AddressLine1, AddressLine2, and AddressCity
-                                string randomAddressLine1 = $"Street {random.Next(1, 100)}";
-                                string randomAddressLine2 = $"Suite {random.Next(1, 20)}";
-                                string randomAddressCity = $"City{random.Next(1, 10)}";
-                                string randomProvince = $"Province{random.Next(1, 5)}";
-
-                                // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
-                                string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
-
-                                // Create a new Address record
-                                Address address = new Address
-                                {
-                                    MemberID = randomMemberId,
-                                    AddressLine1 = randomAddressLine1,
-                                    AddressLine2 = randomAddressLine2,
-                                    AddressCity = randomAddressCity,
-                                    Province = randomProvince,
-                                    PostalCode = randomPostalCode,
-                                    AddressType = Enum.Parse<AddressType>(randomAddressType)
-                                };
-
-                                // Add the new Address record to the context
-                                context.Addresses.Add(address);
-                            }
+                            // Add the new Address record to the context
+                            context.Addresses.Add(address);
                         }
-                        else
-                        {
-                            throw new Exception("memberIDs or addressTypes array is empty.");
-                        }
-
 
                         // Save changes to the database
                         context.SaveChanges();
@@ -277,64 +284,7 @@ namespace CRMProject.Data
                         );
                         context.SaveChanges();
                     }
-
-                    // Seed Addresses if there aren't any.
-                    if (!context.Addresses.Any())
-                    {
-                        // Get the array of Member primary keys
-                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int memberCount = memberIDs.Length;
-
-                        // Address Types
-                        var addressTypes = new[] { "Headquarters", "Branch", "Warehouse" };
-
-                        // Create 10 random Address records
-                        // Ensure memberIDs and addressTypes have elements
-                        if (memberIDs.Length > 0 && addressTypes.Length > 0)
-                        {
-                            // Create 10 random Address records
-                            for (int i = 0; i < 10; i++)
-                            {
-                                // Randomly select MemberId
-                                int randomMemberId = memberIDs[random.Next(memberIDs.Length)]; // Fixed
-
-                                // Randomly select AddressType
-                                string randomAddressType = addressTypes[random.Next(addressTypes.Length)];
-
-                                // Randomly generate AddressLine1, AddressLine2, and AddressCity
-                                string randomAddressLine1 = $"Street {random.Next(1, 100)}";
-                                string randomAddressLine2 = $"Suite {random.Next(1, 20)}";
-                                string randomAddressCity = $"City{random.Next(1, 10)}";
-                                string randomProvince = $"Province{random.Next(1, 5)}";
-
-                                // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
-                                string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
-
-                                // Create a new Address record
-                                Address address = new Address
-                                {
-                                    MemberID = randomMemberId,
-                                    AddressLine1 = randomAddressLine1,
-                                    AddressLine2 = randomAddressLine2,
-                                    AddressCity = randomAddressCity,
-                                    Province = randomProvince,
-                                    PostalCode = randomPostalCode,
-                                    AddressType = Enum.Parse<AddressType>(randomAddressType)
-                                };
-
-                                // Add the new Address record to the context
-                                context.Addresses.Add(address);
-                            }
-                        }
-                        else
-                        {
-                            throw new Exception("memberIDs or addressTypes array is empty.");
-                        }
-
-
-                        // Save changes to the database
-                        context.SaveChanges();
-                    }
+                                  
 
                     // Seed MemberMembershipType relationships if there aren't any.
                     if (!context.MemberMembershipTypes.Any())
@@ -376,61 +326,61 @@ namespace CRMProject.Data
                             new Industry
                             {
                                 IndustryName = "Technology",
-                                IndustryNAICSCode = "541",  // 3-digit NAICS code
+                                IndustryNAICSCode = "541",  
                                 IndustryDescription = "Tech services and IT solutions."
                             },
                             new Industry
                             {
                                 IndustryName = "Energy",
-                                IndustryNAICSCode = "221",  // 3-digit NAICS code
+                                IndustryNAICSCode = "221",  
                                 IndustryDescription = "Renewable energy production and distribution."
                             },
                             new Industry
                             {
                                 IndustryName = "Construction",
-                                IndustryNAICSCode = "236",  // 3-digit NAICS code
+                                IndustryNAICSCode = "236",  
                                 IndustryDescription = "Commercial building construction."
                             },
                             new Industry
                             {
                                 IndustryName = "Food",
-                                IndustryNAICSCode = "311",  // 3-digit NAICS code
+                                IndustryNAICSCode = "311",  
                                 IndustryDescription = "Food production and distribution."
                             },
                             new Industry
                             {
                                 IndustryName = "Education",
-                                IndustryNAICSCode = "611",  // 3-digit NAICS code
+                                IndustryNAICSCode = "611",  
                                 IndustryDescription = "Educational services and resources."
                             },
                             new Industry
                             {
                                 IndustryName = "Healthcare",
-                                IndustryNAICSCode = "621",  // 3-digit NAICS code
+                                IndustryNAICSCode = "621",  
                                 IndustryDescription = "Offices of physicians, except mental health."
                             },
                             new Industry
                             {
                                 IndustryName = "Manufacturing",
-                                IndustryNAICSCode = "334",  // 3-digit NAICS code
+                                IndustryNAICSCode = "334",  
                                 IndustryDescription = "Electronic computer manufacturing."
                             },
                             new Industry
                             {
                                 IndustryName = "Finance",
-                                IndustryNAICSCode = "522",  // 3-digit NAICS code
+                                IndustryNAICSCode = "522",  
                                 IndustryDescription = "Commercial banking."
                             },
                             new Industry
                             {
                                 IndustryName = "Retail",
-                                IndustryNAICSCode = "441",  // 3-digit NAICS code
+                                IndustryNAICSCode = "441",  
                                 IndustryDescription = "New car dealers."
                             },
                             new Industry
                             {
                                 IndustryName = "Transportation",
-                                IndustryNAICSCode = "481",  // 3-digit NAICS code
+                                IndustryNAICSCode = "481",  
                                 IndustryDescription = "Scheduled air transportation."
                             }
                         );
@@ -657,6 +607,9 @@ namespace CRMProject.Data
                         int memberCount = memberIDs.Length;
                         int contactCount = contactIDs.Length;
 
+                        // Relationship Types
+                        var relationshipTypes = new[] { "Account Manager", "Support", "Partner", "Vendor" };
+
                         // Create 10 random MemberContact relationships
                         for (int i = 0; i < 10; i++)
                         {
@@ -665,7 +618,6 @@ namespace CRMProject.Data
                             int randomContactId = contactIDs[random.Next(contactCount)];
 
                             // Randomly select Relationship Type
-                            var relationshipTypes = new[] { "Account Manager", "Support", "Partner", "Vendor" };
                             string randomRelationshipType = relationshipTypes[random.Next(relationshipTypes.Length)];
 
                             // Create new MemberContact record
@@ -676,13 +628,20 @@ namespace CRMProject.Data
                                 MemberContactRelationshipType = randomRelationshipType
                             };
 
-                            // Add the new MemberContact record to the context
-                            context.MemberContacts.Add(memberContact);
+                            try
+                            {
+                                // Add the new MemberContact record to the context
+                                context.MemberContacts.Add(memberContact);
+                                context.SaveChanges();
+                            }
+                            catch (Exception)
+                            {
+                                // Handle exceptions (e.g., skip if a conflict occurs)
+                                context.MemberContacts.Remove(memberContact);
+                            }
                         }
-
-                        // Save changes to the database
-                        context.SaveChanges();
                     }
+
 
                     // Seed Opportunities if there aren't any.
                     if (!context.Opportunities.Any())
