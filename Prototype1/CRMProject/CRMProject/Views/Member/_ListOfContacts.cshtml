@@ -20,6 +20,9 @@
 					<th>
 						@Html.DisplayNameFor(model => model.Contact.ContactEmails)
 					</th>
+					<th>
+						Email Type
+					</th>
 
 				</tr>
 			</thead>
@@ -42,6 +45,19 @@
 							@foreach (var ce in item.Contact.ContactEmails)
 							{
 								<div>@Html.DisplayFor(modelItem => ce.EmailAddress)</div>
+							}
+						</td>
+						<td>
+							@foreach (var ce in item.Contact.ContactEmails)
+							{
+								@if (!string.IsNullOrEmpty(ce.EmailAddress))
+								{
+									<div>@Html.DisplayFor(modelItem => ce.EmailType)</div>
+								}
+								else
+								{
+									<span>N/A</span>
+								}
 							}
 						</td>
 					</tr>

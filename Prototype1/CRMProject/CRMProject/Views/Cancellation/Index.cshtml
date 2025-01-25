@@ -25,10 +25,10 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
                                 <th>@Html.DisplayNameFor(model => model.CancellationDate)</th>
                                 <th>@Html.DisplayNameFor(model => model.CancellationReason)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberAccountsPayableEmail)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th>                                
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -44,19 +44,19 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.CancellationDate.ToString("MMM dd, yyyy")</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>
                                         <td class="d-none d-sm-table-cell">
                                             @if (item.Member != null)
                                             {
-                                                @Html.DisplayFor(modelItem => item.Member.MemberAccountsPayableEmail)
+                                                @Html.DisplayFor(modelItem => item.Member.MemberName)
                                             }
                                             else
                                             {
                                                 <span>N/A</span>
                                             }
                                         </td>
+                                        <td>@item.CancellationDate.ToString("MMM dd, yyyy")</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>                                       
                                         <td>
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
