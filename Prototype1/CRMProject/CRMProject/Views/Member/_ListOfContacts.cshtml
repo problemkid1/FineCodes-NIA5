@@ -1,43 +1,52 @@
 ﻿@model IEnumerable<CRMProject.Models.MemberContact>
 <br />
 <div class="panel panel-primary">
-    <div class="panel-heading">
-        <h4 class="panel-title">Contact Information</h4>
-    </div>
-    <div class="panel-body scrollable-panel">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Contact.Summary)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Contact.ContactTitleRole)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Contact.ContactPhone)
-                    </th>
+	<div class="panel-heading">
+		<h4 class="panel-title">Contact Information</h4>
+	</div>
+	<div class="panel-body scrollable-panel">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						@Html.DisplayNameFor(model => model.Contact.Summary)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Contact.ContactPhone)
+					</th>
+					<th>
+						@Html.DisplayNameFor(model => model.Contact.ContactEmails)
+					</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID">
-                                @Html.DisplayFor(modelItem => item.Contact.Summary)
-                            </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Contact.ContactPhone)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>
+							<a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID">
+								@Html.DisplayFor(modelItem => item.Contact.Summary)
+							</a>
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)
+						</td>
+						<td>
+							@Html.DisplayFor(modelItem => item.Contact.ContactPhone)
+						</td>
+						<td>
+							@foreach (var ce in item.Contact.ContactEmails)
+							{
+								<div>@Html.DisplayFor(modelItem => ce.EmailAddress)</div>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 </div>

@@ -298,16 +298,16 @@ namespace CRMProject.Data
                         int membershipTypeCount = membershipTypeIDs.Length;
 
                         // Create 10 random MemberMembershipType relationships
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < memberIDs.Length; i++)
                         {
                             // Randomly select MemberId and MembershipTypeId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
+                            int memberID = memberIDs[i];
                             int randomMembershipTypeId = membershipTypeIDs[random.Next(membershipTypeCount)];
 
                             // Create new MemberMembershipType record
                             MemberMembershipType memberMembershipType = new MemberMembershipType
                             {
-                                MemberID = randomMemberId,
+                                MemberID = memberID,
                                 MembershipTypeID = randomMembershipTypeId
                             };
 
