@@ -444,7 +444,6 @@ namespace CRMProject.Data
                                     CancellationReason = "Cancellation due to internal restructuring.",
                                     CancellationNotes = "No renewal interest."  // Custom cancellation reason
                                 };
-
                                 // Add the new cancellation record to the context
                                 context.Cancellations.Add(cancellation);
                             }
