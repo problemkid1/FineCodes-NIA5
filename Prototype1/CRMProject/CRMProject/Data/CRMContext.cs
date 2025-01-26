@@ -23,6 +23,8 @@ namespace CRMProject.Data
         public DbSet<ContactEmail> ContactEmails { get; set; }
         public DbSet<MemberContact> MemberContacts { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
+        public DbSet<MemberPhoto> MemberPhotos { get; set; }
+        public DbSet<MemberThumbnail> MemberThumbnails { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

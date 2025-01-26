@@ -15,7 +15,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">Member Information</h6>
                     </div>
                     <div class="card-body">
-                        <form asp-action="Create">
+                        <form asp-action="Create" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                             <div class="row">
                                 <!-- Member Name -->
@@ -82,8 +82,16 @@
                                         <span asp-validation-for="MemberNotes" class="text-danger"></span>
                                     </div>
                                 </div>
-                            </div>
 
+                                <!-- selecting picture -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label custom-file-label">Picture File:</label>
+                                        <input type="file" class="form-control" name="thePicture" id="thePicture">
+                                    </div>
+                                </div>
+
+                            </div>
                             <div class="form-group text-center">
                                 <input type="submit" value="Create" class="btn btn-primary" />
                                 <a asp-action="Index" class="btn btn-secondary ml-2">Back Members</a>
