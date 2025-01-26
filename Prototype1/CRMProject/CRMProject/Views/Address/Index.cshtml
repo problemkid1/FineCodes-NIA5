@@ -25,12 +25,12 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
+                                <th>@Html.DisplayNameFor(model => model.Member)</th>
                                 <th>@Html.DisplayNameFor(model => model.Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.AddressCity)</th>
                                 <th>@Html.DisplayNameFor(model => model.Province)</th>
                                 <th>@Html.DisplayNameFor(model => model.PostalCode)</th>
                                 <th>@Html.DisplayNameFor(model => model.AddressType)</th>
-                                <th>@Html.DisplayNameFor(model => model.Member)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -38,12 +38,12 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Member.MemberName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Summary)</td>
                                     <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Province)</td>
                                     <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.AddressType)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Member.MemberName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AddressType)</td>                                    
                                     <td>
                                         <div class="btn-group">
                                             <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"

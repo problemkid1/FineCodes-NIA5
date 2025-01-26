@@ -23,7 +23,8 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> Index()
         {
             var contacts = await _context.Contacts
-                .Include(c => c.ContactEmails)
+                .Include(c => c.MemberContacts).ThenInclude(c => c.Member)
+                .Include(c => c.ContactEmails)                
                 .AsNoTracking()
                 .ToListAsync();
 
