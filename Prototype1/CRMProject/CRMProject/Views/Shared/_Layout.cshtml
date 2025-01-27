@@ -17,6 +17,10 @@
     <!-- Custom styles for this template-->
     <link href="~/theme/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Add this after the sb-admin-2.min.css link -->
+    <link href="~/theme/css/custom-colors.css" rel="stylesheet">
+
+
     <!-- DataTables -->
     <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -52,7 +56,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
                 <a class="nav-link" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -85,42 +89,47 @@
             @*     </div> *@
             @* </li> *@
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Member" ? "active" : "")">
                 <a class="nav-link" asp-controller="Member" asp-action="Index">
-                    <i class="fas fa-fw fa-users"></i> <!-- Updated to use 'address-book' icon for Contact -->
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Members</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")">
                 <a class="nav-link" asp-controller="Contact" asp-action="Index">
-                    <i class="fas fa-fw fa-address-book"></i> <!-- Updated to use 'address-book' icon for Contact -->
+                    <i class="fas fa-fw fa-address-book"></i>
                     <span>Contact</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "active" : "")">
                 <a class="nav-link" asp-controller="Address" asp-action="Index">
-                    <i class="fas fa-fw fa-map-marker-alt"></i> <!-- Updated to use 'map-marker-alt' icon for Address -->
+                    <i class="fas fa-fw fa-map-marker-alt"></i>
                     <span>Address</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "active" : "")">
                 <a class="nav-link" asp-controller="Cancellation" asp-action="Index">
-                    <i class="fas fa-calendar-times"></i> <!-- Icon for 'Cancellation' -->
+                    <i class="fas fa-calendar-times"></i>
                     <span>Cancellation</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "active" : "")">
                 <a class="nav-link" asp-controller="Industry" asp-action="Index">
-                    <i class="fas fa-industry"></i> <!-- Icon for 'Industry' -->
+                    <i class="fas fa-industry"></i>
                     <span>Industry</span>
                 </a>
             </li>
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "active" : "")">
+                <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
+                    <i class="fas fa-id-card"></i>
+                    <span>Membership-Type</span>
+                </a>
+            </li>
 
-           
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -128,12 +137,14 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-            <li class="nav-item">
+
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
-                    <i class="fas fa-lightbulb"></i> <!-- Icon for 'Opportunity' -->
+                    <i class="fas fa-lightbulb"></i>
                     <span>Opportunity</span>
                 </a>
             </li>
+
             @* <!-- Nav Item - Pages Collapse Menu --> *@
             @* <li class="nav-item"> *@
             @*     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" *@
