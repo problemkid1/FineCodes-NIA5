@@ -41,8 +41,9 @@ namespace CRMProject.Controllers
                 .Include(m => m.Addresses)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                 .Include(m => m.MemberContacts).ThenInclude(mi => mi.Contact).ThenInclude(mi => mi.ContactEmails)
-                .Include(m => m.MemberMembershipTypes)
                 .Include(m=>m.MemberPhoto)
+                .Include(m => m.MemberMembershipTypes).ThenInclude(mi => mi.MembershipType)
+
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
