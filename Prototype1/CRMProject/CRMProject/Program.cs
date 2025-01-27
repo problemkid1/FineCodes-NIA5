@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("CRMContext") 
+var connectionString = builder.Configuration.GetConnectionString("CRMContext")
     ?? throw new InvalidOperationException("Connection string 'CRMContext' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -45,6 +45,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Add the search route
+app.MapControllerRoute(
+    name: "search",
+    pattern: "Search/Search",
+    defaults: new { controller = "Search", action = "Search" });
+
 app.MapRazorPages();
 
 //To prepare the database and seed data.  Can comment this out some of the time.
