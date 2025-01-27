@@ -54,6 +54,11 @@
         @Html.Partial("_IndustryInfo", Model.MemberIndustries)
     </div>
 
+    <div class="mt-4">
+
+        @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
+    </div>
+
     <div class="form-group text-center">
         @if (Model?.ID != null)
         {
