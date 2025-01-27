@@ -30,8 +30,7 @@
                         <form asp-action="Edit" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                             <input type="hidden" asp-for="ID" />
-                            <div class="row">
-                                <div>
+                            <div>
                                     @{
                                         if (hasPicture)
                                         {
@@ -45,9 +44,18 @@
                                             </div>
                                         }
                                     }
-                                </div>
-                                <!-- Member Name -->
-                                <div class="col-12 col-md-6">
+                            </div>
+                            <div class="row">  
+                                 <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label custom-file-label">Picture File:</label>
+                                        <div class="input-group mb-3">
+                                            <input type="file" class="form-control" name="thePicture" id="thePicture">
+                                        </div>
+                                    </div>
+                                
+                                 <!-- Member Name -->
+                                
                                     <div class="form-group">
                                         <label asp-for="MemberName" class="control-label"></label>
                                         <input asp-for="MemberName" class="form-control" />
@@ -80,15 +88,7 @@
                                         <input asp-for="MemberAccountsPayableEmail" class="form-control" />
                                         <span asp-validation-for="MemberAccountsPayableEmail" class="text-danger"></span>
                                     </div>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label custom-file-label">Picture File:</label>
-                                        <div class="input-group mb-3">
-                                            <input type="file" class="form-control" name="thePicture" id="thePicture">
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                               
 
                                 <!-- Member Start Date -->
                                 <div class="col-12 col-md-6">
