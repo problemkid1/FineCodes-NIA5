@@ -17,6 +17,10 @@
     <!-- Custom styles for this template-->
     <link href="~/theme/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Add this after the sb-admin-2.min.css link -->
+    <link href="~/theme/css/custom-colors.css" rel="stylesheet">
+
+
     <!-- DataTables -->
     <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -34,16 +38,25 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <img src="~/image/CLogo.png" alt="NIA-CRM Logo" style="height : 60px; width: auto;" />
+
+
                 </div>
-                <div class="sidebar-brand-text mx-3">NIA-CRM <sup>2</sup></div>
+                @* <div class="sidebar-brand-text mx-3">NIA-CRM <sup>2</sup></div> *@
+                <div class="sidebar-brand-text mx-1">
+                    <img src="~/image/Cname.png" alt="NIA-CRM Name" style="height :40px; width: auto:" />
+                    @* <i class="fas fa-laugh-wink"></i> <sup>2</sup> *@
+                </div>
+
+
+
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
                 <a class="nav-link" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
@@ -76,47 +89,46 @@
             @*     </div> *@
             @* </li> *@
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Member" ? "active" : "")">
                 <a class="nav-link" asp-controller="Member" asp-action="Index">
-                    <i class="fas fa-fw fa-users"></i> <!-- Updated to use 'address-book' icon for Contact -->
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Members</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")">
                 <a class="nav-link" asp-controller="Contact" asp-action="Index">
-                    <i class="fas fa-fw fa-address-book"></i> <!-- Updated to use 'address-book' icon for Contact -->
+                    <i class="fas fa-fw fa-address-book"></i>
                     <span>Contact</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "active" : "")">
                 <a class="nav-link" asp-controller="Address" asp-action="Index">
-                    <i class="fas fa-fw fa-map-marker-alt"></i> <!-- Updated to use 'map-marker-alt' icon for Address -->
+                    <i class="fas fa-fw fa-map-marker-alt"></i>
                     <span>Address</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "active" : "")">
                 <a class="nav-link" asp-controller="Cancellation" asp-action="Index">
-                    <i class="fas fa-calendar-times"></i> <!-- Icon for 'Cancellation' -->
+                    <i class="fas fa-calendar-times"></i>
                     <span>Cancellation</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "active" : "")">
                 <a class="nav-link" asp-controller="Industry" asp-action="Index">
-                    <i class="fas fa-industry"></i> <!-- Icon for 'Industry' -->
+                    <i class="fas fa-industry"></i>
                     <span>Industry</span>
                 </a>
             </li>
-
-           
-
-
-
-
-          
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "active" : "")">
+                <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
+                    <i class="fas fa-id-card"></i>
+                    <span>Membership-Type</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -125,12 +137,14 @@
             <div class="sidebar-heading">
                 Addons
             </div>
-            <li class="nav-item">
+
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
-                    <i class="fas fa-lightbulb"></i> <!-- Icon for 'Opportunity' -->
+                    <i class="fas fa-lightbulb"></i>
                     <span>Opportunity</span>
                 </a>
             </li>
+
             @* <!-- Nav Item - Pages Collapse Menu --> *@
             @* <li class="nav-item"> *@
             @*     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" *@
@@ -178,17 +192,18 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="GET" action="/Search/Search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                   aria-label="Search" aria-describedby="basic-addon2">
+                                   aria-label="Search" aria-describedby="basic-addon2" name="query">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
                         </div>
                     </form>
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
