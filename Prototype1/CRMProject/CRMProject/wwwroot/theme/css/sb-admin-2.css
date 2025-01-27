@@ -2678,27 +2678,27 @@ fieldset:disabled a.btn {
     border-color: #3B54A0;
 }
 
-.btn-outline-primary:hover {
-  color: #fff;
+    .btn-outline-primary:hover {
+        color: #fff;
         background-color: #3B54A0;
         border-color: #3B54A0;
-}
+    }
 
 .btn-outline-primary:focus, .btn-outline-primary.focus {
   box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.5);
 }
 
-.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+    .btn-outline-primary.disabled, .btn-outline-primary:disabled {
         color: #3B54A0;
-  background-color: transparent;
-}
+        background-color: transparent;
+    }
 
-.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
-.show > .btn-outline-primary.dropdown-toggle {
-  color: #fff;
+    .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-outline-primary.dropdown-toggle {
+        color: #fff;
         background-color: #3B54A0;
         border-color: #3B54A0;
-}
+    }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-primary.dropdown-toggle:focus {
@@ -2930,9 +2930,9 @@ fieldset:disabled a.btn {
 }
 
 .btn-link {
-  font-weight: 400;
+    font-weight: 400;
     color: #3B54A0;
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .btn-link:hover {
@@ -3226,11 +3226,11 @@ input[type="button"].btn-block {
   background-color: #eaecf4;
 }
 
-.dropdown-item.active, .dropdown-item:active {
-  color: #fff;
-  text-decoration: none;
+    .dropdown-item.active, .dropdown-item:active {
+        color: #fff;
+        text-decoration: none;
         background-color: #3B54A0;
-}
+    }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: #b7b9cc;
@@ -3592,11 +3592,11 @@ input[type="button"].btn-block {
   opacity: 0;
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
-  color: #fff;
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
         border-color: #3B54A0;
         background-color: #3B54A0;
-}
+    }
 
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
