@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CRMProject.Models.Opportunity>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Opportunity Index";
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- Header Section -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h1 mb-0 text-gray-1400">Opportunity</h1>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Add New Opportunity
+                </a>
+            </div>
+
+            <div class="card">
+                <!-- Table Section -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityName)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityStatus)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityAction)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityContact)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityAccount)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityLastContactDate)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.OpportunityInteractions)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityStatus)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityAction)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityContact)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityAccount)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityLastContactDate)</td>
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Edit Opportunity">
+                                                    &#x270D;
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="View Details">
+                                                    &#x1F50E;
+                                                </a>
+                                                     <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                    &#x274C;
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

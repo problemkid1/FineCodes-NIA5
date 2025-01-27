@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CRMProject.Models.Address>
+<br />
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4 class="panel-title">Address Information</h4>
+    </div>
+    <div class="panel-body scrollable-panel">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Summary)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AddressCity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Province)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
+                                @Html.DisplayFor(modelItem => item.Summary)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddressCity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Province)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    .scrollable-panel {
+        max-height: 400px; /* Adjust based on your need */
+        overflow-y: auto;
+    }
+</style>

@@ -1,0 +1,79 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\sthas\\downloads\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\sthas\\downloads\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\wwwroot\\theme\\css\\custom-colors.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\wwwroot\\theme\\css\\custom-colors.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|c:\\users\\sthas\\downloads\\finecodes-nia5\\prototype1\\crmproject\\crmproject\\wwwroot\\theme - copy\\css\\sb-admin-2.min.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{33C5B550-8DE8-41A7-802A-06905B0B6D94}|CRMProject\\CRMProject.csproj|solutionrelative:crmproject\\wwwroot\\theme - copy\\css\\sb-admin-2.min.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f677620d-05fd-48ed-8423-72a12db4deef}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "custom-colors.css",
+              "DocumentMoniker": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\wwwroot\\theme\\css\\custom-colors.css",
+              "RelativeDocumentMoniker": "CRMProject\\wwwroot\\theme\\css\\custom-colors.css",
+              "ToolTip": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\wwwroot\\theme\\css\\custom-colors.css",
+              "RelativeToolTip": "CRMProject\\wwwroot\\theme\\css\\custom-colors.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-01-27T10:46:38.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "CRMProject\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "CRMProject\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAD8AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-01-27T03:32:39.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "sb-admin-2.min.css",
+              "DocumentMoniker": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\wwwroot\\theme - Copy\\css\\sb-admin-2.min.css",
+              "RelativeDocumentMoniker": "CRMProject\\wwwroot\\theme - Copy\\css\\sb-admin-2.min.css",
+              "ToolTip": "C:\\Users\\sthas\\Downloads\\FineCodes-NIA5\\Prototype1\\CRMProject\\CRMProject\\wwwroot\\theme - Copy\\css\\sb-admin-2.min.css",
+              "RelativeToolTip": "CRMProject\\wwwroot\\theme - Copy\\css\\sb-admin-2.min.css",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowCcAAACHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-01-27T03:30:34.919Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+﻿@model CRMProject.Models.Cancellation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Cancellation Information</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="row">
+                            <!-- Cancellation Date -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CancellationDate" class="control-label">Cancellation Date:</label>
+                                    <input asp-for="CancellationDate" type="date" class="form-control" />
+                                    <span asp-validation-for="CancellationDate" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Member ID -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MemberID" class="control-label">Member:</label>
+                                    <select asp-for="MemberID" class="form-control" asp-items="ViewBag.MemberID"></select>
+                                    <span asp-validation-for="MemberID" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Cancellation Reason -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CancellationReason" class="control-label">Cancellation Reason:</label>
+                                    <textarea asp-for="CancellationReason" class="form-control" style="min-height: 100px; flex-grow: 1;"></textarea>
+                                    <span asp-validation-for="CancellationReason" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Cancellation Notes -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CancellationNotes" class="control-label">Cancellation Notes:</label>
+                                    <textarea asp-for="CancellationNotes" class="form-control" style="min-height: 100px; flex-grow: 1;"></textarea>
+                                    <span asp-validation-for="CancellationNotes" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary ml-2">Back to Cancellations</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

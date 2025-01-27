@@ -1,0 +1,221 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = CRMProject
+build_property.RootNamespace = CRMProject
+build_property.ProjectDir = C:\Users\sthas\Downloads\FineCodes-NIA5\Prototype1\CRMProject\CRMProject\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\sthas\Downloads\FineCodes-NIA5\Prototype1\CRMProject\CRMProject
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Address/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Address/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Address/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Address/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Address/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRkcmVzc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Cancellation/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuY2VsbGF0aW9uXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Cancellation/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuY2VsbGF0aW9uXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Cancellation/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuY2VsbGF0aW9uXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Cancellation/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuY2VsbGF0aW9uXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Cancellation/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuY2VsbGF0aW9uXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Contact/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Contact/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Contact/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Contact/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Industry/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5kdXN0cnlcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Industry/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5kdXN0cnlcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Industry/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5kdXN0cnlcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Industry/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5kdXN0cnlcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Industry/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5kdXN0cnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/MembershipType/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFR5cGVcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/MembershipType/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFR5cGVcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/MembershipType/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFR5cGVcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/MembershipType/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFR5cGVcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/MembershipType/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyc2hpcFR5cGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/_IndustryInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXF9JbmR1c3RyeUluZm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/_ListOfAddress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXF9MaXN0T2ZBZGRyZXNzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/_ListOfContacts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXF9MaXN0T2ZDb250YWN0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Member/_MembershipTypeInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVtYmVyXF9NZW1iZXJzaGlwVHlwZUluZm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Opportunity/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3Bwb3J0dW5pdHlcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Opportunity/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3Bwb3J0dW5pdHlcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Opportunity/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3Bwb3J0dW5pdHlcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Opportunity/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3Bwb3J0dW5pdHlcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Opportunity/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3Bwb3J0dW5pdHlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/sthas/Downloads/FineCodes-NIA5/Prototype1/CRMProject/CRMProject/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-ehsftcqrp6
