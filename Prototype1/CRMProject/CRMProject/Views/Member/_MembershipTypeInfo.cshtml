@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CRMProject.Models.MembershipType>
+﻿@model IEnumerable<CRMProject.Models.MemberMembershipType>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -9,16 +9,16 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipTypeName)
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipTypeDescription)
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeDescription)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipTypeFee)
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipTypeBenefits)
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeBenefits)
                     </th>
                 </tr>
             </thead>
@@ -27,18 +27,18 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="Details" asp-controller="MembershipType" asp-route-ID="@item.ID">
-                                @Html.DisplayFor(modelItem => item.MembershipTypeName)
+                            <a asp-action="Details" asp-controller="MembershipType" asp-route-ID="@item.MembershipTypeID">
+                                @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeName)
                             </a>
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.MembershipTypeDescription)
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeDescription)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.MembershipTypeFee)
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.MembershipTypeBenefits)
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeBenefits)
                         </td>
                     </tr>
                 }
