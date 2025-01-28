@@ -20,7 +20,8 @@
     <!-- Add this after the sb-admin-2.min.css link -->
     <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+ 
     <!-- DataTables -->
     <link rel="stylesheet" href="~/theme/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -59,7 +60,8 @@
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
                 <a class="nav-link" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    @* <span>Dashboard</span> *@
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "text-decoration: underline;" : "")">Dashboard</span>
                 </a>
             </li>
 
@@ -92,41 +94,42 @@
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Member" ? "active" : "")">
                 <a class="nav-link" asp-controller="Member" asp-action="Index">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Members</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Member" ? "text-decoration: underline;" : "")">Members</span>
                 </a>
             </li>
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")">
                 <a class="nav-link" asp-controller="Contact" asp-action="Index">
                     <i class="fas fa-fw fa-address-book"></i>
-                    <span>Contact</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "text-decoration: underline;" : "")">Contact</span>
                 </a>
             </li>
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "active" : "")">
                 <a class="nav-link" asp-controller="Address" asp-action="Index">
                     <i class="fas fa-fw fa-map-marker-alt"></i>
-                    <span>Address</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "text-decoration: underline;" : "")">Address</span>
                 </a>
             </li>
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "active" : "")">
                 <a class="nav-link" asp-controller="Cancellation" asp-action="Index">
                     <i class="fas fa-calendar-times"></i>
-                    <span>Cancellation</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "text-decoration: underline;" : "")">Cancellation</span>
                 </a>
             </li>
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "active" : "")">
                 <a class="nav-link" asp-controller="Industry" asp-action="Index">
                     <i class="fas fa-industry"></i>
-                    <span>Industry</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "text-decoration: underline;" : "")">Industry</span>
                 </a>
             </li>
+
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "active" : "")">
                 <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
                     <i class="fas fa-id-card"></i>
-                    <span>Membership-Type</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "text-decoration: underline;" : "")">Membership-Type</span>
                 </a>
             </li>
 
@@ -141,9 +144,10 @@
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
                     <i class="fas fa-lightbulb"></i>
-                    <span>Opportunity</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "text-decoration: underline;" : "")">Opportunity</span>
                 </a>
             </li>
+
 
             @* <!-- Nav Item - Pages Collapse Menu --> *@
             @* <li class="nav-item"> *@
@@ -238,7 +242,7 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">1</span>
+                                <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -269,7 +273,7 @@
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">1</span>
+                                <span class="badge badge-danger badge-counter"></span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
