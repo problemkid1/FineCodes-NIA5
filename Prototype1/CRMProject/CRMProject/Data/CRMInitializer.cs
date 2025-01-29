@@ -274,7 +274,7 @@ namespace CRMProject.Data
                         );
                         context.SaveChanges();
                     }
-                                  
+
 
                     // Seed MemberMembershipType relationships if there aren't any.
                     if (!context.MemberMembershipTypes.Any())
@@ -316,61 +316,61 @@ namespace CRMProject.Data
                             new Industry
                             {
                                 IndustryName = "Technology",
-                                IndustryNAICSCode = "541",  
+                                IndustryNAICSCode = "541",
                                 IndustryDescription = "Tech services and IT solutions."
                             },
                             new Industry
                             {
                                 IndustryName = "Energy",
-                                IndustryNAICSCode = "221",  
+                                IndustryNAICSCode = "221",
                                 IndustryDescription = "Renewable energy production and distribution."
                             },
                             new Industry
                             {
                                 IndustryName = "Construction",
-                                IndustryNAICSCode = "236",  
+                                IndustryNAICSCode = "236",
                                 IndustryDescription = "Commercial building construction."
                             },
                             new Industry
                             {
                                 IndustryName = "Food",
-                                IndustryNAICSCode = "311",  
+                                IndustryNAICSCode = "311",
                                 IndustryDescription = "Food production and distribution."
                             },
                             new Industry
                             {
                                 IndustryName = "Education",
-                                IndustryNAICSCode = "611",  
+                                IndustryNAICSCode = "611",
                                 IndustryDescription = "Educational services and resources."
                             },
                             new Industry
                             {
                                 IndustryName = "Healthcare",
-                                IndustryNAICSCode = "621",  
+                                IndustryNAICSCode = "621",
                                 IndustryDescription = "Offices of physicians, except mental health."
                             },
                             new Industry
                             {
                                 IndustryName = "Manufacturing",
-                                IndustryNAICSCode = "334",  
+                                IndustryNAICSCode = "334",
                                 IndustryDescription = "Electronic computer manufacturing."
                             },
                             new Industry
                             {
                                 IndustryName = "Finance",
-                                IndustryNAICSCode = "522",  
+                                IndustryNAICSCode = "522",
                                 IndustryDescription = "Commercial banking."
                             },
                             new Industry
                             {
                                 IndustryName = "Retail",
-                                IndustryNAICSCode = "441",  
+                                IndustryNAICSCode = "441",
                                 IndustryDescription = "New car dealers."
                             },
                             new Industry
                             {
                                 IndustryName = "Transportation",
-                                IndustryNAICSCode = "481",  
+                                IndustryNAICSCode = "481",
                                 IndustryDescription = "Scheduled air transportation."
                             }
                         );
@@ -461,7 +461,17 @@ namespace CRMProject.Data
                     // Seed Contacts if there aren't any.
                     if (!context.Contacts.Any())
                     {
-                        context.Contacts.AddRange(
+                        // Fetch available members
+                        var memberIDs = context.Members.Select(m => m.ID).ToList();
+
+                        if (memberIDs.Count == 0)
+                        {
+                            Debug.WriteLine("No members found. Contacts cannot be linked.");
+                        }
+
+                        // Define a list of contacts
+                        var contacts = new List<Contact>
+                        {
                             new Contact
                             {
                                 FirstName = "John",
@@ -562,9 +572,31 @@ namespace CRMProject.Data
                                 ContactInteractions = "Provided legal advice on contract agreements.",
                                 ContactNotes = "Send draft of contract revisions for review."
                             }
-                        );
+                        };
+
+                        // Add contacts to the database
+                        context.Contacts.AddRange(contacts);
+                        context.SaveChanges();
+
+                        // Now link contacts to members
+
+                        foreach (var contact in contacts)
+                        {
+                            if (memberIDs.Count > 0) // Ensure members exist before assigning
+                            {
+                                var randomMemberId = memberIDs[random.Next(memberIDs.Count)];
+                                context.MemberContacts.Add(new MemberContact
+                                {
+                                    MemberID = randomMemberId,
+                                    ContactID = contact.ID,
+                                    MemberContactRelationshipType = "Account Manager"
+                                });
+                            }
+                        }
+
                         context.SaveChanges();
                     }
+
 
                     // Seed ContactEmails if there aren't any.
                     if (!context.ContactEmails.Any())
@@ -645,61 +677,84 @@ namespace CRMProject.Data
 
 
                     // Seed Opportunities if there aren't any.
+                    // Seed Opportunities if there aren't any.
                     if (!context.Opportunities.Any())
                     {
-                        // Create 10 Opportunity records
+                        // List of real companies in Niagara Region, Canada
+                        var niagaraCompanies = new[]
+                        {
+                            "Walker Industries",
+                            "Niagara Casinos",
+                            "Brock University",
+                            "Niagara College",
+                            "General Motors St. Catharines",
+                            "Canadian Niagara Power",
+                            "Niagara Falls Tourism",
+                            "Silicon Knights",
+                            "Stanpac",
+                            "Rankin Construction"
+                        };
+
+                        // List of real-sounding contact names
+                        var contactNames = new[]
+                        {
+                            "Michael Carter",
+                            "Jennifer Adams",
+                            "Robert Dawson",
+                            "Emily Robinson",
+                            "David Johnson",
+                            "Sarah Mitchell",
+                            "James Thompson",
+                            "Lisa White",
+                            "William Scott",
+                            "Jessica Martin"
+                        };
+
+                        // Randomly select OpportunityStatus from the enum
+                        var opportunityStatuses = Enum.GetValues(typeof(OpportunityStatus))
+                                                      .Cast<OpportunityStatus>()
+                                                      .ToArray();
+
+                        // Priority Levels
+                        var priorities = new[] { "High", "Medium", "Low" };
+
+                        // Possible Opportunity Actions
+                        var actions = new[]
+                        {
+                            "Initial Meeting Scheduled",
+                            "Proposal Sent",
+                            "Negotiation Ongoing",
+                            "Contract Signed",
+                            "Follow-up Required"
+                        };
+
+                        // Generate 10 real opportunity records
                         for (int i = 0; i < 10; i++)
                         {
-                            // Randomly select OpportunityStatus from the enum
-                            var opportunityStatuses = Enum.GetValues(typeof(OpportunityStatus))
-                                                          .Cast<OpportunityStatus>()
-                                                          .ToArray();
-                            OpportunityStatus randomOpportunityStatus = opportunityStatuses[random.Next(opportunityStatuses.Length)];
+                            var randomCompany = niagaraCompanies[i]; // Each company gets one record
+                            var randomContact = contactNames[i]; // Each contact gets one record
 
-                            // Randomly select Priority
-                            var priorities = new[] { "High", "Medium", "Low" };
-                            string randomPriority = priorities[random.Next(priorities.Length)];
-
-                            // Randomly select OpportunityAction
-                            var actions = new[] { "Follow-up", "Proposal Sent", "Negotiation Ongoing", "Review Meeting Scheduled" };
-                            string randomAction = actions[random.Next(actions.Length)];
-
-                            // Randomly select Contact and Account names
-                            string randomContact = $"Contact {random.Next(1, 100)}";
-                            string randomAccount = $"Account {random.Next(1, 100)}";
-
-                            // Generate a random last contact date within the last 90 days
-                            DateTime randomLastContactDate = DateTime.Today.AddDays(-random.Next(1, 90));
-
-                            // Generate a random interaction text
-                            string randomInteractions = $"Discussed opportunity with {randomContact}, next steps defined.";
-
-                            // Create a new Opportunity record
                             Opportunity opportunity = new Opportunity
                             {
-                                OpportunityName = $"Opportunity {i + 1}",
-                                OpportunityStatus = randomOpportunityStatus,  // Use the enum value
-                                OpportunityPriority = randomPriority,
-                                OpportunityAction = randomAction,
+                                OpportunityName = randomCompany,
+                                OpportunityStatus = opportunityStatuses[random.Next(opportunityStatuses.Length)],
+                                OpportunityPriority = priorities[random.Next(priorities.Length)],
+                                OpportunityAction = actions[random.Next(actions.Length)],
                                 OpportunityContact = randomContact,
-                                OpportunityAccount = randomAccount,
-                                OpportunityLastContactDate = randomLastContactDate,
-                                OpportunityInteractions = randomInteractions
+                                OpportunityAccount = randomCompany,
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-random.Next(1, 90)),
+                                OpportunityInteractions = $"Discussed potential collaboration with {randomContact} from {randomCompany}. Next steps include {actions[random.Next(actions.Length)]}."
                             };
 
-                            try
+                            // Ensure no duplicate records before inserting
+                            if (!context.Opportunities.Any(o => o.OpportunityName == opportunity.OpportunityName))
                             {
-                                // Could be a duplicate, so check and add opportunity
                                 context.Opportunities.Add(opportunity);
                                 context.SaveChanges();
                             }
-                            catch (Exception)
-                            {
-                                // If duplicate occurs, skip this record and continue with the next one
-                                context.Opportunities.Remove(opportunity);
-                            }
                         }
                     }
+
                 }
                 #endregion
             }
