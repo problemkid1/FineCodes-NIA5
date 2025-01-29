@@ -19,10 +19,41 @@
         border-color: #224abe;
     }
 
+.sidebar-dark .nav-item .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebar-dark .nav-item .nav-link i {
+ color: rgba(255, 255, 255, 0.6);
+}
+
+    .sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+        .sidebar-dark .nav-item .nav-link:active i, .sidebar-dark .nav-item .nav-link:focus i, .sidebar-dark .nav-item .nav-link:hover i {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+.sidebar-dark .nav-item .nav-link[data-toggle="collapse"]::after {
+ color: rgba(255, 255, 255, 0.5);
+ }
+
+.sidebar-dark .nav-item.active .nav-link {
+    color: #fff;
+    
+}
+
+    .sidebar-dark .nav-item.active .nav-link i {
+        color: #fff;
+       
+    }
 .sidebar .nav-item .nav-link:active,
 .sidebar .nav-item .nav-link:focus,
 .sidebar .nav-item .nav-link:hover {
-    background-color: rgba(59, 84, 160, 0.2);
+    background-color: rgba(59, 84, 160, 0.4);
 }
 
 .nav-item .active {

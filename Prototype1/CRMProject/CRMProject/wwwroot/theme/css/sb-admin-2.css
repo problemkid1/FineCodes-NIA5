@@ -2578,7 +2578,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #e02d1b;
   border-color: #d52a1a;
-  box-shadow: 0 0 0 0.2rem rgba(235, 101, 88, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(235, 101, 88, 0.6);
 }
 
 .btn-danger.disabled, .btn-danger:disabled {
@@ -10740,10 +10740,10 @@ a:focus {
     text-decoration: underline;
 }
 
-    .sidebar-dark .nav-item.active .nav-link i {
+.sidebar-dark .nav-item.active .nav-link i {
         color: #fff;
         text-decoration: underline;
-    }
+}
 
 .sidebar-dark #sidebarToggle {
   background-color: rgba(255, 255, 255, 0.2);
