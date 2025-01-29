@@ -62,28 +62,34 @@ namespace CRMProject.Data
                                 new Member
                                 {
                                     MemberName = "Tech Solutions Inc.",
-                                    MemberSize = 50,  // Using string to match the data type
-                                    MemberStatus = MemberStatus.GoodStanding,  // Enum value
+                                    MemberSize = 50,
+                                    MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "ap@techsolutions.com",
                                     MemberStartDate = DateTime.Parse("2021-01-15"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-30), // Last contacted a month ago
                                     MemberNotes = "Loyal member with regular participation."
                                 },
                                 new Member
                                 {
                                     MemberName = "Green Energy Ltd.",
                                     MemberSize = 300,
-                                    MemberStatus = MemberStatus.OverduePayment,  // Enum value
+                                    MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "finance@greenenergy.com",
                                     MemberStartDate = DateTime.Parse("2020-06-10"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-60), // Last contacted 2 months ago
                                     MemberNotes = "Pending payment for the last quarter."
                                 },
                                 new Member
                                 {
                                     MemberName = "Urban Builders",
                                     MemberSize = 70,
-                                    MemberStatus = MemberStatus.Canceled,  // Enum value
+                                    MemberStatus = MemberStatus.Canceled,
                                     MemberAccountsPayableEmail = "billing@urbanbuilders.com",
                                     MemberStartDate = DateTime.Parse("2018-03-20"),
+                                    MemberEndDate = DateTime.Parse("2023-05-10"), // Canceled last year
+                                    MemberLastContactDate = DateTime.Today.AddDays(-120), // Last contacted 4 months ago
                                     MemberNotes = "Canceled membership due to internal restructuring."
                                 },
                                 new Member
@@ -93,15 +99,19 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payroll@freshfoods.com",
                                     MemberStartDate = DateTime.Parse("2019-11-05"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-15), // Recently contacted
                                     MemberNotes = "Key sponsor of annual events."
                                 },
                                 new Member
                                 {
                                     MemberName = "Smart Solutions",
                                     MemberSize = 15,
-                                    MemberStatus = MemberStatus.Canceled,  // Enum value
+                                    MemberStatus = MemberStatus.Canceled,
                                     MemberAccountsPayableEmail = "accounting@smartsolutions.com",
                                     MemberStartDate = DateTime.Parse("2020-08-01"),
+                                    MemberEndDate = DateTime.Parse("2022-12-15"), // Canceled 2 years ago
+                                    MemberLastContactDate = DateTime.Today.AddDays(-300), // No contact for almost a year
                                     MemberNotes = "Membership expired, no renewal yet."
                                 },
                                 new Member
@@ -111,6 +121,8 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@edutech.com",
                                     MemberStartDate = DateTime.Parse("2022-05-12"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-10), // Recently contacted
                                     MemberNotes = "Recently joined, active participation."
                                 },
                                 new Member
@@ -120,6 +132,8 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payments@autohub.com",
                                     MemberStartDate = DateTime.Parse("2021-09-30"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-45), // Contacted 1.5 months ago
                                     MemberNotes = "Active in automotive industry programs."
                                 },
                                 new Member
@@ -129,6 +143,8 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "billing@globaltextiles.com",
                                     MemberStartDate = DateTime.Parse("2017-04-15"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-90), // Last contacted 3 months ago
                                     MemberNotes = "Awaiting payment confirmation."
                                 },
                                 new Member
@@ -138,6 +154,8 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "accounting@nextgen.com",
                                     MemberStartDate = DateTime.Parse("2019-07-22"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-20), // Contacted recently
                                     MemberNotes = "Frequent host of tech workshops."
                                 },
                                 new Member
@@ -147,9 +165,14 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@primelogistics.com",
                                     MemberStartDate = DateTime.Parse("2020-02-10"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
                                     MemberNotes = "Specializes in logistics management."
                                 }
                             );
+
+                            context.SaveChanges();
+
                             context.SaveChanges();
                         }
 
@@ -165,9 +188,6 @@ namespace CRMProject.Data
                         // Get the array of Member primary keys
                         int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
                         int memberCount = memberIDs.Length;
-
-                        // Address Types
-                        var addressTypes = new[] { "Headquarters", "Branch", "Warehouse" };
 
                         // Cities in the Niagara Region (and Ontario)
                         var cities = new[] { "St. Catharines", "Niagara Falls", "Welland", "Thorold", "Fort Erie", "Grimsby", "Port Colborne", "Beamsville" };
@@ -187,8 +207,7 @@ namespace CRMProject.Data
                         {
                             int randomMemberId = memberIDs[random.Next(memberIDs.Length)];
 
-                            // Fixed AddressType and Province for these records
-                            AddressType randomAddressType = Enum.Parse<AddressType>(addressTypes[random.Next(addressTypes.Length)]);
+                            // Fixed Province for these records                            
                             Province randomProvince = Enum.Parse<Province>(provinces[0]);
 
                             // Select city from Niagara Region
@@ -212,8 +231,7 @@ namespace CRMProject.Data
                                 AddressLine2 = randomAddressLine2,
                                 AddressCity = randomCity,
                                 Province = randomProvince,
-                                PostalCode = randomPostalCode,
-                                AddressType = randomAddressType
+                                PostalCode = randomPostalCode
                             };
 
                             // Add the new Address record to the context

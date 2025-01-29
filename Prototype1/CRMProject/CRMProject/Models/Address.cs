@@ -7,7 +7,7 @@ namespace CRMProject.Models
         public int ID { get; set; }
 
 
-        [Display(Name = "Address")]
+        [Display(Name = "Main Address")]
         public string Summary
         {
             get
@@ -39,10 +39,6 @@ namespace CRMProject.Models
         [Display(Name = "Postal Code")]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid postal code.")]
         public string? PostalCode { get; set; } = "";
-
-        [Required(ErrorMessage = "You must select the address type.")]
-        [Display(Name = "Address Type")]
-        public AddressType AddressType { get; set; }
 
         [Required(ErrorMessage = "You must select a Member.")]
         [Display(Name = "Member")]
