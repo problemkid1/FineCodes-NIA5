@@ -85,7 +85,7 @@ namespace CRMProject.Data
                                 {
                                     MemberName = "Urban Builders",
                                     MemberSize = 70,
-                                    MemberStatus = MemberStatus.Canceled,
+                                    MemberStatus = MemberStatus.Cancelled,
                                     MemberAccountsPayableEmail = "billing@urbanbuilders.com",
                                     MemberStartDate = DateTime.Parse("2018-03-20"),
                                     MemberEndDate = DateTime.Parse("2023-05-10"), // Canceled last year
@@ -107,7 +107,7 @@ namespace CRMProject.Data
                                 {
                                     MemberName = "Smart Solutions",
                                     MemberSize = 15,
-                                    MemberStatus = MemberStatus.Canceled,
+                                    MemberStatus = MemberStatus.Cancelled,
                                     MemberAccountsPayableEmail = "accounting@smartsolutions.com",
                                     MemberStartDate = DateTime.Parse("2020-08-01"),
                                     MemberEndDate = DateTime.Parse("2022-12-15"), // Canceled 2 years ago
@@ -438,21 +438,21 @@ namespace CRMProject.Data
                     // Seed Cancellations if there aren't any.
                     if (!context.Cancellations.Any())
                     {
-                        // Get the array of Member primary keys where the MemberStatus is Canceled
-                        int[] canceledMemberIDs = context.Members
-                                                          .Where(m => m.MemberStatus == MemberStatus.Canceled)
+                        // Get the array of Member primary keys where the MemberStatus is Cancelled
+                        int[] CancelledMemberIDs = context.Members
+                                                          .Where(m => m.MemberStatus == MemberStatus.Cancelled)
                                                           .Select(m => m.ID)
                                                           .ToArray();
-                        int canceledMemberCount = canceledMemberIDs.Length;
+                        int CancelledMemberCount = CancelledMemberIDs.Length;
 
-                        // Ensure that there are members with canceled status
-                        if (canceledMemberCount > 0)
+                        // Ensure that there are members with Cancelled status
+                        if (CancelledMemberCount > 0)
                         {
-                            // Create Cancellation records for each canceled member
-                            for (int i = 0; i < canceledMemberCount; i++)
+                            // Create Cancellation records for each Cancelled member
+                            for (int i = 0; i < CancelledMemberCount; i++)
                             {
                                 // Select a random member from the canceled members list
-                                int randomMemberId = canceledMemberIDs[random.Next(canceledMemberCount)];
+                                int randomMemberId = CancelledMemberIDs[random.Next(CancelledMemberCount)];
 
                                 // Create a new Cancellation record
                                 Cancellation cancellation = new Cancellation

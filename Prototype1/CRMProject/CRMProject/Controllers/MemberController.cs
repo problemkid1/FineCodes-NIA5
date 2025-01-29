@@ -22,8 +22,16 @@ namespace CRMProject.Controllers
         // GET: Member
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Members.ToListAsync());
+            var members = _context.Members
+                .Include(m => m.Addresses)
+                .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
+                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact).ThenInclude(c => c.ContactEmails)
+                .Include(m => m.MemberMembershipTypes).ThenInclude(mmt => mmt.MembershipType)
+                .AsNoTracking();
+
+            return View(await members.ToListAsync());
         }
+
 
         // GET: Member/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -121,8 +129,8 @@ namespace CRMProject.Controllers
             return View(member);
         }
 
-        // GET: Member/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Member/Archive/5
+        public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
             {
@@ -139,10 +147,10 @@ namespace CRMProject.Controllers
             return View(member);
         }
 
-        // POST: Member/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Member/Archive/5
+        [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> ArchiveConfirmed(int id)
         {
             var member = await _context.Members.FindAsync(id);
             if (member != null)
