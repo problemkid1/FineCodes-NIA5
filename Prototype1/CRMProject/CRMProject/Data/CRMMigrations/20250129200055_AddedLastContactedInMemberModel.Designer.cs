@@ -3,6 +3,7 @@ using System;
 using CRMProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMContextModelSnapshot : ModelSnapshot
+    [Migration("20250129200055_AddedLastContactedInMemberModel")]
+    partial class AddedLastContactedInMemberModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -36,6 +39,9 @@ namespace CRMProject.Data.CRMMigrations
                     b.Property<string>("AddressLine2")
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("AddressType")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("MemberID")
                         .HasColumnType("INTEGER");
