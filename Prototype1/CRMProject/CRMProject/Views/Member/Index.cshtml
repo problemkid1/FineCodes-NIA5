@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Member Index";
 }
+
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -24,12 +25,12 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="table-light">
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberName)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberSize)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberStatus)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberAccountsPayableEmail)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberStartDate)</th>
-                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.MemberNotes)</th> *@
+                                    <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
+                                    <th class="d-none d-sm-table-cell">Membership Type</th>
+                                    <th class="d-none d-sm-table-cell">Industry Name</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -48,23 +49,45 @@
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
-                                            <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberAccountsPayableEmail)</td>
+
+                                            <td class="d-none d-sm-table-cell">
+                                                @if (item.MemberMembershipTypes.Any())
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.MemberMembershipTypes.First().MembershipType.MembershipTypeName)
+                                                }
+                                                else
+                                                {
+                                                    <span>No Membership Type</span>
+                                                }
+                                            </td>
+
+                                            <td class="d-none d-sm-table-cell">
+                                                @if (item.MemberIndustries.Any())
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.MemberIndustries.First().Industry.IndustryName)
+                                                }
+                                                else
+                                                {
+                                                    <span>No Industry</span>
+                                                }
+                                            </td>
+
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
-                                            @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberNotes)</td> *@
                                             <td>
                                                 <div class="btn-group">
-                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                       role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary disabled"
+                                                       role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]" disabled>
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
+
 
                                                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-search"></i>
                                                     </a>
 
-                                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                       role="button" data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
+                                                    <a asp-action="Archive" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary disabled"
+                                                       role="button" data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]" disabled>
                                                         <i class="bi bi-archive-fill"></i>
                                                     </a>
                                                 </div>
