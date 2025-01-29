@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CRMProject.Models.Industry>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Industry Index";
+}
+
+<!-- Custom styles for this template-->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <!-- Header Section -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h1 mb-0 text-gray-1400">Industry</h1>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Add New Industry
+                </a>
+            </div>
+
+            <div class="card">
+                <!-- Table Section -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.IndustryName)</th>
+                                <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode)</th>
+                                <th>@Html.DisplayNameFor(model => model.MemberIndustries)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.IndustryDescription)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center">No industries available.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.IndustryName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
+                                        <td>
+                                            @foreach (var m in item.MemberIndustries)
+                                            {
+                                                @m.Member.MemberName <br />
+                                            }
+                                        </td>
+
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustryDescription)</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                    <i class="bi bi-search"></i>
+                                                </a>
+
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                    <i class="bi bi-archive-fill"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

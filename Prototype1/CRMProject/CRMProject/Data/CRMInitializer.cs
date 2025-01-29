@@ -52,8 +52,7 @@ namespace CRMProject.Data
                     //To randomly generate data
                     Random random = new Random();
 
-                    //Seed a few specific Instructors and GroupClasses. We will add more with random values later,
-                    //but it can be useful to know we will have some specific records in the sample data.
+                    //Seed a few specific Members. We will add more with random values later.                   
                     try
                     {
                         // Seed Members if there aren't any.
@@ -67,7 +66,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,  // Enum value
                                     MemberAccountsPayableEmail = "ap@techsolutions.com",
                                     MemberStartDate = DateTime.Parse("2021-01-15"),
-                                    MemberEndDate = null,  // Assuming null is allowed for EndDate
                                     MemberNotes = "Loyal member with regular participation."
                                 },
                                 new Member
@@ -77,7 +75,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.OverduePayment,  // Enum value
                                     MemberAccountsPayableEmail = "finance@greenenergy.com",
                                     MemberStartDate = DateTime.Parse("2020-06-10"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Pending payment for the last quarter."
                                 },
                                 new Member
@@ -87,7 +84,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.Canceled,  // Enum value
                                     MemberAccountsPayableEmail = "billing@urbanbuilders.com",
                                     MemberStartDate = DateTime.Parse("2018-03-20"),
-                                    MemberEndDate = DateTime.Parse("2023-01-10"),
                                     MemberNotes = "Canceled membership due to internal restructuring."
                                 },
                                 new Member
@@ -97,17 +93,15 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payroll@freshfoods.com",
                                     MemberStartDate = DateTime.Parse("2019-11-05"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Key sponsor of annual events."
                                 },
                                 new Member
                                 {
                                     MemberName = "Smart Solutions",
                                     MemberSize = 15,
-                                    MemberStatus = MemberStatus.Expired,  // Enum value
+                                    MemberStatus = MemberStatus.Canceled,  // Enum value
                                     MemberAccountsPayableEmail = "accounting@smartsolutions.com",
                                     MemberStartDate = DateTime.Parse("2020-08-01"),
-                                    MemberEndDate = DateTime.Parse("2022-08-01"),
                                     MemberNotes = "Membership expired, no renewal yet."
                                 },
                                 new Member
@@ -117,7 +111,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@edutech.com",
                                     MemberStartDate = DateTime.Parse("2022-05-12"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Recently joined, active participation."
                                 },
                                 new Member
@@ -127,7 +120,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payments@autohub.com",
                                     MemberStartDate = DateTime.Parse("2021-09-30"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Active in automotive industry programs."
                                 },
                                 new Member
@@ -137,7 +129,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "billing@globaltextiles.com",
                                     MemberStartDate = DateTime.Parse("2017-04-15"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Awaiting payment confirmation."
                                 },
                                 new Member
@@ -147,7 +138,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "accounting@nextgen.com",
                                     MemberStartDate = DateTime.Parse("2019-07-22"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Frequent host of tech workshops."
                                 },
                                 new Member
@@ -157,7 +147,6 @@ namespace CRMProject.Data
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@primelogistics.com",
                                     MemberStartDate = DateTime.Parse("2020-02-10"),
-                                    MemberEndDate = null,
                                     MemberNotes = "Specializes in logistics management."
                                 }
                             );
@@ -180,34 +169,51 @@ namespace CRMProject.Data
                         // Address Types
                         var addressTypes = new[] { "Headquarters", "Branch", "Warehouse" };
 
-                        // Create 10 random Address records
+                        // Cities in the Niagara Region (and Ontario)
+                        var cities = new[] { "St. Catharines", "Niagara Falls", "Welland", "Thorold", "Fort Erie", "Grimsby", "Port Colborne", "Beamsville" };
+
+                        // Real street names in Niagara region
+                        var streetNames = new[]
+                        {
+                            "Queenston St", "Lakeshore Rd", "Mountain Rd", "Victoria Ave", "Glenridge Ave",
+                            "King St", "Ontario St", "Ridge Rd", "Willowdale Ave", "Lundy's Lane"
+                        };
+
+                        // Provinces (Ontario)
+                        var provinces = new[] { "Ontario" };
+
+                        // Create 10 random Address records using Niagara Region cities and Ontario province
                         for (int i = 0; i < 10; i++)
                         {
-                            // Randomly select MemberId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
+                            int randomMemberId = memberIDs[random.Next(memberIDs.Length)];
 
-                            // Randomly select AddressType
-                            string randomAddressType = addressTypes[random.Next(addressTypes.Length)];
+                            // Fixed AddressType and Province for these records
+                            AddressType randomAddressType = Enum.Parse<AddressType>(addressTypes[random.Next(addressTypes.Length)]);
+                            Province randomProvince = Enum.Parse<Province>(provinces[0]);
 
-                            // Randomly generate AddressLine1, AddressLine2, and AddressCity
-                            string randomAddressLine1 = $"Street {random.Next(1, 100)}";
-                            string randomAddressLine2 = $"Suite {random.Next(1, 20)}";
-                            string randomAddressCity = $"City{random.Next(1, 10)}";
-                            string randomProvince = $"Province{random.Next(1, 5)}";
+                            // Select city from Niagara Region
+                            string randomCity = cities[random.Next(cities.Length)];
+
+                            // Select a random street name from the streetNames array
+                            string randomStreetName = streetNames[random.Next(streetNames.Length)];
+
+                            // Generate fixed AddressLine1 and AddressLine2 (AddressLine2 is optional)
+                            string randomAddressLine1 = $"{randomStreetName} {random.Next(1, 100)}"; // e.g., "Queenston St 10"
+                            string randomAddressLine2 = $"Suite {random.Next(1, 20)}"; // Optional Suite number
 
                             // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
                             string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
 
-                            // Create a new Address record
+                            // Create the Address record
                             Address address = new Address
                             {
                                 MemberID = randomMemberId,
                                 AddressLine1 = randomAddressLine1,
                                 AddressLine2 = randomAddressLine2,
-                                AddressCity = randomAddressCity,
+                                AddressCity = randomCity,
                                 Province = randomProvince,
                                 PostalCode = randomPostalCode,
-                                AddressType = Enum.Parse<AddressType>(randomAddressType)
+                                AddressType = randomAddressType
                             };
 
                             // Add the new Address record to the context
@@ -264,39 +270,11 @@ namespace CRMProject.Data
                                 MembershipTypeDescription = "Associate membership for smaller organizations.",
                                 MembershipTypeFee = 300.00,
                                 MembershipTypeBenefits = "Basic Access"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.LocalIndustrial,
-                                MembershipTypeDescription = "Local manufacturing businesses.",
-                                MembershipTypeFee = 1200.00,
-                                MembershipTypeBenefits = "Manufacturing Resources, Discounted Services"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.NonLocalIndustrial,
-                                MembershipTypeDescription = "National or international manufacturing companies.",
-                                MembershipTypeFee = 1800.00,
-                                MembershipTypeBenefits = "Premium Services, Cross-Border Networking"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.InKind,
-                                MembershipTypeDescription = "Donations of goods or services instead of cash.",
-                                MembershipTypeFee = 0.00, // Free for donations
-                                MembershipTypeBenefits = "Recognition, Event Sponsorship"
-                            },
-                            new MembershipType
-                            {
-                                MembershipTypeName = MembershipTypeName.GovernmentAndEducation,
-                                MembershipTypeDescription = "Government agencies and educational institutions.",
-                                MembershipTypeFee = 450.00,
-                                MembershipTypeBenefits = "Government Access, Educational Discounts"
                             }
                         );
                         context.SaveChanges();
                     }
-
+                                  
 
                     // Seed MemberMembershipType relationships if there aren't any.
                     if (!context.MemberMembershipTypes.Any())
@@ -310,16 +288,16 @@ namespace CRMProject.Data
                         int membershipTypeCount = membershipTypeIDs.Length;
 
                         // Create 10 random MemberMembershipType relationships
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < memberIDs.Length; i++)
                         {
                             // Randomly select MemberId and MembershipTypeId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
+                            int memberID = memberIDs[i];
                             int randomMembershipTypeId = membershipTypeIDs[random.Next(membershipTypeCount)];
 
                             // Create new MemberMembershipType record
                             MemberMembershipType memberMembershipType = new MemberMembershipType
                             {
-                                MemberID = randomMemberId,
+                                MemberID = memberID,
                                 MembershipTypeID = randomMembershipTypeId
                             };
 
@@ -338,61 +316,61 @@ namespace CRMProject.Data
                             new Industry
                             {
                                 IndustryName = "Technology",
-                                IndustryNAICSCode = "541",  // 3-digit NAICS code
+                                IndustryNAICSCode = "541",  
                                 IndustryDescription = "Tech services and IT solutions."
                             },
                             new Industry
                             {
                                 IndustryName = "Energy",
-                                IndustryNAICSCode = "221",  // 3-digit NAICS code
+                                IndustryNAICSCode = "221",  
                                 IndustryDescription = "Renewable energy production and distribution."
                             },
                             new Industry
                             {
                                 IndustryName = "Construction",
-                                IndustryNAICSCode = "236",  // 3-digit NAICS code
+                                IndustryNAICSCode = "236",  
                                 IndustryDescription = "Commercial building construction."
                             },
                             new Industry
                             {
                                 IndustryName = "Food",
-                                IndustryNAICSCode = "311",  // 3-digit NAICS code
+                                IndustryNAICSCode = "311",  
                                 IndustryDescription = "Food production and distribution."
                             },
                             new Industry
                             {
                                 IndustryName = "Education",
-                                IndustryNAICSCode = "611",  // 3-digit NAICS code
+                                IndustryNAICSCode = "611",  
                                 IndustryDescription = "Educational services and resources."
                             },
                             new Industry
                             {
                                 IndustryName = "Healthcare",
-                                IndustryNAICSCode = "621",  // 3-digit NAICS code
+                                IndustryNAICSCode = "621",  
                                 IndustryDescription = "Offices of physicians, except mental health."
                             },
                             new Industry
                             {
                                 IndustryName = "Manufacturing",
-                                IndustryNAICSCode = "334",  // 3-digit NAICS code
+                                IndustryNAICSCode = "334",  
                                 IndustryDescription = "Electronic computer manufacturing."
                             },
                             new Industry
                             {
                                 IndustryName = "Finance",
-                                IndustryNAICSCode = "522",  // 3-digit NAICS code
+                                IndustryNAICSCode = "522",  
                                 IndustryDescription = "Commercial banking."
                             },
                             new Industry
                             {
                                 IndustryName = "Retail",
-                                IndustryNAICSCode = "441",  // 3-digit NAICS code
+                                IndustryNAICSCode = "441",  
                                 IndustryDescription = "New car dealers."
                             },
                             new Industry
                             {
                                 IndustryName = "Transportation",
-                                IndustryNAICSCode = "481",  // 3-digit NAICS code
+                                IndustryNAICSCode = "481",  
                                 IndustryDescription = "Scheduled air transportation."
                             }
                         );
@@ -421,8 +399,8 @@ namespace CRMProject.Data
                             // Create new MemberIndustry record
                             MemberIndustry memberIndustry = new MemberIndustry
                             {
-                                MemberId = randomMemberId,
-                                IndustryId = randomIndustryId
+                                MemberID = randomMemberId,
+                                IndustryID = randomIndustryId
                             };
 
                             try
@@ -442,31 +420,42 @@ namespace CRMProject.Data
                     // Seed Cancellations if there aren't any.
                     if (!context.Cancellations.Any())
                     {
-                        // Get the array of Member primary keys
-                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int memberCount = memberIDs.Length;
+                        // Get the array of Member primary keys where the MemberStatus is Canceled
+                        int[] canceledMemberIDs = context.Members
+                                                          .Where(m => m.MemberStatus == MemberStatus.Canceled)
+                                                          .Select(m => m.ID)
+                                                          .ToArray();
+                        int canceledMemberCount = canceledMemberIDs.Length;
 
-                        // Create 10 random Cancellation records
-                        for (int i = 0; i < 10; i++)
+                        // Ensure that there are members with canceled status
+                        if (canceledMemberCount > 0)
                         {
-                            // Randomly select MemberId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
-
-                            // Create a new Cancellation record
-                            Cancellation cancellation = new Cancellation
+                            // Create Cancellation records for each canceled member
+                            for (int i = 0; i < canceledMemberCount; i++)
                             {
-                                MemberID = randomMemberId,
-                                CancellationDate = DateTime.Now.AddDays(-random.Next(30, 365)),  // Random cancellation within the last year
-                                CancellationReason = $"Reason {random.Next(1, 5)}",  // Random cancellation reason
-                                CancellationNotes = "Cancellation due to internal restructuring or lack of renewal."
-                            };
+                                // Select a random member from the canceled members list
+                                int randomMemberId = canceledMemberIDs[random.Next(canceledMemberCount)];
 
-                            // Add the new cancellation record to the context
-                            context.Cancellations.Add(cancellation);
+                                // Create a new Cancellation record
+                                Cancellation cancellation = new Cancellation
+                                {
+                                    MemberID = randomMemberId,
+                                    CancellationDate = DateTime.Now.AddDays(-random.Next(30, 365)),  // Random cancellation within the last year
+                                    CancellationReason = "Cancellation due to internal restructuring.",
+                                    CancellationNotes = "No renewal interest."  // Custom cancellation reason
+                                };
+                                // Add the new cancellation record to the context
+                                context.Cancellations.Add(cancellation);
+                            }
+
+                            // Save changes to the database
+                            context.SaveChanges();
                         }
-
-                        // Save changes to the database
-                        context.SaveChanges();
+                        else
+                        {
+                            // Handle the case when there are no members with Canceled status
+                            Debug.WriteLine("No members with Canceled status found.");
+                        }
                     }
 
                     // Seed Contacts if there aren't any.
@@ -581,7 +570,7 @@ namespace CRMProject.Data
                     if (!context.ContactEmails.Any())
                     {
                         // Get the array of Contact primary keys
-                        int[] contactIDs = context.Contacts.Select(a => a.ContactId).ToArray();
+                        int[] contactIDs = context.Contacts.Select(a => a.ID).ToArray();
                         int contactCount = contactIDs.Length;
 
                         // Create 10 random ContactEmail records
@@ -597,7 +586,7 @@ namespace CRMProject.Data
                             // Create a new ContactEmail record
                             ContactEmail contactEmail = new ContactEmail
                             {
-                                ContactId = randomContactId,
+                                ContactID = randomContactId,
                                 EmailType = randomEmailType,
                                 EmailAddress = $"{Guid.NewGuid().ToString().Substring(0, 8)}@example.com"  // Generate a random email address
                             };
@@ -615,9 +604,12 @@ namespace CRMProject.Data
                     {
                         // Get the array of Member and Contact primary keys
                         int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int[] contactIDs = context.Contacts.Select(a => a.ContactId).ToArray();
+                        int[] contactIDs = context.Contacts.Select(a => a.ID).ToArray();
                         int memberCount = memberIDs.Length;
                         int contactCount = contactIDs.Length;
+
+                        // Relationship Types
+                        var relationshipTypes = new[] { "Account Manager", "Support", "Partner", "Vendor" };
 
                         // Create 10 random MemberContact relationships
                         for (int i = 0; i < 10; i++)
@@ -627,24 +619,30 @@ namespace CRMProject.Data
                             int randomContactId = contactIDs[random.Next(contactCount)];
 
                             // Randomly select Relationship Type
-                            var relationshipTypes = new[] { "Account Manager", "Support", "Partner", "Vendor" };
                             string randomRelationshipType = relationshipTypes[random.Next(relationshipTypes.Length)];
 
                             // Create new MemberContact record
                             MemberContact memberContact = new MemberContact
                             {
-                                MemberId = randomMemberId,
-                                ContactId = randomContactId,
+                                MemberID = randomMemberId,
+                                ContactID = randomContactId,
                                 MemberContactRelationshipType = randomRelationshipType
                             };
 
-                            // Add the new MemberContact record to the context
-                            context.MemberContacts.Add(memberContact);
+                            try
+                            {
+                                // Add the new MemberContact record to the context
+                                context.MemberContacts.Add(memberContact);
+                                context.SaveChanges();
+                            }
+                            catch (Exception)
+                            {
+                                // Handle exceptions (e.g., skip if a conflict occurs)
+                                context.MemberContacts.Remove(memberContact);
+                            }
                         }
-
-                        // Save changes to the database
-                        context.SaveChanges();
                     }
+
 
                     // Seed Opportunities if there aren't any.
                     if (!context.Opportunities.Any())

@@ -1,0 +1,56 @@
+﻿@model CRMProject.Models.Industry
+
+@{
+    ViewData["Title"] = "Edit Industry";
+}
+
+<div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Edit Industry Information</h6>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="ID" />
+                        <div class="row">
+                            <!-- Industry Name -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="IndustryName" class="control-label"></label>
+                                    <input asp-for="IndustryName" class="form-control" />
+                                    <span asp-validation-for="IndustryName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Industry NAICS Code -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="IndustryNAICSCode" class="control-label"></label>
+                                    <input asp-for="IndustryNAICSCode" class="form-control" />
+                                    <span asp-validation-for="IndustryNAICSCode" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Industry Description -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="IndustryDescription" class="control-label mr-3" style="min-width: 150px; white-space: nowrap;">Industry Description:</label>
+                                    <textarea asp-for="IndustryDescription" class="form-control" rows="4"></textarea>
+                                    <span asp-validation-for="IndustryDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary ml-2">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

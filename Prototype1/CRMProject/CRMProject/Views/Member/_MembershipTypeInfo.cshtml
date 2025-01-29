@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CRMProject.Models.MemberMembershipType>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4 class="panel-title">Membership Type Information</h4>
+    </div>
+    <div class="panel-body scrollable-panel">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeBenefits)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-controller="MembershipType" asp-route-ID="@item.MembershipTypeID">
+                                @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeName)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeBenefits)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

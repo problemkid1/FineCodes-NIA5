@@ -12,16 +12,14 @@ namespace CRMProject.Models
         public string IndustryName { get; set; } = "";
 
         [Display(Name = "Industry NAICS Code")]
-        [Required(ErrorMessage = "You cannot leave the Industry NAICS Code blank.")]
         [MaxLength(6, ErrorMessage = "Industry NAICS Code cannot be more than 6 characters long.")]
         [RegularExpression(@"^\d{2,6}$", ErrorMessage = "Industry NAICS Code must consist of between 2 and 6 numeric digits.")]
-        public string IndustryNAICSCode { get; set; } = "";
-
+        public string? IndustryNAICSCode { get; set; } = "";
 
         [Display(Name = "Industry Description")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for description.")]
         [DataType(DataType.MultilineText)]
-        public string IndustryDescription { get; set; } = "";
+        public string? IndustryDescription { get; set; } = "";
 
         [Display(Name = "Member")]
         public ICollection<MemberIndustry> MemberIndustries { get; set; } = new HashSet<MemberIndustry>();

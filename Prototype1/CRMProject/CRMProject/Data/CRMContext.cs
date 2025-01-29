@@ -106,6 +106,10 @@ namespace CRMProject.Data
             modelBuilder.Entity<MemberMembershipType>()
                 .HasKey(mmt => new { mmt.MemberID, mmt.MembershipTypeID });
 
+            //Many to many MemberContact
+            modelBuilder.Entity<MemberContact>()
+            .HasKey(mc => new { mc.MemberID, mc.ContactID });
+
             //Unique Index for Industry Name
             modelBuilder.Entity<Industry>()
                 .HasIndex(i => i.IndustryName)
