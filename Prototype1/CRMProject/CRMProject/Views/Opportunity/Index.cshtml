@@ -15,7 +15,7 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Opportunity</h1>
                 <a asp-action="Create" class="btn btn-primary btn-lg">
-                    <i class="fas fa-plus fs-4"></i> Add New Opportunity
+                    <i class="fas fa-plus fs-4"></i> Add Opportunity
                 </a>
             </div>
 
@@ -28,12 +28,12 @@
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityName)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityStatus)</th>
-                                    <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th>
+                                    @* <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th> *@
                                     <th>@Html.DisplayNameFor(model => model.OpportunityAction)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityContact)</th>
-                                    <th>@Html.DisplayNameFor(model => model.OpportunityAccount)</th>
+                                    @* <th>@Html.DisplayNameFor(model => model.OpportunityAccount)</th> *@
                                     <th>@Html.DisplayNameFor(model => model.OpportunityLastContactDate)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.OpportunityInteractions)</th>
+                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.OpportunityInteractions)</th> *@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -43,25 +43,25 @@
                                     <tr>
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityName)</td>
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityStatus)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td>
+                                        @* <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td> *@
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityAction)</td>
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityContact)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.OpportunityAccount)</td>
+                                        @* <td>@Html.DisplayFor(modelItem => item.OpportunityAccount)</td> *@
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityLastContactDate)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td>
+                                        @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td> *@
                                         <td>
                                             <div class="btn-group">
-                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                    role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square fs-4"></i>
                                                 </a>
 
-                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                    role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-search fs-4"></i>
                                                 </a>
 
-                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary"
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                    role="button" data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill fs-4"></i>
                                                 </a>
