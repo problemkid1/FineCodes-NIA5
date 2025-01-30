@@ -4,3 +4,5 @@ Prototype1/CRMProject/CRMProject/bin
 Prototype1/CRMProject/CRMProject/CRMProject.db-shm
 Prototype1/CRMProject/CRMProject/CRMProject.db-wal
 .vs/
+obj/
+bin/

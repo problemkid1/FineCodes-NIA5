@@ -20,10 +20,56 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus)
         {
-            return View(await _context.Members.ToListAsync());
+            //Count the number of filters applied - start by assuming no filters
+            ViewData["Filtering"] = "btn-outline-secondary";
+            int numberFilters = 0;
+
+
+            var members = _context.Members
+                .Include(m => m.Addresses)
+                .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
+                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact).ThenInclude(c => c.ContactEmails)
+                .Include(m => m.MemberMembershipTypes).ThenInclude(mmt => mmt.MembershipType)
+                .AsNoTracking();
+
+            // Filter by Name
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                members = members.Where(m => m.MemberName.Contains(SearchString));
+                numberFilters++;
+            }
+
+            // Filter by Size
+            if (MemberSize.HasValue)
+            {
+                members = members.Where(m => m.MemberSize == MemberSize.Value);
+                numberFilters++;
+            }
+
+            // Filter by Status
+            if (MemberStatus.HasValue)
+            {
+                members = members.Where(m => m.MemberStatus == MemberStatus.Value);
+                numberFilters++;
+            }
+
+            //Give feedback about the state of the filters
+            if (numberFilters != 0)
+            {
+                //Toggle the Open/Closed state of the collapse depending on if we are filtering
+                ViewData["Filtering"] = " btn-danger";
+                //Show how many filters have been applied
+                ViewData["numberFilters"] = "(" + numberFilters.ToString()
+                    + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
+                //Keep the Bootstrap collapse open
+                @ViewData["ShowFilter"] = " show";
+            }
+
+            return View(await members.ToListAsync());
         }
+
 
         // GET: Member/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -121,8 +167,8 @@ namespace CRMProject.Controllers
             return View(member);
         }
 
-        // GET: Member/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Member/Archive/5
+        public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
             {
@@ -139,10 +185,10 @@ namespace CRMProject.Controllers
             return View(member);
         }
 
-        // POST: Member/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Member/Archive/5
+        [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> ArchiveConfirmed(int id)
         {
             var member = await _context.Members.FindAsync(id);
             if (member != null)

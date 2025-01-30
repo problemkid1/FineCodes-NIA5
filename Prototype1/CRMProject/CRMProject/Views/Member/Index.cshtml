@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Member Index";
 }
+
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -17,19 +18,50 @@
                     <i class="fas fa-plus"></i> Add Member
                 </a>
             </div>
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by Status -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Status:</label>
+                            @Html.DropDownList("MemberStatus",
+                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.MemberStatus))),
+                                     "All Statuses",
+                                     htmlAttributes: new { @class = "form-control" })
+                        </div>
 
+                        <!-- Filter by Size -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Size:</label>
+                            @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
+                        </div>
+
+                        <!-- Search by Member Name -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Search by Member Name:</label>
+                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="table-light">
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberName)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberSize)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberStatus)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberAccountsPayableEmail)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MemberStartDate)</th>
-                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.MemberNotes)</th> *@
+                                    <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
+                                    <th class="d-none d-sm-table-cell">Membership Type</th>
+                                    <th class="d-none d-sm-table-cell">Industry Name</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -48,9 +80,30 @@
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
-                                            <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberAccountsPayableEmail)</td>
+
+                                            <td class="d-none d-sm-table-cell">
+                                                @if (item.MemberMembershipTypes.Any())
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.MemberMembershipTypes.First().MembershipType.MembershipTypeName)
+                                                }
+                                                else
+                                                {
+                                                    <span>No Membership Type</span>
+                                                }
+                                            </td>
+
+                                            <td class="d-none d-sm-table-cell">
+                                                @if (item.MemberIndustries.Any())
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.MemberIndustries.First().Industry.IndustryName)
+                                                }
+                                                else
+                                                {
+                                                    <span>No Industry</span>
+                                                }
+                                            </td>
+
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
-                                            @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberNotes)</td> *@
                                             <td>
                                                
                                                 <div class="btn-group">

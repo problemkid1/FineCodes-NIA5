@@ -8,7 +8,7 @@ namespace CRMProject.Models
         GoodStanding,
         [Display(Name = "Overdue Payment")]
         OverduePayment,
-        Canceled
+        Cancelled
     }
 
 }
