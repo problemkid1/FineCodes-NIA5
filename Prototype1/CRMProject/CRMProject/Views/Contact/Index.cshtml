@@ -5,73 +5,19 @@
 	ViewData["Title"] = "Contacts";
 }
 
-<!-- Display Success or Error Messages -->
-@if (TempData["SuccessMessage"] != null)
-{
-	<div class="alert alert-success" role="alert">
-		@TempData["SuccessMessage"]
-	</div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-	<div class="alert alert-danger" role="alert">
-		@TempData["ErrorMessage"]
-	</div>
-}
-
-
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
 <div class="col-12">
 	<div class="card">
 		<div class="card-body">
-
+		
 			<div class="d-sm-flex align-items-center justify-content-between mb-4">
 				<h1 class="h1 mb-0 text-gray-1400">Contacts</h1>
 				<a asp-action="Create" class="btn btn-primary btn-lg">
-					<i class="fas fa-plus"></i>Add Contact
+					<i class="fas fa-plus"></i> Add Contact
 				</a>
 			</div>
-
-			<form asp-action="Index" method="get">
-				<div class="form-horizontal">
-					<div class="row">
-						<!-- Filter by First Name -->
-						<div class="form-group col-md-4">
-							<label class="control-label">Filter by First Name:</label>
-							@Html.TextBox("FirstName", null, new { @class = "form-control", placeholder = "Enter first name" })
-						</div>
-
-						<!-- Filter by Last Name -->
-						<div class="form-group col-md-4">
-							<label class="control-label">Filter by Last Name:</label>
-							@Html.TextBox("LastName", null, new { @class = "form-control", placeholder = "Enter last name" })
-						</div>
-
-						<!-- Filter by Phone -->
-						<div class="form-group col-md-4">
-							<label class="control-label">Filter by Phone:</label>
-							@Html.TextBox("ContactPhone", null, new { @class = "form-control", placeholder = "Enter phone number" })
-						</div>
-
-						<!-- Filter by Title/Role -->
-						<div class="form-group col-md-4">
-							<label class="control-label">Filter by Title/Role:</label>
-							@Html.TextBox("ContactTitleRole", null, new { @class = "form-control", placeholder = "Enter title or role" })
-						</div>
-
-						<!-- Filter Actions -->
-						<div class="form-group col-md-4 align-self-end">
-							<input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
-							<a asp-action="Index" class="btn btn-outline-dark">Clear</a>
-						</div>
-					</div>
-				</div>
-			</form>
-
-
 
 			<div class="card">
 				<!-- /.card-header -->
@@ -162,8 +108,9 @@
 										@* <td>@Html.DisplayFor(modelItem => item.ContactInteractions)</td> *@
 										<td>
 											<div class="btn-group">
-												<a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-												   role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+												<a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+												   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+												   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
 													<i class="bi bi-pencil-square"></i>
 												</a>
 
@@ -172,8 +119,9 @@
 													<i class="bi bi-search"></i>
 												</a>
 
-												<a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-												   role="button" data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
+												<a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+												   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+												   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
 													<i class="bi bi-archive-fill"></i>
 												</a>
 											</div>

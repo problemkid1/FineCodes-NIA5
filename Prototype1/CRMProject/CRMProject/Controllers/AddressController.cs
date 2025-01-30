@@ -20,51 +20,11 @@ namespace CRMProject.Controllers
         }
 
         // GET: Address
-        public async Task<IActionResult> Index(string? AddressCity, Province? Province, string? PostalCode)
+        public async Task<IActionResult> Index()
         {
-            // Count the number of filters applied - start by assuming no filters
-            ViewData["Filtering"] = "btn-outline-secondary";
-            int numberFilters = 0;
-
-            var addresses = _context.Addresses
-                .Include(a => a.Member)
-                .AsNoTracking();
-
-            // Filter by City
-            if (!string.IsNullOrEmpty(AddressCity))
-            {
-                addresses = addresses.Where(a => a.AddressCity.Contains(AddressCity));
-                numberFilters++;
-            }
-
-            // Filter by Province
-            if (Province.HasValue)
-            {
-                addresses = addresses.Where(a => a.Province == Province.Value);
-                numberFilters++;
-            }
-
-            // Filter by Postal Code
-            if (!string.IsNullOrEmpty(PostalCode))
-            {
-                addresses = addresses.Where(a => a.PostalCode.Contains(PostalCode));
-                numberFilters++;
-            }
-
-            // Give feedback about the state of the filters
-            if (numberFilters != 0)
-            {
-                // Toggle the Open/Closed state of the collapse depending on if we are filtering
-                ViewData["Filtering"] = "btn-danger";
-                // Show how many filters have been applied
-                ViewData["numberFilters"] = "(" + numberFilters.ToString() + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                // Keep the Bootstrap collapse open
-                ViewData["ShowFilter"] = "show";
-            }
-
-            return View(await addresses.ToListAsync());
+            var cRMContext = _context.Addresses.Include(a => a.Member);
+            return View(await cRMContext.ToListAsync());
         }
-
 
         // GET: Address/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -102,29 +62,10 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Add the new member to the context and save changes
-                    _context.Add(address);
-                    await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Address created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = address.ID });
-                }
-                catch (Exception)
-                {
-                    // Set error message in case of failure
-                    TempData["ErrorMessage"] = "An error occurred while creating the Addess.";
-                }
+                _context.Add(address);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                // If model validation fails, set an error message
-                TempData["ErrorMessage"] = "Please check the input data and try again.";
-            }
-
-            // Return to the Create view in case of failure or validation errors
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", address.MemberID);
             return View(address);
         }
@@ -164,35 +105,20 @@ namespace CRMProject.Controllers
                 {
                     _context.Update(address);
                     await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Address updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = address.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AddressExists(address.ID))
                     {
-                        // If the industry does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
-                catch (Exception)
-                {
-                    // Set error message for generic errors
-                    TempData["ErrorMessage"] = "An error occurred while updating this Address.";
-                }
-
+                return RedirectToAction(nameof(Index));
             }
-
-            // Set error message in case the model is invalid
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
-
             PopulateDropDownLists();
             return View(address);
         }
@@ -225,18 +151,9 @@ namespace CRMProject.Controllers
             if (address != null)
             {
                 _context.Addresses.Remove(address);
-                await _context.SaveChangesAsync();
-
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Address deleted successfully!";
-            }
-            else
-            {
-                // If Address not found, set an error message
-                TempData["ErrorMessage"] = "Address not found!";
             }
 
-            // Redirect to the Index or other appropriate page
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -250,7 +167,7 @@ namespace CRMProject.Controllers
         private void PopulateDropDownLists(Address? address = null)
         {
             ViewData["MemberID"] = MemberSelectList(address?.MemberID);
-
+           
         }
         private bool AddressExists(int id)
         {
