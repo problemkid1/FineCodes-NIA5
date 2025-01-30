@@ -5,6 +5,21 @@
     ViewData["Title"] = "Cancellation Index";
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -15,9 +30,43 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Cancellation</h1>
                 <a asp-action="Create" class="btn btn-primary btn-lg">
-                    <i class="fas fa-plus"></i> Add Cancellation
+                    <i class="fas fa-plus"></i>Add Cancellation
                 </a>
             </div>
+
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by Cancellation Reason -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Cancellation Reason:</label>
+                            @Html.TextBox("CancellationReason", null, new { @class = "form-control", placeholder = "Enter reason" })
+                        </div>
+
+                        <!-- Filter by Cancellation Date -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label" for="CancellationDate">Filter by Cancellation Date:</label>
+                            @Html.TextBox("CancellationDate",
+                                     null,
+                                     htmlAttributes: new { @class = "form-control", @placeholder = "yyyy-MM-dd", @type = "date" })
+                        </div>
+
+
+                        <!-- Filter by Cancellation Notes -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Cancellation Notes:</label>
+                            @Html.TextBox("CancellationNotes", null, new { @class = "form-control", placeholder = "Enter notes" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
 
             <div class="card">
                 <!-- Table Section -->
@@ -28,7 +77,7 @@
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
                                 <th>@Html.DisplayNameFor(model => model.CancellationDate)</th>
                                 <th>@Html.DisplayNameFor(model => model.CancellationReason)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th>                                
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -54,14 +103,14 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        <td>@item.CancellationDate.ToString("MMM dd, yyyy")</td>
+                                        @* <td>@item.CancellationDate.ToString("yyyy-MM-dd")</td>' *@
+                                        <td>@Html.DisplayFor(modelItem => item.CancellationDate)</td> <!-- Uses the model's formatting -->'
                                         <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>                                       
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
-                                                   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
 
@@ -70,9 +119,8 @@
                                                     <i class="bi bi-search"></i>
                                                 </a>
 
-                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
-                                                   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                   role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill"></i>
                                                 </a>
                                             </div>

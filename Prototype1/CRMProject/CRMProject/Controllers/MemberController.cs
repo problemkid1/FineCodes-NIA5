@@ -109,10 +109,29 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    // Add the new member to the context and save changes
+                    _context.Add(member);
+                    await _context.SaveChangesAsync();
+
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Member created successfully!";
+                    return RedirectToAction(nameof(Details), new { id = member.ID });
+                }
+                catch (Exception)
+                {
+                    // Set error message in case of failure
+                    TempData["ErrorMessage"] = "An error occurred while creating the member.";
+                }
             }
+            else
+            {
+                // If model validation fails, set an error message
+                TempData["ErrorMessage"] = "Please check the input data and try again.";
+            }
+
+            // Return to the Create view in case of failure or validation errors
             return View(member);
         }
 
@@ -150,21 +169,35 @@ namespace CRMProject.Controllers
                 {
                     _context.Update(member);
                     await _context.SaveChangesAsync();
+
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Member details updated successfully!";
+                    return RedirectToAction(nameof(Details), new { id = member.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!MemberExists(member.ID))
                     {
+                        // If the member does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
+                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception)
+                {
+                    // Set error message for generic errors
+                    TempData["ErrorMessage"] = "An error occurred while updating the member details.";
+                }
             }
-            return View(member);
+
+            // Set error message in case the model is invalid
+            TempData["ErrorMessage"] = "Please check the input data and try again.";
+
+            return View(member); // Return to the edit view if there are validation errors
         }
 
         // GET: Member/Archive/5
@@ -194,9 +227,18 @@ namespace CRMProject.Controllers
             if (member != null)
             {
                 _context.Members.Remove(member);
+                await _context.SaveChangesAsync();
+
+                // Set success message in TempData
+                TempData["SuccessMessage"] = "Member archived successfully!";
+            }
+            else
+            {
+                // If member not found, set an error message
+                TempData["ErrorMessage"] = "Member not found!";
             }
 
-            await _context.SaveChangesAsync();
+            // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
 

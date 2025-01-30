@@ -5,6 +5,21 @@
     ViewData["Title"] = "Details - " + Model?.MemberName;
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -45,18 +60,18 @@
         </div>
     </div>
     <div class="mt-4">
-      
+
         @Html.Partial("_ListOfContacts", Model.MemberContacts)
     </div>
     <div class="mt-4">
-      
+
         @Html.Partial("_ListOfAddress", Model.Addresses)
     </div>
     <div class="mt-4">
-        
+
         @Html.Partial("_IndustryInfo", Model.MemberIndustries)
     </div>
-    <div class="mt-4">       
+    <div class="mt-4">
         @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
     </div>
     <div class="form-group text-center">
