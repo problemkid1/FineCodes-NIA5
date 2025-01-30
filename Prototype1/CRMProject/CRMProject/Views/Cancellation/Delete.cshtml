@@ -5,13 +5,28 @@
     ViewData["Title"] = "Delete";
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
             <div>
                 <h1>Delete Cancellation</h1>
                 <hr />
-                <h3>Are you sure you want to Delete this cancellation?</h3>
+                <h3>Are you sure you want to delete this cancellation?</h3>
 
                 <hr />
 

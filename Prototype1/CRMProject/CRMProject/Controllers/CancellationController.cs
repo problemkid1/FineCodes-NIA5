@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using System.Net;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CRMProject.Controllers
 {
@@ -20,11 +22,51 @@ namespace CRMProject.Controllers
         }
 
         // GET: Cancellation
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? CancellationDate, string? CancellationReason, string? CancellationNotes)
         {
-            var cRMContext = _context.Cancellations.Include(c => c.Member);
+            // Count the number of filters applied - start by assuming no filters
+            ViewData["Filtering"] = "btn-outline-secondary";
+            int numberFilters = 0;
+
+            var cRMContext = _context.Cancellations.Include(c => c.Member)
+                .AsNoTracking(); // Eager loading the related Member entity
+
+            // Filter by Cancellation Date
+            if (CancellationDate.HasValue)
+            {
+                cRMContext = cRMContext.Where(c => c.CancellationDate == CancellationDate);
+                numberFilters++;
+            }
+
+            // Filter by Cancellation Reason
+            if (!string.IsNullOrEmpty(CancellationReason))
+            {
+                cRMContext = cRMContext.Where(c => c.CancellationReason.Contains(CancellationReason));
+                numberFilters++;
+            }
+
+            // Filter by Cancellation Notes
+            if (!string.IsNullOrEmpty(CancellationNotes))
+            {
+                cRMContext = cRMContext.Where(c => c.CancellationNotes.Contains(CancellationNotes));
+                numberFilters++;
+            }
+
+            // Give feedback about the state of the filters
+            if (numberFilters != 0)
+            {
+                // Toggle the Open/Closed state of the collapse depending on if we are filtering
+                ViewData["Filtering"] = "btn-danger";
+                // Show how many filters have been applied
+                ViewData["numberFilters"] = "(" + numberFilters.ToString() + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
+                // Keep the Bootstrap collapse open
+                ViewData["ShowFilter"] = "show";
+            }
+
+            // Return the filtered list of cancellations with associated Member data
             return View(await cRMContext.ToListAsync());
         }
+
 
         // GET: Cancellation/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -61,10 +103,29 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cancellation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    // Add the new cancellation to the context and save changes
+                    _context.Add(cancellation);
+                    await _context.SaveChangesAsync();
+
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Cancellation created successfully!";
+                    return RedirectToAction(nameof(Details), new { id = cancellation.ID });
+                }
+                catch (Exception)
+                {
+                    // Set error message in case of failure
+                    TempData["ErrorMessage"] = "An error occurred while creating cancellation.";
+                }
             }
+            else
+            {
+                // If model validation fails, set an error message
+                TempData["ErrorMessage"] = "Please check the input data and try again.";
+            }
+
+            // Return to the Create view in case of failure or validation errors
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", cancellation.MemberID);
             return View(cancellation);
         }
@@ -104,20 +165,35 @@ namespace CRMProject.Controllers
                 {
                     _context.Update(cancellation);
                     await _context.SaveChangesAsync();
+
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Cancellation updated successfully!";
+                    return RedirectToAction(nameof(Details), new { id = cancellation.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!CancellationExists(cancellation.ID))
                     {
+                        // If the cancellation does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
+                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception)
+                {
+                    // Set error message for generic errors
+                    TempData["ErrorMessage"] = "An error occurred while updating cancellation.";
+                }
+
             }
+
+            // Set error message in case the model is invalid
+            TempData["ErrorMessage"] = "Please check the input data and try again.";
+
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", cancellation.MemberID);
             return View(cancellation);
         }
@@ -150,9 +226,18 @@ namespace CRMProject.Controllers
             if (cancellation != null)
             {
                 _context.Cancellations.Remove(cancellation);
+                await _context.SaveChangesAsync();
+
+                // Set success message in TempData
+                TempData["SuccessMessage"] = "Cancellation deleted successfully!";
+            }
+            else
+            {
+                // If Address not found, set an error message
+                TempData["ErrorMessage"] = "Cancellation not found!";
             }
 
-            await _context.SaveChangesAsync();
+            // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
 

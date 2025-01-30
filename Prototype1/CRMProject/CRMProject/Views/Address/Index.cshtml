@@ -5,19 +5,69 @@
     ViewData["Title"] = "Address Index";
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-          
+
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Address</h1>
                 <a asp-action="Create" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus"></i> Add Address
                 </a>
             </div>
+
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by City -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by City:</label>
+                            @Html.TextBox("AddressCity", null, new { @class = "form-control", placeholder = "Enter city" })
+                        </div>
+
+                        <!-- Filter by Province -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Province:</label>
+                            @Html.DropDownList("Province",
+                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.Province))),
+                                     "All Provinces",
+                                     htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                        <!-- Filter by Postal Code -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Postal Code:</label>
+                            @Html.TextBox("PostalCode", null, new { @class = "form-control", placeholder = "Enter postal code" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
 
             <div class="card">
                 <!-- /.card-header -->
@@ -41,12 +91,11 @@
                                     <td>@Html.DisplayFor(modelItem => item.Summary)</td>
                                     <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Province)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>                                    
+                                    <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                               style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
-                                               data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                            <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                               role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
 
@@ -55,14 +104,11 @@
                                                 <i class="bi bi-search"></i>
                                             </a>
 
-                                            <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                               style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
-                                               data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                               role="button" data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
                                                 <i class="bi bi-archive-fill"></i>
                                             </a>
                                         </div>
-
-
                                     </td>
                                 </tr>
                             }
