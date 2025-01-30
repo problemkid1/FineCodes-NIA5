@@ -5,6 +5,21 @@
     ViewData["Title"] = "Cancellation Index";
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -18,6 +33,40 @@
                     <i class="fas fa-plus"></i> Add New Cancellation
                 </a>
             </div>
+
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by Cancellation Reason -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Cancellation Reason:</label>
+                            @Html.TextBox("CancellationReason", null, new { @class = "form-control", placeholder = "Enter reason" })
+                        </div>
+
+                        <!-- Filter by Cancellation Date -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label" for="CancellationDate">Filter by Cancellation Date:</label>
+                            @Html.TextBox("CancellationDate",
+                                     null,
+                                     htmlAttributes: new { @class = "form-control", @placeholder = "yyyy-MM-dd", @type = "date" })
+                        </div>
+
+
+                        <!-- Filter by Cancellation Notes -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Cancellation Notes:</label>
+                            @Html.TextBox("CancellationNotes", null, new { @class = "form-control", placeholder = "Enter notes" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
 
             <div class="card">
                 <!-- Table Section -->
@@ -54,7 +103,8 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        <td>@item.CancellationDate.ToString("MMM dd, yyyy")</td>
+                                        @* <td>@item.CancellationDate.ToString("yyyy-MM-dd")</td>' *@
+                                        <td>@Html.DisplayFor(modelItem => item.CancellationDate)</td> <!-- Uses the model's formatting -->'
                                         <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>                                       
                                         <td>

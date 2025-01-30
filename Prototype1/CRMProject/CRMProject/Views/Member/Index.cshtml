@@ -4,6 +4,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Member Index";
 }
+<<<<<<< Updated upstream
+=======
+
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+>>>>>>> Stashed changes
 <!-- Custom styles for this template-->
  @* <link href="~/customs/css/style.css" rel="stylesheet">
  *@

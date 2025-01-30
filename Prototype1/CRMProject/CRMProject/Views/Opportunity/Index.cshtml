@@ -5,6 +5,27 @@
     ViewData["Title"] = "Opportunity Index";
 }
 
+<<<<<<< Updated upstream
+=======
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<!-- Custom styles for this template-->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
+>>>>>>> Stashed changes
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -15,6 +36,40 @@
                     <i class="fas fa-plus"></i> Add New Opportunity
                 </a>
             </div>
+
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by Opportunity Name -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Opportunity Name:</label>
+                            @Html.TextBox("OpportunityName", null, new { @class = "form-control", placeholder = "Enter opportunity name" })
+                        </div>
+
+                        <!-- Filter by Opportunity Status -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Opportunity Status:</label>
+                            @Html.DropDownList("OpportunityStatus",
+                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.OpportunityStatus))),
+                                     "All Statuses",
+                                     htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                        <!-- Filter by Opportunity Priority -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Opportunity Priority:</label>
+                            @Html.TextBox("OpportunityPriority", null, new { @class = "form-control", placeholder = "Enter priority" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
 
             <div class="card">
                 <!-- Table Section -->
