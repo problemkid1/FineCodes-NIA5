@@ -56,7 +56,19 @@
 										</td>
 										<td>@Html.DisplayFor(modelItem => item.Summary)</td>
 										<td>@Html.DisplayFor(modelItem => item.ContactTitleRole)</td>
-										<td>@Html.DisplayFor(modelItem => item.ContactPhone)</td>
+										<td style="white-space: nowrap;">
+											@if (!string.IsNullOrEmpty(item.ContactPhone) && item.ContactPhone.Length >= 10)
+											{
+												<a href="tel:@item.ContactPhone">
+													@("(" + item.ContactPhone.Substring(0, 3) + ") " + item.ContactPhone.Substring(3, 3) + "-"
+																							+ item.ContactPhone.Substring(6, 4))
+												</a>
+											}
+											else
+											{
+												<span>N/A</span>
+											}
+										</td>
 										<td>
 											@foreach (var ce in item.ContactEmails)
 											{
