@@ -5,21 +5,6 @@
     ViewData["Title"] = "Opportunity Index";
 }
 
-<!-- Display Success or Error Messages -->
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -33,40 +18,6 @@
                     <i class="fas fa-plus fs-4"></i> Add Opportunity
                 </a>
             </div>
-
-            <form asp-action="Index" method="get">
-                <div class="form-horizontal">
-                    <div class="row">
-                        <!-- Filter by Opportunity Name -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Opportunity Name:</label>
-                            @Html.TextBox("OpportunityName", null, new { @class = "form-control", placeholder = "Enter opportunity name" })
-                        </div>
-
-                        <!-- Filter by Opportunity Status -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Opportunity Status:</label>
-                            @Html.DropDownList("OpportunityStatus",
-                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.OpportunityStatus))),
-                                     "All Statuses",
-                                     htmlAttributes: new { @class = "form-control" })
-                        </div>
-
-                        <!-- Filter by Opportunity Priority -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Opportunity Priority:</label>
-                            @Html.TextBox("OpportunityPriority", null, new { @class = "form-control", placeholder = "Enter priority" })
-                        </div>
-
-                        <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
 
             <div class="card">
                 <!-- Table Section -->
@@ -100,19 +51,21 @@
                                         @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td> *@
                                         <td>
                                             <div class="btn-group">
-                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
-                                                    <i class="bi bi-pencil-square fs-4"></i>
+                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                    <i class="bi bi-pencil-square"></i>
                                                 </a>
 
                                                 <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                    role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                                    <i class="bi bi-search fs-4"></i>
+                                                    <i class="bi bi-search"></i>
                                                 </a>
 
-                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
-                                                    <i class="bi bi-archive-fill fs-4"></i>
+                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                    <i class="bi bi-archive-fill"></i>
                                                 </a>
                                             </div>
                                         </td>

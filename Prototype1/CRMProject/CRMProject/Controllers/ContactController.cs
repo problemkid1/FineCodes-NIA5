@@ -20,63 +20,15 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact
-        public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole)
+        public async Task<IActionResult> Index()
         {
-            // Count the number of filters applied - start by assuming no filters
-            ViewData["Filtering"] = "btn-outline-secondary";
-            int numberFilters = 0;
+            var contacts = await _context.Contacts
+                .Include(c => c.MemberContacts).ThenInclude(c => c.Member)
+                .Include(c => c.ContactEmails)                
+                .AsNoTracking()
+                .ToListAsync();
 
-            var contacts = _context.Contacts
-                .AsNoTracking(); // No tracking for read-only operations
-
-            // Filter by Search String
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                contacts = contacts.Where(c => c.Summary.Contains(SearchString));
-                numberFilters++;
-            }
-
-            // Filter by First Name
-            if (!string.IsNullOrEmpty(FirstName))
-            {
-                contacts = contacts.Where(c => c.FirstName.Contains(FirstName));
-                numberFilters++;
-            }
-
-            // Filter by Last Name
-            if (!string.IsNullOrEmpty(LastName))
-            {
-                contacts = contacts.Where(c => c.LastName.Contains(LastName));
-                numberFilters++;
-            }
-
-            // Filter by Contact Phone
-            if (!string.IsNullOrEmpty(ContactPhone))
-            {
-                contacts = contacts.Where(c => c.ContactPhone.Contains(ContactPhone));
-                numberFilters++;
-            }
-
-            // Filter by Contact Title/Role
-            if (!string.IsNullOrEmpty(ContactTitleRole))
-            {
-                contacts = contacts.Where(c => c.ContactTitleRole.Contains(ContactTitleRole));
-                numberFilters++;
-            }
-
-            // Give feedback about the state of the filters
-            if (numberFilters != 0)
-            {
-                // Toggle the Open/Closed state of the collapse depending on if we are filtering
-                ViewData["Filtering"] = " btn-danger";
-                // Show how many filters have been applied
-                ViewData["numberFilters"] = "(" + numberFilters.ToString()
-                    + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                // Keep the Bootstrap collapse open
-                @ViewData["ShowFilter"] = " show";
-            }
-
-            return View(await contacts.ToListAsync());
+            return View(contacts);
         }
 
         // GET: Contact/Details/5
@@ -112,29 +64,10 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Add the new member to the context and save changes
-                    _context.Add(contact);
-                    await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Contact created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = contact.ID });
-                }
-                catch (Exception)
-                {
-                    // Set error message in case of failure
-                    TempData["ErrorMessage"] = "An error occurred while creating the contact.";
-                }
+                _context.Add(contact);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                // If model validation fails, set an error message
-                TempData["ErrorMessage"] = "Please check the input data and try again.";
-            }
-
-            // Return to the Create view in case of failure or validation errors
             return View(contact);
         }
 
@@ -172,35 +105,21 @@ namespace CRMProject.Controllers
                 {
                     _context.Update(contact);
                     await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Contact details updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = contact.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ContactExists(contact.ID))
                     {
-                        // If the contact does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
-                catch (Exception)
-                {
-                    // Set error message for generic errors
-                    TempData["ErrorMessage"] = "An error occurred while updating the contact details.";
-                }
+                return RedirectToAction(nameof(Index));
             }
-
-            // Set error message in case the model is invalid
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
-
-            return View(contact); // Return to the edit view if there are validation errors
+            return View(contact);
         }
 
         // GET: Contact/Delete/5
@@ -230,18 +149,9 @@ namespace CRMProject.Controllers
             if (contact != null)
             {
                 _context.Contacts.Remove(contact);
-                await _context.SaveChangesAsync();
-
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Contact deleted successfully!";
-            }
-            else
-            {
-                // If contact not found, set an error message
-                TempData["ErrorMessage"] = "Contact not found!";
             }
 
-            // Redirect to the Index or other appropriate page
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

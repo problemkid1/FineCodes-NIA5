@@ -20,50 +20,10 @@ namespace CRMProject.Controllers
         }
 
         // GET: Opportunity
-        public async Task<IActionResult> Index(string? OpportunityName, OpportunityStatus? OpportunityStatus, string? OpportunityPriority)
+        public async Task<IActionResult> Index()
         {
-            // Count the number of filters applied - start by assuming no filters
-            ViewData["Filtering"] = "btn-outline-secondary";
-            int numberFilters = 0;
-
-            var opportunities = _context.Opportunities
-                .AsNoTracking();
-
-            // Filter by Opportunity Name
-            if (!string.IsNullOrEmpty(OpportunityName))
-            {
-                opportunities = opportunities.Where(o => o.OpportunityName.Contains(OpportunityName));
-                numberFilters++;
-            }
-
-            // Filter by Opportunity Status
-            if (OpportunityStatus.HasValue)
-            {
-                opportunities = opportunities.Where(o => o.OpportunityStatus == OpportunityStatus);
-                numberFilters++;
-            }
-
-            // Filter by Opportunity Priority
-            if (!string.IsNullOrEmpty(OpportunityPriority))
-            {
-                opportunities = opportunities.Where(o => o.OpportunityPriority.Contains(OpportunityPriority));
-                numberFilters++;
-            }
-
-            // Give feedback about the state of the filters
-            if (numberFilters != 0)
-            {
-                // Toggle the Open/Closed state of the collapse depending on if we are filtering
-                ViewData["Filtering"] = "btn-danger";
-                // Show how many filters have been applied
-                ViewData["numberFilters"] = "(" + numberFilters.ToString() + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                // Keep the Bootstrap collapse open
-                ViewData["ShowFilter"] = "show";
-            }
-
-            return View(await opportunities.ToListAsync());
+            return View(await _context.Opportunities.ToListAsync());
         }
-
 
         // GET: Opportunity/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -98,29 +58,10 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Add the new member to the context and save changes
-                    _context.Add(opportunity);
-                    await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Opportunity created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = opportunity.ID });
-                }
-                catch (Exception)
-                {
-                    // Set error message in case of failure
-                    TempData["ErrorMessage"] = "An error occurred while creating this Opportunity.";
-                }
+                _context.Add(opportunity);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                // If model validation fails, set an error message
-                TempData["ErrorMessage"] = "Please check the input data and try again.";
-            }
-
-            // Return to the Create view in case of failure or validation errors
             return View(opportunity);
         }
 
@@ -158,36 +99,21 @@ namespace CRMProject.Controllers
                 {
                     _context.Update(opportunity);
                     await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Opportunity details updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = opportunity.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!OpportunityExists(opportunity.ID))
                     {
-                        // If the Opportunity does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
-                catch (Exception)
-                {
-                    // Set error message for generic errors
-                    TempData["ErrorMessage"] = "An error occurred while updating the Opportunity details.";
-                }
-
+                return RedirectToAction(nameof(Index));
             }
-
-            // Set error message in case the model is invalid
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
-
-            return View(opportunity); // Return to the edit view if there are validation errors
+            return View(opportunity);
         }
 
         // GET: Opportunity/Delete/5
@@ -217,18 +143,9 @@ namespace CRMProject.Controllers
             if (opportunity != null)
             {
                 _context.Opportunities.Remove(opportunity);
-                await _context.SaveChangesAsync();
-
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Opportunity deleted successfully!";
-            }
-            else
-            {
-                // If Insudtry not found, set an error message
-                TempData["ErrorMessage"] = "Opportunity not found!";
             }
 
-            // Redirect to the Index or other appropriate page
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

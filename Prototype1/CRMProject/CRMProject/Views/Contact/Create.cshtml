@@ -4,102 +4,86 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Create";
 }
-
-<!-- Display Success or Error Messages -->
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
 <div class="col-12">
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Create Contact</h6>
-        </div>
-        <div class="card-body">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                <div class="row">
-                    <!-- First Name -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="FirstName" class="control-label"></label>
-                            <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                        </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Create Contact</h6>
                     </div>
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                            <div class="row">
+                                <!-- First Name -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="FirstName" class="control-label"></label>
+                                        <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                    <!-- Last Name -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="LastName" class="control-label"></label>
-                            <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                    </div>
+                                <!-- Last Name -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="LastName" class="control-label"></label>
+                                        <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                    <!-- Title/Role -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="ContactTitleRole" class="control-label"></label>
-                            <input asp-for="ContactTitleRole" class="form-control" placeholder="Enter title/role" />
-                            <span asp-validation-for="ContactTitleRole" class="text-danger"></span>
-                        </div>
-                    </div>
+                                <!-- Title/Role -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ContactTitleRole" class="control-label"></label>
+                                        <input asp-for="ContactTitleRole" class="form-control" placeholder="Enter title/role" />
+                                        <span asp-validation-for="ContactTitleRole" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                    <!-- Phone -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="ContactPhone" class="control-label"></label>
-                            <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" />
-                            <span asp-validation-for="ContactPhone" class="text-danger"></span>
-                        </div>
-                    </div>
+                                <!-- Phone -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ContactPhone" class="control-label"></label>
+                                        <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" />
+                                        <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                    <!-- Website -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="ContactWebsite" class="control-label"></label>
-                            <input asp-for="ContactWebsite" class="form-control" placeholder="Enter website URL" />
-                            <span asp-validation-for="ContactWebsite" class="text-danger"></span>
-                        </div>
-                    </div>
+                                <!-- Website -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ContactWebsite" class="control-label"></label>
+                                        <input asp-for="ContactWebsite" class="form-control" placeholder="Enter website URL" />
+                                        <span asp-validation-for="ContactWebsite" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                    <!-- Interactions -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="ContactInteractions" class="control-label"></label>
-                            <input asp-for="ContactInteractions" class="form-control" placeholder="Enter interaction details" />
-                            <span asp-validation-for="ContactInteractions" class="text-danger"></span>
-                        </div>
-                    </div>
+                                <!-- Interactions -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ContactInteractions" class="control-label"></label>
+                                        <input asp-for="ContactInteractions" class="form-control" placeholder="Enter interaction details" />
+                                        <span asp-validation-for="ContactInteractions" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-                    <!-- Notes -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="ContactNotes" class="control-label mr-3" style="min-width: 150px; white-space: nowrap;">Contact Notes:</label>
-                            <textarea asp-for="ContactNotes" class="form-control" style="min-height: 100px; flex-grow: 1;" placeholder="Add notes"></textarea>
-                            <span asp-validation-for="ContactNotes" class="text-danger"></span>
-                        </div>
+                                <!-- Notes -->
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ContactNotes" class="control-label mr-3" style="min-width: 150px; white-space: nowrap;">Contact Notes:</label>
+                                        <textarea asp-for="ContactNotes" class="form-control" style="min-height: 100px; flex-grow: 1;" placeholder="Add notes"></textarea>
+                                        <span asp-validation-for="ContactNotes" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-secondary ml-2">Back to Contacts</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <div class="form-group text-center">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Contacts</a>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>
 
 @section Scripts {
