@@ -5,19 +5,31 @@
     ViewData["Title"] = "Archive";
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
             <div>
                 <h1>Archive Member</h1>
                 <hr />
-<<<<<<< HEAD:Prototype1/CRMProject/CRMProject/Views/Member/Delete.cshtml
-                <h3>Are you sure you want to Archive this member?</h3>
-=======
                 <h3>Are you sure you want to archive this member?</h3>
->>>>>>> 7e974a5758110b990406a708f9eb20c2eb501ed8:Prototype1/CRMProject/CRMProject/Views/Member/Archive.cshtml
 
-               
+
                 <hr />
 
                 <dl class="row">

@@ -5,6 +5,21 @@
     ViewData["Title"] = "Edit";
 }
 
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -54,7 +69,7 @@
                                         <select asp-for="Province" class="form-control"
                                                 asp-items="Html.GetEnumSelectList<Province>()">
                                             <option value="">Select Province</option>
-                                                </select>
+                                        </select>
                                         <span asp-validation-for="Province" class="text-danger"></span>
                                     </div>
                                 </div>
