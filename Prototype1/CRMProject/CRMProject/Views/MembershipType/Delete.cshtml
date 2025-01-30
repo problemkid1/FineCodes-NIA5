@@ -9,9 +9,9 @@
     <div class="card">
         <div class="card-body">
             <div>
-                <h1>Archive Membership Type</h1>
+                <h1>Delete Membership Type</h1>
                 <hr />
-                <h3>Are you sure you want to Archive this membership type?</h3>
+                <h3>Are you sure you want to Delete this membership type?</h3>
 
                 <hr />
                 <h4>Membership Type Details</h4>
@@ -33,7 +33,7 @@
                 <div class="form-group text-center">
                     <form asp-action="Delete" method="post">
                         <input type="hidden" asp-for="ID" />
-                        <button type="submit" class="btn btn-danger">Archive</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                         <a class="btn btn-secondary ml-2" asp-action="Index">Back to List</a>
                     </form>
                 </div>
