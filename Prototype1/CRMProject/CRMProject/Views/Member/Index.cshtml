@@ -18,7 +18,38 @@
                     <i class="fas fa-plus"></i> Add Member
                 </a>
             </div>
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by Status -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Status:</label>
+                            @Html.DropDownList("MemberStatus",
+                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.MemberStatus))),
+                                     "All Statuses",
+                                     htmlAttributes: new { @class = "form-control" })
+                        </div>
 
+                        <!-- Filter by Size -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Size:</label>
+                            @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
+                        </div>
+
+                        <!-- Search by Member Name -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Search by Member Name:</label>
+                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
