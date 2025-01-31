@@ -54,9 +54,9 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
         public string? MemberNotes { get; set; } = "";
-
-        [Display(Name = "Addresses")]
-        public ICollection<Address> Addresses { get; set; } = new HashSet<Address>();
+               
+        [Display(Name = "Address")]
+        public Address? Address { get; set; }
 
         [Display(Name = "Industries")]
         public ICollection<MemberIndustry> MemberIndustries { get; set; } = new HashSet<MemberIndustry>();

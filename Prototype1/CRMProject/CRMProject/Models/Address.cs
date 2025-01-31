@@ -29,9 +29,8 @@ namespace CRMProject.Models
         public string? AddressLine2 { get; set; }
 
         [Display(Name = "City")]
-        [Required(ErrorMessage = "You cannot leave the city blank.")]
         [MaxLength(100, ErrorMessage = "City cannot be more than 100 characters long.")]
-        public string AddressCity { get; set; } = "";
+        public string? AddressCity { get; set; } = "";
 
         [Display(Name = "Province")]
         public Province? Province { get; set; } 

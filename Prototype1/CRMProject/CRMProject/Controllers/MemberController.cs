@@ -30,9 +30,9 @@ namespace CRMProject.Controllers
 
             var members = _context.Members
                  .Include(p => p.MemberThumbnail)
-                .Include(m => m.Addresses)
+                .Include(m => m.Address)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
-                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact).ThenInclude(c => c.ContactEmails)
+                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact)
                 .Include(m => m.MemberMembershipTypes).ThenInclude(mmt => mmt.MembershipType)
                 .AsNoTracking();
 
@@ -83,9 +83,9 @@ namespace CRMProject.Controllers
 
             var member = await _context.Members
                 .Include(p => p.MemberPhoto)
-                .Include(m => m.Addresses)
+                .Include(m => m.Address)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
-                .Include(m => m.MemberContacts).ThenInclude(mi => mi.Contact).ThenInclude(mi => mi.ContactEmails)
+                .Include(m => m.MemberContacts).ThenInclude(mi => mi.Contact)
                 .Include(m => m.MemberMembershipTypes).ThenInclude(mi => mi.MembershipType)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);

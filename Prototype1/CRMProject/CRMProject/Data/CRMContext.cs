@@ -20,7 +20,6 @@ namespace CRMProject.Data
         public DbSet<MemberMembershipType> MemberMembershipTypes { get; set; }
         public DbSet<Cancellation> Cancellations { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<ContactEmail> ContactEmails { get; set; }
         public DbSet<MemberContact> MemberContacts { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
         public DbSet<MemberPhoto> MemberPhotos { get; set; }
@@ -30,13 +29,6 @@ namespace CRMProject.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Allow Cascade Delete from Contact to ContactEmail
-            modelBuilder.Entity<ContactEmail>()
-                .HasOne(ce => ce.Contact)
-                .WithMany(c => c.ContactEmails)
-                .HasForeignKey(ce => ce.ContactID)
-                .OnDelete(DeleteBehavior.Cascade);
-
             //Prevent Cascade Delete from Industry to MemberIndustry
             modelBuilder.Entity<MemberIndustry>()
                 .HasOne(mi => mi.Industry)
@@ -87,8 +79,8 @@ namespace CRMProject.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Unique Index for Contacs email
-            modelBuilder.Entity<ContactEmail>()
-                .HasIndex(ce => ce.EmailAddress)
+            modelBuilder.Entity<Contact>()
+                .HasIndex(ce => ce.ContactEmailAddress)
                 .IsUnique();
 
             //Unique Index for Members name

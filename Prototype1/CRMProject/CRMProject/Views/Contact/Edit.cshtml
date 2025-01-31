@@ -67,6 +67,27 @@
                         </div>
                     </div>
 
+                    <!-- Email -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ContactEmailAddress" class="control-label"></label>
+                            <input asp-for="ContactEmailAddress" class="form-control" placeholder="Enter email address" />
+                            <span asp-validation-for="ContactEmailAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email Type -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ContactEmailType" class="control-label"></label>
+                            <select asp-for="ContactEmailType" class="form-control"
+                                    asp-items="Html.GetEnumSelectList<EmailType>()">
+                                <option value="">Select a Member Status</option>
+                            </select>
+                            <span asp-validation-for="ContactEmailType" class="text-danger"></span>
+                        </div>
+                    </div>
+
                     <!-- Website -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">

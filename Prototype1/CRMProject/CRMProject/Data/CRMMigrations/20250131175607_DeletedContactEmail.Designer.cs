@@ -3,6 +3,7 @@ using System;
 using CRMProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMContextModelSnapshot : ModelSnapshot
+    [Migration("20250131175607_DeletedContactEmail")]
+    partial class DeletedContactEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -24,6 +27,7 @@ namespace CRMProject.Data.CRMMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AddressCity")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
@@ -47,8 +51,7 @@ namespace CRMProject.Data.CRMMigrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberID")
-                        .IsUnique();
+                    b.HasIndex("MemberID");
 
                     b.ToTable("Addresses");
                 });
@@ -381,8 +384,8 @@ namespace CRMProject.Data.CRMMigrations
             modelBuilder.Entity("CRMProject.Models.Address", b =>
                 {
                     b.HasOne("CRMProject.Models.Member", "Member")
-                        .WithOne("Address")
-                        .HasForeignKey("CRMProject.Models.Address", "MemberID")
+                        .WithMany("Addresses")
+                        .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -491,7 +494,7 @@ namespace CRMProject.Data.CRMMigrations
 
             modelBuilder.Entity("CRMProject.Models.Member", b =>
                 {
-                    b.Navigation("Address");
+                    b.Navigation("Addresses");
 
                     b.Navigation("Cancellations");
 
