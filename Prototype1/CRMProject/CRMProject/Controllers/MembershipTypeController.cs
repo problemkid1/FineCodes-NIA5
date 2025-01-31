@@ -20,7 +20,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType
-        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, double? MembershipTypeFee)
+        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -30,24 +30,30 @@ namespace CRMProject.Controllers
                 .Include(mt => mt.MemberMembershipTypes)
                 .AsNoTracking();
 
-            // Filter by Membership Type Name
+            // Create a SelectList for MembershipTypeName enum to be used in the dropdown
+            ViewData["MembershipTypeNameList"] = new SelectList(Enum.GetValues(typeof(MembershipTypeName)), MembershipTypeName);
+
+            // Filter by Membership Type Name (if selected from dropdown)
             if (!string.IsNullOrEmpty(MembershipTypeName))
             {
-                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName.ToString().Contains(MembershipTypeName));
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName.ToString()
+                                                               .ToLower()
+                                                               .Contains(MembershipTypeName.ToLower()));
                 numberFilters++;
             }
 
             // Filter by Membership Type Description
             if (!string.IsNullOrEmpty(MembershipTypeDescription))
             {
-                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeDescription != null && mt.MembershipTypeDescription.Contains(MembershipTypeDescription));
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeDescription != null && mt.MembershipTypeDescription.ToLower().Contains(MembershipTypeDescription.ToLower()));
                 numberFilters++;
             }
 
-            // Filter by Membership Type Fee
-            if (MembershipTypeFee.HasValue)
+            // Filter by Membership Type Fee as a string for flexible matching
+            if (!string.IsNullOrEmpty(MembershipTypeFee))
             {
-                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeFee == MembershipTypeFee);
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeFee.HasValue &&
+                    mt.MembershipTypeFee.Value.ToString().Contains(MembershipTypeFee.ToLower()));
                 numberFilters++;
             }
 
@@ -63,7 +69,7 @@ namespace CRMProject.Controllers
             }
 
 
-            return View(await _context.MembershipTypes.ToListAsync());
+            return View(await membershipTypes.ToListAsync());
         }
 
         // GET: MembershipType/Details/5

@@ -23,9 +23,12 @@
                 <div class="form-horizontal">
                     <div class="row">
                         <!-- Filter by Membership Type Name -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Membership Type Name:</label>
-                            @Html.TextBox("MembershipTypeName", null, new { @class = "form-control", placeholder = "Enter type name" })
+                        <div class="form-group">
+                            <label for="MembershipTypeName">Membership Type</label>
+                            @Html.DropDownList("MembershipTypeName",
+                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.MembershipTypeName))),
+                                     "Membership Type Names",
+                                     htmlAttributes: new { @class = "form-control" })
                         </div>
 
                         <!-- Filter by Membership Type Description -->

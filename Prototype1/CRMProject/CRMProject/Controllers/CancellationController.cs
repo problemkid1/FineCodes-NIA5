@@ -41,14 +41,14 @@ namespace CRMProject.Controllers
             // Filter by Cancellation Reason
             if (!string.IsNullOrEmpty(CancellationReason))
             {
-                cRMContext = cRMContext.Where(c => c.CancellationReason.Contains(CancellationReason));
+                cRMContext = cRMContext.Where(c => c.CancellationReason.ToLower().Contains(CancellationReason.ToLower()));
                 numberFilters++;
             }
 
             // Filter by Cancellation Notes
             if (!string.IsNullOrEmpty(CancellationNotes))
             {
-                cRMContext = cRMContext.Where(c => c.CancellationNotes.Contains(CancellationNotes));
+                cRMContext = cRMContext.Where(c => c.CancellationNotes.ToLower().Contains(CancellationNotes.ToLower()));
                 numberFilters++;
             }
 
