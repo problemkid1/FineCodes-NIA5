@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using CRMProject.Utilities;
 
 namespace CRMProject.Controllers
 {
@@ -28,6 +29,7 @@ namespace CRMProject.Controllers
 
 
             var members = _context.Members
+                 .Include(p => p.MemberThumbnail)
                 .Include(m => m.Addresses)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                 .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact).ThenInclude(c => c.ContactEmails)
@@ -80,6 +82,7 @@ namespace CRMProject.Controllers
             }
 
             var member = await _context.Members
+                .Include(p => p.MemberPhoto)
                 .Include(m => m.Addresses)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                 .Include(m => m.MemberContacts).ThenInclude(mi => mi.Contact).ThenInclude(mi => mi.ContactEmails)
@@ -105,12 +108,13 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member)
+        public async Task<IActionResult> Create([Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member, IFormFile? thePicture)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    await AddPicture(member, thePicture);
                     // Add the new member to the context and save changes
                     _context.Add(member);
                     await _context.SaveChangesAsync();
@@ -142,8 +146,10 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
-
-            var member = await _context.Members.FindAsync(id);
+            var member = await _context.Members
+               .Include(p => p.MemberPhoto)
+               .AsNoTracking()
+               .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
                 return NotFound();
@@ -156,49 +162,69 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member)
+        public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture)
         {
-            if (id != member.ID)
+            var memberToUpdate = await _context.Members
+                .Include(p => p.MemberPhoto)
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (memberToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            // Check the model state before updating the member
+            if (!ModelState.IsValid)
+            {
+                var errorMessages = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                TempData["ErrorMessage"] = string.Join(" ", errorMessages);
+                return View(memberToUpdate); // Return to the edit view if validation fails
+            }
+
+            // Try updating the member with the values posted
+            if (await TryUpdateModelAsync<Member>(memberToUpdate, "",
+                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus, m => m.MemberAccountsPayableEmail,
+                m => m.MemberStartDate, m => m.MemberEndDate, m => m.MemberLastContactDate, m => m.MemberNotes))
             {
                 try
                 {
-                    _context.Update(member);
-                    await _context.SaveChangesAsync();
-
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Member details updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = member.ID });
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MemberExists(member.ID))
+                    // Handle image deletion or upload
+                    if (chkRemoveImage != null)
                     {
-                        // If the member does not exist anymore, return NotFound
-                        return NotFound();
+                        memberToUpdate.MemberPhoto = null;
+                        memberToUpdate.MemberThumbnail = null;
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
-                        throw;
+                        await AddPicture(memberToUpdate, thePicture);
                     }
+
+                    // Update member details in the database without checking RowVersion
+                    _context.Update(memberToUpdate);
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Member details updated successfully!";
+                    return RedirectToAction(nameof(Details), new { id = memberToUpdate.ID });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // Set error message for generic errors
+                    // Log the exception message for debugging
+                    Console.WriteLine(ex.Message);
+
                     TempData["ErrorMessage"] = "An error occurred while updating the member details.";
                 }
             }
 
-            // Set error message in case the model is invalid
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
-
-            return View(member); // Return to the edit view if there are validation errors
+            return View(memberToUpdate); // Return to the edit view if the update fails
         }
+
+
+
+
 
         // GET: Member/Archive/5
         public async Task<IActionResult> Archive(int? id)
@@ -209,6 +235,7 @@ namespace CRMProject.Controllers
             }
 
             var member = await _context.Members
+                .Include(p => p.MemberPhoto)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
@@ -223,7 +250,9 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchiveConfirmed(int id)
         {
-            var member = await _context.Members.FindAsync(id);
+            var member = await _context.Members
+                .Include(p => p.MemberPhoto)
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (member != null)
             {
                 _context.Members.Remove(member);
@@ -240,6 +269,51 @@ namespace CRMProject.Controllers
 
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
+        }
+        private async Task AddPicture(Member member, IFormFile thePicture)
+        {
+            //Get the picture and save it with the Member (2 sizes)
+            if (thePicture != null)
+            {
+                string mimeType = thePicture.ContentType;
+                long fileLength = thePicture.Length;
+                if (!(mimeType == "" || fileLength == 0))//Looks like we have a file!!!
+                {
+                    if (mimeType.Contains("image"))
+                    {
+                        using var memoryStream = new MemoryStream();
+                        await thePicture.CopyToAsync(memoryStream);
+                        var pictureArray = memoryStream.ToArray();//Gives us the Byte[]
+
+                        //Check if we are replacing or creating new
+                        if (member.MemberPhoto != null)
+                        {
+                            //We already have pictures so just replace the Byte[]
+                            member.MemberPhoto.Content = ResizeImage.ShrinkImageWebp(pictureArray, 500, 600);
+
+                            //Get the Thumbnail so we can update it.  Remember we didn't include it
+                            member.MemberThumbnail = _context.MemberThumbnails.Where(m => m.MemberID == member.ID).FirstOrDefault();
+                            if (member.MemberThumbnail != null)
+                            {
+                                member.MemberThumbnail.Content = ResizeImage.ShrinkImageWebp(pictureArray, 75, 90);
+                            }
+                        }
+                        else //No pictures saved so start new
+                        {
+                            member.MemberPhoto = new MemberPhoto
+                            {
+                                Content = ResizeImage.ShrinkImageWebp(pictureArray, 500, 600),
+                                MimeType = "image/webp"
+                            };
+                            member.MemberThumbnail = new MemberThumbnail
+                            {
+                                Content = ResizeImage.ShrinkImageWebp(pictureArray, 75, 90),
+                                MimeType = "image/webp"
+                            };
+                        }
+                    }
+                }
+            }
         }
 
         private bool MemberExists(int id)

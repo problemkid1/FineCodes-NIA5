@@ -72,6 +72,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="table-light">
                                 <tr>
+                                    <th></th>
                                     <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
@@ -93,6 +94,19 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
+                                            <td style="width: 100%; height: 100px;">
+                                                @{
+                                                    if (item.MemberThumbnail?.Content != null)
+                                                    {
+                                                        string imageBase64 = Convert.ToBase64String(item.MemberThumbnail.Content);
+                                                        string imageSrc = string.Format("data:" + item.MemberThumbnail.MimeType + ";base64,{0}", imageBase64);
+                                                        <img src="@imageSrc" alt="Profile Picture of @item?.Summary"
+                                                             title="Profile Picture of @item?.Summary" class="img-fluid rounded img-fill" />
+                                                    }
+                                                }
+                                            </td>
+
+
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
@@ -122,20 +136,20 @@
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                                       style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button"
+                                                       style="opacity: 1; filter: none; border: 2px solid #3B54A0;"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-
+ 
                                                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-search"></i>
                                                     </a>
 
-                                                    <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                                       style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
-                                                       data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                    <a asp-action="Archive" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" 
+                                                       style="opacity: 0.4; filter:  border: 2px dashed #3B54A0"
+                                                       data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-archive-fill"></i>
                                                     </a>
                                                 </div>

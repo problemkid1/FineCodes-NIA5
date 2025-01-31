@@ -70,6 +70,9 @@ namespace CRMProject.Models
         [Display(Name = "Contacts")]
         public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();
 
+        public MemberPhoto? MemberPhoto { get; set; }
+        public MemberThumbnail? MemberThumbnail { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (MemberEndDate < MemberStartDate)
