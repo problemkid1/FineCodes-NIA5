@@ -3,6 +3,7 @@ using System;
 using CRMProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMContextModelSnapshot : ModelSnapshot
+    [Migration("20250131055127_MemberPhoto")]
+    partial class MemberPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -292,8 +295,7 @@ namespace CRMProject.Data.CRMMigrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberID")
-                        .IsUnique();
+                    b.HasIndex("MemberID");
 
                     b.ToTable("MemberPhotos");
                 });
@@ -316,8 +318,7 @@ namespace CRMProject.Data.CRMMigrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("MemberID")
-                        .IsUnique();
+                    b.HasIndex("MemberID");
 
                     b.ToTable("MemberThumbnails");
                 });
@@ -488,8 +489,8 @@ namespace CRMProject.Data.CRMMigrations
             modelBuilder.Entity("CRMProject.Models.MemberPhoto", b =>
                 {
                     b.HasOne("CRMProject.Models.Member", "Member")
-                        .WithOne("MemberPhoto")
-                        .HasForeignKey("CRMProject.Models.MemberPhoto", "MemberID")
+                        .WithMany()
+                        .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -499,8 +500,8 @@ namespace CRMProject.Data.CRMMigrations
             modelBuilder.Entity("CRMProject.Models.MemberThumbnail", b =>
                 {
                     b.HasOne("CRMProject.Models.Member", "Member")
-                        .WithOne("MemberThumbnail")
-                        .HasForeignKey("CRMProject.Models.MemberThumbnail", "MemberID")
+                        .WithMany()
+                        .HasForeignKey("MemberID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -530,10 +531,6 @@ namespace CRMProject.Data.CRMMigrations
                     b.Navigation("MemberIndustries");
 
                     b.Navigation("MemberMembershipTypes");
-
-                    b.Navigation("MemberPhoto");
-
-                    b.Navigation("MemberThumbnail");
                 });
 
             modelBuilder.Entity("CRMProject.Models.MembershipType", b =>
