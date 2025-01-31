@@ -54,7 +54,16 @@ namespace CRMProject.Models
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [MaxLength(10)]
-        public string? ContactPhone { get; set; } = "";
+        public string? ContactPhone { get; set; } = "";       
+
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please follow the correct email format test@email.com")]
+        [StringLength(255)]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string? ContactEmailAddress { get; set; } = "";
+
+        [Display(Name = "Email Type")]
+        public EmailType? ContactEmailType { get; set; }
 
         [Display(Name = "Website")]
         [MaxLength(100)]
@@ -69,9 +78,6 @@ namespace CRMProject.Models
         public string? ContactNotes { get; set; } = "";
 
         [Display(Name = "Member")]
-        public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();
-
-        [Display(Name = "Contact Email")]
-        public ICollection<ContactEmail> ContactEmails { get; set; } = new HashSet<ContactEmail>();
+        public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();               
     }
 }

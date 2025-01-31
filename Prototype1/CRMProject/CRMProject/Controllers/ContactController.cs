@@ -26,7 +26,6 @@ namespace CRMProject.Controllers
             var contacts = _context.Contacts
                 .Include(c => c.MemberContacts)
                 .ThenInclude(mc => mc.Member)
-                .Include(c => c.ContactEmails)
                 .AsNoTracking();
 
             // Count the number of filters applied

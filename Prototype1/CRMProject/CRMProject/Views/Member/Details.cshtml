@@ -13,7 +13,7 @@
     </div>
 }
 
-@if (TempData["ErrorMessage"] != null)
+@if (TempData.ContainsKey("ErrorMessage"))
 {
     <div class="alert alert-danger" role="alert">
         @TempData["ErrorMessage"]
@@ -65,7 +65,7 @@
     </div>
     <div class="mt-4">
 
-        @Html.Partial("_ListOfAddress", Model.Addresses)
+        @Html.Partial("_ListOfAddress", Model.Address ?? new Address())
     </div>
     <div class="mt-4">
 

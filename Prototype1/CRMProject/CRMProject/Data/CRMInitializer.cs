@@ -193,21 +193,27 @@ namespace CRMProject.Data
                         var cities = new[] { "St. Catharines", "Niagara Falls", "Welland", "Thorold", "Fort Erie", "Grimsby", "Port Colborne", "Beamsville" };
 
                         // Real street names in Niagara region
-                        var streetNames = new[]
-                        {
-                            "Queenston St", "Lakeshore Rd", "Mountain Rd", "Victoria Ave", "Glenridge Ave",
-                            "King St", "Ontario St", "Ridge Rd", "Willowdale Ave", "Lundy's Lane"
-                        };
+                        var streetNames = new[] {
+                                                    "Queenston St", "Lakeshore Rd", "Mountain Rd", "Victoria Ave", "Glenridge Ave",
+                                                    "King St", "Ontario St", "Ridge Rd", "Willowdale Ave", "Lundy's Lane"
+                                                };
 
                         // Provinces (Ontario)
                         var provinces = new[] { "Ontario" };
 
-                        // Create 10 random Address records using Niagara Region cities and Ontario province
+                        // Create 10 random Address records, ensuring each member gets only one address
                         for (int i = 0; i < 10; i++)
                         {
-                            int randomMemberId = memberIDs[random.Next(memberIDs.Length)];
+                            // Select a member ID from the list
+                            int randomMemberId = memberIDs[random.Next(memberCount)];
 
-                            // Fixed Province for these records                            
+                            // Check if the member already has an address (skip if they do)
+                            if (context.Addresses.Any(a => a.MemberID == randomMemberId))
+                            {
+                                continue; // Skip creating an address for this member
+                            }
+
+                            // Fixed Province for these records (Ontario)
                             Province randomProvince = Enum.Parse<Province>(provinces[0]);
 
                             // Select city from Niagara Region
@@ -241,7 +247,6 @@ namespace CRMProject.Data
                         // Save changes to the database
                         context.SaveChanges();
                     }
-
 
                     // Seed MembershipTypes if there aren't any.
                     if (!context.MembershipTypes.Any())
@@ -408,16 +413,16 @@ namespace CRMProject.Data
                         int industryCount = industryIDs.Length;
 
                         // Create 10 random MemberIndustry relationships
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < memberIDs.Length; i++)
                         {
                             // Randomly select MemberId and IndustryId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
+                            int memberID = memberIDs[i];
                             int randomIndustryId = industryIDs[random.Next(industryCount)];
 
                             // Create new MemberIndustry record
                             MemberIndustry memberIndustry = new MemberIndustry
                             {
-                                MemberID = randomMemberId,
+                                MemberID = memberID,
                                 IndustryID = randomIndustryId
                             };
 
@@ -496,6 +501,8 @@ namespace CRMProject.Data
                                 LastName = "Doe",
                                 ContactTitleRole = "Account Manager",
                                 ContactPhone = "1234567890",
+                                ContactEmailAddress = "johndoe@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://johndoe.com",
                                 ContactInteractions = "Met at conference, discussed potential partnership.",
                                 ContactNotes = "Follow up in 2 weeks regarding partnership opportunities."
@@ -506,6 +513,8 @@ namespace CRMProject.Data
                                 LastName = "Smith",
                                 ContactTitleRole = "Sales Director",
                                 ContactPhone = "0987654321",
+                                ContactEmailAddress = "janesmith@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://janesmith.com",
                                 ContactInteractions = "Phone call to discuss new product launch.",
                                 ContactNotes = "Send product information via email."
@@ -516,6 +525,8 @@ namespace CRMProject.Data
                                 LastName = "Brown",
                                 ContactTitleRole = "Customer Support Lead",
                                 ContactPhone = "1122334455",
+                                ContactEmailAddress = "jamesbrown@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://jamesbrown.com",
                                 ContactInteractions = "Helped resolve technical issue over email.",
                                 ContactNotes = "Follow up in 1 week to ensure continued satisfaction."
@@ -526,6 +537,8 @@ namespace CRMProject.Data
                                 LastName = "Johnson",
                                 ContactTitleRole = "Marketing Manager",
                                 ContactPhone = "2233445566",
+                                ContactEmailAddress = "maryjohnson@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://maryjohnson.com",
                                 ContactInteractions = "Met during marketing seminar, discussed brand strategy.",
                                 ContactNotes = "Send case study on brand awareness campaign."
@@ -536,6 +549,8 @@ namespace CRMProject.Data
                                 LastName = "Williams",
                                 ContactTitleRole = "HR Manager",
                                 ContactPhone = "3344556677",
+                                ContactEmailAddress = "chriswilliams@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://chriswilliams.com",
                                 ContactInteractions = "Interviewed for job opening, followed up on interview questions.",
                                 ContactNotes = "Send hiring feedback."
@@ -546,6 +561,8 @@ namespace CRMProject.Data
                                 LastName = "Davis",
                                 ContactTitleRole = "Product Specialist",
                                 ContactPhone = "4455667788",
+                                ContactEmailAddress = "patriciadavis@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://patriciadavis.com",
                                 ContactInteractions = "Discussed product features and benefits with clients.",
                                 ContactNotes = "Provide additional product training materials."
@@ -556,6 +573,8 @@ namespace CRMProject.Data
                                 LastName = "Garcia",
                                 ContactTitleRole = "Operations Manager",
                                 ContactPhone = "5566778899",
+                                ContactEmailAddress = "michaelgarcia@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://michaelgarcia.com",
                                 ContactInteractions = "Coordinated project timelines and operational workflows.",
                                 ContactNotes = "Follow up on project status next week."
@@ -566,6 +585,8 @@ namespace CRMProject.Data
                                 LastName = "Martinez",
                                 ContactTitleRole = "Business Analyst",
                                 ContactPhone = "6677889900",
+                                ContactEmailAddress = "sarahmartinez@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://sarahmartinez.com",
                                 ContactInteractions = "Worked on analysis for business growth strategies.",
                                 ContactNotes = "Review report with senior team members."
@@ -576,6 +597,8 @@ namespace CRMProject.Data
                                 LastName = "Lopez",
                                 ContactTitleRole = "Financial Analyst",
                                 ContactPhone = "7788990011",
+                                ContactEmailAddress = "davidlopez@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://davidlopez.com",
                                 ContactInteractions = "Reviewed financial reports and budgeting with team.",
                                 ContactNotes = "Send updated financial forecast."
@@ -586,6 +609,8 @@ namespace CRMProject.Data
                                 LastName = "Miller",
                                 ContactTitleRole = "Legal Counsel",
                                 ContactPhone = "8899001122",
+                                ContactEmailAddress = "lindamiller@example.com",
+                                ContactEmailType = EmailType.VIP,
                                 ContactWebsite = "https://lindamiller.com",
                                 ContactInteractions = "Provided legal advice on contract agreements.",
                                 ContactNotes = "Send draft of contract revisions for review."
@@ -612,40 +637,6 @@ namespace CRMProject.Data
                             }
                         }
 
-                        context.SaveChanges();
-                    }
-
-
-                    // Seed ContactEmails if there aren't any.
-                    if (!context.ContactEmails.Any())
-                    {
-                        // Get the array of Contact primary keys
-                        int[] contactIDs = context.Contacts.Select(a => a.ID).ToArray();
-                        int contactCount = contactIDs.Length;
-
-                        // Create 10 random ContactEmail records
-                        for (int i = 0; i < 10; i++)
-                        {
-                            // Randomly select ContactId
-                            int randomContactId = contactIDs[random.Next(contactCount)];
-
-                            // Randomly select EmailType
-                            var emailTypes = Enum.GetValues(typeof(EmailType)).Cast<EmailType>().ToArray();
-                            EmailType randomEmailType = emailTypes[random.Next(emailTypes.Length)];
-
-                            // Create a new ContactEmail record
-                            ContactEmail contactEmail = new ContactEmail
-                            {
-                                ContactID = randomContactId,
-                                EmailType = randomEmailType,
-                                EmailAddress = $"{Guid.NewGuid().ToString().Substring(0, 8)}@example.com"  // Generate a random email address
-                            };
-
-                            // Add the new contact email record to the context
-                            context.ContactEmails.Add(contactEmail);
-                        }
-
-                        // Save changes to the database
                         context.SaveChanges();
                     }
 
@@ -693,8 +684,6 @@ namespace CRMProject.Data
                         }
                     }
 
-
-                    // Seed Opportunities if there aren't any.
                     // Seed Opportunities if there aren't any.
                     if (!context.Opportunities.Any())
                     {

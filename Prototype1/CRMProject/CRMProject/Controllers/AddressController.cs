@@ -51,6 +51,10 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
+            // Ensure each member has only one address
+            addresses = addresses.GroupBy(a => a.MemberID)  // Group by MemberID to ensure only one address per member
+                                 .Select(g => g.FirstOrDefault());  // Select the first address for each group
+
             // Give feedback about the state of the filters
             if (numberFilters != 0)
             {
@@ -64,7 +68,6 @@ namespace CRMProject.Controllers
 
             return View(await addresses.ToListAsync());
         }
-
 
         // GET: Address/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -104,27 +107,34 @@ namespace CRMProject.Controllers
             {
                 try
                 {
-                    // Add the new member to the context and save changes
+                    // Check if the member already has an address
+                    var existingAddress = await _context.Addresses
+                        .FirstOrDefaultAsync(a => a.MemberID == address.MemberID);
+
+                    if (existingAddress != null)
+                    {
+                        // If member already has an address, return a message or handle as needed
+                        TempData["ErrorMessage"] = "This member already has an address. You can only add one address.";
+                        return RedirectToAction("Index");
+                    }
+
+                    // If no address exists, add the new address
                     _context.Add(address);
                     await _context.SaveChangesAsync();
 
-                    // Set success message in TempData
                     TempData["SuccessMessage"] = "Address created successfully!";
                     return RedirectToAction(nameof(Details), new { id = address.ID });
                 }
                 catch (Exception)
                 {
-                    // Set error message in case of failure
-                    TempData["ErrorMessage"] = "An error occurred while creating the Addess.";
+                    TempData["ErrorMessage"] = "An error occurred while creating the Address.";
                 }
             }
             else
             {
-                // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
 
-            // Return to the Create view in case of failure or validation errors
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", address.MemberID);
             return View(address);
         }

@@ -2,8 +2,6 @@
 {
     public enum EmailType
     {
-        VIP,
-        Work,
-        Personal
+        VIP
     }
 }

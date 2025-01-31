@@ -15,10 +15,10 @@
 						@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.Contact.ContactPhone)
+						@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)
 					</th>
 					<th>
-						@Html.DisplayNameFor(model => model.Contact.ContactEmails)
+						@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)
 					</th>
 					<th>
 						Email Type
@@ -39,27 +39,14 @@
 							@Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)
 						</td>
 						<td>
-							@Html.DisplayFor(modelItem => item.Contact.ContactPhone)
+							<a href="@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
 						</td>
 						<td>
-							@foreach (var ce in item.Contact.ContactEmails)
-							{
-								<div>@Html.DisplayFor(modelItem => ce.EmailAddress)</div>
-							}
+							@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)
 						</td>
 						<td>
-							@foreach (var ce in item.Contact.ContactEmails)
-							{
-								@if (!string.IsNullOrEmpty(ce.EmailAddress))
-								{
-									<div>@Html.DisplayFor(modelItem => ce.EmailType)</div>
-								}
-								else
-								{
-									<span>N/A</span>
-								}
-							}
-						</td>
+							@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)
+						</td>						
 					</tr>
 				}
 			</tbody>
