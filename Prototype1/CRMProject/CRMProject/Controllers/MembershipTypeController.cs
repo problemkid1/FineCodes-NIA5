@@ -20,8 +20,49 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, double? MembershipTypeFee)
         {
+            // Count the number of filters applied - start by assuming no filters
+            ViewData["Filtering"] = "btn-outline-secondary";
+            int numberFilters = 0;
+
+            var membershipTypes = _context.MembershipTypes
+                .Include(mt => mt.MemberMembershipTypes)
+                .AsNoTracking();
+
+            // Filter by Membership Type Name
+            if (!string.IsNullOrEmpty(MembershipTypeName))
+            {
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName.ToString().Contains(MembershipTypeName));
+                numberFilters++;
+            }
+
+            // Filter by Membership Type Description
+            if (!string.IsNullOrEmpty(MembershipTypeDescription))
+            {
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeDescription != null && mt.MembershipTypeDescription.Contains(MembershipTypeDescription));
+                numberFilters++;
+            }
+
+            // Filter by Membership Type Fee
+            if (MembershipTypeFee.HasValue)
+            {
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeFee == MembershipTypeFee);
+                numberFilters++;
+            }
+
+            // Give feedback about the state of the filters
+            if (numberFilters != 0)
+            {
+                // Toggle the Open/Closed state of the collapse depending on if we are filtering
+                ViewData["Filtering"] = "btn-danger";
+                // Show how many filters have been applied
+                ViewData["numberFilters"] = "(" + numberFilters.ToString() + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
+                // Keep the Bootstrap collapse open
+                ViewData["ShowFilter"] = "show";
+            }
+
+
             return View(await _context.MembershipTypes.ToListAsync());
         }
 

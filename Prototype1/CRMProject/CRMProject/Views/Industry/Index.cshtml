@@ -102,8 +102,9 @@
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustryDescription)</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
 
@@ -112,8 +113,9 @@
                                                     <i class="bi bi-search"></i>
                                                 </a>
 
-                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill"></i>
                                                 </a>
                                             </div>

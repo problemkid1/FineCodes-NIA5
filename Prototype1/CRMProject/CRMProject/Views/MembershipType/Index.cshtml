@@ -19,6 +19,38 @@
                 </a>
             </div>
 
+            <form asp-action="Index" method="get">
+                <div class="form-horizontal">
+                    <div class="row">
+                        <!-- Filter by Membership Type Name -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Membership Type Name:</label>
+                            @Html.TextBox("MembershipTypeName", null, new { @class = "form-control", placeholder = "Enter type name" })
+                        </div>
+
+                        <!-- Filter by Membership Type Description -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Membership Type Description:</label>
+                            @Html.TextBox("MembershipTypeDescription", null, new { @class = "form-control", placeholder = "Enter description" })
+                        </div>
+
+                        <!-- Filter by Membership Type Fee -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Membership Type Fee:</label>
+                            @Html.TextBox("MembershipTypeFee", null, new { @class = "form-control", placeholder = "Enter fee" })
+                        </div>
+
+                        <!-- Filter Actions -->
+                        <div class="form-group col-md-4 align-self-end">
+                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+
             <div class="card">
                 <!-- Table Section -->
                 <div class="card-body">

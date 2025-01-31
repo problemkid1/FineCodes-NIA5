@@ -22,12 +22,15 @@ namespace CRMProject.Controllers
         // GET: Contact
         public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole)
         {
-            // Count the number of filters applied - start by assuming no filters
-            ViewData["Filtering"] = "btn-outline-secondary";
-            int numberFilters = 0;
-
+            // Initialize the queryable contacts dataset
             var contacts = _context.Contacts
-                .AsNoTracking(); // No tracking for read-only operations
+                .Include(c => c.MemberContacts)
+                .ThenInclude(mc => mc.Member)
+                .Include(c => c.ContactEmails)
+                .AsNoTracking();
+
+            // Count the number of filters applied
+            int numberFilters = 0;
 
             // Filter by Search String
             if (!string.IsNullOrEmpty(SearchString))
@@ -64,20 +67,24 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Give feedback about the state of the filters
-            if (numberFilters != 0)
+            // Provide feedback about filtering in ViewData
+            if (numberFilters > 0)
             {
-                // Toggle the Open/Closed state of the collapse depending on if we are filtering
-                ViewData["Filtering"] = " btn-danger";
-                // Show how many filters have been applied
-                ViewData["numberFilters"] = "(" + numberFilters.ToString()
-                    + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                // Keep the Bootstrap collapse open
-                @ViewData["ShowFilter"] = " show";
+                ViewData["Filtering"] = "btn-danger"; // Highlight the filter button
+                ViewData["numberFilters"] = $"({numberFilters} Filter{(numberFilters > 1 ? "s" : "")} Applied)";
+                ViewData["ShowFilter"] = "show"; // Keep Bootstrap collapse open
+            }
+            else
+            {
+                ViewData["Filtering"] = "btn-outline-secondary";
+                ViewData["numberFilters"] = ""; // No filters applied
+                ViewData["ShowFilter"] = ""; // Collapse closed
             }
 
+            // Execute the query and pass the results to the view
             return View(await contacts.ToListAsync());
         }
+
 
         // GET: Contact/Details/5
         public async Task<IActionResult> Details(int? id)
