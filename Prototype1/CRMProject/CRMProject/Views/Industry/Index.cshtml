@@ -71,9 +71,9 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
+                                <th>@Html.DisplayNameFor(model => model.MemberIndustries)</th>
                                 <th>@Html.DisplayNameFor(model => model.IndustryName)</th>
                                 <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode)</th>
-                                <th>@Html.DisplayNameFor(model => model.MemberIndustries)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.IndustryDescription)</th>
                                 <th>Actions</th>
                             </tr>
@@ -90,15 +90,14 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.IndustryName)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
                                         <td>
                                             @foreach (var m in item.MemberIndustries)
                                             {
                                                 @m.Member.MemberName <br />
                                             }
                                         </td>
-
+                                        <td>@Html.DisplayFor(modelItem => item.IndustryName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustryDescription)</td>
                                         <td>
                                             <div class="btn-group">

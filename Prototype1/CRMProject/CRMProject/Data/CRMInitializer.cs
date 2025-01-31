@@ -759,7 +759,6 @@ namespace CRMProject.Data
                                 OpportunityPriority = priorities[random.Next(priorities.Length)],
                                 OpportunityAction = actions[random.Next(actions.Length)],
                                 OpportunityContact = randomContact,
-                                OpportunityAccount = randomCompany,
                                 OpportunityLastContactDate = DateTime.Today.AddDays(-random.Next(1, 90)),
                                 OpportunityInteractions = $"Discussed potential collaboration with {randomContact} from {randomCompany}. Next steps include {actions[random.Next(actions.Length)]}."
                             };

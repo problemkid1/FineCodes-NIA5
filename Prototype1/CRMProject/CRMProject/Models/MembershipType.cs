@@ -10,16 +10,16 @@ namespace CRMProject.Models
         [Required(ErrorMessage = "You cannot leave the membership type blank.")]
         public MembershipTypeName MembershipTypeName { get; set; }
 
-        [Display(Name = "Membership Type Description")]
+        [Display(Name = "Description")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for description.")]
         [DataType(DataType.MultilineText)]
         public string? MembershipTypeDescription { get; set; } = "";
 
-        [Display(Name = "Membership Type Fee")]
+        [Display(Name = "Fee")]
         [DataType(DataType.Currency)]
         public double? MembershipTypeFee { get; set; } 
 
-        [Display(Name = "Membership Type Benefit")]
+        [Display(Name = "Benefit")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for benefit.")]
         [DataType(DataType.MultilineText)]
         public string? MembershipTypeBenefits { get; set; } = "";
