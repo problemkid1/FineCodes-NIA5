@@ -32,7 +32,7 @@ namespace CRMProject.Controllers
             // Filter by Opportunity Name
             if (!string.IsNullOrEmpty(OpportunityName))
             {
-                opportunities = opportunities.Where(o => o.OpportunityName.Contains(OpportunityName));
+                opportunities = opportunities.Where(o => o.OpportunityName.ToLower().Contains(OpportunityName.ToLower()));
                 numberFilters++;
             }
 
@@ -46,7 +46,7 @@ namespace CRMProject.Controllers
             // Filter by Opportunity Priority
             if (!string.IsNullOrEmpty(OpportunityPriority))
             {
-                opportunities = opportunities.Where(o => o.OpportunityPriority.Contains(OpportunityPriority));
+                opportunities = opportunities.Where(o => o.OpportunityPriority.ToLower().Contains(OpportunityPriority.ToLower()));
                 numberFilters++;
             }
 

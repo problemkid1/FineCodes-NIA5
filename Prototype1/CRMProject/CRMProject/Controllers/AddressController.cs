@@ -33,7 +33,7 @@ namespace CRMProject.Controllers
             // Filter by City
             if (!string.IsNullOrEmpty(AddressCity))
             {
-                addresses = addresses.Where(a => a.AddressCity.Contains(AddressCity));
+                addresses = addresses.Where(a => a.AddressCity.ToLower().Contains(AddressCity.ToLower()));
                 numberFilters++;
             }
 
@@ -47,7 +47,7 @@ namespace CRMProject.Controllers
             // Filter by Postal Code
             if (!string.IsNullOrEmpty(PostalCode))
             {
-                addresses = addresses.Where(a => a.PostalCode.Contains(PostalCode));
+                addresses = addresses.Where(a => a.PostalCode.ToLower().Contains(PostalCode.ToLower()));
                 numberFilters++;
             }
 

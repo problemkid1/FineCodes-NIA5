@@ -42,14 +42,14 @@ namespace CRMProject.Controllers
             // Filter by First Name
             if (!string.IsNullOrEmpty(FirstName))
             {
-                contacts = contacts.Where(c => c.FirstName.Contains(FirstName));
+                contacts = contacts.Where(c => c.FirstName.ToLower().Contains(FirstName.ToLower()));
                 numberFilters++;
             }
 
             // Filter by Last Name
             if (!string.IsNullOrEmpty(LastName))
             {
-                contacts = contacts.Where(c => c.LastName.Contains(LastName));
+                contacts = contacts.Where(c => c.LastName.ToLower().Contains(LastName.ToLower()));
                 numberFilters++;
             }
 
@@ -63,7 +63,7 @@ namespace CRMProject.Controllers
             // Filter by Contact Title/Role
             if (!string.IsNullOrEmpty(ContactTitleRole))
             {
-                contacts = contacts.Where(c => c.ContactTitleRole.Contains(ContactTitleRole));
+                contacts = contacts.Where(c => c.ContactTitleRole.ToLower().Contains(ContactTitleRole.ToLower()));
                 numberFilters++;
             }
 

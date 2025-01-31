@@ -35,7 +35,7 @@ namespace CRMProject.Controllers
             // Filter by Industry Name
             if (!string.IsNullOrEmpty(IndustryName))
             {
-                industries = industries.Where(i => i.IndustryName.Contains(IndustryName));
+                industries = industries.Where(i => i.IndustryName.ToLower().Contains(IndustryName.ToLower()));
                 numberFilters++;
             }
 
@@ -49,7 +49,7 @@ namespace CRMProject.Controllers
             // Filter by Industry Description
             if (!string.IsNullOrEmpty(IndustryDescription))
             {
-                industries = industries.Where(i => i.IndustryDescription.Contains(IndustryDescription));
+                industries = industries.Where(i => i.IndustryDescription.ToLower().Contains(IndustryDescription.ToLower()));
                 numberFilters++;
             }
 
