@@ -6,13 +6,13 @@ namespace CRMProject.Models
     {
         public int ID { get; set; }
 
-        [Display(Name = "Opportunity Name")]
-        [Required(ErrorMessage = "You cannot leave the opportunity name blank.")]
-        [MaxLength(255, ErrorMessage = "Opportunity name cannot be more than 255 characters long.")]
+        [Display(Name = "Name")]
+        [Required(ErrorMessage = "You cannot leave the name blank.")]
+        [MaxLength(255, ErrorMessage = "Name cannot be more than 255 characters long.")]
         public string OpportunityName { get; set; } = "";
 
-        [Required(ErrorMessage = "You must select the opportunity status.")]
-        [Display(Name = "Opportunity Status")]
+        [Required(ErrorMessage = "You must select the status.")]
+        [Display(Name = "Status")]
         public OpportunityStatus OpportunityStatus { get; set; }
 
         [Display(Name = "Priority")]
@@ -30,20 +30,15 @@ namespace CRMProject.Models
         [MaxLength(50, ErrorMessage = "Contact cannot be more than 50 characters long.")]
         public string OpportunityContact { get; set; } = "";
 
-       [Display(Name = "Opportunity Account")]
-        [Required(ErrorMessage = "You cannot leave the opportunity account blank.")]
-        [MaxLength(50, ErrorMessage = "Opportunity account cannot be more than 50 characters long.")]
-        public string OpportunityAccount { get; set; } = "";
-
         [Display(Name = "Last Contact Date")]
         [Required(ErrorMessage = "Last contact date is required.")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OpportunityLastContactDate { get; set; } = DateTime.Today;
 
-        [Display(Name = "Opportunity Interaction")]
-        [Required(ErrorMessage = "You cannot leave the opportunity interaction blank.")]
-        [MaxLength(255, ErrorMessage = "Opportunity interaction cannot be more than 255 characters long.")]
+        [Display(Name = "Interaction")]
+        [Required(ErrorMessage = "You cannot leave the interaction blank.")]
+        [MaxLength(255, ErrorMessage = "Interaction cannot be more than 255 characters long.")]
         public string OpportunityInteractions { get; set; } = "";
 
     }

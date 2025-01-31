@@ -125,10 +125,6 @@ namespace CRMProject.Data
                 .HasIndex(mt => mt.MembershipTypeName)
                 .IsUnique();
 
-            //Unique Index for OpportunityAccount
-            modelBuilder.Entity<Opportunity>()
-                .HasIndex(o => o.OpportunityAccount)
-                .IsUnique();
         }
     }
 }
