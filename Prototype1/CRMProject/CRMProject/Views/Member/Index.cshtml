@@ -138,20 +138,21 @@
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td>
+                                              
                                                 <div class="btn-group">
-                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button"
-                                                       style="opacity: 1; filter: none; border: 2px solid #3B54A0;"
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                       @* style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;" *@
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
- 
+
                                                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-search"></i>
                                                     </a>
 
-                                                    <a asp-action="Archive" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" 
-                                                       style="opacity: 0.4; filter:  border: 2px dashed #3B54A0"
+                                                    <a asp-action="Archive" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+                                                       style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
                                                        data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-archive-fill"></i>
                                                     </a>

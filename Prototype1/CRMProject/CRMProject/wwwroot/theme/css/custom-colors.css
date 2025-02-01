@@ -292,3 +292,17 @@ fieldset:disabled a.btn {
 .btn-icon-split.btn-sm .text, .btn-group-sm > .btn-icon-split.btn .text {
     padding: 0.25rem 0.5rem;
 }
+
+
+input[type="file"] {
+    appearance: none;
+    background-color: initial;
+    cursor: pointer;
+    color: inherit;
+    text-align: start !important;
+    padding: 6px 12px; /* Adjust padding to control button size */
+    border: 1px solid #ccc; /* You can adjust the border color */
+    border-radius: 4px; /* Optional for rounded corners */
+    white-space: pre;
+    display: inline-block;
+}
