@@ -29,7 +29,7 @@
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Members</h1>
-                <a asp-action="Create" class="btn btn-primary btn-lg">
+                <a asp-action="Create" class="btn btn-primary btn-lg disabled"   style=" opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;">
                     <i class="fas fa-plus"></i> Add Member
                 </a>
             </div>
@@ -140,8 +140,8 @@
                                             <td>
                                               
                                                 <div class="btn-group">
-                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                       @* style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;" *@
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
+                                                       style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
