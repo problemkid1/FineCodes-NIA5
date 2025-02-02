@@ -100,7 +100,7 @@
                         <i class="fas fa-circle" style="color: #933515;"></i> Overdue Payment
                     </span>
                     <span class="mr-2" style="margin-top: -15px;">
-                        <i class="fas fa-circle" style="color: #D9534F;"></i> Cancellations
+                        <i class="fas fa-circle" style="color: #D9534F;"></i> Cancelled
                     </span>
                 </div>
             </div>
@@ -120,7 +120,7 @@
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ["Good Standing", "Overdue Payment", "Cancellations"],
+                labels: ["Good Standing", "Overdue Payment", "Cancelled"],
                 datasets: [{
                     data: [goodStanding, overduePayment, cancellations],
                     backgroundColor: ['#36479B', '#933515', '#D9534F'],

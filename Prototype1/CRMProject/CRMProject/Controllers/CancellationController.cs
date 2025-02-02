@@ -34,7 +34,7 @@ namespace CRMProject.Controllers
             // Filter by Cancellation Date
             if (CancellationDate.HasValue)
             {
-                cRMContext = cRMContext.Where(c => c.CancellationDate == CancellationDate);
+                cRMContext = cRMContext.Where(c => c.CancellationDate == CancellationDate.Value);
                 numberFilters++;
             }
 
