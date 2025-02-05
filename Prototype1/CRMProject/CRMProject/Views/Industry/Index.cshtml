@@ -29,7 +29,7 @@
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Industries</h1>
-                <a asp-action="Create" class="btn btn-primary btn-lg disabled" style=" opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;">
+                <a asp-action="Create" class="btn btn-primary btn-lg ">
                     <i class="fas fa-plus"></i> Add Industry
                 </a>
             </div>
@@ -101,8 +101,8 @@
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustryDescription)</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                <a class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                   
                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
@@ -112,8 +112,8 @@
                                                     <i class="bi bi-search"></i>
                                                 </a>
 
-                                                <a class="btn btn-md btn-outline-primary disabled" role="button" aria-disabled="true"
-                                                   style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;"
+                                                <a class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                   
                                                    data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill"></i>
                                                 </a>
