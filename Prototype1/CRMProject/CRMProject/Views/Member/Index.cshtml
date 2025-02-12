@@ -116,14 +116,36 @@
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
 
                                             <td class="d-none d-sm-table-cell">
-                                                @if (item.MemberMembershipTypes.Any())
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.MemberMembershipTypes.First().MembershipType.MembershipTypeName)
+                                                @{
+                                                    int specCount = item.MemberMembershipTypes.Count;
+                                                    if (specCount > 0)
+                                                    {
+                                                        string firstSpec = item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName.ToString();
+                                                        if (specCount > 1)
+                                                        {
+                                                            string specList = ""; // Html string of specialty names separated by <br /> tags
+                                                            var s = item.MemberMembershipTypes.ToList();
+                                                            for (int i = 1; i < specCount; i++) // Skip the first because we have it already
+                                                            {
+                                                                specList += s[i].MembershipType.MembershipTypeName.ToString() + " <br />";
+                                                            }
+
+                                                                // Ensure the id of the collapse element is unique
+                                                            <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
+                                                               aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
+                                                                @firstSpec <span class="badge bg-info badge-count" id="badge@(item.ID)">@specCount</span>
+                                                            </a>
+                                                            <div class="collapse" id="collapseSpecialty@(item.ID)">
+                                                                @Html.Raw(specList)
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            @firstSpec
+                                                        }
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    <span>No Membership Type</span>
-                                                }
+
                                             </td>
 
                                             <td class="d-none d-sm-table-cell">
@@ -170,5 +192,30 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Find all collapse elements
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function (element) {
+            // Extract the target collapse ID from the "href" attribute
+            var collapseId = element.getAttribute('href').replace('#', '');
+            var collapseElement = document.getElementById(collapseId);
 
+            // Find the badge associated with this element (assume the ID follows the badge + collapse ID pattern)
+            var badgeElement = document.getElementById('badge' + collapseId.replace('collapseSpecialty', ''));
+
+            // Ensure collapse element and badge are found
+            if (collapseElement && badgeElement) {
+                // When the collapse is shown, hide the badge
+                collapseElement.addEventListener('show.bs.collapse', function () {
+                    badgeElement.style.display = 'none';
+                });
+
+                // When the collapse is hidden, show the badge
+                collapseElement.addEventListener('hide.bs.collapse', function () {
+                    badgeElement.style.display = 'inline-block';
+                });
+            }
+        });
+    });
+</script>
 
