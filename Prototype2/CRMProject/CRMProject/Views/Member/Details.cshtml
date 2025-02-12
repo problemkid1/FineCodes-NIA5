@@ -65,7 +65,8 @@
     </div>
     <div class="mt-4">
 
-        @Html.Partial("_ListOfAddress", Model.Address ?? new Address())
+        @Html.Partial("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
+
     </div>
     <div class="mt-4">
 
