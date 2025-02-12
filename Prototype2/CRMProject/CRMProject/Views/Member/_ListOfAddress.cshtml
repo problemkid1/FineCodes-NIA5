@@ -1,4 +1,4 @@
-﻿@model CRMProject.Models.Address  
+﻿@model IEnumerable<CRMProject.Models.Address>
 
 <br />
 <div class="panel panel-primary">
@@ -6,35 +6,69 @@
         <h4 class="panel-title">Address Information</h4>
     </div>
     <div class="panel-body scrollable-panel">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Summary) 
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AddressCity)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Province)
-                    </th>                    
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <a asp-action="Details" asp-controller="Address" asp-route-ID="@Model.ID">
-                            @Html.DisplayFor(modelItem => Model.Summary)
-                        </a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.AddressCity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => Model.Province)
-                    </td>                   
-                </tr>
-            </tbody>
-        </table>
+        @if (Model.Any()) // Check if the model has any data to avoid errors
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Summary)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().AddressCity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().Province)
+                        </th>
+                        <th style="float: right; padding-left: 10%;">
+                            <a asp-controller="PatientAppointment" asp-action="Add">
+                                <span class="btn btn-success" data-bs-toggle="tooltip"
+                                      title="Add Appointment"><strong>&#x271A; Add</strong></span>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
+                                    @Html.DisplayFor(modelItem => item.Summary)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AddressCity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Province)
+                            </td>
+                            <td style="float: right; padding-left: 10%;">
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
+                                       data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <a asp-action="Details" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
+                                       data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                        <i class="bi bi-search"></i>
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-ID="@item.ID" class="btn btn-md btn-outline-danger"
+                                       data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                        <i class="bi bi-archive-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">No addresses found.</p>
+        }
     </div>
 </div>
