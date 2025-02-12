@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
 using CRMProject.Utilities;
+using System.Numerics;
+using Humanizer;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CRMProject.Controllers
 {
@@ -100,6 +103,8 @@ namespace CRMProject.Controllers
         // GET: Member/Create
         public IActionResult Create()
         {
+            Member member = new Member();
+            PopulateAssignedMemberShipData(member);
             return View();
         }
 
@@ -108,22 +113,28 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member, IFormFile? thePicture)
+        public async Task<IActionResult> Create([Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member, IFormFile? thePicture, string[] selectedOptions)
         {
-            if (ModelState.IsValid)
-            {
-                try
+                UpdateMemberMembershipTypes(selectedOptions, member);
+                if (ModelState.IsValid)
                 {
-                    await AddPicture(member, thePicture);
-                    // Add the new member to the context and save changes
-                    _context.Add(member);
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        await AddPicture(member, thePicture);
+                        // Add the new member to the context and save changes
+                        _context.Add(member);
+                        await _context.SaveChangesAsync();
 
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Member created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = member.ID });
-                }
-                catch (Exception)
+                        // Set success message in TempData
+                        TempData["SuccessMessage"] = "Member created successfully!";
+                        return RedirectToAction(nameof(Details), new { id = member.ID });
+                    }
+                    
+                    catch (RetryLimitExceededException /* dex */)
+                    {
+                        ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+                    }
+                    catch (Exception)
                 {
                     // Set error message in case of failure
                     TempData["ErrorMessage"] = "An error occurred while creating the member.";
@@ -134,7 +145,7 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
-
+            PopulateAssignedMemberShipData(member);
             // Return to the Create view in case of failure or validation errors
             return View(member);
         }
@@ -148,12 +159,16 @@ namespace CRMProject.Controllers
             }
             var member = await _context.Members
                .Include(p => p.MemberPhoto)
+               .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
                .AsNoTracking()
                .FirstOrDefaultAsync(m => m.ID == id);
             if (member == null)
             {
                 return NotFound();
             }
+
+            PopulateAssignedMemberShipData(member);
+
             return View(member);
         }
 
@@ -162,16 +177,19 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture)
+        public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture, string[] selectedOptions)
         {
             var memberToUpdate = await _context.Members
                 .Include(p => p.MemberPhoto)
+                .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (memberToUpdate == null)
             {
                 return NotFound();
             }
+
+            UpdateMemberMembershipTypes(selectedOptions, memberToUpdate);
 
             // Check the model state before updating the member
             if (!ModelState.IsValid)
@@ -218,7 +236,7 @@ namespace CRMProject.Controllers
                     TempData["ErrorMessage"] = "An error occurred while updating the member details.";
                 }
             }
-
+            PopulateAssignedMemberShipData(memberToUpdate);
             return View(memberToUpdate); // Return to the edit view if the update fails
         }
 
@@ -245,6 +263,7 @@ namespace CRMProject.Controllers
             return View(member);
         }
 
+
         // POST: Member/Archive/5
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
@@ -270,6 +289,75 @@ namespace CRMProject.Controllers
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
+        private void PopulateAssignedMemberShipData(Member member)
+        {
+            //For this to work, you must have Included the child collection in the parent object
+            var allOptions = _context.MembershipTypes;
+            var currentOptionsHS = new HashSet<int>(member.MemberMembershipTypes.Select(b => b.MembershipTypeID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.MembershipTypeName.ToString()
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.MembershipTypeName.ToString()
+                    });
+                }
+            }
+
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
+        private void UpdateMemberMembershipTypes(string[] selectedOptions, Member memberToUpdate)
+        {
+            if (selectedOptions == null)
+            {
+                memberToUpdate.MemberMembershipTypes = new List<MemberMembershipType>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(memberToUpdate.MemberMembershipTypes.Select(b => b.MembershipTypeID));
+            foreach (var s in _context.MembershipTypes)
+            {
+                if (selectedOptionsHS.Contains(s.ID.ToString()))//it is selected
+                {
+                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Doctor's collection - Add it!
+                    {
+                        memberToUpdate.MemberMembershipTypes.Add(new MemberMembershipType
+                        {
+                            MembershipTypeID = s.ID,
+                            MemberID = memberToUpdate.ID
+                        });
+                    }
+                }
+                else //not selected
+                {
+                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Doctor's collection - Remove it!
+                    {
+                        MemberMembershipType? specToRemove = memberToUpdate.MemberMembershipTypes.FirstOrDefault(d => d.MembershipTypeID == s.ID);
+                        if (specToRemove != null)
+                        {
+                            _context.Remove(specToRemove);
+                        }
+                    }
+                }
+            }
+        }
+
         private async Task AddPicture(Member member, IFormFile thePicture)
         {
             //Get the picture and save it with the Member (2 sizes)
