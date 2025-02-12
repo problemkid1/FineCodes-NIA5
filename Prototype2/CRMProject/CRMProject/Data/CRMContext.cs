@@ -78,7 +78,7 @@ namespace CRMProject.Data
                 .HasForeignKey(c => c.MemberID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Unique Index for Contacs email
+            //Unique Index for Contact email
             modelBuilder.Entity<Contact>()
                 .HasIndex(ce => ce.ContactEmailAddress)
                 .IsUnique();
@@ -88,22 +88,15 @@ namespace CRMProject.Data
                 .HasIndex(m => m.MemberName)
                 .IsUnique();
 
+            //Unique Index for Members Member Accounts Payable Email
+            modelBuilder.Entity<Member>()
+            .HasIndex(m => m.MemberAccountsPayableEmail)
+            .IsUnique();
+
             //Unique Index for Opportunity Name
             modelBuilder.Entity<Opportunity>()
                 .HasIndex(o => o.OpportunityName)
                 .IsUnique();
-
-            //Many-to-Many MemberIndustry
-            modelBuilder.Entity<MemberIndustry>()
-                .HasKey(mi => new { mi.MemberID, mi.IndustryID });
-
-            //Many-to-Many MemberMembershipType
-            modelBuilder.Entity<MemberMembershipType>()
-                .HasKey(mmt => new { mmt.MemberID, mmt.MembershipTypeID });
-
-            //Many to many MemberContact
-            modelBuilder.Entity<MemberContact>()
-            .HasKey(mc => new { mc.MemberID, mc.ContactID });
 
             //Unique Index for Industry Name
             modelBuilder.Entity<Industry>()
@@ -120,6 +113,22 @@ namespace CRMProject.Data
                 .HasIndex(mt => mt.MembershipTypeName)
                 .IsUnique();
 
+            //Many-to-Many MemberIndustry
+            modelBuilder.Entity<MemberIndustry>()
+                .HasKey(mi => new { mi.MemberID, mi.IndustryID });
+
+            //Many-to-Many MemberMembershipType
+            modelBuilder.Entity<MemberMembershipType>()
+                .HasKey(mmt => new { mmt.MemberID, mmt.MembershipTypeID });
+
+            //Many to many MemberContact
+            modelBuilder.Entity<MemberContact>()
+            .HasKey(mc => new { mc.MemberID, mc.ContactID });
+
+            // Composite Unique Index on AddressLine1, AddressCity, AddressProvince, and AddressPostalCode
+            modelBuilder.Entity<Address>()
+                .HasIndex(a => new { a.AddressLine1, a.AddressCity, a.Province, a.PostalCode })
+                .IsUnique();
         }
     }
 }

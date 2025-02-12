@@ -2,6 +2,8 @@
 {
     public enum EmailType
     {
-        VIP
+        VIP,
+        Primary,
+        Secondary
     }
 }

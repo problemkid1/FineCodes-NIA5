@@ -6,6 +6,14 @@ namespace CRMProject.Models
     {
         public int ID { get; set; }
 
+        public string Summary
+        {
+            get
+            {
+                return IndustryName + " - " + IndustryNAICSCode;
+            }
+        }
+
         [Display(Name = "Industry Name")]
         [Required(ErrorMessage = "You cannot leave the industry name blank.")]
         [MaxLength(255, ErrorMessage = "Industry name cannot be more than 255 characters long.")]

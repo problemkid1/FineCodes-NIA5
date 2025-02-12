@@ -50,6 +50,9 @@ namespace CRMProject.Data.CRMMigrations
                     b.HasIndex("MemberID")
                         .IsUnique();
 
+                    b.HasIndex("AddressLine1", "AddressCity", "Province", "PostalCode")
+                        .IsUnique();
+
                     b.ToTable("Addresses");
                 });
 
@@ -200,6 +203,9 @@ namespace CRMProject.Data.CRMMigrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("MemberAccountsPayableEmail")
+                        .IsUnique();
 
                     b.HasIndex("MemberName")
                         .IsUnique();
