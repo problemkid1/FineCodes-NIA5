@@ -11,6 +11,7 @@ using CRMProject.Utilities;
 using System.Numerics;
 using Humanizer;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Diagnostics;
 
 namespace CRMProject.Controllers
 {
@@ -24,7 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus)
+        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, MembershipTypeName? MembershipTypeName)
         {
             //Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -60,6 +61,13 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
+            // Filter by MembershipTypeName
+            if (MembershipTypeName.HasValue)
+            {
+                members = members.Where(m => m.MemberMembershipTypes
+                                .Any(mmt => mmt.MembershipType.MembershipTypeName == MembershipTypeName.Value));
+                numberFilters++;
+            }
             //Give feedback about the state of the filters
             if (numberFilters != 0)
             {
@@ -241,17 +249,15 @@ namespace CRMProject.Controllers
         }
 
 
-
-
-
-        // GET: Member/Archive/5
-        public async Task<IActionResult> Archive(int? id)
+        // GET: Member/CancelMember/5
+        public async Task<IActionResult> CancelMember(int? id)
         {
+            
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Member not found.";
+                return RedirectToAction("Index");
             }
-
             var member = await _context.Members
                 .Include(p => p.MemberPhoto)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -261,58 +267,83 @@ namespace CRMProject.Controllers
             }
 
             return View(member);
-        }
 
+        }       
 
-        // POST: Member/Archive/5
-        [HttpPost, ActionName("Archive")]
+        // POST: Member/CancelMember/5
+        [HttpPost, ActionName("CancelMember")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchiveConfirmed(int id)
+        public async Task<IActionResult> CancelConfirmed(int id)
         {
             var member = await _context.Members
-                .Include(p => p.MemberPhoto)
+                .Include(m => m.MemberPhoto)
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (member != null)
             {
-                _context.Members.Remove(member);
-                await _context.SaveChangesAsync();
-
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Member archived successfully!";
+                member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
             }
-            else
+
+            // Check if a cancellation record already exists
+            bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.MemberID == member.ID);
+
+            if (!cancellationExists)
             {
-                // If member not found, set an error message
-                TempData["ErrorMessage"] = "Member not found!";
+                var cancellation = new Cancellation
+                {
+                    MemberID = member.ID,
+                    CancellationDate = DateTime.Now,
+                    CancellationReason = "Cancelled by user.",
+                    CancellationNotes = "Member moved to cancellations."
+                };
+
+                _context.Cancellations.Add(cancellation);
             }
 
-            // Redirect to the Index or other appropriate page
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = $"Member '{member.MemberName}' cancelled successfully!";
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                TempData["ErrorMessage"] = "An error occurred while cancelling the member.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
+
+       
         private void PopulateAssignedMemberShipData(Member member)
         {
             //For this to work, you must have Included the child collection in the parent object
-            var allOptions = _context.MembershipTypes;
-            var currentOptionsHS = new HashSet<int>(member.MemberMembershipTypes.Select(b => b.MembershipTypeID));
+            var allOptions = Enum.GetValues(typeof(MembershipTypeName))
+                         .Cast<MembershipTypeName>();
+            var currentOptionsHS = new HashSet<int>(
+        member.MemberMembershipTypes
+              .Select(b => (int)b.MembershipType.MembershipTypeName)
+              );
             //Instead of one list with a boolean, we will make two lists
             var selected = new List<ListOptionVM>();
             var available = new List<ListOptionVM>();
             foreach (var s in allOptions)
             {
-                if (currentOptionsHS.Contains(s.ID))
+                var displayText = s.GetDisplayName();
+                if (currentOptionsHS.Contains((int)s))
                 {
                     selected.Add(new ListOptionVM
                     {
-                        ID = s.ID,
-                        DisplayText = s.MembershipTypeName.ToString()
+                        ID = (int)s, // Store Enum as string
+                        DisplayText = displayText
                     });
                 }
                 else
                 {
                     available.Add(new ListOptionVM
                     {
-                        ID = s.ID,
-                        DisplayText = s.MembershipTypeName.ToString()
+                        ID = (int)s,
+                        DisplayText = displayText
                     });
                 }
             }
@@ -335,7 +366,7 @@ namespace CRMProject.Controllers
             {
                 if (selectedOptionsHS.Contains(s.ID.ToString()))//it is selected
                 {
-                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Doctor's collection - Add it!
+                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Member's collection - Add it!
                     {
                         memberToUpdate.MemberMembershipTypes.Add(new MemberMembershipType
                         {
@@ -346,7 +377,7 @@ namespace CRMProject.Controllers
                 }
                 else //not selected
                 {
-                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Doctor's collection - Remove it!
+                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Member's collection - Remove it!
                     {
                         MemberMembershipType? specToRemove = memberToUpdate.MemberMembershipTypes.FirstOrDefault(d => d.MembershipTypeID == s.ID);
                         if (specToRemove != null)

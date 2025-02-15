@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Archive";
+    ViewData["Title"] = "Cancel";
 }
 
 <!-- Display Success or Error Messages -->
@@ -25,9 +25,9 @@
     <div class="card">
         <div class="card-body">
             <div>
-                <h1>Archive Member</h1>
+                <h1>Cancel Membership</h1>
                 <hr />
-                <h3>Are you sure you want to archive this member?</h3>
+                <h3>Are you sure you want to cancel this membership?</h3>
 
 
                 <hr />
@@ -70,9 +70,9 @@
                 </dl>
 
                 <div class="form-group text-center">
-                    <form asp-action="Archive">
+                    <form asp-action="Cancel">
                         <input type="hidden" asp-for="ID" />
-                        <button type="submit" class="btn btn-danger">Archive Member</button>
+                        <button type="submit" class="btn btn-danger">Cancel Member</button>
                         <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
                     </form>
                 </div>

@@ -25,9 +25,9 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Industry name cannot be more than 255 characters long.")]
         public string IndustrySubsector { get; set; } = "";
 
-        [Display(Name = "Industry NAICS Code")]
-        [MaxLength(6, ErrorMessage = "Industry NAICS Code cannot be more than 6 characters long.")]
-        [RegularExpression(@"^\d{2,6}$", ErrorMessage = "Industry NAICS Code must consist of between 2 and 6 numeric digits.")]
+        [Display(Name = "NAICS Code")]
+        [MaxLength(6, ErrorMessage = "Industry Subsector NAICS Code cannot be more than 3 characters long.")]
+        [RegularExpression(@"^\d{3}$", ErrorMessage = "Industry Subsector NAICS Code must consist of 3 numeric digits.")]
         public string? IndustryNAICSCode { get; set; } = "";
 
         [Display(Name = "Member")]
