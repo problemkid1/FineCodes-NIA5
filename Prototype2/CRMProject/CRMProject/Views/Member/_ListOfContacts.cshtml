@@ -26,9 +26,9 @@
 						Email Type
 					</th>
 					<th style="float: right; padding-left: 10%;">
-						<a asp-controller="PatientAppointment" asp-action="Add" >
+						<a asp-controller="Contact" asp-action="Create" >
 							<span class="btn btn-success" data-bs-toggle="tooltip"
-								  title="Add Appointment"><strong>&#x271A; Add</strong></span>
+								  title="Add Contact"><strong>&#x271A; Add</strong></span>
 						</a>
 					</th>
 
@@ -57,17 +57,19 @@
 						</td>
 						<td style="float: right; padding-left: 10%;">
 							<div class="btn-group">
-								<a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+								<a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID" 
+								   class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
 								   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
 									<i class="bi bi-pencil-square"></i>
 								</a>
 
-								<a asp-action="Details" class="btn btn-md btn-outline-primary"
+								<a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"  
+								class="btn btn-md btn-outline-primary"
 								   role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
 									<i class="bi bi-search"></i>
 								</a>
 
-								<a asp-action="Delete" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+								<a asp-action="Delete" asp-controller="Contact" asp-route-ID="@item.ContactID"  class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
 								   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
 									<i class="bi bi-archive-fill"></i>
 								</a>
