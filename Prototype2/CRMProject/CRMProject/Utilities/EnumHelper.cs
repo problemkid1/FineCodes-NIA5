@@ -22,7 +22,7 @@ public static class EnumHelper
         return new SelectList(values, "Value", "Text");
     }
 
-    private static string GetDisplayName<T>(this T enumValue) where T : Enum
+    public static string GetDisplayName<T>(this T enumValue) where T : Enum
     {
         var displayAttribute = enumValue.GetType()
                                         .GetField(enumValue.ToString())

@@ -58,6 +58,15 @@
                             @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
                         </div>
 
+                        <!-- Filter by Membership Type Name -->
+                        <div class="form-group">
+                            <label for="MembershipTypeName">Membership Type</label>
+                            @Html.DropDownList("MembershipTypeName",
+                                     EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
+                                     "Membership Type Names",
+                                     new { @class = "form-control" })
+                        </div>
+
                         <!-- Filter Actions -->
                         <div class="form-group col-md-4 align-self-end">
                             <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
@@ -77,7 +86,7 @@
                                     <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
-                                    <th class="d-none d-sm-table-cell">Membership Type</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th>Actions</th>
@@ -114,8 +123,13 @@
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
-
-                                            <td class="d-none d-sm-table-cell">
+                                            <td>
+                                                @foreach (var mt in item.MemberMembershipTypes)
+                                                {
+                                                    @Html.DisplayFor(modelItem => mt.MembershipType.MembershipTypeName)                                                    
+                                                }                                                
+                                            </td>
+                                            @* <td class="d-none d-sm-table-cell">
                                                 @{
                                                     int specCount = item.MemberMembershipTypes.Count;
                                                     if (specCount > 0)
@@ -146,7 +160,7 @@
                                                     }
                                                 }
 
-                                            </td>
+                                            </td> *@
 
                                             <td class="d-none d-sm-table-cell">
                                                 @foreach (var m in item.MemberIndustries)
@@ -169,10 +183,19 @@
                                                         <i class="bi bi-search"></i>
                                                     </a>
 
-                                                    <a asp-action="Archive" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                       data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
-                                                        <i class="bi bi-archive-fill"></i>
-                                                    </a>
+                                                    @if (@item.MemberStatus != MemberStatus.Cancelled)
+                                                    {
+                                                        <form asp-action="CancelMember" method="post" class="d-inline">
+                                                            <input type="hidden" name="id" value="@item.ID" />
+                                                            <button type="submit" class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="CancelMember">
+                                                                <i class="bi bi-x-circle"></i>
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">Cancelled</span>
+                                                    }                                                    
                                                 </div>
                                             </td>
                                         </tr>
