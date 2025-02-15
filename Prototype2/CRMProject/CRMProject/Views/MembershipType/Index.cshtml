@@ -1,4 +1,7 @@
-﻿@model IEnumerable<CRMProject.Models.MembershipType>
+﻿@using CRMProject.Utilities
+@model IEnumerable<CRMProject.Models.MembershipType>
+
+
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,10 +29,10 @@
                         <div class="form-group">
                             <label for="MembershipTypeName">Membership Type</label>
                             @Html.DropDownList("MembershipTypeName",
-                                     new SelectList(Enum.GetValues(typeof(CRMProject.Models.MembershipTypeName))),
+                                     EnumHelper.GetEnumSelectList < CRMProject.Models.MembershipTypeName>(),
                                      "Membership Type Names",
-                                     htmlAttributes: new { @class = "form-control" })
-                        </div>
+                                     new { @class = "form-control" })
+                        </div>                        
 
                         <!-- Filter by Membership Type Description -->
                         <div class="form-group col-md-4">

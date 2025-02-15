@@ -52,7 +52,7 @@ namespace CRMProject.Data
                     //To randomly generate data
                     Random random = new Random();
 
-                    //Seed a few specific Members. We will add more with random values later.                   
+                    //Seed a few specific Members. We will add more later.                   
                     try
                     {
                         // Seed Members if there aren't any.
@@ -185,68 +185,46 @@ namespace CRMProject.Data
                     // Seed Addresses if there aren't any.
                     if (!context.Addresses.Any())
                     {
-                        // Get the array of Member primary keys
-                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int memberCount = memberIDs.Length;
-
-                        // Cities in the Niagara Region (and Ontario)
-                        var cities = new[] { "St. Catharines", "Niagara Falls", "Welland", "Thorold", "Fort Erie", "Grimsby", "Port Colborne", "Beamsville" };
-
-                        // Real street names in Niagara region
-                        var streetNames = new[] {
-                                                    "Queenston St", "Lakeshore Rd", "Mountain Rd", "Victoria Ave", "Glenridge Ave",
-                                                    "King St", "Ontario St", "Ridge Rd", "Willowdale Ave", "Lundy's Lane"
-                                                };
-
-                        // Provinces (Ontario)
-                        var provinces = new[] { "Ontario" };
-
-                        // Create 10 random Address records, ensuring each member gets only one address
-                        for (int i = 0; i < 10; i++)
+                        // Define fixed addresses (one per member)
+                        var addressMappings = new Dictionary<string, (string Street, string AddressLine2, string City, string PostalCode)>
                         {
-                            // Select a member ID from the list
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
+                            { "100 Marketing", ("123 Queenston St", "Suite 100", "St. Catharines", "L2R 3A7") },
+                            { "Technologies co.", ("456 Mountain Rd", "Unit B", "Niagara Falls", "L2J 4T9") },
+                            { "Chain Management", ("789 Lakeshore Rd", "3rd Floor", "Welland", "L3B 6H2") },
+                            { "Acc Payments", ("101 Ontario St", "Apt 5A", "Thorold", "L2V 4Y6") },
+                            { "Radar Technologies", ("202 Glenridge Ave", "Building 2", "Fort Erie", "L2A 5M3") },
+                            { "Security Services Co.", ("303 Victoria Ave", "Room 220", "Grimsby", "L3M 1Z4") },
+                            { "Agri-Plus", ("404 Ridge Rd", "Warehouse", "Port Colborne", "L3K 5X6") },
+                            { "Air Ca", ("505 Willowdale Ave", "", "Beamsville", "L0R 1B4") }, // No AddressLine2
+                            { "Airbus Canada", ("606 King St", "Unit 7", "Niagara-on-the-Lake", "L0S 1J0") },
+                            { "Wood", ("707 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 2M1") }
+                        };
 
-                            // Check if the member already has an address (skip if they do)
-                            if (context.Addresses.Any(a => a.MemberID == randomMemberId))
+                        foreach (var entry in addressMappings)
+                        {
+                            var member = context.Members.FirstOrDefault(m => m.MemberName == entry.Key);
+                            if (member != null)
                             {
-                                continue; // Skip creating an address for this member
+                                // Check if the member already has an address (skip if they do)
+                                if (!context.Addresses.Any(a => a.MemberID == member.ID))
+                                {
+                                    context.Addresses.Add(new Address
+                                    {
+                                        MemberID = member.ID,
+                                        AddressLine1 = entry.Value.Street,
+                                        AddressLine2 = string.IsNullOrWhiteSpace(entry.Value.AddressLine2) ? null : entry.Value.AddressLine2,
+                                        AddressCity = entry.Value.City,
+                                        Province = Province.Ontario, // Fixed province
+                                        PostalCode = entry.Value.PostalCode
+                                    });
+                                }
                             }
-
-                            // Fixed Province for these records (Ontario)
-                            Province randomProvince = Enum.Parse<Province>(provinces[0]);
-
-                            // Select city from Niagara Region
-                            string randomCity = cities[random.Next(cities.Length)];
-
-                            // Select a random street name from the streetNames array
-                            string randomStreetName = streetNames[random.Next(streetNames.Length)];
-
-                            // Generate fixed AddressLine1 and AddressLine2 (AddressLine2 is optional)
-                            string randomAddressLine1 = $"{randomStreetName} {random.Next(1, 100)}"; // e.g., "Queenston St 10"
-                            string randomAddressLine2 = $"Suite {random.Next(1, 20)}"; // Optional Suite number
-
-                            // Randomly generate PostalCode for Canadian format (e.g., A1A 1A1)
-                            string randomPostalCode = $"{(char)random.Next(65, 91)}{random.Next(0, 10)}{(char)random.Next(65, 91)} {random.Next(0, 10)}{(char)random.Next(65, 91)}{random.Next(0, 10)}";
-
-                            // Create the Address record
-                            Address address = new Address
-                            {
-                                MemberID = randomMemberId,
-                                AddressLine1 = randomAddressLine1,
-                                AddressLine2 = randomAddressLine2,
-                                AddressCity = randomCity,
-                                Province = randomProvince,
-                                PostalCode = randomPostalCode
-                            };
-
-                            // Add the new Address record to the context
-                            context.Addresses.Add(address);
                         }
 
-                        // Save changes to the database
+                        // Save all addresses to the database
                         context.SaveChanges();
                     }
+
 
                     // Seed MembershipTypes if there aren't any.
                     if (!context.MembershipTypes.Any())
@@ -302,35 +280,44 @@ namespace CRMProject.Data
                     // Seed MemberMembershipType relationships if there aren't any.
                     if (!context.MemberMembershipTypes.Any())
                     {
-                        // Get the array of Member and MembershipType primary keys
-                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int[] membershipTypeIDs = context.MembershipTypes.Select(a => a.ID).ToArray();
-
-                        // Get the count of members and membership types
-                        int memberCount = memberIDs.Length;
-                        int membershipTypeCount = membershipTypeIDs.Length;
-
-                        // Create 10 random MemberMembershipType relationships
-                        for (int i = 0; i < memberIDs.Length; i++)
+                        // Define fixed membership type assignments
+                        var memberMembershipTypeMappings = new Dictionary<string, string>
                         {
-                            // Randomly select MemberId and MembershipTypeId
-                            int memberID = memberIDs[i];
-                            int randomMembershipTypeId = membershipTypeIDs[random.Next(membershipTypeCount)];
+                            { "100 Marketing", "LocalIndustrial" },
+                            { "Technologies co.", "InKind" },
+                            { "Chain Management", "Chamber" },
+                            { "Acc Payments", "NonLocalIndustrial" },
+                            { "Radar Technologies", "GovernmentAndEducation" },
+                            { "Security Services Co.", "LocalIndustrial" },
+                            { "Agri-Plus", "InKind" },
+                            { "Air Ca", "Chamber" },
+                            { "Airbus Canada", "LocalIndustrial" },
+                            { "Wood", "GovernmentAndEducation" }
+                        };
 
-                            // Create new MemberMembershipType record
-                            MemberMembershipType memberMembershipType = new MemberMembershipType
+                        foreach (var entry in memberMembershipTypeMappings)
+                        {
+                            var member = context.Members.FirstOrDefault(m => m.MemberName == entry.Key);
+                            var membershipType = context.MembershipTypes.FirstOrDefault(mt => mt.MembershipTypeName.ToString() == entry.Value);
+
+                            if (member != null && membershipType != null)
                             {
-                                MemberID = memberID,
-                                MembershipTypeID = randomMembershipTypeId
-                            };
-
-                            // Add the new relationship to the context
-                            context.MemberMembershipTypes.Add(memberMembershipType);
+                                // Ensure no duplicate relationships
+                                if (!context.MemberMembershipTypes.Any(mmt => mmt.MemberID == member.ID && mmt.MembershipTypeID == membershipType.ID))
+                                {
+                                    context.MemberMembershipTypes.Add(new MemberMembershipType
+                                    {
+                                        MemberID = member.ID,
+                                        MembershipTypeID = membershipType.ID
+                                    });
+                                }
+                            }
                         }
 
                         // Save changes to the database
                         context.SaveChanges();
                     }
+
 
                     // Seed Industries if there aren't any.
                     if (!context.Industries.Any())
@@ -346,55 +333,55 @@ namespace CRMProject.Data
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Machinery manufacturing",
-                                IndustryNAICSCode = "333"                                
+                                IndustryNAICSCode = "333"
                             },
                             new Industry
                             {
                                 IndustrySector = "Finance and insurance",
                                 IndustrySubsector = "Credit intermediation and related activities",
-                                IndustryNAICSCode = "522"                                
+                                IndustryNAICSCode = "522"
                             },
                             new Industry
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Computer and electronic product manufacturing",
-                                IndustryNAICSCode = "334"                                
+                                IndustryNAICSCode = "334"
                             },
                             new Industry
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Electrical equipment, appliance and component manufacturing",
-                                IndustryNAICSCode = "335"                                
+                                IndustryNAICSCode = "335"
                             },
                             new Industry
                             {
                                 IndustrySector = "Finance and insurance",
                                 IndustrySubsector = "Securities, commodity contracts, and other financial investment and related activities",
-                                IndustryNAICSCode = "523"                                
+                                IndustryNAICSCode = "523"
                             },
                             new Industry
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Plastics and rubber products manufacturing",
-                                IndustryNAICSCode = "326"                                
+                                IndustryNAICSCode = "326"
                             },
                             new Industry
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Miscellaneous manufacturing",
-                                IndustryNAICSCode = "339"                                
+                                IndustryNAICSCode = "339"
                             },
                             new Industry
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Transportation equipment manufacturing",
-                                IndustryNAICSCode = "336"                                
+                                IndustryNAICSCode = "336"
                             },
                             new Industry
                             {
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Wood product manufacturing",
-                                IndustryNAICSCode = "321"                                
+                                IndustryNAICSCode = "321"
                             }
                         );
                         context.SaveChanges();
@@ -449,43 +436,38 @@ namespace CRMProject.Data
                     // Seed Cancellations if there aren't any.
                     if (!context.Cancellations.Any())
                     {
-                        // Get the array of Member primary keys where the MemberStatus is Cancelled
-                        int[] CancelledMemberIDs = context.Members
-                                                          .Where(m => m.MemberStatus == MemberStatus.Cancelled)
-                                                          .Select(m => m.ID)
-                                                          .ToArray();
-                        int CancelledMemberCount = CancelledMemberIDs.Length;
+                        // Get members with a status of 'Cancelled'
+                        var cancelledMembers = context.Members
+                                                      .Where(m => m.MemberStatus == MemberStatus.Cancelled)
+                                                      .ToList();
 
-                        // Ensure that there are members with Cancelled status
-                        if (CancelledMemberCount > 0)
+                        // Ensure there are members to process
+                        if (cancelledMembers.Any())
                         {
-                            // Create Cancellation records for each Cancelled member
-                            for (int i = 0; i < CancelledMemberCount; i++)
+                            foreach (var member in cancelledMembers)
                             {
-                                // Select a random member from the canceled members list
-                                int randomMemberId = CancelledMemberIDs[random.Next(CancelledMemberCount)];
-
-                                // Create a new Cancellation record
-                                Cancellation cancellation = new Cancellation
+                                // Check if the member already has a cancellation record (prevent duplicates)
+                                if (!context.Cancellations.Any(c => c.MemberID == member.ID))
                                 {
-                                    MemberID = randomMemberId,
-                                    CancellationDate = DateTime.Now.AddDays(-random.Next(30, 365)),  // Random cancellation within the last year
-                                    CancellationReason = "Cancellation due to internal restructuring.",
-                                    CancellationNotes = "No renewal interest."  // Custom cancellation reason
-                                };
-                                // Add the new cancellation record to the context
-                                context.Cancellations.Add(cancellation);
+                                    context.Cancellations.Add(new Cancellation
+                                    {
+                                        MemberID = member.ID,
+                                        CancellationDate = DateTime.Now.AddDays(-180), // Fixed cancellation 6 months ago
+                                        CancellationReason = "Cancellation due to internal restructuring.",
+                                        CancellationNotes = "No renewal interest."
+                                    });
+                                }
                             }
 
-                            // Save changes to the database
+                            // Save all cancellation records
                             context.SaveChanges();
                         }
                         else
                         {
-                            // Handle the case when there are no members with Canceled status
                             Debug.WriteLine("No members with Canceled status found.");
                         }
                     }
+
 
                     // Seed Contacts if there aren't any.
                     if (!context.Contacts.Any())
@@ -500,7 +482,7 @@ namespace CRMProject.Data
                                 ContactTitleRole = "Account Manager",
                                 ContactPhone = "1234567890",
                                 ContactEmailAddress = "johndoe@example.com",
-                                ContactEmailType = EmailType.VIP,
+                                ContactEmailType = EmailType.Primary,
                                 ContactWebsite = "https://johndoe.com",
                                 ContactInteractions = "Met at conference, discussed potential partnership.",
                                 ContactNotes = "Follow up in 2 weeks regarding partnership opportunities."
@@ -524,7 +506,7 @@ namespace CRMProject.Data
                                 ContactTitleRole = "Customer Support Lead",
                                 ContactPhone = "1122334455",
                                 ContactEmailAddress = "jamesbrown@example.com",
-                                ContactEmailType = EmailType.VIP,
+                                ContactEmailType = EmailType.Primary,
                                 ContactWebsite = "https://jamesbrown.com",
                                 ContactInteractions = "Helped resolve technical issue over email.",
                                 ContactNotes = "Follow up in 1 week to ensure continued satisfaction."
@@ -548,7 +530,7 @@ namespace CRMProject.Data
                                 ContactTitleRole = "HR Manager",
                                 ContactPhone = "3344556677",
                                 ContactEmailAddress = "chriswilliams@example.com",
-                                ContactEmailType = EmailType.VIP,
+                                ContactEmailType = EmailType.Secondary,
                                 ContactWebsite = "https://chriswilliams.com",
                                 ContactInteractions = "Interviewed for job opening, followed up on interview questions.",
                                 ContactNotes = "Send hiring feedback."
@@ -572,7 +554,7 @@ namespace CRMProject.Data
                                 ContactTitleRole = "Operations Manager",
                                 ContactPhone = "5566778899",
                                 ContactEmailAddress = "michaelgarcia@example.com",
-                                ContactEmailType = EmailType.VIP,
+                                ContactEmailType = EmailType.Secondary,
                                 ContactWebsite = "https://michaelgarcia.com",
                                 ContactInteractions = "Coordinated project timelines and operational workflows.",
                                 ContactNotes = "Follow up on project status next week."
@@ -596,7 +578,7 @@ namespace CRMProject.Data
                                 ContactTitleRole = "Financial Analyst",
                                 ContactPhone = "7788990011",
                                 ContactEmailAddress = "davidlopez@example.com",
-                                ContactEmailType = EmailType.VIP,
+                                ContactEmailType = EmailType.Primary,
                                 ContactWebsite = "https://davidlopez.com",
                                 ContactInteractions = "Reviewed financial reports and budgeting with team.",
                                 ContactNotes = "Send updated financial forecast."
@@ -625,13 +607,12 @@ namespace CRMProject.Data
                     {
                         var memberContactMappings = new Dictionary<string[], string[]>
                         {
-                            { new[] { "John Doe", "Jane Smith" }, new[] { "100 Marketing", "Security Services Co." } },
+                            { new[] { "Jane Smith", "John Doe", "Michael Garcia" }, new[] { "100 Marketing", "Security Services Co." } },
                             { new[] { "Sarah Martinez" }, new[] { "Agri-Plus" } },
-                            { new[] { "Jane Smith", "James Brown" }, new[] { "Airbus Canada", "Radar Technologies" } },
+                            { new[] { "Jane Smith", "James Brown", "Michael Garcia" }, new[] { "Airbus Canada", "Radar Technologies" } },
                             { new[] { "Mary Johnson", "Chris Williams" }, new[] { "Acc Payments", "Technologies co." } },
                             { new[] { "Patricia Davis" }, new[] { "Air Ca" } },
-                            { new[] { "Michael Garcia" }, new[] { "Airbus Canada", "Radar Technologies" } },
-                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Wood", "Chain Management", "Acc Payments" } }
+                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Wood", "Chain Management" } }
                         };
 
                         foreach (var entry in memberContactMappings)
@@ -671,79 +652,124 @@ namespace CRMProject.Data
                     // Seed Opportunities if there aren't any.
                     if (!context.Opportunities.Any())
                     {
-                        // List of real companies in Niagara Region, Canada
-                        var niagaraCompanies = new[]
+                        // Define fixed opportunities
+                        var opportunities = new List<Opportunity>
+                    {
+                        new Opportunity
                         {
-                            "Walker Industries",
-                            "Niagara Casinos",
-                            "Brock University",
-                            "Niagara College",
-                            "General Motors St. Catharines",
-                            "Canadian Niagara Power",
-                            "Niagara Falls Tourism",
-                            "Silicon Knights",
-                            "Stanpac",
-                            "Rankin Construction"
-                        };
-
-                        // List of real-sounding contact names
-                        var contactNames = new[]
+                            OpportunityName = "Walker Industries",
+                            OpportunityStatus = OpportunityStatus.Negotiating,
+                            OpportunityPriority = "High",
+                            OpportunityAction = "Initial Meeting Scheduled",
+                            OpportunityContact = "Michael Carter",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-30),
+                            OpportunityInteractions = "Discussed potential collaboration with Michael Carter from Walker Industries. Next steps include scheduling a meeting."
+                        },
+                        new Opportunity
                         {
-                            "Michael Carter",
-                            "Jennifer Adams",
-                            "Robert Dawson",
-                            "Emily Robinson",
-                            "David Johnson",
-                            "Sarah Mitchell",
-                            "James Thompson",
-                            "Lisa White",
-                            "William Scott",
-                            "Jessica Martin"
-                        };
-
-                        // Randomly select OpportunityStatus from the enum
-                        var opportunityStatuses = Enum.GetValues(typeof(OpportunityStatus))
-                                                      .Cast<OpportunityStatus>()
-                                                      .ToArray();
-
-                        // Priority Levels
-                        var priorities = new[] { "High", "Medium", "Low" };
-
-                        // Possible Opportunity Actions
-                        var actions = new[]
+                            OpportunityName = "Niagara Casinos",
+                            OpportunityStatus = OpportunityStatus.Qualification,
+                            OpportunityPriority = "Medium",
+                            OpportunityAction = "Proposal Sent",
+                            OpportunityContact = "Jennifer Adams",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-45),
+                            OpportunityInteractions = "Proposal sent to Jennifer Adams at Niagara Casinos. Waiting for feedback."
+                        },
+                        new Opportunity
                         {
-                            "Initial Meeting Scheduled",
-                            "Proposal Sent",
-                            "Negotiation Ongoing",
-                            "Contract Signed",
-                            "Follow-up Required"
-                        };
-
-                        // Generate 10 real opportunity records
-                        for (int i = 0; i < 10; i++)
+                            OpportunityName = "Brock University",
+                            OpportunityStatus = OpportunityStatus.ClosedNotInterested,
+                            OpportunityPriority = "High",
+                            OpportunityAction = "Follow-up Next semester",
+                            OpportunityContact = "Robert Dawson",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-20),
+                            OpportunityInteractions = "Negotiating contract terms with Robert Dawson from Brock University."
+                        },
+                        new Opportunity
                         {
-                            var randomCompany = niagaraCompanies[i]; // Each company gets one record
-                            var randomContact = contactNames[i]; // Each contact gets one record
+                            OpportunityName = "Niagara College",
+                            OpportunityStatus = OpportunityStatus.Negotiating,
+                            OpportunityPriority = "Low",
+                            OpportunityAction = "Contract Signed",
+                            OpportunityContact = "Emily Robinson",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-10),
+                            OpportunityInteractions = "Contract successfully signed with Emily Robinson from Niagara College."
+                        },
+                        new Opportunity
+                        {
+                            OpportunityName = "General Motors St. Catharines",
+                            OpportunityStatus = OpportunityStatus.Qualification,
+                            OpportunityPriority = "Low",
+                            OpportunityAction = "Follow-up Required",
+                            OpportunityContact = "David Johnson",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-60),
+                            OpportunityInteractions = "Lost contract with General Motors St. Catharines. Follow-up required."
+                        },
+                        new Opportunity
+                        {
+                            OpportunityName = "Canadian Niagara Power",
+                            OpportunityStatus = OpportunityStatus.ClosedNotInterested,
+                            OpportunityPriority = "Medium",
+                            OpportunityAction = "Follow-up Next semester",
+                            OpportunityContact = "Sarah Mitchell",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-25),
+                            OpportunityInteractions = "Proposal sent to Sarah Mitchell at Canadian Niagara Power. Awaiting response."
+                        },
+                        new Opportunity
+                        {
+                            OpportunityName = "Niagara Falls Tourism",
+                            OpportunityStatus = OpportunityStatus.Negotiating,
+                            OpportunityPriority = "High",
+                            OpportunityAction = "Negotiation Ongoing",
+                            OpportunityContact = "James Thompson",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-35),
+                            OpportunityInteractions = "Ongoing discussions with James Thompson at Niagara Falls Tourism."
+                        },
+                        new Opportunity
+                        {
+                            OpportunityName = "Silicon Knights",
+                            OpportunityStatus = OpportunityStatus.Qualification,
+                            OpportunityPriority = "Low",
+                            OpportunityAction = "Follow-up Required",
+                            OpportunityContact = "Lisa White",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-80),
+                            OpportunityInteractions = "Lost deal with Silicon Knights. Follow-up scheduled."
+                        },
+                        new Opportunity
+                        {
+                            OpportunityName = "Stanpac",
+                            OpportunityStatus = OpportunityStatus.Negotiating,
+                            OpportunityPriority = "Medium",
+                            OpportunityAction = "Initial Meeting Scheduled",
+                            OpportunityContact = "William Scott",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-15),
+                            OpportunityInteractions = "Initial meeting scheduled with William Scott at Stanpac."
+                        },
+                        new Opportunity
+                        {
+                            OpportunityName = "Rankin Construction",
+                            OpportunityStatus = OpportunityStatus.Qualification,
+                            OpportunityPriority = "High",
+                            OpportunityAction = "Contract Signed",
+                            OpportunityContact = "Jessica Martin",
+                            OpportunityLastContactDate = DateTime.Today.AddDays(-5),
+                            OpportunityInteractions = "Contract signed successfully with Rankin Construction."
+                        }
+                    };
 
-                            Opportunity opportunity = new Opportunity
-                            {
-                                OpportunityName = randomCompany,
-                                OpportunityStatus = opportunityStatuses[random.Next(opportunityStatuses.Length)],
-                                OpportunityPriority = priorities[random.Next(priorities.Length)],
-                                OpportunityAction = actions[random.Next(actions.Length)],
-                                OpportunityContact = randomContact,
-                                OpportunityLastContactDate = DateTime.Today.AddDays(-random.Next(1, 90)),
-                                OpportunityInteractions = $"Discussed potential collaboration with {randomContact} from {randomCompany}. Next steps include {actions[random.Next(actions.Length)]}."
-                            };
-
+                        foreach (var opportunity in opportunities)
+                        {
                             // Ensure no duplicate records before inserting
                             if (!context.Opportunities.Any(o => o.OpportunityName == opportunity.OpportunityName))
                             {
                                 context.Opportunities.Add(opportunity);
-                                context.SaveChanges();
                             }
                         }
+
+                        // Save all opportunities at once
+                        context.SaveChanges();
                     }
+
 
                 }
                 #endregion
