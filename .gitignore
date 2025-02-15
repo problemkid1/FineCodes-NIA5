@@ -7,3 +7,6 @@ Prototype1/CRMProject/CRMProject/CRMProject.db-wal
 .vs/
 obj/
 bin/
+.db
+*.db-shm
+*.db-wal
