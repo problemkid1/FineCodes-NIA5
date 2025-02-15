@@ -78,31 +78,57 @@ namespace CRMProject.Controllers
             }
 
             var address = await _context.Addresses
-                .Include(a => a.Member)
+                .Include(a => a.Member) 
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (address == null)
             {
                 return NotFound();
             }
 
+            return View(address); 
+        }
+
+
+
+        // GET: Address/Create
+        public IActionResult Create(int memberId)
+        {
+            if (memberId == 0)
+            {
+                TempData["ErrorMessage"] = "Member ID is required!";
+                return RedirectToAction("Index", "Member");
+            }
+
+            var address = new Address
+            {
+                MemberID = memberId
+            };
+
+            ViewData["MemberId"] = memberId; // Ensure Member ID is passed to View
+            PopulateDropDownLists();
             return View(address);
         }
 
-        // GET: Address/Create
-        public IActionResult Create()
-        {
 
-            PopulateDropDownLists();
-            return View();
-        }
+
 
         // POST: Address/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,AddressLine1,AddressLine2,AddressCity,Province,PostalCode,AddressType,MemberID")] Address address)
         {
+            if (address.MemberID == 0) // Check if MemberID is missing
+            {
+                TempData["ErrorMessage"] = "Member ID is required!";
+                ViewData["MemberId"] = address.MemberID;
+                PopulateDropDownLists();
+                return View(address);
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -113,17 +139,15 @@ namespace CRMProject.Controllers
 
                     if (existingAddress != null)
                     {
-                        // If member already has an address, return a message or handle as needed
-                        TempData["ErrorMessage"] = "This member already has an address. You can only add one address.";
-                        return RedirectToAction("Index");
+                        TempData["ErrorMessage"] = "This member already has an address.";
+                        return RedirectToAction("Details", "Member", new { id = address.MemberID });
                     }
 
-                    // If no address exists, add the new address
-                    _context.Add(address);
+                    _context.Addresses.Add(address);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Address created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = address.ID });
+                    return RedirectToAction("Details", "Member", new { id = address.MemberID });
                 }
                 catch (Exception)
                 {
@@ -135,9 +159,14 @@ namespace CRMProject.Controllers
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
 
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", address.MemberID);
+            ViewData["MemberId"] = address.MemberID; // Make sure MemberID persists
+            PopulateDropDownLists();
             return View(address);
         }
+
+
+
+
 
         // GET: Address/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -177,32 +206,30 @@ namespace CRMProject.Controllers
 
                     // Set success message in TempData
                     TempData["SuccessMessage"] = "Address updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = address.ID });
+
+                    // Redirect to the Member's Details page instead of Address Details
+                    return RedirectToAction("Details", "Member", new { id = address.MemberID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!AddressExists(address.ID))
                     {
-                        // If the industry does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
                 catch (Exception)
                 {
-                    // Set error message for generic errors
                     TempData["ErrorMessage"] = "An error occurred while updating this Address.";
                 }
-
             }
 
-            // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
 
+            // Ensure dropdown lists are repopulated
             PopulateDropDownLists();
             return View(address);
         }
@@ -234,11 +261,16 @@ namespace CRMProject.Controllers
             var address = await _context.Addresses.FindAsync(id);
             if (address != null)
             {
+                int memberId = address.MemberID; // Store MemberID before deleting
+
                 _context.Addresses.Remove(address);
                 await _context.SaveChangesAsync();
 
                 // Set success message in TempData
                 TempData["SuccessMessage"] = "Address deleted successfully!";
+
+                // Redirect to the Member's Details page
+                return RedirectToAction("Details", "Member", new { id = memberId });
             }
             else
             {
@@ -246,8 +278,8 @@ namespace CRMProject.Controllers
                 TempData["ErrorMessage"] = "Address not found!";
             }
 
-            // Redirect to the Index or other appropriate page
-            return RedirectToAction(nameof(Index));
+            // Redirect to the Member's Details page as a fallback
+            return RedirectToAction("Index", "Member");
         }
 
         private SelectList MemberSelectList(int? selectedId)

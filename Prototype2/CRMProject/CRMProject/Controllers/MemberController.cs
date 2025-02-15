@@ -76,7 +76,6 @@ namespace CRMProject.Controllers
         }
 
 
-        // GET: Member/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -92,13 +91,17 @@ namespace CRMProject.Controllers
                 .Include(m => m.MemberMembershipTypes).ThenInclude(mi => mi.MembershipType)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (member == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+           ViewData["MemberId"] = member.ID; 
+
+         return View(member);
         }
+
 
         // GET: Member/Create
         public IActionResult Create()
