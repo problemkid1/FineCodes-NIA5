@@ -98,11 +98,6 @@ namespace CRMProject.Data
                 .HasIndex(o => o.OpportunityName)
                 .IsUnique();
 
-            //Unique Index for Industry Name
-            modelBuilder.Entity<Industry>()
-                .HasIndex(i => i.IndustryName)
-                .IsUnique();
-
             //Unique Index for IndustryNAICSCode
             modelBuilder.Entity<Industry>()
                 .HasIndex(i => i.IndustryNAICSCode)

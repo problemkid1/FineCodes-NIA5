@@ -61,29 +61,29 @@ namespace CRMProject.Data
                             context.Members.AddRange(
                                 new Member
                                 {
-                                    MemberName = "Tech Solutions Inc.",
+                                    MemberName = "100 Marketing",
                                     MemberSize = 50,
                                     MemberStatus = MemberStatus.GoodStanding,
-                                    MemberAccountsPayableEmail = "ap@techsolutions.com",
+                                    MemberAccountsPayableEmail = "info@180marketing.com",
                                     MemberStartDate = DateTime.Parse("2021-01-15"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-30), // Last contacted a month ago
-                                    MemberNotes = "Loyal member with regular participation."
+                                    MemberNotes = "Full-service marketing firm."
                                 },
                                 new Member
                                 {
-                                    MemberName = "Green Energy Ltd.",
+                                    MemberName = "Technologies co.",
                                     MemberSize = 300,
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "finance@greenenergy.com",
                                     MemberStartDate = DateTime.Parse("2020-06-10"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-60), // Last contacted 2 months ago
-                                    MemberNotes = "Pending payment for the last quarter."
+                                    MemberNotes = "Specializes in laser cutting and turret punching."
                                 },
                                 new Member
                                 {
-                                    MemberName = "Urban Builders",
+                                    MemberName = "Chain Management",
                                     MemberSize = 70,
                                     MemberStatus = MemberStatus.Cancelled,
                                     MemberAccountsPayableEmail = "billing@urbanbuilders.com",
@@ -94,51 +94,51 @@ namespace CRMProject.Data
                                 },
                                 new Member
                                 {
-                                    MemberName = "Fresh Foods Co.",
+                                    MemberName = "Acc Payments",
                                     MemberSize = 120,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payroll@freshfoods.com",
                                     MemberStartDate = DateTime.Parse("2019-11-05"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-15), // Recently contacted
-                                    MemberNotes = "Key sponsor of annual events."
+                                    MemberNotes = "Provides early payment solutions for outstanding invoices."
                                 },
                                 new Member
                                 {
-                                    MemberName = "Smart Solutions",
+                                    MemberName = "Radar Technologies",
                                     MemberSize = 15,
                                     MemberStatus = MemberStatus.Cancelled,
                                     MemberAccountsPayableEmail = "accounting@smartsolutions.com",
                                     MemberStartDate = DateTime.Parse("2020-08-01"),
                                     MemberEndDate = DateTime.Parse("2022-12-15"), // Canceled 2 years ago
                                     MemberLastContactDate = DateTime.Today.AddDays(-300), // No contact for almost a year
-                                    MemberNotes = "Membership expired, no renewal yet."
+                                    MemberNotes = "Provides smart and reliable surveillance solutions."
                                 },
                                 new Member
                                 {
-                                    MemberName = "EduTech",
+                                    MemberName = "Security Services Co.",
                                     MemberSize = 25,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@edutech.com",
                                     MemberStartDate = DateTime.Parse("2022-05-12"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-10), // Recently contacted
-                                    MemberNotes = "Recently joined, active participation."
+                                    MemberNotes = "From static security and mobile patrol services, to armed transport and escort"
                                 },
                                 new Member
                                 {
-                                    MemberName = "AutoHub",
+                                    MemberName = "Agri-Plus",
                                     MemberSize = 80,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payments@autohub.com",
                                     MemberStartDate = DateTime.Parse("2021-09-30"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-45), // Contacted 1.5 months ago
-                                    MemberNotes = "Active in automotive industry programs."
+                                    MemberNotes = "Rubber mattresses, flooring, ventilation systems, and Comfort Brushes."
                                 },
                                 new Member
                                 {
-                                    MemberName = "Global Textiles",
+                                    MemberName = "Air Ca",
                                     MemberSize = 2000,
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "billing@globaltextiles.com",
@@ -149,25 +149,25 @@ namespace CRMProject.Data
                                 },
                                 new Member
                                 {
-                                    MemberName = "NextGen Technologies",
+                                    MemberName = "Airbus Canada",
                                     MemberSize = 600,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "accounting@nextgen.com",
                                     MemberStartDate = DateTime.Parse("2019-07-22"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-20), // Contacted recently
-                                    MemberNotes = "Frequent host of tech workshops."
+                                    MemberNotes = "Provides training solutions"
                                 },
                                 new Member
                                 {
-                                    MemberName = "Prime Logistics",
+                                    MemberName = "Wood",
                                     MemberSize = 100,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@primelogistics.com",
                                     MemberStartDate = DateTime.Parse("2020-02-10"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
-                                    MemberNotes = "Specializes in logistics management."
+                                    MemberNotes = "Specializes in wood vents and moldings."
                                 }
                             );
 
@@ -338,107 +338,113 @@ namespace CRMProject.Data
                         context.Industries.AddRange(
                             new Industry
                             {
-                                IndustryName = "Technology",
-                                IndustryNAICSCode = "541",
-                                IndustryDescription = "Tech services and IT solutions."
+                                IndustrySector = "Professional, scientific and technical services",
+                                IndustrySubsector = "Professional, scientific and technical services",
+                                IndustryNAICSCode = "541"
                             },
                             new Industry
                             {
-                                IndustryName = "Energy",
-                                IndustryNAICSCode = "221",
-                                IndustryDescription = "Renewable energy production and distribution."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Machinery manufacturing",
+                                IndustryNAICSCode = "333"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Construction",
-                                IndustryNAICSCode = "236",
-                                IndustryDescription = "Commercial building construction."
+                                IndustrySector = "Finance and insurance",
+                                IndustrySubsector = "Credit intermediation and related activities",
+                                IndustryNAICSCode = "522"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Food",
-                                IndustryNAICSCode = "311",
-                                IndustryDescription = "Food production and distribution."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Computer and electronic product manufacturing",
+                                IndustryNAICSCode = "334"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Education",
-                                IndustryNAICSCode = "611",
-                                IndustryDescription = "Educational services and resources."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Electrical equipment, appliance and component manufacturing",
+                                IndustryNAICSCode = "335"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Healthcare",
-                                IndustryNAICSCode = "621",
-                                IndustryDescription = "Offices of physicians, except mental health."
+                                IndustrySector = "Finance and insurance",
+                                IndustrySubsector = "Securities, commodity contracts, and other financial investment and related activities",
+                                IndustryNAICSCode = "523"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Manufacturing",
-                                IndustryNAICSCode = "334",
-                                IndustryDescription = "Electronic computer manufacturing."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Plastics and rubber products manufacturing",
+                                IndustryNAICSCode = "326"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Finance",
-                                IndustryNAICSCode = "522",
-                                IndustryDescription = "Commercial banking."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Miscellaneous manufacturing",
+                                IndustryNAICSCode = "339"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Retail",
-                                IndustryNAICSCode = "441",
-                                IndustryDescription = "New car dealers."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Transportation equipment manufacturing",
+                                IndustryNAICSCode = "336"                                
                             },
                             new Industry
                             {
-                                IndustryName = "Transportation",
-                                IndustryNAICSCode = "481",
-                                IndustryDescription = "Scheduled air transportation."
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Wood product manufacturing",
+                                IndustryNAICSCode = "321"                                
                             }
                         );
                         context.SaveChanges();
                     }
 
 
-                    // Seed MemberIndustry relationships if there aren't any.
+                    // Seed MemberIndustry relationships with meaningful associations
                     if (!context.MemberIndustries.Any())
                     {
-                        // Get the array of Member and Industry primary keys
-                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int[] industryIDs = context.Industries.Select(a => a.ID).ToArray();
-
-                        // Get the count of members and industries
-                        int memberCount = memberIDs.Length;
-                        int industryCount = industryIDs.Length;
-
-                        // Create 10 random MemberIndustry relationships
-                        for (int i = 0; i < memberIDs.Length; i++)
+                        var memberIndustryMappings = new Dictionary<string, string[]>
                         {
-                            // Randomly select MemberId and IndustryId
-                            int memberID = memberIDs[i];
-                            int randomIndustryId = industryIDs[random.Next(industryCount)];
+                            { "100 Marketing", new[] { "Professional, scientific and technical services" } },
+                            { "Technologies co.", new[] { "Machinery manufacturing" } },
+                            { "Chain Management", new[] { "Professional, scientific and technical services" } },
+                            { "Acc Payments", new[] { "Credit intermediation and related activities" } },
+                            { "Radar Technologies", new[] { "Computer and electronic product manufacturing", "Electrical equipment, appliance and component manufacturing" } },
+                            { "Security Services Co.", new[] { "Securities, commodity contracts, and other financial investment and related activities" } },
+                            { "Agri-Plus", new[] { "Plastics and rubber products manufacturing" } },
+                            { "Air Ca", new[] { "Miscellaneous manufacturing" } },
+                            { "Airbus Canada", new[] { "Transportation equipment manufacturing" } },
+                            { "Wood", new[] { "Wood product manufacturing" } }
+                        };
 
-                            // Create new MemberIndustry record
-                            MemberIndustry memberIndustry = new MemberIndustry
+                        foreach (var entry in memberIndustryMappings)
+                        {
+                            var member = context.Members.FirstOrDefault(m => m.MemberName == entry.Key);
+                            if (member != null)
                             {
-                                MemberID = memberID,
-                                IndustryID = randomIndustryId
-                            };
-
-                            try
-                            {
-                                //Could be a duplicate 
-                                context.MemberIndustries.Add(memberIndustry);
-                                context.SaveChanges();
-                            }
-                            catch (Exception)
-                            {
-                                //so skip it and go on to the next
-                                context.MemberIndustries.Remove(memberIndustry);
+                                foreach (var industryName in entry.Value)
+                                {
+                                    var industry = context.Industries.FirstOrDefault(i => i.IndustrySubsector == industryName);
+                                    if (industry != null)
+                                    {
+                                        // Avoid duplicate relationships
+                                        if (!context.MemberIndustries.Any(mi => mi.MemberID == member.ID && mi.IndustryID == industry.ID))
+                                        {
+                                            context.MemberIndustries.Add(new MemberIndustry
+                                            {
+                                                MemberID = member.ID,
+                                                IndustryID = industry.ID
+                                            });
+                                        }
+                                    }
+                                }
                             }
                         }
+
+                        context.SaveChanges();
                     }
+
 
                     // Seed Cancellations if there aren't any.
                     if (!context.Cancellations.Any())
@@ -484,14 +490,6 @@ namespace CRMProject.Data
                     // Seed Contacts if there aren't any.
                     if (!context.Contacts.Any())
                     {
-                        // Fetch available members
-                        var memberIDs = context.Members.Select(m => m.ID).ToList();
-
-                        if (memberIDs.Count == 0)
-                        {
-                            Debug.WriteLine("No members found. Contacts cannot be linked.");
-                        }
-
                         // Define a list of contacts
                         var contacts = new List<Contact>
                         {
@@ -620,68 +618,54 @@ namespace CRMProject.Data
                         // Add contacts to the database
                         context.Contacts.AddRange(contacts);
                         context.SaveChanges();
-
-                        // Now link contacts to members
-
-                        foreach (var contact in contacts)
-                        {
-                            if (memberIDs.Count > 0) // Ensure members exist before assigning
-                            {
-                                var randomMemberId = memberIDs[random.Next(memberIDs.Count)];
-                                context.MemberContacts.Add(new MemberContact
-                                {
-                                    MemberID = randomMemberId,
-                                    ContactID = contact.ID,
-                                    MemberContactRelationshipType = "Account Manager"
-                                });
-                            }
-                        }
-
-                        context.SaveChanges();
                     }
 
                     // Seed MemberContact relationships if there aren't any.
                     if (!context.MemberContacts.Any())
                     {
-                        // Get the array of Member and Contact primary keys
-                        int[] memberIDs = context.Members.Select(a => a.ID).ToArray();
-                        int[] contactIDs = context.Contacts.Select(a => a.ID).ToArray();
-                        int memberCount = memberIDs.Length;
-                        int contactCount = contactIDs.Length;
-
-                        // Relationship Types
-                        var relationshipTypes = new[] { "Account Manager", "Support", "Partner", "Vendor" };
-
-                        // Create 10 random MemberContact relationships
-                        for (int i = 0; i < 10; i++)
+                        var memberContactMappings = new Dictionary<string[], string[]>
                         {
-                            // Randomly select MemberId and ContactId
-                            int randomMemberId = memberIDs[random.Next(memberCount)];
-                            int randomContactId = contactIDs[random.Next(contactCount)];
+                            { new[] { "John Doe", "Jane Smith" }, new[] { "100 Marketing", "Security Services Co." } },
+                            { new[] { "Sarah Martinez" }, new[] { "Agri-Plus" } },
+                            { new[] { "Jane Smith", "James Brown" }, new[] { "Airbus Canada", "Radar Technologies" } },
+                            { new[] { "Mary Johnson", "Chris Williams" }, new[] { "Acc Payments", "Technologies co." } },
+                            { new[] { "Patricia Davis" }, new[] { "Air Ca" } },
+                            { new[] { "Michael Garcia" }, new[] { "Airbus Canada", "Radar Technologies" } },
+                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Wood", "Chain Management", "Acc Payments" } }
+                        };
 
-                            // Randomly select Relationship Type
-                            string randomRelationshipType = relationshipTypes[random.Next(relationshipTypes.Length)];
+                        foreach (var entry in memberContactMappings)
+                        {
+                            var contactNames = entry.Key;  // Multiple contacts
+                            var memberNames = entry.Value; // Multiple members
 
-                            // Create new MemberContact record
-                            MemberContact memberContact = new MemberContact
+                            foreach (var contactName in contactNames)
                             {
-                                MemberID = randomMemberId,
-                                ContactID = randomContactId,
-                                MemberContactRelationshipType = randomRelationshipType
-                            };
-
-                            try
-                            {
-                                // Add the new MemberContact record to the context
-                                context.MemberContacts.Add(memberContact);
-                                context.SaveChanges();
-                            }
-                            catch (Exception)
-                            {
-                                // Handle exceptions (e.g., skip if a conflict occurs)
-                                context.MemberContacts.Remove(memberContact);
+                                var contact = context.Contacts.FirstOrDefault(c => c.FirstName + " " + c.LastName == contactName);
+                                if (contact != null)
+                                {
+                                    foreach (var memberName in memberNames)
+                                    {
+                                        var member = context.Members.FirstOrDefault(m => m.MemberName == memberName);
+                                        if (member != null)
+                                        {
+                                            // Avoid duplicate relationships
+                                            if (!context.MemberContacts.Any(mc => mc.MemberID == member.ID && mc.ContactID == contact.ID))
+                                            {
+                                                context.MemberContacts.Add(new MemberContact
+                                                {
+                                                    MemberID = member.ID,
+                                                    ContactID = contact.ID,
+                                                    MemberContactRelationshipType = "Account Manager"
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
+
+                        context.SaveChanges();
                     }
 
                     // Seed Opportunities if there aren't any.

@@ -37,23 +37,23 @@
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <div class="row">
-                        <!-- Filter by Industry Name -->
+                        <!-- Filter by Industry Sector -->
                         <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Industry Name:</label>
-                            @Html.TextBox("IndustryName", null, new { @class = "form-control", placeholder = "Enter industry name" })
+                            <label class="control-label">Filter by Industry Sector:</label>
+                            @Html.TextBox("IndustrySector", null, new { @class = "form-control", placeholder = "Enter industry sector" })
+                        </div>
+
+                        <!-- Filter by Industry Subsector -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Industry Subsector:</label>
+                            @Html.TextBox("IndustrySubsector", null, new { @class = "form-control", placeholder = "Enter subsector" })
                         </div>
 
                         <!-- Filter by NAICS Code -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by NAICS Code:</label>
                             @Html.TextBox("IndustryNAICSCode", null, new { @class = "form-control", placeholder = "Enter NAICS code" })
-                        </div>
-
-                        <!-- Filter by Industry Description -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Industry Description:</label>
-                            @Html.TextBox("IndustryDescription", null, new { @class = "form-control", placeholder = "Enter description" })
-                        </div>
+                        </div>                                               
 
                         <!-- Filter Actions -->
                         <div class="form-group col-md-4 align-self-end">
@@ -72,9 +72,9 @@
                         <thead class="table-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.MemberIndustries)</th>
-                                <th>@Html.DisplayNameFor(model => model.IndustryName)</th>
-                                <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.IndustryDescription)</th>
+                                <th>@Html.DisplayNameFor(model => model.IndustrySector)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.IndustrySubsector)</th>
+                                <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode) Subsector NAICS</th>                                
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -96,9 +96,9 @@
                                                 @m.Member.MemberName <br />
                                             }
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.IndustryName)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustryDescription)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.IndustrySector)</td>
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustrySubsector)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>                                        
                                         <td>
                                             <div class="btn-group">
                                                 <a class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"

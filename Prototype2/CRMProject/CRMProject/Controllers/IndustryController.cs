@@ -20,7 +20,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Industry
-        public async Task<IActionResult> Index(string? IndustryName, string? IndustryNAICSCode, string? IndustryDescription)
+        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode )
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -32,10 +32,10 @@ namespace CRMProject.Controllers
                 .ThenInclude(i => i.Member)
                 .AsNoTracking(); // Eager loading with .Include and .ThenInclude
 
-            // Filter by Industry Name
-            if (!string.IsNullOrEmpty(IndustryName))
+            // Filter by Industry Sector
+            if (!string.IsNullOrEmpty(IndustrySector))
             {
-                industries = industries.Where(i => i.IndustryName.ToLower().Contains(IndustryName.ToLower()));
+                industries = industries.Where(i => i.IndustrySector.ToLower().Contains(IndustrySector.ToLower()));
                 numberFilters++;
             }
 
@@ -46,10 +46,10 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Filter by Industry Description
-            if (!string.IsNullOrEmpty(IndustryDescription))
+            // Filter by Industry Subsector
+            if (!string.IsNullOrEmpty(IndustrySubsector))
             {
-                industries = industries.Where(i => i.IndustryDescription.ToLower().Contains(IndustryDescription.ToLower()));
+                industries = industries.Where(i => i.IndustrySubsector.ToLower().Contains(IndustrySubsector.ToLower()));
                 numberFilters++;
             }
 
@@ -100,7 +100,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,IndustryName,IndustryNAICSCode,IndustryDescription")] Industry industry)
+        public async Task<IActionResult> Create([Bind("ID,IndustrySector,IndustrySubsector,IndustryNAICSCode")] Industry industry)
         {
             if (ModelState.IsValid)
             {
@@ -151,7 +151,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,IndustryName,IndustryNAICSCode,IndustryDescription")] Industry industry)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,IndustrySector,IndustrySubsector,IndustryNAICSCode")] Industry industry)
         {
             if (id != industry.ID)
             {

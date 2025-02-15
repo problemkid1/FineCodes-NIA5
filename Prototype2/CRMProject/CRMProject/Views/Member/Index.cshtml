@@ -30,7 +30,7 @@
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Members</h1>
-                <a asp-action="Create" class="btn btn-primary btn-lg "  >
+                <a asp-action="Create" class="btn btn-primary btn-lg ">
                     <i class="fas fa-plus"></i> Add Member
                 </a>
             </div>
@@ -78,7 +78,7 @@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
                                     <th class="d-none d-sm-table-cell">Membership Type</th>
-                                    <th class="d-none d-sm-table-cell">Industry Name</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th>Actions</th>
                                 </tr>
@@ -149,22 +149,17 @@
                                             </td>
 
                                             <td class="d-none d-sm-table-cell">
-                                                @if (item.MemberIndustries.Any())
+                                                @foreach (var m in item.MemberIndustries)
                                                 {
-                                                    @Html.DisplayFor(modelItem => item.MemberIndustries.First().Industry.IndustryName)
-                                                }
-                                                else
-                                                {
-                                                    <span>No Industry</span>
+                                                    @m.Industry.IndustrySubsector <br />
                                                 }
                                             </td>
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td>
-                                              
+
                                                 <div class="btn-group">
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                       
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
@@ -175,7 +170,6 @@
                                                     </a>
 
                                                     <a asp-action="Archive" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                       
                                                        data-bs-toggle="tooltip" title="Archive @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-archive-fill"></i>
                                                     </a>
