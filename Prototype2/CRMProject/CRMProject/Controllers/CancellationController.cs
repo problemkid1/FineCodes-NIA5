@@ -90,7 +90,7 @@ namespace CRMProject.Controllers
         // GET: Cancellation/Create
         public IActionResult Create()
         {
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail");
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName");
             return View();
         }
 
@@ -126,7 +126,7 @@ namespace CRMProject.Controllers
             }
 
             // Return to the Create view in case of failure or validation errors
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", cancellation.MemberID);
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", cancellation.MemberID);
             return View(cancellation);
         }
 
@@ -143,7 +143,7 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", cancellation.MemberID);
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", cancellation.MemberID);
             return View(cancellation);
         }
 
@@ -194,7 +194,7 @@ namespace CRMProject.Controllers
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
 
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberAccountsPayableEmail", cancellation.MemberID);
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", cancellation.MemberID);
             return View(cancellation);
         }
 

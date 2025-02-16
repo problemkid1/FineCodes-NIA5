@@ -182,19 +182,23 @@
                                                        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-search"></i>
                                                     </a>
-
                                                     @if (@item.MemberStatus != MemberStatus.Cancelled)
                                                     {
-                                                        <form asp-action="CancelMember" method="post" class="d-inline">
+                                                        <form asp-action="Cancel" method="get" class="d-inline">
                                                             <input type="hidden" name="id" value="@item.ID" />
-                                                            <button type="submit" class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="CancelMember">
+                                                            <button type="submit" class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Cancel">
                                                                 <i class="bi bi-x-circle"></i>
                                                             </button>
                                                         </form>
                                                     }
                                                     else
-                                                    {
-                                                        <span class="text-muted">Cancelled</span>
+                                                    {  
+                                                        <form asp-action="Activate" method="get" class="d-inline">
+                                                            <input type="hidden" name="id" value="@item.ID" />
+                                                            <button type="submit" class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Activate">
+                                                                <i>&#x271A;</i>
+                                                            </button>                                                            
+                                                        </form>
                                                     }                                                    
                                                 </div>
                                             </td>

@@ -2,7 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Cancel";
+    ViewData["Title"] = "Activate";
 }
 
 <!-- Display Success or Error Messages -->
@@ -20,14 +20,14 @@
     </div>
 }
 
-<form asp-action="Cancel" method="post" class="d-inline">
+<form asp-action="Activate" method="post" class="d-inline">
 <div class="col-12">
     <div class="card">
         <div class="card-body">
             <div>
-                <h1>Cancel Membership</h1>
+                <h1>Activate Membership</h1>
                 <hr />
-                <h3>Are you sure you want to cancel this membership?</h3>
+                <h3>Are you sure you want to activate this membership?</h3>
 
 
                 <hr />
@@ -67,13 +67,12 @@
                     <dd class="col-sm-10 col-md-9">
                         <textarea class="form-control" rows="4" readonly>@Model.MemberNotes</textarea>
                     </dd>
-
-                     @Html.Partial("_DetailCancellation", new Cancellation())
+                     
                 </dl>
 
                 <div class="form-group text-center">                    
                         <input type="hidden" asp-for="ID" />
-                        <button type="submit" class="btn btn-danger">Cancel Member</button>
+                        <button type="submit" class="btn btn-danger">Activate Member</button>
                         <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>                    
                 </div>
             </div>

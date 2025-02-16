@@ -32,7 +32,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="CancellationDate" class="control-label">Cancellation Date:</label>
-                            <input asp-for="CancellationDate" type="date" class="form-control" />
+                            <input asp-for="CancellationDate" type="date" class="form-control" readonly />
                             <span asp-validation-for="CancellationDate" class="text-danger"></span>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="MemberID" class="control-label">Member:</label>
-                            <select asp-for="MemberID" class="form-control" asp-items="ViewBag.MemberID"></select>
+                            <select asp-for="MemberID" class="form-control" asp-items="ViewBag.MemberID" readonly></select>
                             <span asp-validation-for="MemberID" class="text-danger"></span>
                         </div>
                     </div>

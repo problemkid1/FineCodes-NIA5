@@ -253,7 +253,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/CancelMember/5
-        public async Task<IActionResult> CancelMember(int? id)
+        public async Task<IActionResult> Cancel(int? id)
         {
             
             if (id == null)
@@ -271,53 +271,162 @@ namespace CRMProject.Controllers
 
             return View(member);
 
-        }       
-
-        // POST: Member/CancelMember/5
-        [HttpPost, ActionName("CancelMember")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelConfirmed(int id)
-        {
-            var member = await _context.Members
-                .Include(m => m.MemberPhoto)
-                .FirstOrDefaultAsync(m => m.ID == id);
-
-            if (member != null)
-            {
-                member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
-            }
-
-            // Check if a cancellation record already exists
-            bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.MemberID == member.ID);
-
-            if (!cancellationExists)
-            {
-                var cancellation = new Cancellation
-                {
-                    MemberID = member.ID,
-                    CancellationDate = DateTime.Now,
-                    CancellationReason = "Cancelled by user.",
-                    CancellationNotes = "Member moved to cancellations."
-                };
-
-                _context.Cancellations.Add(cancellation);
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = $"Member '{member.MemberName}' cancelled successfully!";
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                TempData["ErrorMessage"] = "An error occurred while cancelling the member.";
-            }
-
-            return RedirectToAction(nameof(Index));
         }
 
-       
+        // GET: Member/ActivateMember/5
+        public async Task<IActionResult> Activate(int? id)
+        {
+
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "Member not found.";
+                return RedirectToAction("Index");
+            }
+            var member = await _context.Members
+                .Include(p => p.MemberPhoto)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            return View(member);
+
+        }
+
+        // POST: Member/CancelMember/5
+        [HttpPost, ActionName("Cancel")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelConfirmed([Bind("ID,CancellationReason,CancellationNotes")] Cancellation input)
+        {
+            var member = await _context.Members
+                 .Include(m => m.MemberPhoto)
+                 .FirstOrDefaultAsync(m => m.ID == input.ID);
+
+            if (ModelState.IsValid)
+            {
+                if (member != null)
+                {
+                    member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
+                }
+
+                //Using a cancellation table
+
+                // Check if a cancellation record already exists
+                bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.MemberID == member.ID);
+
+                if (!cancellationExists)
+                {
+                    var cancellation = new Cancellation
+                    {
+                        MemberID = member.ID,
+                        CancellationDate = DateTime.Now,
+                        CancellationReason = input.CancellationReason,
+                        CancellationNotes = input.CancellationNotes
+                    };
+
+                    _context.Cancellations.Add(cancellation);
+                }
+
+                //Using a Status History table
+
+                // Do not check if record already exists. Add to Status History anyways, so that the status change for that member is recorded
+                //var cancellation = new Cancellation
+                //{
+                //    MemberID = member.ID,
+                //    CancellationDate = DateTime.Now,
+                //    CancellationReason = input.CancellationReason,
+                //    CancellationNotes = input.CancellationNotes
+                //};
+               // _context.Cancellations.Add(cancellation);
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = $"Member '{member.MemberName}' cancelled successfully!";
+                    return RedirectToAction("Index", "Cancellation");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    TempData["ErrorMessage"] = "An error occurred while cancelling the member.";
+                }
+            }
+            else
+            {
+                // If model validation fails, set an error message
+                TempData["ErrorMessage"] = "Please check the input data and try again.";
+            }
+            return View(member);
+        }
+
+        // POST: Member/ActivateMember/5
+        [HttpPost, ActionName("Activate")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ActivateConfirmed(int id)
+        {
+            var member = await _context.Members
+                 .Include(m => m.MemberPhoto)
+                 .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (ModelState.IsValid)
+            {
+                if (member != null)
+                {
+                    member.MemberStatus = MemberStatus.GoodStanding;  // Change status to Good Standing (Active)
+                }
+
+                //SOLVE BUG...DELETE CANCELLED RECORD WHEN ACTIVATING IT IF USING CANCELLATION TABLE
+
+                //Using a cancellation table
+
+                // Check if a cancellation record already exists
+                
+                //var cancellation = await _context.Cancellations
+                // .FirstOrDefaultAsync(m => m.ID == id);
+
+                //bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.ID == id);
+
+                //if (cancellationExists)
+                //{
+                //    _context.Cancellations.Remove(cancellation);
+                //}
+
+                //Using a Status History table
+                //Remember: change table name to Status History and add status collumn
+                //Add to Status History anyways, so that the status changing is recorded
+                //{
+                //    var cancellation = new Cancellation
+                //    {
+                //        MemberID = member.ID,
+                //        CancellationDate = DateTime.Now,
+                //        CancellationReason = input.CancellationReason,
+                //        CancellationNotes = input.CancellationNotes
+                //    };
+
+                //    _context.Cancellations.Add(cancellation);
+                //}
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = $"Member '{member.MemberName}' activated successfully!";
+                    return RedirectToAction("Index", "Cancellation");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    TempData["ErrorMessage"] = "An error occurred while activating the member.";
+                }
+            }
+            else
+            {
+                // If model validation fails, set an error message
+                TempData["ErrorMessage"] = "Please check the input data and try again.";
+            }
+            return View(member);
+        }
+
+
         private void PopulateAssignedMemberShipData(Member member)
         {
             //For this to work, you must have Included the child collection in the parent object

@@ -10,7 +10,7 @@ namespace CRMProject.Models
         [Required(ErrorMessage = "Cancellation date is required.")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime CancellationDate { get; set; } = DateTime.Today.AddYears(-3);
+        public DateTime CancellationDate { get; set; } = DateTime.Now;
 
         [Display(Name = "Cancellation Reason")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for Reason.")]
