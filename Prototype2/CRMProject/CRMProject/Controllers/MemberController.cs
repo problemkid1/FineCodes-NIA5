@@ -381,16 +381,16 @@ namespace CRMProject.Controllers
                 //Using a cancellation table
 
                 // Check if a cancellation record already exists
-                
-                //var cancellation = await _context.Cancellations
-                // .FirstOrDefaultAsync(m => m.ID == id);
 
-                //bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.ID == id);
+                var cancellation = await _context.Cancellations
+                 .FirstOrDefaultAsync(m => m.ID == id);
 
-                //if (cancellationExists)
-                //{
-                //    _context.Cancellations.Remove(cancellation);
-                //}
+                bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.ID == id);
+
+                if (cancellationExists)
+                {
+                    _context.Cancellations.Remove(cancellation);
+                }
 
                 //Using a Status History table
                 //Remember: change table name to Status History and add status collumn
