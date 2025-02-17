@@ -19,12 +19,17 @@
 					<th>
 						@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)
 					</th>
-					<th>
-						@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)
-					</th>
+					@* <th> *@
+					@* 	@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress) *@
+					@* </th> *@
+					@* 	<th> *@
+					@* 		@Html.DisplayNameFor(model => model.Contact.ContactWebsite) *@
+					@* 	</th> *@
+					
 					<th>
 						Email Type
 					</th>
+
 					<th style="float: right; padding-left: 10%;">
 						<a asp-controller="Contact" asp-action="Create" >
 							<span class="btn btn-success" data-bs-toggle="tooltip"
@@ -52,9 +57,13 @@
 						<td>
 							@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)
 						</td>
-						<td>
-							@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)
-						</td>
+						@* 	<td> *@
+						@* 		@Html.DisplayFor(modelItem => item.Contact.ContactWebsite) *@
+						@* 	</td> *@
+						@* <td> *@
+						@* 	@Html.DisplayFor(modelItem => item.Contact.ContactEmailType) *@
+						@* </td> *@
+
 						<td style="float: right; padding-left: 10%;">
 							<div class="btn-group">
 								<a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID" 
