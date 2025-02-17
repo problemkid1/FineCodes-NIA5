@@ -12,6 +12,8 @@
                     <th>@Html.DisplayNameFor(model => model.First().Summary)</th>
                     <th>@Html.DisplayNameFor(model => model.First().AddressCity)</th>
                     <th>@Html.DisplayNameFor(model => model.First().Province)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().PostalCode)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
                     <th style="text-align: right;">
                         <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
                             <span class="btn btn-success" data-bs-toggle="tooltip" title="Add Address">
@@ -35,6 +37,8 @@
                             </td>
                             <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
                             <td>@Html.DisplayFor(modelItem => item.Province)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
+                            <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
                             <td style="text-align: right;">
                                 <div class="btn-group">
                                     <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"

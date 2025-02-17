@@ -101,7 +101,7 @@
                                         <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>                                        
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                    
                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>
@@ -112,7 +112,7 @@
                                                     <i class="bi bi-search"></i>
                                                 </a>
 
-                                                <a class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                    
                                                    data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill"></i>

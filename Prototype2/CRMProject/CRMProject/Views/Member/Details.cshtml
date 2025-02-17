@@ -1,4 +1,5 @@
-﻿@model CRMProject.Models.Member
+﻿@using Microsoft.IdentityModel.Tokens
+@model CRMProject.Models.Member
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,59 +24,86 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <div>
-                <h1>Member Information</h1>
+            
+                <h1>@Html.DisplayFor(model => model.MemberName)</h1>
                 <hr />
 
-                <dl class="row">
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberName)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberName)</dd>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberSize)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberSize)</dd>
+            <!-- Two-Column Layout -->
+            <dl class="row">
+                <div class="col-xl-3">
+                    <!-- Member Image -->
+                    @if (Model.MemberPhoto?.Content != null)
+                    {
+                        string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
+                        string imageSrc = $"data:{Model.MemberPhoto.MimeType};base64,{imageBase64}";
+                        <img src="@imageSrc" alt="Profile Picture of @Model.Summary" title="Profile Picture of @Model.Summary" class="img-fluid rounded" />
+                    }
+                    else
+                    {
+                        <img src="@Model.MemberThumbnail" alt="Default Profile Picture" class="img-fluid rounded" />
+                    }
+                   
+                </div>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberStatus)</dd>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
+                <div class="col-xl-3">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MemberSize)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberSize)</dd>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberStatus)</dd>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
+                    <dt class="col-sm-8">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
+                </div>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
+                <div class="col-xl-3">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
+                    @* <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MemberEndDate)</dt> *@
+                    @* <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd> *@
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
+                   
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
                     <dd class="col-sm-10">
                         <textarea class="form-control" readonly>@Model.MemberNotes</textarea>
                     </dd>
-                </dl>
+                </div>
 
+                <div class="col-md-3">
+                    @* <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MemberContacts)</dt> *@
+                    @* <dd class="col-sm-8">@Html.DisplayFor(model => model.MemberContacts)</dd> *@
 
-            </div>
+                    
+                </div>
+
+                @* <div class="col-12"> *@
+                   
+                @* </div> *@
+            </dl>
         </div>
     </div>
-    <div class="mt-4">
 
+    <div class="row-md-4">
         @Html.Partial("_ListOfContacts", Model.MemberContacts)
-    </div>
-    <div class="mt-4">
-
         @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
-
-
     </div>
-    <div class="mt-4">
-
+    @* <div class="mt-4"> *@
+    @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@
+    @* </div> *@
+    <div class="row-md-4">
         @Html.Partial("_IndustryInfo", Model.MemberIndustries)
-    </div>
-    <div class="mt-4">
         @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
     </div>
+   
+    @* <div class="mt-4"> *@
+    @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
+    @* </div> *@
+
     <div class="form-group text-center">
         @if (Model?.ID != null)
         {

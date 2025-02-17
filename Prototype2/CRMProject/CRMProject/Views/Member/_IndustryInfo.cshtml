@@ -16,7 +16,11 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
-                    </th>                    
+                    </th>
+                    @* <th> *@
+                    @*     @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode) *@
+                    @* </th> *@
+                  
                     <th style ="float: right; padding-left: 10%;">
                         <a asp-controller="PatientAppointment" asp-action="Add">
                             <span class="btn btn-success" data-bs-toggle="tooltip"
@@ -40,6 +44,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
                         </td>
+                        @* <td> *@
+                        @*     @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode) *@
+                        @* </td> *@
+                     
                         <td style="float: right; padding-left: 10%;">
                             <div class="btn-group">
                                 <a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"

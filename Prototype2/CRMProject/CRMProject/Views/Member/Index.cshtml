@@ -22,7 +22,7 @@
 }
 
 <!-- Custom styles for this template-->
-<link href="~/customs/css/style.css" rel="stylesheet">
+<link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -82,7 +82,7 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="table-light">
                                 <tr>
-                                    <th></th>
+                                    
                                     <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
@@ -107,17 +107,17 @@
                                             <!--
                                             <td style="width: 100%; height: 100px;">
                                                 -->
-                                            <td>
-                                                @{
-                                                    if (item.MemberThumbnail?.Content != null)
-                                                    {
-                                                        string imageBase64 = Convert.ToBase64String(item.MemberThumbnail.Content);
-                                                        string imageSrc = string.Format("data:" + item.MemberThumbnail.MimeType + ";base64,{0}", imageBase64);
-                                                        <img src="@imageSrc" alt="Profile Picture of @item?.Summary"
-                                                             title="Profile Picture of @item?.Summary" class="img-fluid rounded img-fill" />
-                                                    }
-                                                }
-                                            </td>
+                                            @* <td> *@
+                                            @*     @{ *@
+                                            @*         if (item.MemberThumbnail?.Content != null) *@
+                                            @*         { *@
+                                            @*             string imageBase64 = Convert.ToBase64String(item.MemberThumbnail.Content); *@
+                                            @*             string imageSrc = string.Format("data:" + item.MemberThumbnail.MimeType + ";base64,{0}", imageBase64); *@
+                                            @*             <img src="@imageSrc" alt="Profile Picture of @item?.Summary" *@
+                                            @*                  title="Profile Picture of @item?.Summary" class="img-fluid rounded img-fill" /> *@
+                                            @*         } *@
+                                            @*     } *@
+                                            @* </td> *@
 
 
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
