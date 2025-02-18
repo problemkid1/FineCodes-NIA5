@@ -1,32 +1,37 @@
-﻿let DDLforChosen = document.getElementById("selectedOptions");
-let DDLforAvail = document.getElementById("availOptions");
+﻿document.addEventListener("DOMContentLoaded", function () {
+    function switchOptions(event, senderDDL, receiverDDL) {
+        event.preventDefault();
+        let selectedOptions = [...senderDDL.options].filter(opt => opt.selected);
 
-/*function to switch list items from one ddl to another
-use the sender param for the DDL from which the user is multi-selecting
-use the receiver param for the DDL that gets the options*/
-function switchOptions(event, senderDDL, receiverDDL) {
-    //find all selected option tags - selectedOptions becomes a nodelist 
-    let senderID = senderDDL.id;
-    let selectedOptions = document.querySelectorAll(`#${senderID} option:checked`);
-    event.preventDefault();
+        if (selectedOptions.length === 0) {
+            alert("Nothing to move.");
+            return;
+        }
 
-    if (selectedOptions.length === 0) {
-        alert("Nothing to move.");
-    }
-    else {
-        selectedOptions.forEach(function (o, idx) {
-            senderDDL.remove(o.index);
-            receiverDDL.appendChild(o);
+        selectedOptions.forEach(option => {
+            senderDDL.remove(option.index);
+            receiverDDL.appendChild(option);
         });
     }
-}
-//create closures so that we can access the event & the 2 parameters
-let addOptions = (event) => switchOptions(event, DDLforAvail, DDLforChosen);
-let removeOptions = (event) => switchOptions(event, DDLforChosen, DDLforAvail);
-//assign the closures as the event handlers for each button
-document.getElementById("btnLeft").addEventListener("click", addOptions);
-document.getElementById("btnRight").addEventListener("click", removeOptions);
 
-document.getElementById("btnSubmit").addEventListener("click", function () {
-    DDLforChosen.childNodes.forEach(opt => opt.selected = "selected");
-})
+    // Membership Buttons
+    document.getElementById("btnAddMembership").addEventListener("click", (event) =>
+        switchOptions(event, document.getElementById("availableMembership"), document.getElementById("selectedMembership")));
+
+    document.getElementById("btnRemoveMembership").addEventListener("click", (event) =>
+        switchOptions(event, document.getElementById("selectedMembership"), document.getElementById("availableMembership")));
+
+    // Industry Buttons
+    document.getElementById("btnAddIndustry").addEventListener("click", (event) =>
+        switchOptions(event, document.getElementById("availableIndustry"), document.getElementById("selectedIndustry")));
+
+    document.getElementById("btnRemoveIndustry").addEventListener("click", (event) =>
+        switchOptions(event, document.getElementById("selectedIndustry"), document.getElementById("availableIndustry")));
+
+    // Form Submission
+    document.getElementById("btnSubmit").addEventListener("click", function () {
+        ["selectedMembership", "selectedIndustry"].forEach(id => {
+            Array.from(document.getElementById(id).options).forEach(opt => opt.selected = true);
+        });
+    });
+});
