@@ -105,9 +105,9 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-           ViewData["MemberId"] = member.ID; 
+            ViewData["MemberId"] = member.ID;
 
-         return View(member);
+            return View(member);
         }
 
 
@@ -115,6 +115,7 @@ namespace CRMProject.Controllers
         public IActionResult Create()
         {
             Member member = new Member();
+            PopulateAssignedIndustryData(member);
             PopulateAssignedMemberShipData(member);
             return View();
         }
@@ -124,28 +125,36 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member, IFormFile? thePicture, string[] selectedOptions)
+        public async Task<IActionResult> Create(
+    [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member,
+    IFormFile? thePicture,
+    string[] selectedMembership,
+    string[] selectedIndustry)
         {
-                UpdateMemberMembershipTypes(selectedOptions, member);
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        await AddPicture(member, thePicture);
-                        // Add the new member to the context and save changes
-                        _context.Add(member);
-                        await _context.SaveChangesAsync();
+            // Update membership types and industries
+            UpdateMemberMembershipTypes(selectedMembership, member);
+            UpdateIndustry(selectedIndustry, member);
 
-                        // Set success message in TempData
-                        TempData["SuccessMessage"] = "Member created successfully!";
-                        return RedirectToAction(nameof(Details), new { id = member.ID });
-                    }
-                    
-                    catch (RetryLimitExceededException /* dex */)
-                    {
-                        ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
-                    }
-                    catch (Exception)
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Handle picture upload
+                    await AddPicture(member, thePicture);
+
+                    // Add the new member to the context and save changes
+                    _context.Add(member);
+                    await _context.SaveChangesAsync();
+
+                    // Set success message
+                    TempData["SuccessMessage"] = "Member created successfully!";
+                    return RedirectToAction(nameof(Details), new { id = member.ID });
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+                }
+                catch (Exception)
                 {
                     // Set error message in case of failure
                     TempData["ErrorMessage"] = "An error occurred while creating the member.";
@@ -156,7 +165,11 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+
+            // Populate the assigned data for the view
             PopulateAssignedMemberShipData(member);
+            PopulateAssignedIndustryData(member);
+
             // Return to the Create view in case of failure or validation errors
             return View(member);
         }
@@ -170,6 +183,7 @@ namespace CRMProject.Controllers
             }
             var member = await _context.Members
                .Include(p => p.MemberPhoto)
+                .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
                .AsNoTracking()
                .FirstOrDefaultAsync(m => m.ID == id);
@@ -179,6 +193,7 @@ namespace CRMProject.Controllers
             }
 
             PopulateAssignedMemberShipData(member);
+            PopulateAssignedIndustryData(member);
 
             return View(member);
         }
@@ -188,10 +203,12 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture, string[] selectedOptions)
+        public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture,
+    string[] selectedMembership, string[] selectedIndustry)
         {
             var memberToUpdate = await _context.Members
                 .Include(p => p.MemberPhoto)
+                .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                 .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
@@ -200,7 +217,9 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            UpdateMemberMembershipTypes(selectedOptions, memberToUpdate);
+            // Update membership types and industries separately
+            UpdateMemberMembershipTypes(selectedMembership, memberToUpdate);
+            UpdateIndustry(selectedIndustry, memberToUpdate);
 
             // Check the model state before updating the member
             if (!ModelState.IsValid)
@@ -211,7 +230,7 @@ namespace CRMProject.Controllers
                     .ToList();
 
                 TempData["ErrorMessage"] = string.Join(" ", errorMessages);
-                return View(memberToUpdate); // Return to the edit view if validation fails
+                return View(memberToUpdate);
             }
 
             // Try updating the member with the values posted
@@ -232,7 +251,7 @@ namespace CRMProject.Controllers
                         await AddPicture(memberToUpdate, thePicture);
                     }
 
-                    // Update member details in the database without checking RowVersion
+                    // Update member details in the database
                     _context.Update(memberToUpdate);
                     await _context.SaveChangesAsync();
 
@@ -247,15 +266,18 @@ namespace CRMProject.Controllers
                     TempData["ErrorMessage"] = "An error occurred while updating the member details.";
                 }
             }
+
+            // Populate the assigned data for the view
             PopulateAssignedMemberShipData(memberToUpdate);
-            return View(memberToUpdate); // Return to the edit view if the update fails
+            PopulateAssignedIndustryData(memberToUpdate);
+            return View(memberToUpdate);
         }
 
 
         // GET: Member/CancelMember/5
         public async Task<IActionResult> Cancel(int? id)
         {
-            
+
             if (id == null)
             {
                 TempData["ErrorMessage"] = "Member not found.";
@@ -338,7 +360,7 @@ namespace CRMProject.Controllers
                 //    CancellationReason = input.CancellationReason,
                 //    CancellationNotes = input.CancellationNotes
                 //};
-               // _context.Cancellations.Add(cancellation);
+                // _context.Cancellations.Add(cancellation);
 
                 try
                 {
@@ -466,19 +488,25 @@ namespace CRMProject.Controllers
 
         private void UpdateMemberMembershipTypes(string[] selectedOptions, Member memberToUpdate)
         {
-            if (selectedOptions == null)
+            // Only initialize if null, don't clear existing data
+            if (memberToUpdate.MemberMembershipTypes == null)
             {
                 memberToUpdate.MemberMembershipTypes = new List<MemberMembershipType>();
-                return;
             }
 
+            if (selectedOptions == null || selectedOptions.Length == 0)
+            {
+                return; // Don't clear existing data
+            }
+
+            // Rest of the method remains the same
             var selectedOptionsHS = new HashSet<string>(selectedOptions);
             var currentOptionsHS = new HashSet<int>(memberToUpdate.MemberMembershipTypes.Select(b => b.MembershipTypeID));
             foreach (var s in _context.MembershipTypes)
             {
-                if (selectedOptionsHS.Contains(s.ID.ToString()))//it is selected
+                if (selectedOptionsHS.Contains(s.ID.ToString()))
                 {
-                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Member's collection - Add it!
+                    if (!currentOptionsHS.Contains(s.ID))
                     {
                         memberToUpdate.MemberMembershipTypes.Add(new MemberMembershipType
                         {
@@ -487,9 +515,9 @@ namespace CRMProject.Controllers
                         });
                     }
                 }
-                else //not selected
+                else
                 {
-                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Member's collection - Remove it!
+                    if (currentOptionsHS.Contains(s.ID))
                     {
                         MemberMembershipType? specToRemove = memberToUpdate.MemberMembershipTypes.FirstOrDefault(d => d.MembershipTypeID == s.ID);
                         if (specToRemove != null)
@@ -501,6 +529,80 @@ namespace CRMProject.Controllers
             }
         }
 
+        private void PopulateAssignedIndustryData(Member member)
+        {
+            //For this to work, you must have Included the child collection in the parent object
+            var allOptions = _context.Industries;
+            var currentOptionsHS = new HashSet<int>(member.MemberIndustries.Select(b => b.IndustryID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.Summary
+
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.Summary
+                    });
+                }
+            }
+
+            ViewData["selOptsIndus"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsIndus"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+        private void UpdateIndustry(string[] selectedOptions, Member memberToUpdate)
+        {
+            // Only initialize if null, don't clear existing data
+            if (memberToUpdate.MemberIndustries == null)
+            {
+                memberToUpdate.MemberIndustries = new List<MemberIndustry>();
+            }
+
+            if (selectedOptions == null || selectedOptions.Length == 0)
+            {
+                return; // Don't clear existing data
+            }
+
+            // Rest of the method remains the same
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(memberToUpdate.MemberIndustries.Select(b => b.IndustryID));
+            foreach (var s in _context.Industries)
+            {
+                if (selectedOptionsHS.Contains(s.ID.ToString()))
+                {
+                    if (!currentOptionsHS.Contains(s.ID))
+                    {
+                        memberToUpdate.MemberIndustries.Add(new MemberIndustry
+                        {
+                            IndustryID = s.ID,
+                            MemberID = memberToUpdate.ID
+                        });
+                    }
+                }
+                else
+                {
+                    if (currentOptionsHS.Contains(s.ID))
+                    {
+                        MemberIndustry? specToRemove = memberToUpdate.MemberIndustries.FirstOrDefault(d => d.IndustryID == s.ID);
+                        if (specToRemove != null)
+                        {
+                            _context.Remove(specToRemove);
+                        }
+                    }
+                }
+            }
+        }
         private async Task AddPicture(Member member, IFormFile thePicture)
         {
             //Get the picture and save it with the Member (2 sizes)

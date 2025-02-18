@@ -18,6 +18,7 @@
         </div>
     }
 }
+
 <div class="col-12">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -44,7 +45,8 @@
                             <span asp-validation-for="MemberSize" class="text-danger"></span>
                         </div>
                     </div>
-                    <!--Member Status-->
+
+                    <!-- Member Status -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="MemberStatus" class="control-label"></label>
@@ -69,7 +71,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="MemberStartDate" class="control-label"></label>
-                            <input asp-for="MemberStartDate" type="date" class="form-control" />
+                            <input asp-for="MemberStartDate" type="date" class="form-control" id="MemberStartDate" />
                             <span asp-validation-for="MemberStartDate" class="text-danger"></span>
                         </div>
                     </div>
@@ -78,17 +80,8 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="MemberEndDate" class="control-label"></label>
-                            <input asp-for="MemberEndDate" type="date" class="form-control" />
+                            <input asp-for="MemberEndDate" type="date" class="form-control" id="MemberEndDate" />
                             <span asp-validation-for="MemberEndDate" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Member Last Contact Date -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberLastContactDate" class="control-label"></label>
-                            <input asp-for="MemberLastContactDate" type="date" class="form-control" />
-                            <span asp-validation-for="MemberLastContactDate" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -96,37 +89,42 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="MemberPhoto" class="control-label"></label>
-                            <input asp-for="MemberPhoto" type="file" class="form-control" accept="image/*" />
+                            <input asp-for="MemberPhoto" type="file" class="form-control-file" accept="image/*" />
                             <span asp-validation-for="MemberPhoto" class="text-danger"></span>
                         </div>
                     </div>
-
-
-                    <!-- Member Notes -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberNotes" class="control-label mr-3" style="min-width: 150px; white-space: nowrap;">Member Notes:</label>
-                            <textarea asp-for="MemberNotes" class="form-control" style="min-height: 100px; flex-grow: 1;"></textarea>
-                            <span asp-validation-for="MemberNotes" class="text-danger"></span>
-                        </div>
-                    </div>
                 </div>
+
+                <!-- Membership Types -->
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label class="control-label"> Membership Type</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
-                            <strong>-</strong>
-                        </button>
-                        @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                        <label class="control-label">Selected Membership Types</label>
+                        <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                        @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label class="control-label"> Choose Membership Type</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
-                            <strong>+</strong>
-                        </button>
-                        @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                        <label class="control-label">Available Membership Types</label>
+                        <button type="button" id="btnAddMembership" class="btn btn-success btn-sm"><strong>+</strong></button>
+                        @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
                     </div>
                 </div>
-                 
+
+                <!-- Industry Types -->
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Selected Industry Types</label>
+                        <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                        @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Available Industry Types</label>
+                        <button type="button" id="btnAddIndustry" class="btn btn-success btn-sm"><strong>+</strong></button>
+                        @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                    </div>
+                </div>
+
                 <div class="form-group text-center">
                     <input type="submit" value="Create Member" id="btnSubmit" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary ml-2">Back to Members</a>
@@ -135,7 +133,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="~/js/multiselect.js"></script>
 @section Scripts {
