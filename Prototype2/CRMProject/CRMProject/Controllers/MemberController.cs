@@ -402,7 +402,7 @@ namespace CRMProject.Controllers
         // POST: Member/CancelMember/5
         [HttpPost, ActionName("Cancel")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelConfirmed([Bind("ID,CancellationReason,CancellationNotes")] Cancellation input)
+        public async Task<IActionResult> CancelConfirmed([Bind("ID,CancellationDate,CancellationReason,CancellationNotes")] Cancellation input)
         {
             var member = await _context.Members
                  .Include(m => m.MemberPhoto)
@@ -425,7 +425,7 @@ namespace CRMProject.Controllers
                     var cancellation = new Cancellation
                     {
                         MemberID = member.ID,
-                        CancellationDate = DateTime.Now,
+                        CancellationDate = input.CancellationDate,
                         CancellationReason = input.CancellationReason,
                         CancellationNotes = input.CancellationNotes
                     };

@@ -1,5 +1,12 @@
 ﻿@model CRMProject.Models.Cancellation
 
+<dt class="col-sm-2 col-md-3">
+    <label asp-for="CancellationDate" class="control-label">Cancellation Date:</label>
+</dt>
+<dd class="col-sm-10 col-md-9">
+    <input asp-for="CancellationDate" class="form-control" type="date" />
+    <span asp-validation-for="CancellationDate" class="text-danger"></span>
+</dd>
 
 <dt class ="col-sm-2 col-md-3">
 <label asp-for="CancellationReason" class="control-label">Cancellation Reason:</label>

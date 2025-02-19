@@ -76,6 +76,8 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
+            //DateTime? cancellationDate = model.CancellationDate;
+
             var cancellation = await _context.Cancellations
                 .Include(c => c.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
