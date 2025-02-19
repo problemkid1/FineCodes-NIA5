@@ -94,9 +94,8 @@
                                     <td>@Html.DisplayFor(modelItem => item.Province)</td>
                                     <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
                                     <td>
-                                        <div class="btn-group">
+                                        <div class="btn-group" style="align-self:center; padding-left: 16%;">
                                             <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                               
                                                data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
@@ -107,7 +106,6 @@
                                             </a>
 
                                             <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                               
                                                data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                 <i class="bi bi-archive-fill"></i>
                                             </a>

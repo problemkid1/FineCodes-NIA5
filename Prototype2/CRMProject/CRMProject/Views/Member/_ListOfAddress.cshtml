@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<CRMProject.Models.Address>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <br />
 <div class="panel panel-primary">
@@ -17,11 +18,13 @@
                     <th style="text-align: right;">
                         <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
                             <span class="btn btn-success" data-bs-toggle="tooltip" title="Add Address">
-                                <strong>&#x271A; Add</strong>
+                                <strong><i class="fa-solid fa-plus"></i> Add</strong>
                             </span>
                         </a>
 
                     </th>
+
+                    
                 </tr>
             </thead>
             <tbody>
