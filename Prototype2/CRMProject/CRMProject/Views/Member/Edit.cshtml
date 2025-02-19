@@ -113,6 +113,40 @@
                         </div>
                     </div>
 
+                   
+                
+
+                <!-- Membership Types -->
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Available Membership Types</label>
+                        <button type="button" id="btnAddMembership" class="btn btn-success btn-sm"><strong>+</strong></button>
+                        @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                    </div>
+                
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Selected Membership Types</label>
+                        <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                        @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                    </div>
+
+                   
+                
+
+                <!-- Industry Types -->
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Available Industry Types</label>
+                        <button type="button" id="btnAddIndustry" class="btn btn-success btn-sm"><strong>+</strong></button>
+                        @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Selected Industry Types</label>
+                        <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                        @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
+                    </div>
+
+
                     <!-- Picture Upload -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
@@ -122,42 +156,17 @@
                             </div>
                         </div>
                     </div>
+                   
+                    
+                   
                 </div>
-
-                <!-- Membership Types -->
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Selected Membership Types</label>
-                        <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                        @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Available Membership Types</label>
-                        <button type="button" id="btnAddMembership" class="btn btn-success btn-sm"><strong>+</strong></button>
-                        @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
-                    </div>
-                </div>
-
-                <!-- Industry Types -->
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Selected Industry Types</label>
-                        <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                        @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Available Industry Types</label>
-                        <button type="button" id="btnAddIndustry" class="btn btn-success btn-sm"><strong>+</strong></button>
-                        @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
-                    </div>
-                </div>
-
                 <div class="form-group text-center">
                     <input type="submit" value="Save Member" id="btnSubmit" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary ml-2">Back to Members</a>
                 </div>
+
+                    
+                
             </form>
         </div>
     </div>

@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "CRM";
+    // If ViewData["NewMemberCount"] is null, default to 0
+    var newMemberCount = ViewData["NewMemberCount"] ?? 0;
 }
 
 <div class="container-fluid">
@@ -11,15 +13,15 @@
     <div class="row">
         <!-- Left Column: Stacked Cards -->
         <div class="col-md-6 d-flex flex-column">
-            <a href="/Member" class="text-decoration-none mb-3 flex-grow-1">
+            <a href="/Member" class="text-decoration-none mb-3">
                 <div class="card border-left-primary shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    All Members
+                                    <h3>Total Members</h3>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <div class="h3 mb-0 font-weight-bold text-gray-800">
                                     @ViewData["MemberCount"]
                                 </div>
                             </div>
@@ -31,40 +33,60 @@
                 </div>
             </a>
 
-            <a href="/Opportunity" class="text-decoration-none mb-3 flex-grow-1">
+            <a href="/Industry" class="text-decoration-none mb-3">
                 <div class="card border-left-success shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Opportunities
+                                    <h3>Industries</h3>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    @ViewData["OpportunityCount"]
+                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                    @ViewData["IndustryCount"]
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-lightbulb fa-2x text-blue-blue"></i>
+                                <i class="fas fa-industry fa-2x text-blue-blue"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </a>
 
-            <a href="/Industry" class="text-decoration-none flex-grow-1">
+            <a href="/Cancellation" class="text-decoration-none mb-3">
+                <div class="card border-left-danger shadow h-100">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                    <h3>Cancellations</h3>
+                                </div>
+                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                    @ViewData["CancellationCount"]
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-slash fa-2x text-red-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <a href="/Member" class="text-decoration-none">
                 <div class="card border-left-info shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    Industries
+                                    <h3>New Members (@DateTime.Now.Year)</h3>
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    @ViewData["IndustryCount"]
+                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                    @newMemberCount
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-industry fa-2x text-blue-300"></i>
+                                <i class="fas fa-user-plus fa-2x text-blue-300"></i>
                             </div>
                         </div>
                     </div>
@@ -72,80 +94,95 @@
             </a>
         </div>
 
-        <!-- Right Column: Pie Chart -->
-        <div class="col-md-6 d-flex align-items-stretch">
-            <div class="card shadow w-100">
+        <br />
+        <!-- Right Column: Charts -->
+        <div class="col-md-6 d-flex flex-column">
+            <br />
+            <div class="card shadow w-100 mb-3">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Membership Overview</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Options:</div>
-                            <a class="dropdown-item" href="/Member">View All Members</a>
-                        </div>
-                    </div>
                 </div>
                 <div class="card-body d-flex align-items-center">
                     <div class="chart-pie w-100">
                         <canvas id="memberPieChart"></canvas>
                     </div>
                 </div>
-                <div class="text-center small" style="margin-top: -5px;">
-                    <span class="mr-2" style="margin-top: -15px;">
-                        <i class="fas fa-circle" style="color: #36479B;"></i> Good Standing
-                    </span>
-                    <span class="mr-2" style="margin-top: -15px;">
-                        <i class="fas fa-circle" style="color: #933515;"></i> Overdue Payment
-                    </span>
-                    <span class="mr-2" style="margin-top: -15px;">
-                        <i class="fas fa-circle" style="color: #D9534F;"></i> Cancelled
-                    </span>
+            </div>
+            <div class="card shadow w-100">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h6>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                    <div class="chart-bar w-100">
+                        <canvas id="municipalityBarChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var ctx = document.getElementById("memberPieChart").getContext("2d");
+        // Membership Overview Pie Chart
+        var ctxPie = document.getElementById("memberPieChart").getContext("2d");
         var goodStanding = @ViewData["GoodStandingCount"];
         var overduePayment = @ViewData["OverduePaymentCount"];
         var cancellations = @ViewData["CancellationCount"];
 
-        new Chart(ctx, {
+        new Chart(ctxPie, {
             type: 'doughnut',
             data: {
                 labels: ["Good Standing", "Overdue Payment", "Cancelled"],
                 datasets: [{
                     data: [goodStanding, overduePayment, cancellations],
                     backgroundColor: ['#36479B', '#933515', '#D9534F'],
-                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333'],
-                    hoverBorderColor: "rgba(234, 236, 244, 1)",
-                }],
+                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+                }]
             },
             options: {
                 maintainAspectRatio: false,
-                tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: false,
-                    caretPadding: 10,
-                },
-                legend: {
-                    display: false
-                },
-                cutoutPercentage: 80,
-            },
+                cutoutPercentage: 80
+            }
         });
+
+        // Municipality Bar Chart
+       var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
+       var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"]));
+       var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"]));
+
+        new Chart(ctxBar, {
+                type: 'bar',
+                data: 
+                {
+                    labels: municipalityLabels,
+                    datasets: [{
+                        label: "Members",
+                        backgroundColor: "#4e73df",
+                        hoverBackgroundColor: "#2e59d9",
+                        borderColor: "#4e73df",
+                        data: municipalityData
+                    }]
+                },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0, // Ensures only whole numbers
+                        stepSize: 1, // Forces increments of 1
+                        callback: function(value, index, values) {
+                            return Number(value).toLocaleString(); // Formats as whole number
+                        }
+                    }
+                }
+            }
+        }
+    });
+
     });
 </script>
-<!-- /.container-fluid -->

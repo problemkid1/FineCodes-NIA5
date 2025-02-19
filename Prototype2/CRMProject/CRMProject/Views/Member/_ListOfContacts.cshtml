@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<CRMProject.Models.MemberContact>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <br />
 <div class="panel panel-primary">
 	<div class="panel-heading">
@@ -33,10 +35,17 @@
 					<th style="float: right; padding-left: 10%;">
 						<a asp-controller="Contact" asp-action="Create" >
 							<span class="btn btn-success" data-bs-toggle="tooltip"
-								  title="Add Contact"><strong>&#x271A; Add</strong></span>
+									  title="Add Contact"><strong><i class="fa-solid fa-plus"></i> Add</strong>
+								  </span>
 						</a>
 					</th>
 
+						@* <th style="float: right; padding-left: 10%;"> *@
+						@* 	<a asp-controller="Contact" asp-action="Create"> *@
+						@* 		<span class="btn btn-success" data-bs-toggle="tooltip" *@
+						@* 			  title="Add Contact"><strong>&#x271A; Add</strong></span> *@
+						@* 	</a> *@
+						@* </th> *@
 				</tr>
 			</thead>
 			<tbody>

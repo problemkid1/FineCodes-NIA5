@@ -2,6 +2,7 @@ using CRMProject.Data;
 using CRMProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Linq;
 
 namespace CRMProject.Controllers
 {
@@ -23,8 +24,9 @@ namespace CRMProject.Controllers
             int memberCount = _context.Members.Count();
             int opportunityCount = _context.Opportunities.Count();
             int industryCount = _context.Industries.Count();
-            var goodStandingCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.GoodStanding);
-            var overduePaymentCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.OverduePayment);
+            int goodStandingCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.GoodStanding);
+            int overduePaymentCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.OverduePayment);
+            int newMemberCount = GetNewMemberCount();
 
             // Pass the counts to ViewData
             ViewData["CancellationCount"] = cancellationCount;
@@ -33,8 +35,30 @@ namespace CRMProject.Controllers
             ViewData["IndustryCount"] = industryCount;
             ViewData["GoodStandingCount"] = goodStandingCount;
             ViewData["OverduePaymentCount"] = overduePaymentCount;
+            ViewData["NewMemberCount"] = newMemberCount;
+
+            // Query addresses to group by municipality (AddressCity) and count the number of members per city.
+            var municipalityQuery = _context.Addresses
+                .GroupBy(a => a.AddressCity)
+                .Select(g => new
+                {
+                    Municipality = g.Key,
+                    Count = g.Count()
+                })
+                .ToList();
+
+            // Supply these as labels and data for the chart.
+            ViewData["MunicipalityLabels"] = municipalityQuery.Select(x => x.Municipality).ToList();
+            ViewData["MunicipalityData"] = municipalityQuery.Select(x => x.Count).ToList();
 
             return View();
+        }
+
+        // Helper method to get the count of new members for the current year
+        private int GetNewMemberCount()
+        {
+            int currentYear = DateTime.Now.Year;
+            return _context.Members.Count(m => m.MemberStartDate.Year == currentYear);
         }
 
         public IActionResult Privacy()

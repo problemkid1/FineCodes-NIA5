@@ -27,18 +27,17 @@ namespace CRMProject.Controllers
         // GET: Member
         public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, MembershipTypeName? MembershipTypeName)
         {
-            //Count the number of filters applied - start by assuming no filters
+            // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
 
-
             var members = _context.Members
                  .Include(p => p.MemberThumbnail)
-                .Include(m => m.Address)
-                .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
-                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact)
-                .Include(m => m.MemberMembershipTypes).ThenInclude(mmt => mmt.MembershipType)
-                .AsNoTracking();
+                 .Include(m => m.Address)
+                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
+                 .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact)
+                 .Include(m => m.MemberMembershipTypes).ThenInclude(mmt => mmt.MembershipType)
+                 .AsNoTracking();
 
             // Filter by Name
             if (!string.IsNullOrEmpty(SearchString))
@@ -68,20 +67,25 @@ namespace CRMProject.Controllers
                                 .Any(mmt => mmt.MembershipType.MembershipTypeName == MembershipTypeName.Value));
                 numberFilters++;
             }
-            //Give feedback about the state of the filters
+
+            // Give feedback about the state of the filters
             if (numberFilters != 0)
             {
-                //Toggle the Open/Closed state of the collapse depending on if we are filtering
+                // Toggle the Open/Closed state of the collapse depending on if we are filtering
                 ViewData["Filtering"] = " btn-danger";
-                //Show how many filters have been applied
+                // Show how many filters have been applied
                 ViewData["numberFilters"] = "(" + numberFilters.ToString()
                     + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                //Keep the Bootstrap collapse open
+                // Keep the Bootstrap collapse open
                 @ViewData["ShowFilter"] = " show";
             }
 
+            // Update the new member count for the current year
+            ViewData["NewMemberCount"] = GetNewMemberCount();
+
             return View(await members.ToListAsync());
         }
+
 
 
         public async Task<IActionResult> Details(int? id)
@@ -123,13 +127,23 @@ namespace CRMProject.Controllers
         // POST: Member/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Helper method added to your MemberController
+        private int GetNewMemberCount()
+        {
+            int currentYear = DateTime.Now.Year;
+            return _context.Members.Count(m => m.MemberStartDate.Year == currentYear);
+        }
+
+        // POST: Member/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-    [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member,
-    IFormFile? thePicture,
-    string[] selectedMembership,
-    string[] selectedIndustry)
+            [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member,
+            IFormFile? thePicture,
+            string[] selectedMembership,
+            string[] selectedIndustry)
         {
             // Update membership types and industries
             UpdateMemberMembershipTypes(selectedMembership, member);
@@ -145,6 +159,9 @@ namespace CRMProject.Controllers
                     // Add the new member to the context and save changes
                     _context.Add(member);
                     await _context.SaveChangesAsync();
+
+                    // Update the new member count for the current year
+                    TempData["NewMemberCount"] = GetNewMemberCount();
 
                     // Set success message
                     TempData["SuccessMessage"] = "Member created successfully!";
@@ -173,6 +190,72 @@ namespace CRMProject.Controllers
             // Return to the Create view in case of failure or validation errors
             return View(member);
         }
+
+
+
+
+
+
+
+
+
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
+    //    public async Task<IActionResult> Create(
+    //[Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member,
+    //IFormFile? thePicture,
+    //string[] selectedMembership,
+    //string[] selectedIndustry)
+    //    {
+    //        // Update membership types and industries
+    //        UpdateMemberMembershipTypes(selectedMembership, member);
+    //        UpdateIndustry(selectedIndustry, member);
+
+    //        if (ModelState.IsValid)
+    //        {
+    //            try
+    //            {
+    //                // Handle picture upload
+    //                await AddPicture(member, thePicture);
+
+    //                // Add the new member to the context and save changes
+    //                _context.Add(member);
+    //                await _context.SaveChangesAsync();
+
+    //                // Set success message
+    //                TempData["SuccessMessage"] = "Member created successfully!";
+    //                return RedirectToAction(nameof(Details), new { id = member.ID });
+    //            }
+    //            catch (RetryLimitExceededException /* dex */)
+    //            {
+    //                ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+    //            }
+    //            catch (Exception)
+    //            {
+    //                // Set error message in case of failure
+    //                TempData["ErrorMessage"] = "An error occurred while creating the member.";
+    //            }
+    //        }
+    //        else
+    //        {
+    //            // If model validation fails, set an error message
+    //            TempData["ErrorMessage"] = "Please check the input data and try again.";
+    //        }
+
+    //        // Populate the assigned data for the view
+    //        PopulateAssignedMemberShipData(member);
+    //        PopulateAssignedIndustryData(member);
+
+    //        // Return to the Create view in case of failure or validation errors
+    //        return View(member);
+    //    }
+
+    //    private int GetNewMemberCount()
+    //    {
+    //        int currentYear = DateTime.Now.Year;
+    //        return _context.Members.Count(m => m.MemberStartDate.Year == currentYear);
+    //    }
+
 
         // GET: Member/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<CRMProject.Models.MemberIndustry>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<br />
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h4 class="panel-title">Industry Information</h4>
-        <p>Industry Count: @Model.Count()</p>
+       <div class="d-flex align-items-center justify-content-between">
+    <h4 class="panel-title mb-0">Industry Information</h4>
+    <p class="mb-0">Industry Count: @Model.Count()</p>
+</div>
+
     </div>
  
     <div class="panel-body scrollable-panel">
@@ -24,11 +28,14 @@
                     @* </th> *@
                   
                     <th style ="float: right; padding-left: 10%;">
-                        <a asp-controller="PatientAppointment" asp-action="Add">
-                            <span class="btn btn-success" data-bs-toggle="tooltip"
-                                  title="Add Appointment"><strong>&#x271A; Add</strong></span>
+                        <a asp-controller="Industry" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                            <span class="btn btn-success" data-bs-toggle="tooltip" title="Add Address">
+                                <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                            </span>
                         </a>
                     </th>
+
+                    
                 </tr>
             </thead>
             <tbody>
