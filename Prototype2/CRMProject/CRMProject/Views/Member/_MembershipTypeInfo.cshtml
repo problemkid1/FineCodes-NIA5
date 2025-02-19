@@ -21,15 +21,16 @@
                     <th>
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeDescription)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
-                    </th>
+                    
                     <th>
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeBenefits)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
+                    </th>
                     <th style="float: right; padding-left: 10%;">
                         <a asp-controller="MembershipType" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                            <span class="btn btn-success" data-bs-toggle="tooltip" title="Add Address">
+                            <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
                                 <strong><i class="fa-solid fa-plus"></i> Add</strong>
                             </span>
                         </a>
@@ -50,11 +51,12 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeDescription)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
-                        </td>
+                        
                         <td>
                             @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeBenefits)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
                         </td>
                         <td style="float: right; padding-left: 10%;">
                             <div class="btn-group">

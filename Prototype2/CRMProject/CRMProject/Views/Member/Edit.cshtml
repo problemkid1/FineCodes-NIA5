@@ -119,7 +119,7 @@
                 <!-- Membership Types -->
                     <div class="form-group col-md-6">
                         <label class="control-label">Available Membership Types</label>
-                        <button type="button" id="btnAddMembership" class="btn btn-success btn-sm"><strong>+</strong></button>
+                        <button type="button" id="btnAddMembership" class="btn btn-primary btn-sm"><strong>+</strong></button>
                         @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
                     </div>
                 
@@ -136,7 +136,7 @@
 
                     <div class="form-group col-md-6">
                         <label class="control-label">Available Industry Types</label>
-                        <button type="button" id="btnAddIndustry" class="btn btn-success btn-sm"><strong>+</strong></button>
+                        <button type="button" id="btnAddIndustry" class="btn btn-primary btn-sm"><strong>+</strong></button>
                         @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
                     </div>
 

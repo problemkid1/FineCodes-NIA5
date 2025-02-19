@@ -85,46 +85,54 @@
                         </div>
                     </div>
 
-                    <!-- Profile Picture -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberPhoto" class="control-label"></label>
-                            <input asp-for="MemberPhoto" type="file" class="form-control-file" accept="image/*" />
-                            <span asp-validation-for="MemberPhoto" class="text-danger"></span>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Membership Types -->
                 <div class="row">
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Available Membership Types</label>
+                        <button type="button" id="btnAddMembership" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                        @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                    </div>
+
                     <div class="form-group col-md-6">
                         <label class="control-label">Selected Membership Types</label>
                         <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
                         @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
                     </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Available Membership Types</label>
-                        <button type="button" id="btnAddMembership" class="btn btn-success btn-sm"><strong>+</strong></button>
-                        @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
-                    </div>
+                    
                 </div>
 
                 <!-- Industry Types -->
                 <div class="row">
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Available Industry Types</label>
+                        <button type="button" id="btnAddIndustry" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                        @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                    </div>
+
                     <div class="form-group col-md-6">
                         <label class="control-label">Selected Industry Types</label>
                         <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
                         @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
                     </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Available Industry Types</label>
-                        <button type="button" id="btnAddIndustry" class="btn btn-success btn-sm"><strong>+</strong></button>
-                        @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                    
+                </div>
+                <!-- Profile Picture -->
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        <label asp-for="MemberPhoto" class="control-label"></label>
+                        <input asp-for="MemberPhoto" type="file" class="form-control-file" accept="image/*" />
+                        <span asp-validation-for="MemberPhoto" class="text-danger"></span>
                     </div>
                 </div>
 
+                
                 <div class="form-group text-center">
                     <input type="submit" value="Create Member" id="btnSubmit" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary ml-2">Back to Members</a>

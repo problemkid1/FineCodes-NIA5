@@ -19,9 +19,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    <h3>Total Members</h3>
+                                    <h4>Total Members</h4>
                                 </div>
-                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                <div class="h4 mb-0 font-weight-bold text-gray-800">
                                     @ViewData["MemberCount"]
                                 </div>
                             </div>
@@ -39,9 +39,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    <h3>Industries</h3>
+                                    <h4>Industries</h4>
                                 </div>
-                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                <div class="h4 mb-0 font-weight-bold text-gray-800">
                                     @ViewData["IndustryCount"]
                                 </div>
                             </div>
@@ -59,9 +59,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                    <h3>Cancellations</h3>
+                                    <h4>Cancellations</h4>
                                 </div>
-                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                <div class="h4 mb-0 font-weight-bold text-gray-800">
                                     @ViewData["CancellationCount"]
                                 </div>
                             </div>
@@ -79,9 +79,9 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    <h3>New Members (@DateTime.Now.Year)</h3>
+                                    <h4>New Members (@DateTime.Now.Year)</h4>
                                 </div>
-                                <div class="h3 mb-0 font-weight-bold text-gray-800">
+                                <div class="h4 mb-0 font-weight-bold text-gray-800">
                                     @newMemberCount
                                 </div>
                             </div>
@@ -98,6 +98,7 @@
         <!-- Right Column: Charts -->
         <div class="col-md-6 d-flex flex-column">
             <br />
+            
             <div class="card shadow w-100 mb-3">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Membership Overview</h6>
@@ -118,6 +119,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

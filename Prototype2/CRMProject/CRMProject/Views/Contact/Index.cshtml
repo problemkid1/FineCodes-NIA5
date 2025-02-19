@@ -101,9 +101,32 @@
 								{
 									<tr>
 										<td>
-											@foreach (var m in item.MemberContacts)
-											{
-												<div>@Html.DisplayFor(modelItem => m.Member.MemberName)</div>
+											@{
+												int specCount = item.MemberContacts.Count;
+												if (specCount > 0)
+												{
+													string firstSpec = item.MemberContacts.FirstOrDefault().Member.MemberName;
+													if (specCount > 1)
+													{
+														string specList = "";//Html string of specialty names separated by <br /> tags
+														var s = item.MemberContacts.ToList();
+														for (int i = 1; i < specCount; i++)//Skip the first because we have it already
+														{
+															specList += s[i].Member.MemberName + " <br />";
+														}
+														<a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecalty@(item.ID)"
+														   aria-expanded="false" aria-controls="collapseSpecalty@(item.ID)">
+															@firstSpec <span class="badge bg-info">@specCount</span>
+														</a>
+														<div class="collapse" id="collapseSpecalty@(item.ID)">
+															@Html.Raw(specList)
+														</div>
+													}
+													else
+													{
+														@firstSpec
+													}
+												}
 											}
 										</td>
 										<td>@Html.DisplayFor(modelItem => item.Summary)</td>
