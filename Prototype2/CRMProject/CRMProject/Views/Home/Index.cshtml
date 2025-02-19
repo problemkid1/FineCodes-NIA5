@@ -4,6 +4,9 @@
     var newMemberCount = ViewData["NewMemberCount"] ?? 0;
 }
 
+<!-- Custom styles for this template-->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -12,106 +15,96 @@
 
     <div class="row">
         <!-- Left Column: Stacked Cards -->
-        <div class="col-md-6 d-flex flex-column">
-            <a href="/Member" class="text-decoration-none mb-3">
+        <div class="col-md-3 d-flex flex-column">
+            <a href="/Member" class="text-decoration-none mb-4 flex-grow-1">
                 <div class="card border-left-primary shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    <h4>Total Members</h4>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                    <h5>Total Members</h5>
                                 </div>
-                                <div class="h4 mb-0 font-weight-bold text-gray-800">
+                                <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                     @ViewData["MemberCount"]
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-users fa-2x text-blue-300"></i>
-                            </div>
+                            @* <div class="col-auto"> *@
+                            @*     <i class="fas fa-users fa-2x text-blue-300"></i> *@
+                            @* </div> *@
                         </div>
                     </div>
                 </div>
-            </a>
+             </a>
 
-            <a href="/Industry" class="text-decoration-none mb-3">
+            <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
                 <div class="card border-left-success shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    <h4>Industries</h4>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-4">
+                                    <h5>Industries</h5>
                                 </div>
-                                <div class="h4 mb-0 font-weight-bold text-gray-800">
+                                <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                     @ViewData["IndustryCount"]
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-industry fa-2x text-blue-blue"></i>
-                            </div>
+                            @* <div class="col-auto"> *@
+                            @*     <i class="fas fa-industry fa-2x text-blue-blue"></i> *@
+                            @* </div> *@
                         </div>
                     </div>
                 </div>
-            </a>
-
-            <a href="/Cancellation" class="text-decoration-none mb-3">
-                <div class="card border-left-danger shadow h-100">
+             </a>
+        </div>
+        <div class="col-md-3 d-flex flex-column">
+            <a href="/Cancellation" class="text-decoration-none mb-4 flex-grow-1">
+                <div class="card border-left-primary shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                    <h4>Cancellations</h4>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                    <h5>Cancellations</h5>
                                 </div>
-                                <div class="h4 mb-0 font-weight-bold text-gray-800">
+                                <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                     @ViewData["CancellationCount"]
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user-slash fa-2x text-red-300"></i>
-                            </div>
+                            @* <div class="col-auto"> *@
+                            @*     <i class="fas fa-user-slash fa-2x text-red-300"></i> *@
+                            @* </div> *@
                         </div>
                     </div>
                 </div>
             </a>
 
-            <a href="/Member" class="text-decoration-none">
+            <a href="/Member" class="text-decoration-none mb-0 flex-grow-1">
                 <div class="card border-left-info shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    <h4>New Members (@DateTime.Now.Year)</h4>
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-4">
+                                    <h5>New Members (@DateTime.Now.Year)</h5>
                                 </div>
-                                <div class="h4 mb-0 font-weight-bold text-gray-800">
+                                <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
                                     @newMemberCount
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user-plus fa-2x text-blue-300"></i>
-                            </div>
+                            @* <div class="col-auto"> *@
+                            @*     <i class="fas fa-user-plus fa-2x text-blue-300"></i> *@
+                            @* </div> *@
                         </div>
                     </div>
                 </div>
             </a>
         </div>
 
-        <br />
+        
         <!-- Right Column: Charts -->
         <div class="col-md-6 d-flex flex-column">
-            <br />
             
-            <div class="card shadow w-100 mb-3">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Membership Overview</h6>
-                </div>
-                <div class="card-body d-flex align-items-center">
-                    <div class="chart-pie w-100">
-                        <canvas id="memberPieChart"></canvas>
-                    </div>
-                </div>
-            </div>
             <div class="card shadow w-100">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h6>
+                    <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
                 </div>
                 <div class="card-body d-flex align-items-center">
                     <div class="chart-bar w-100">
@@ -119,6 +112,17 @@
                     </div>
                 </div>
             </div>
+            @* <div class="card shadow w-100 mb-3"> *@
+            @*     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"> *@
+            @*         <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5> *@
+            @*     </div> *@
+            @*     <div class="card-body d-flex align-items-center"> *@
+            @*         <div class="chart-pie w-100"> *@
+            @*             <canvas id="memberPieChart"></canvas> *@
+            @*         </div> *@
+            @*     </div> *@
+            @* </div> *@
+            
 
         </div>
     </div>
@@ -127,26 +131,26 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Membership Overview Pie Chart
-        var ctxPie = document.getElementById("memberPieChart").getContext("2d");
-        var goodStanding = @ViewData["GoodStandingCount"];
-        var overduePayment = @ViewData["OverduePaymentCount"];
-        var cancellations = @ViewData["CancellationCount"];
+        // var ctxPie = document.getElementById("memberPieChart").getContext("2d");
+        // var goodStanding = @ViewData["GoodStandingCount"];
+        // var overduePayment = @ViewData["OverduePaymentCount"];
+        // var cancellations = @ViewData["CancellationCount"];
 
-        new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: ["Good Standing", "Overdue Payment", "Cancelled"],
-                datasets: [{
-                    data: [goodStanding, overduePayment, cancellations],
-                    backgroundColor: ['#36479B', '#933515', '#D9534F'],
-                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                cutoutPercentage: 80
-            }
-        });
+        // new Chart(ctxPie, {
+        //     type: 'doughnut',
+        //     data: {
+        //         labels: ["Good Standing", "Overdue Payment", "Cancelled"],
+        //         datasets: [{
+        //             data: [goodStanding, overduePayment, cancellations],
+        //             backgroundColor: ['#36479B', '#933515', '#D9534F'],
+        //             hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+        //         }]
+        //     },
+        //     options: {
+        //         maintainAspectRatio: false,
+        //         cutoutPercentage: 80
+        //     }
+        // });
 
         // Municipality Bar Chart
        var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
