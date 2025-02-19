@@ -124,12 +124,6 @@
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
                                             <td>
-                                                @foreach (var mt in item.MemberMembershipTypes)
-                                                {
-                                                    @Html.DisplayFor(modelItem => mt.MembershipType.MembershipTypeName)                                                    
-                                                }                                                
-                                            </td>
-                                            @* <td class="d-none d-sm-table-cell">
                                                 @{
                                                     int specCount = item.MemberMembershipTypes.Count;
                                                     if (specCount > 0)
@@ -160,13 +154,39 @@
                                                     }
                                                 }
 
-                                            </td> *@
+                                            </td> 
 
                                             <td class="d-none d-sm-table-cell">
-                                                @foreach (var m in item.MemberIndustries)
-                                                {
-                                                    @m.Industry.IndustrySubsector <br />
+                                                @{
+                                                    int instCount = item.MemberIndustries.Count;
+                                                    if (instCount > 0)
+                                                    {
+                                                        string firstSpec = item.MemberIndustries.FirstOrDefault().Industry.IndustrySubsector.ToString();
+                                                        if (instCount > 1)
+                                                        {
+                                                            string specList = ""; // Html string of specialty names separated by <br /> tags
+                                                            var s = item.MemberIndustries.ToList();
+                                                            for (int i = 1; i < instCount; i++) // Skip the first because we have it already
+                                                            {
+                                                                specList += s[i].Industry.IndustrySubsector.ToString() + " <br />";
+                                                            }
+
+                                                                // Ensure the id of the collapse element is unique
+                                                            <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
+                                                               aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
+                                                                @firstSpec <span class="badge bg-info badge-count" id="badge@(item.ID)">@instCount</span>
+                                                            </a>
+                                                            <div class="collapse" id="collapseSpecialty@(item.ID)">
+                                                                @Html.Raw(specList)
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            @firstSpec
+                                                        }
+                                                    }
                                                 }
+
                                             </td>
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>

@@ -77,9 +77,9 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Membership Pages
-            </div>
+            @* <div class="sidebar-heading"> *@
+            @*     @* Membership Pages *@ 
+            @* </div> *@
 
             <!-- Nav Item - Pages Collapse Menu -->
             @* <li class="nav-item"> *@
@@ -141,12 +141,13 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
+            
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
+            @* <div class="sidebar-heading"> *@
+            @*     @* Addons *@ 
+            @* </div> *@
+            <hr class="sidebar-divider">
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">

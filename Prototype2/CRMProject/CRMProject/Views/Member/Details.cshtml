@@ -41,7 +41,7 @@
                     }
                     else
                     {
-                        <img src="@Model.MemberThumbnail" alt="Default Profile Picture" class="img-fluid rounded" />
+                        <img src="~/images/blankProfile.jpg" style="max-height: 80px; max-width: 96px" class="img-fluid rounded" />
                     }
                    
                 </div>
@@ -120,6 +120,8 @@
 
                         <dt class="col-5">Primary Address</dt>
                         <dd class="col-7">
+                           
+
                             @if (Model.Address != null)
                             {
                                 <span>@Model.Address.AddressCity</span>

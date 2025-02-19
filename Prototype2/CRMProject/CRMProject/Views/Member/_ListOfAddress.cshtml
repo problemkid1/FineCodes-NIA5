@@ -6,6 +6,14 @@
     <div class="panel-heading">
         <h4 class="panel-title">Address Information</h4>
     </div>
+
+    @* <div class="panel-heading"> *@
+    @*     <div class="d-flex align-items-center justify-content-between"> *@
+    @*         <h4 class="panel-title mb-0">Address Information</h4> *@
+    @*         <p class="mb-0">Industry Count: @Model.Count()</p> *@
+    @*     </div> *@
+    @* </div> *@
+
     <div class="panel-body scrollable-panel">
         <table class="table table-striped">
             <thead>
@@ -17,7 +25,7 @@
                     <th>@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
                     <th style="text-align: right;">
                         <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                            <span class="btn btn-success" data-bs-toggle="tooltip" title="Add Address">
+                            <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
                                 <strong><i class="fa-solid fa-plus"></i> Add</strong>
                             </span>
                         </a>
