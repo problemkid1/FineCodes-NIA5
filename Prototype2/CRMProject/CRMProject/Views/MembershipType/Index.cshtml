@@ -48,7 +48,10 @@
 
                         <!-- Filter Actions -->
                         <div class="form-group col-md-4 align-self-end">
-                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <button type="submit" name="actionButton"
+                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                Filter @ViewData["numberFilters"]
+                            </button>
                             <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
                         </div>
                     </div>

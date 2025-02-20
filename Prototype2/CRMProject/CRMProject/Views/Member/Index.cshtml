@@ -27,16 +27,38 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h1 mb-0 text-gray-1400">Members</h1>
-                <a asp-action="Create" class="btn btn-primary btn-lg ">
+                <a asp-action="Create" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus"></i> Add Member
                 </a>
             </div>
+
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <div class="row">
+                        <!-- Search by Member Name -->
+                        <div class="form-group col-md-4">
+ P2GeorgeUpdated
+                            <label class="control-label">Filter by Member Status:</label>
+                            @Html.DropDownList("MemberStatus",
+                                     EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
+                                     "All Statuses",
+                                     new { @class = "form-control" })
+
+                            <label class="control-label">Search by Member Name:</label>
+                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+ main
+                        </div>
+
+                        <!-- Filter by Size -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Member Size:</label>
+                            @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
+                        </div>
+
+ P2GeorgeUpdated
+
                         <!-- Filter by Status -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Member Status:</label>
@@ -46,21 +68,13 @@
                                      new { @class = "form-control" })
                         </div>
 
-                        <label class="control-label">Search by Member Name:</label>
-                        @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
-
-                        <!-- Filter by Size -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Member Size:</label>
-                            @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
-                        </div>
-
+ main
                         <!-- Filter by Membership Type Name -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Membership Type:</label>
                             @Html.DropDownList("MembershipTypeName",
                                      EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
-                                     "Membership Type Names",
+                                     "All Types",
                                      new { @class = "form-control" })
                         </div><hr />
 
@@ -74,11 +88,14 @@
                             </div>
                         </div>
 
+
                         <!-- Filter Actions -->
                         <div class="form-group col-md-4 align-self-end">
-                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                            <input type="submit" name="actionButton" value="Filter @(ViewData["numberFilters"])" class="btn @ViewData["Filtering"]" />
                             <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+
                         </div>
+
                     </div>
                 </div>
             </form>
@@ -89,7 +106,6 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="table-light">
                                 <tr>
-                                    
                                     <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
@@ -103,7 +119,7 @@
                                 @if (!Model.Any())
                                 {
                                     <tr>
-                                        <td colspan="6" class="text-center">No members available.</td>
+                                        <td colspan="7" class="text-center">No members available.</td>
                                     </tr>
                                 }
                                 else
@@ -111,22 +127,6 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <!--
-                                            <td style="width: 100%; height: 100px;">
-                                                -->
-                                            @* <td> *@
-                                            @*     @{ *@
-                                            @*         if (item.MemberThumbnail?.Content != null) *@
-                                            @*         { *@
-                                            @*             string imageBase64 = Convert.ToBase64String(item.MemberThumbnail.Content); *@
-                                            @*             string imageSrc = string.Format("data:" + item.MemberThumbnail.MimeType + ";base64,{0}", imageBase64); *@
-                                            @*             <img src="@imageSrc" alt="Profile Picture of @item?.Summary" *@
-                                            @*                  title="Profile Picture of @item?.Summary" class="img-fluid rounded img-fill" /> *@
-                                            @*         } *@
-                                            @*     } *@
-                                            @* </td> *@
-
-
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">
@@ -143,14 +143,12 @@
                                                         string firstSpec = item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName.ToString();
                                                         if (specCount > 1)
                                                         {
-                                                            string specList = ""; // Html string of specialty names separated by <br /> tags
+                                                            string specList = "";
                                                             var s = item.MemberMembershipTypes.ToList();
-                                                            for (int i = 1; i < specCount; i++) // Skip the first because we have it already
+                                                            for (int i = 1; i < specCount; i++)
                                                             {
                                                                 specList += s[i].MembershipType.MembershipTypeName.ToString() + " <br />";
                                                             }
-
-                                                                // Ensure the id of the collapse element is unique
                                                             <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
                                                                aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
                                                                 @firstSpec <span class="badge bg-info badge-count" id="badge@(item.ID)">@specCount</span>
@@ -165,9 +163,7 @@
                                                         }
                                                     }
                                                 }
-
-                                            </td> 
-
+                                            </td>
                                             <td class="d-none d-sm-table-cell">
                                                 @{
                                                     int instCount = item.MemberIndustries.Count;
@@ -176,14 +172,12 @@
                                                         string firstSpec = item.MemberIndustries.FirstOrDefault().Industry.IndustrySubsector.ToString();
                                                         if (instCount > 1)
                                                         {
-                                                            string specList = ""; // Html string of specialty names separated by <br /> tags
+                                                            string specList = "";
                                                             var s = item.MemberIndustries.ToList();
-                                                            for (int i = 1; i < instCount; i++) // Skip the first because we have it already
+                                                            for (int i = 1; i < instCount; i++)
                                                             {
                                                                 specList += s[i].Industry.IndustrySubsector.ToString() + " <br />";
                                                             }
-
-                                                                // Ensure the id of the collapse element is unique
                                                             <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
                                                                aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
                                                                 @firstSpec <span class="badge bg-info badge-count" id="badge@(item.ID)">@instCount</span>
@@ -198,18 +192,14 @@
                                                         }
                                                     }
                                                 }
-
                                             </td>
-
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td>
-
                                                 <div class="btn-group">
-                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-
                                                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-search"></i>
@@ -224,14 +214,14 @@
                                                         </form>
                                                     }
                                                     else
-                                                    {  
+                                                    {
                                                         <form asp-action="Activate" method="get" class="d-inline">
                                                             <input type="hidden" name="id" value="@item.ID" />
                                                             <button type="submit" class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Activate">
                                                                 <i>&#x271A;</i>
-                                                            </button>                                                            
+                                                            </button>
                                                         </form>
-                                                    }                                                    
+                                                    }
                                                 </div>
                                             </td>
                                         </tr>
@@ -245,25 +235,19 @@
         </div>
     </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Find all collapse elements
         document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function (element) {
-            // Extract the target collapse ID from the "href" attribute
             var collapseId = element.getAttribute('href').replace('#', '');
             var collapseElement = document.getElementById(collapseId);
-
-            // Find the badge associated with this element (assume the ID follows the badge + collapse ID pattern)
             var badgeElement = document.getElementById('badge' + collapseId.replace('collapseSpecialty', ''));
 
-            // Ensure collapse element and badge are found
             if (collapseElement && badgeElement) {
-                // When the collapse is shown, hide the badge
                 collapseElement.addEventListener('show.bs.collapse', function () {
                     badgeElement.style.display = 'none';
                 });
 
-                // When the collapse is hidden, show the badge
                 collapseElement.addEventListener('hide.bs.collapse', function () {
                     badgeElement.style.display = 'inline-block';
                 });
@@ -271,4 +255,3 @@
         });
     });
 </script>
-
