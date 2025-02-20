@@ -91,9 +91,31 @@
                                 {
                                     <tr>
                                         <td>
-                                            @foreach (var m in item.MemberIndustries)
-                                            {
-                                                @m.Member.MemberName <br />
+                                            @{
+                                                int industryCount = item.MemberIndustries.Count;
+                                                if (industryCount > 0)
+                                                {
+                                                    string firstIndustry = item.MemberIndustries.FirstOrDefault().Member.MemberName;
+                                                    if (industryCount > 1)
+                                                    {
+                                                        string industryList = ""; // Html string of industry names separated by <br /> tags
+                                                        var industries = item.MemberIndustries.ToList();
+                                                        for (int i = 1; i < industryCount; i++) // Skip the first because we have it already
+                                                        {
+                                                            industryList += industries[i].Member.MemberName + " <br />";
+                                                        }
+                                                        <a data-bs-toggle="collapse" href="#collapseIndustry@(item.ID)" aria-expanded="false" aria-controls="collapseIndustry@(item.ID)">
+                                                            @firstIndustry <span class="badge bg-info">@industryCount</span>
+                                                        </a>
+                                                        <div class="collapse" id="collapseIndustry@(item.ID)">
+                                                            @Html.Raw(industryList)
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        @firstIndustry
+                                                    }
+                                                }
                                             }
                                         </td>
                                         <td>@Html.DisplayFor(modelItem => item.IndustrySector)</td>

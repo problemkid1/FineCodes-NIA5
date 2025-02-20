@@ -22,13 +22,34 @@ namespace CRMProject.Controllers
         }
 
         // GET: Cancellation
-        public async Task<IActionResult> Index(DateTime? CancellationDate, string? CancellationReason, string? CancellationNotes)
+        public async Task<IActionResult> Index(DateTime? CancellationDate, string? CancellationReason, string? CancellationNotes, DateTime StartDate, DateTime EndDate)
         {
+            // If first time loading the page, set date range based on DB values
+            if (EndDate == DateTime.MinValue)
+            {
+                StartDate = _context.Cancellations.Min(c => c.CancellationDate).Date;
+                EndDate = _context.Cancellations.Max(c => c.CancellationDate).Date;
+            }
+
+            // Swap dates if out of order
+            if (EndDate < StartDate)
+            {
+                DateTime temp = EndDate;
+                EndDate = StartDate;
+                StartDate = temp;
+            }
+
+            // Pass dates to the view
+            ViewData["StartDate"] = StartDate.ToString("yyyy-MM-dd");
+            ViewData["EndDate"] = EndDate.ToString("yyyy-MM-dd");
+
+
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
 
             var cRMContext = _context.Cancellations.Include(c => c.Member)
+                .Where(c => c.CancellationDate >= StartDate && c.CancellationDate <= EndDate.AddDays(1))
                 .AsNoTracking(); // Eager loading the related Member entity
 
             // Filter by Cancellation Date

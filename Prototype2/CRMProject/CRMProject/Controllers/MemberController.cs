@@ -25,9 +25,26 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, MembershipTypeName? MembershipTypeName)
+        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, MembershipTypeName? MembershipTypeName, DateTime StartDate, DateTime EndDate)
         {
-            // Count the number of filters applied - start by assuming no filters
+            // Set date range if not specified
+            if (EndDate == DateTime.MinValue)
+            {
+                StartDate = _context.Members.Min(m => m.MemberStartDate).Date;
+                EndDate = _context.Members.Max(m => m.MemberStartDate).Date;
+            }
+
+            if (EndDate < StartDate)
+            {
+                DateTime temp = EndDate;
+                EndDate = StartDate;
+                StartDate = temp;
+            }
+
+            // Save to ViewData for form persistence
+            ViewData["StartDate"] = StartDate.ToString("yyyy-MM-dd");
+            ViewData["EndDate"] = EndDate.ToString("yyyy-MM-dd");
+
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
 
@@ -37,7 +54,27 @@ namespace CRMProject.Controllers
                  .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                  .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact)
                  .Include(m => m.MemberMembershipTypes).ThenInclude(mmt => mmt.MembershipType)
+                 .Where(m => m.MemberStartDate >= StartDate && m.MemberStartDate <= EndDate.AddDays(1))
                  .AsNoTracking();
+
+            // Check if MemberStatus is provided (i.e., filter applied by user)
+            if (MemberStatus.HasValue)
+            {
+                // Filter by the selected status (this overrides the default "GoodStanding")
+                members = members.Where(m => m.MemberStatus == MemberStatus.Value);
+                numberFilters++;
+            }
+            else
+            {
+                // Apply default filter for Good Standing if no status is provided
+                members = members.Where(m => m.MemberStatus == 0);
+            }
+
+            //// Apply default filter for Good Standing if no MemberStatus is provided
+            //if (!MemberStatus.HasValue)
+            //{
+            //    members = members.Where(m => m.MemberStatus == 0);
+            //}
 
             // Filter by Name
             if (!string.IsNullOrEmpty(SearchString))
@@ -53,12 +90,12 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Filter by Status
-            if (MemberStatus.HasValue)
-            {
-                members = members.Where(m => m.MemberStatus == MemberStatus.Value);
-                numberFilters++;
-            }
+            // Filter by Status (overrides default if provided)
+            //if (MemberStatus.HasValue)
+            //{
+            //    members = members.Where(m => m.MemberStatus == MemberStatus.Value);
+            //    numberFilters++;
+            //}
 
             // Filter by MembershipTypeName
             if (MembershipTypeName.HasValue)
@@ -68,19 +105,14 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Give feedback about the state of the filters
+            // Feedback for applied filters
             if (numberFilters != 0)
             {
-                // Toggle the Open/Closed state of the collapse depending on if we are filtering
                 ViewData["Filtering"] = " btn-danger";
-                // Show how many filters have been applied
-                ViewData["numberFilters"] = "(" + numberFilters.ToString()
-                    + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                // Keep the Bootstrap collapse open
-                @ViewData["ShowFilter"] = " show";
+                ViewData["numberFilters"] = $"({numberFilters} Filter{(numberFilters > 1 ? "s" : "")} Applied)";
+                ViewData["ShowFilter"] = " show";
             }
 
-            // Update the new member count for the current year
             ViewData["NewMemberCount"] = GetNewMemberCount();
 
             return View(await members.ToListAsync());

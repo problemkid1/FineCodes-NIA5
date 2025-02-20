@@ -39,7 +39,7 @@
                     <div class="row">
                         <!-- Filter by Status -->
                         <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Status:</label>
+                            <label class="control-label">Filter by Member Status:</label>
                             @Html.DropDownList("MemberStatus",
                                      EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
                                      "All Statuses",
@@ -48,7 +48,7 @@
 
                         <!-- Filter by Size -->
                         <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Size:</label>
+                            <label class="control-label">Filter by Member Size:</label>
                             @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
                         </div>
 
@@ -59,12 +59,22 @@
                         </div>
 
                         <!-- Filter by Membership Type Name -->
-                        <div class="form-group">
-                            <label for="MembershipTypeName">Membership Type</label>
+                        <div class="form-group col-md-4">
+                            <label for="MembershipTypeName">Filter by Membership Type</label>
                             @Html.DropDownList("MembershipTypeName",
                                      EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
                                      "Membership Type Names",
                                      new { @class = "form-control" })
+                        </div><hr />
+
+                        <!-- Filter by Join Date Range -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Join Date:</label>
+                            <div class="d-flex">
+                                <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+                                <span class="mx-2">to</span>
+                                <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                            </div>
                         </div>
 
                         <!-- Filter Actions -->
@@ -122,7 +132,12 @@
 
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
-                                            <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStatus)</td>
+                                            <td class="d-none d-sm-table-cell">
+                                                @if (item.MemberStatus == MemberStatus.GoodStanding)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.MemberStatus)
+                                                }
+                                            </td>
                                             <td>
                                                 @{
                                                     int specCount = item.MemberMembershipTypes.Count;
