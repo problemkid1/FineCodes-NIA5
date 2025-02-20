@@ -60,8 +60,11 @@
                         </div>
 
                         <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <input type="submit" name="actionButton" value="Filter" class="btn btn-outline-primary" />
+                         <div class="form-group col-md-4 align-self-end">
+                            <button type="submit" name="actionButton"
+                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                Filter @ViewData["numberFilters"]
+                            </button>
                             <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
                         </div>
                     </div>
@@ -112,7 +115,7 @@
                                                 </a>
 
                                                 <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                @* style="opacity: 0.4; filter: grayscale(80%); border: 2px dashed #3B54A0; pointer-events: none;" *@
+                                                
                                                    data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill"></i>
                                                 </a>

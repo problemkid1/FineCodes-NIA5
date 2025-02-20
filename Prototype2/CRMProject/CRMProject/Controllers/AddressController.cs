@@ -20,7 +20,14 @@ namespace CRMProject.Controllers
         }
 
         // GET: Address
-        public async Task<IActionResult> Index(string? AddressCity, Province? Province, string? PostalCode)
+        public async Task<IActionResult> Index(
+    string? AddressCity,
+    Province? Province,
+    string? PostalCode,
+    MemberStatus? memberStatus,
+    string? memberSize,
+    string? searchString,
+    MembershipTypeName? membershipTypeName)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -51,26 +58,53 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
+            // Filter by Member Status
+            if (memberStatus.HasValue)
+            {
+                addresses = addresses.Where(a => a.Member.MemberStatus == memberStatus.Value);
+                numberFilters++;
+            }
+
+            // Filter by Member Size
+            if (!string.IsNullOrEmpty(memberSize) && int.TryParse(memberSize, out int size))
+            {
+                addresses = addresses.Where(a => a.Member.MemberSize == size);
+                numberFilters++;
+            }
+
+            // Search by Member Name
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                addresses = addresses.Where(a => a.Member.MemberName.ToLower().Contains(searchString.ToLower()));
+                numberFilters++;
+            }
+
+            // Filter by Membership Type
+            if (membershipTypeName.HasValue)
+            {
+                addresses = addresses.Where(a => a.Member.MemberMembershipTypes
+                    .Any(mt => mt.MembershipType.MembershipTypeName == membershipTypeName.Value));
+                numberFilters++;
+            }
+
             // Ensure each member has only one address
-            addresses = addresses.GroupBy(a => a.MemberID)  // Group by MemberID to ensure only one address per member
-                                 .Select(g => g.FirstOrDefault());  // Select the first address for each group
+            addresses = addresses.GroupBy(a => a.MemberID)
+                                 .Select(g => g.FirstOrDefault());
 
             // Give feedback about the state of the filters
             if (numberFilters != 0)
             {
-                // Toggle the Open/Closed state of the collapse depending on if we are filtering
                 ViewData["Filtering"] = "btn-danger";
-                // Show how many filters have been applied
                 ViewData["numberFilters"] = "(" + numberFilters.ToString() + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
-                // Keep the Bootstrap collapse open
                 ViewData["ShowFilter"] = "show";
             }
 
             return View(await addresses.ToListAsync());
         }
+    
 
-        // GET: Address/Details/5
-        public async Task<IActionResult> Details(int? id)
+    // GET: Address/Details/5
+    public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
