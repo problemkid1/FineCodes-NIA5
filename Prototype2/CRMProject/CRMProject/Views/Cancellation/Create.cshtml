@@ -31,8 +31,10 @@
                     <!-- Cancellation Date -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="CancellationDate" class="control-label"></label>
-                            <input asp-for="CancellationDate" type="date" class="form-control" />
+                            <label asp-for="CancellationDate" class="control-label">
+                                <span class="text-danger">*</span> Cancellation Date
+                            </label>
+                            <input asp-for="CancellationDate" type="date" class="form-control" required />
                             <span asp-validation-for="CancellationDate" class="text-danger"></span>
                         </div>
                     </div>

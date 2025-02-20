@@ -31,8 +31,10 @@
                     <!-- Opportunity Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityName" class="control-label"></label>
-                            <input asp-for="OpportunityName" class="form-control" />
+                            <label asp-for="OpportunityName" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Name
+                            </label>
+                            <input asp-for="OpportunityName" class="form-control" required />
                             <span asp-validation-for="OpportunityName" class="text-danger"></span>
                         </div>
                     </div>
@@ -40,17 +42,23 @@
                     <!-- Opportunity Status -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityStatus" class="control-label"></label>
+                            <label asp-for="OpportunityStatus" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Status
+                            </label>
                             <select asp-for="OpportunityStatus" class="form-control"
-                                    asp-items="Html.GetEnumSelectList<OpportunityStatus>()"></select>
+                                    asp-items="Html.GetEnumSelectList<OpportunityStatus>()" required>
+                            </select>
                             <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
                         </div>
                     </div>
+
                     <!-- Opportunity Priority -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityPriority" class="control-label"></label>
-                            <input asp-for="OpportunityPriority" class="form-control" />
+                            <label asp-for="OpportunityPriority" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Priority
+                            </label>
+                            <input asp-for="OpportunityPriority" class="form-control" required />
                             <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
                         </div>
                     </div>
@@ -58,8 +66,10 @@
                     <!-- Opportunity Action -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityAction" class="control-label"></label>
-                            <input asp-for="OpportunityAction" class="form-control" />
+                            <label asp-for="OpportunityAction" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Action
+                            </label>
+                            <input asp-for="OpportunityAction" class="form-control" required />
                             <span asp-validation-for="OpportunityAction" class="text-danger"></span>
                         </div>
                     </div>
@@ -67,8 +77,10 @@
                     <!-- Opportunity Contact -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityContact" class="control-label"></label>
-                            <input asp-for="OpportunityContact" class="form-control" />
+                            <label asp-for="OpportunityContact" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Contact
+                            </label>
+                            <input asp-for="OpportunityContact" class="form-control" required />
                             <span asp-validation-for="OpportunityContact" class="text-danger"></span>
                         </div>
                     </div>
@@ -76,8 +88,10 @@
                     <!-- Opportunity Last Contact Date -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityLastContactDate" class="control-label"></label>
-                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" />
+                            <label asp-for="OpportunityLastContactDate" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Last Contact Date
+                            </label>
+                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required />
                             <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
                         </div>
                     </div>
@@ -85,12 +99,13 @@
                     <!-- Opportunity Interactions -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityInteractions" class="control-label"></label>
-                            <input asp-for="OpportunityInteractions" class="form-control" />
+                            <label asp-for="OpportunityInteractions" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Interactions
+                            </label>
+                            <input asp-for="OpportunityInteractions" class="form-control" required />
                             <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
                         </div>
                     </div>
-                </div>
 
                 <div class="form-group text-center">
                     <input type="submit" value="Create Opportunity" class="btn btn-primary" />

@@ -33,8 +33,10 @@
                     <!-- Address Line 1 -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="AddressLine1" class="control-label"></label>
-                            <input asp-for="AddressLine1" class="form-control" placeholder="123 Main St" />
+                            <label asp-for="AddressLine1" class="control-label">
+                                <span class="text-danger">*</span> Address Line 1
+                            </label>
+                            <input asp-for="AddressLine1" class="form-control" placeholder="123 Main St" required />
                             <span asp-validation-for="AddressLine1" class="text-danger"></span>
                         </div>
                     </div>
@@ -51,8 +53,10 @@
                     <!-- City -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="AddressCity" class="control-label"></label>
-                            <input asp-for="AddressCity" class="form-control" placeholder="Enter city" />
+                            <label asp-for="AddressCity" class="control-label">
+                                <span class="text-danger">*</span> City
+                            </label>
+                            <input asp-for="AddressCity" class="form-control" placeholder="Enter city" required />
                             <span asp-validation-for="AddressCity" class="text-danger"></span>
                         </div>
                     </div>
@@ -60,9 +64,10 @@
                     <!-- Province -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="Province" class="control-label"></label>
-                            <select asp-for="Province" class="form-control"
-                                    asp-items="Html.GetEnumSelectList<Province>()">
+                            <label asp-for="Province" class="control-label">
+                                <span class="text-danger">*</span> Province
+                            </label>
+                            <select asp-for="Province" class="form-control" asp-items="Html.GetEnumSelectList<Province>()" required>
                                 <option value="">Select Province</option>
                             </select>
                             <span asp-validation-for="Province" class="text-danger"></span>
@@ -72,16 +77,18 @@
                     <!-- Postal Code -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="PostalCode" class="control-label"></label>
-                            <input asp-for="PostalCode" class="form-control" placeholder="Enter postal code" />
+                            <label asp-for="PostalCode" class="control-label">
+                                <span class="text-danger">*</span> Postal Code
+                            </label>
+                            <input asp-for="PostalCode" class="form-control" placeholder="Enter postal code" required />
                             <span asp-validation-for="PostalCode" class="text-danger"></span>
                         </div>
-                        </div>
                     </div>
-                <div class="form-group text-center">
-                    <input type="submit" value="Create Address" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Addresses</a>
-                </div>
+
+                    <div class="form-group text-center">
+                        <input type="submit" value="Create Address" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-secondary ml-2">Back to Addresses</a>
+                    </div>
             </form>
         </div>
 

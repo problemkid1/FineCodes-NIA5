@@ -48,8 +48,23 @@
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Cancellation Notes:</label>
                             @Html.TextBox("CancellationNotes", null, new { @class = "form-control", placeholder = "Enter notes" })
+P2GeorgeUpdated
+                        </div><br />
+
+                        <!-- Filter by Cancellation Date Range -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Cancellation Date:</label>
+                            <div class="d-flex">
+                                <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+                                <span class="mx-2">to</span>
+                                <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                            </div>
+
                             <span class="text-danger">@ViewData["CancellationNotesCount"]</span>
+ main
                         </div>
+
+                        <span class="text-danger">@ViewData["CancellationNotesCount"]</span>
 
                         <!-- Filter Actions -->
                         <div class="form-group col-md-4 align-self-end">

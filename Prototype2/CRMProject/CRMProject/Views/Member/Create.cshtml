@@ -31,7 +31,9 @@
                     <!-- Member Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MemberName" class="control-label"></label>
+                            <label asp-for="MemberName" class="control-label">
+                                <span class="text-danger">*</span> Member Name 
+                            </label>
                             <input asp-for="MemberName" class="form-control" id="MemberName" name="MemberName" required />
                             <span asp-validation-for="MemberName" class="text-danger"></span>
                         </div>
@@ -40,8 +42,10 @@
                     <!-- Member Size -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MemberSize" class="control-label"></label>
-                            <input asp-for="MemberSize" class="form-control" />
+                            <label asp-for="MemberSize" class="control-label">
+                                <span class="text-danger">*</span> Member Size 
+                            </label>
+                            <input asp-for="MemberSize" class="form-control" required />
                             <span asp-validation-for="MemberSize" class="text-danger"></span>
                         </div>
                     </div>
@@ -49,9 +53,11 @@
                     <!-- Member Status -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MemberStatus" class="control-label"></label>
+                            <label asp-for="MemberStatus" class="control-label">
+                                <span class="text-danger">*</span> Member Status 
+                            </label>
                             <select asp-for="MemberStatus" class="form-control"
-                                    asp-items="Html.GetEnumSelectList<MemberStatus>()">
+                                    asp-items="Html.GetEnumSelectList<MemberStatus>()" required>
                                 <option value="">Select a Member Status</option>
                             </select>
                             <span asp-validation-for="MemberStatus" class="text-danger"></span>
@@ -61,8 +67,10 @@
                     <!-- Accounts Payable Email -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MemberAccountsPayableEmail" class="control-label"></label>
-                            <input asp-for="MemberAccountsPayableEmail" class="form-control" />
+                            <label asp-for="MemberAccountsPayableEmail" class="control-label">
+                                <span class="text-danger">*</span> Accounts Payable Email 
+                            </label>
+                            <input asp-for="MemberAccountsPayableEmail" class="form-control" required />
                             <span asp-validation-for="MemberAccountsPayableEmail" class="text-danger"></span>
                         </div>
                     </div>
@@ -70,8 +78,10 @@
                     <!-- Member Start Date -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MemberStartDate" class="control-label"></label>
-                            <input asp-for="MemberStartDate" type="date" class="form-control" id="MemberStartDate" />
+                            <label asp-for="MemberStartDate" class="control-label">
+                                <span class="text-danger">*</span> Member Start Date 
+                            </label>
+                            <input asp-for="MemberStartDate" type="date" class="form-control" id="MemberStartDate" required />
                             <span asp-validation-for="MemberStartDate" class="text-danger"></span>
                         </div>
                     </div>

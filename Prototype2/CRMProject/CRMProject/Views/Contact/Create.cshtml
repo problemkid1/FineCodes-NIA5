@@ -32,7 +32,9 @@
                     <!-- First Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="FirstName" class="control-label"></label>
+                            <label asp-for="FirstName" class="control-label">
+                                <span class="text-danger">*</span> First Name
+                            </label>
                             <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
@@ -41,7 +43,9 @@
                     <!-- Last Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="LastName" class="control-label"></label>
+                            <label asp-for="LastName" class="control-label">
+                                <span class="text-danger">*</span> Last Name
+                            </label>
                             <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
@@ -50,7 +54,7 @@
                     <!-- Title/Role -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactTitleRole" class="control-label"></label>
+                            <label asp-for="ContactTitleRole" class="control-label">Title/Role</label>
                             <input asp-for="ContactTitleRole" class="form-control" placeholder="Enter title/role" />
                             <span asp-validation-for="ContactTitleRole" class="text-danger"></span>
                         </div>
@@ -59,7 +63,9 @@
                     <!-- Phone -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactPhone" class="control-label"></label>
+                            <label asp-for="ContactPhone" class="control-label">
+                                <span class="text-danger">*</span> Phone
+                            </label>
                             <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" />
                             <span asp-validation-for="ContactPhone" class="text-danger"></span>
                         </div>
@@ -68,7 +74,9 @@
                     <!-- Email -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactEmailAddress" class="control-label"></label>
+                            <label asp-for="ContactEmailAddress" class="control-label">
+                                <span class="text-danger">*</span> Email 
+                            </label>
                             <input asp-for="ContactEmailAddress" class="form-control" placeholder="Enter email address" />
                             <span asp-validation-for="ContactEmailAddress" class="text-danger"></span>
                         </div>
@@ -89,7 +97,9 @@
                     <!-- Website -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactWebsite" class="control-label"></label>
+                            <label asp-for="ContactWebsite" class="control-label">
+                                <span class="text-danger">*</span> Website 
+                            </label>
                             <input asp-for="ContactWebsite" class="form-control" placeholder="Enter website URL" />
                             <span asp-validation-for="ContactWebsite" class="text-danger"></span>
                         </div>

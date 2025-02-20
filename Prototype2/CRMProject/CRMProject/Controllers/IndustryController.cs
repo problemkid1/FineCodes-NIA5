@@ -78,15 +78,24 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var industry = await _context.Industries
-                 .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (industry == null)
+            try
             {
-                return NotFound();
-            }
+                var industry = await _context.Industries
+                     .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
+                    .FirstOrDefaultAsync(m => m.ID == id);
 
-            return View(industry);
+                if (industry == null)
+                {
+                    return NotFound();
+                }
+
+                return View(industry);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while retrieving the industry details: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Industry/Create
@@ -106,6 +115,17 @@ namespace CRMProject.Controllers
             {
                 try
                 {
+                    // Check for unique NAICS Code before adding
+                    var existingIndustry = await _context.Industries
+                        .FirstOrDefaultAsync(i => i.IndustryNAICSCode == industry.IndustryNAICSCode);
+
+                    if (existingIndustry != null)
+                    {
+                        // Return a validation error if the NAICS code already exists
+                        ModelState.AddModelError("IndustryNAICSCode", "Industry with this NAICS Code already exists.");
+                        return View(industry);
+                    }
+
                     // Add the new member to the context and save changes
                     _context.Add(industry);
                     await _context.SaveChangesAsync();
@@ -114,9 +134,21 @@ namespace CRMProject.Controllers
                     TempData["SuccessMessage"] = "Industry created successfully!";
                     return RedirectToAction(nameof(Details), new { id = industry.ID });
                 }
+                catch (DbUpdateException dex)
+                {
+                    // Directly handling the exception without ExceptionMessageVM
+                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed"))
+                    {
+                        ModelState.AddModelError("IndustryNAICSCode", "Unable to save changes. Remember, Industry NAICS Code must be unique.");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "An error occurred while saving the Industry.";
+                    }
+                }
                 catch (Exception)
                 {
-                    // Set error message in case of failure
+                    // General error handling
                     TempData["ErrorMessage"] = "An error occurred while creating the Industry.";
                 }
             }
@@ -138,12 +170,21 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var industry = await _context.Industries.FindAsync(id);
-            if (industry == null)
+            try
             {
-                return NotFound();
+                var industry = await _context.Industries.FindAsync(id);
+                if (industry == null)
+                {
+                    return NotFound();
+                }
+
+                return View(industry);
             }
-            return View(industry);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while fetching the industry for editing: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Industry/Edit/5
@@ -162,6 +203,17 @@ namespace CRMProject.Controllers
             {
                 try
                 {
+                    // Check for unique NAICS Code before updating
+                    var existingIndustry = await _context.Industries
+                        .FirstOrDefaultAsync(i => i.IndustryNAICSCode == industry.IndustryNAICSCode && i.ID != industry.ID);
+
+                    if (existingIndustry != null)
+                    {
+                        // Return a validation error if the NAICS code already exists
+                        ModelState.AddModelError("IndustryNAICSCode", "Industry with this NAICS Code already exists.");
+                        return View(industry);
+                    }
+
                     _context.Update(industry);
                     await _context.SaveChangesAsync();
 
@@ -173,26 +225,32 @@ namespace CRMProject.Controllers
                 {
                     if (!IndustryExists(industry.ID))
                     {
-                        // If the industry does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
+                    }
+                }
+                catch (DbUpdateException dex)
+                {
+                    // Directly handling the exception without ExceptionMessageVM
+                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed"))
+                    {
+                        ModelState.AddModelError("IndustryNAICSCode", "Unable to save changes. Remember, Industry NAICS Code must be unique.");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "An error occurred while saving the Industry.";
                     }
                 }
                 catch (Exception)
                 {
-                    // Set error message for generic errors
                     TempData["ErrorMessage"] = "An error occurred while updating the industry details.";
                 }
-
             }
 
-            // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
-
             return View(industry); // Return to the edit view if there are validation errors
         }
 
@@ -204,15 +262,24 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var industry = await _context.Industries
-                .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (industry == null)
+            try
             {
-                return NotFound();
-            }
+                var industry = await _context.Industries
+                    .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
+                    .FirstOrDefaultAsync(m => m.ID == id);
 
-            return View(industry);
+                if (industry == null)
+                {
+                    return NotFound();
+                }
+
+                return View(industry);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while fetching the industry for deletion: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Industry/Delete/5
