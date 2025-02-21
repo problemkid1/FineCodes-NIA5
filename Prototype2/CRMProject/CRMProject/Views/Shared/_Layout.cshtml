@@ -122,7 +122,11 @@
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "active" : "")">
                 <a class="nav-link" asp-controller="Cancellation" asp-action="Index">
                     <i class="fas fa-calendar-times"></i>
+<<<<<<< Updated upstream
                     <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "text-decoration: underline;" : "")">Cancellations</span>
+=======
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "text-decoration: underline;" : "")  ;">Status History</span>
+>>>>>>> Stashed changes
                 </a>
             </li>
 

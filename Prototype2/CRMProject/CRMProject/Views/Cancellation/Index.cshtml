@@ -28,18 +28,18 @@
         <div class="card-body">
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h1 mb-0 text-gray-1400">Cancellations</h1>
-                <a asp-action="Create" class="btn btn-primary btn-lg " >
+                <h1 class="h1 mb-0 text-gray-1400">Status History</h1>
+                @* <a asp-action="Create" class="btn btn-primary btn-lg " >
                     <i class="fas fa-plus"></i>Add Cancellation
-                </a>
+                </a> *@
             </div>
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <div class="row">
-                        <!-- Filter by Cancellation Reason -->
+                        <!-- Filter by Reason -->
                         <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Cancellation Reason:</label>
+                            <label class="control-label">Filter by Reason:</label>
                             @Html.TextBox("CancellationReason", null, new { @class = "form-control", placeholder = "Enter reason" })
                         </div>
 
@@ -54,8 +54,23 @@
 
                         <!-- Filter by Cancellation Notes -->
                         <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Cancellation Notes:</label>
+                            <label class="control-label">Filter by Notes:</label>
                             @Html.TextBox("CancellationNotes", null, new { @class = "form-control", placeholder = "Enter notes" })
+<<<<<<< Updated upstream
+=======
+                        </div><br />
+
+                        <!-- Filter by Cancellation Date Range -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Date:</label>
+                            <div class="d-flex">
+                                <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+                                <span class="mx-2">to</span>
+                                <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                            </div>
+
+                            <span class="text-danger">@ViewData["CancellationNotesCount"]</span>
+>>>>>>> Stashed changes
                         </div>
 
                         <!-- Filter Actions -->
@@ -75,9 +90,13 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
-                                <th>@Html.DisplayNameFor(model => model.CancellationDate)</th>
-                                <th>@Html.DisplayNameFor(model => model.CancellationReason)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th>
+                                @* <th>@Html.DisplayNameFor(model => model.CancellationDate)</th> *@
+                                <th>Date</th>
+                                @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberStatus)</th> *@
+                                @* <th>@Html.DisplayNameFor(model => model.CancellationReason)</th> *@
+                                <th>Status Change Reason</th>
+                                @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th> *@
+                                <th>Notes</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -85,7 +104,7 @@
                             @if (!Model.Any())
                             {
                                 <tr>
-                                    <td colspan="5" class="text-center">No cancellations available.</td>
+                                    <td colspan="5" class="text-center">No records available.</td>
                                 </tr>
                             }
                             else
@@ -103,8 +122,8 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        @* <td>@item.CancellationDate.ToString("yyyy-MM-dd")</td>' *@
-                                        <td>@Html.DisplayFor(modelItem => item.CancellationDate)</td> <!-- Uses the model's formatting -->
+                                        <td>@Html.DisplayFor(modelItem => item.CancellationDate)</td>
+                                        @* <td>@Html.DisplayFor(modelItem => item.Member.MemberStatus)</td> *@
                                         <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>
                                         <td>
