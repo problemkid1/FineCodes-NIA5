@@ -481,37 +481,16 @@ namespace CRMProject.Controllers
                 if (member != null)
                 {
                     member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
-                }
-
-                //Using a cancellation table
-
-                // Check if a cancellation record already exists
-                bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.MemberID == member.ID);
-
-                if (!cancellationExists)
+                }                
+                
+                var cancellation = new Cancellation
                 {
-                    var cancellation = new Cancellation
-                    {
-                        MemberID = member.ID,
-                        CancellationDate = input.CancellationDate,
-                        CancellationReason = input.CancellationReason,
-                        CancellationNotes = input.CancellationNotes
-                    };
-
-                    _context.Cancellations.Add(cancellation);
-                }
-
-                //Using a Status History table
-
-                // Do not check if record already exists. Add to Status History anyways, so that the status change for that member is recorded
-                //var cancellation = new Cancellation
-                //{
-                //    MemberID = member.ID,
-                //    CancellationDate = DateTime.Now,
-                //    CancellationReason = input.CancellationReason,
-                //    CancellationNotes = input.CancellationNotes
-                //};
-                // _context.Cancellations.Add(cancellation);
+                    MemberID = member.ID,
+                    CancellationDate = input.CancellationDate,
+                    CancellationReason = input.CancellationReason,
+                    CancellationNotes = input.CancellationNotes
+                };
+                _context.Cancellations.Add(cancellation);
 
                 try
                 {
@@ -536,11 +515,11 @@ namespace CRMProject.Controllers
         // POST: Member/ActivateMember/5
         [HttpPost, ActionName("Activate")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ActivateConfirmed(int id)
+        public async Task<IActionResult> ActivateConfirmed([Bind("ID,CancellationDate,MemberStatus,CancellationReason,CancellationNotes")] Cancellation input)
         {
             var member = await _context.Members
                  .Include(m => m.MemberPhoto)
-                 .FirstOrDefaultAsync(m => m.ID == id);
+                 .FirstOrDefaultAsync(m => m.ID == input.ID);
 
             if (ModelState.IsValid)
             {
@@ -548,37 +527,16 @@ namespace CRMProject.Controllers
                 {
                     member.MemberStatus = MemberStatus.GoodStanding;  // Change status to Good Standing (Active)
                 }
-
-                //SOLVE BUG...DELETE CANCELLED RECORD WHEN ACTIVATING IT IF USING CANCELLATION TABLE
-
-                //Using a cancellation table
-
-                // Check if a cancellation record already exists
-
-                var cancellation = await _context.Cancellations
-                 .FirstOrDefaultAsync(m => m.ID == id);
-
-                bool cancellationExists = await _context.Cancellations.AnyAsync(c => c.ID == id);
-
-                if (cancellationExists)
+                
+                var cancellation = new Cancellation
                 {
-                    _context.Cancellations.Remove(cancellation);
-                }
-
-                //Using a Status History table
-                //Remember: change table name to Status History and add status collumn
-                //Add to Status History anyways, so that the status changing is recorded
-                //{
-                //    var cancellation = new Cancellation
-                //    {
-                //        MemberID = member.ID,
-                //        CancellationDate = DateTime.Now,
-                //        CancellationReason = input.CancellationReason,
-                //        CancellationNotes = input.CancellationNotes
-                //    };
-
-                //    _context.Cancellations.Add(cancellation);
-                //}
+                    MemberID = member.ID,
+                    CancellationDate = input.CancellationDate,
+                    CancellationReason = input.CancellationReason,
+                    CancellationNotes = input.CancellationNotes
+                };
+                _context.Cancellations.Add(cancellation);
+                
                 try
                 {
                     await _context.SaveChangesAsync();

@@ -1,25 +1,25 @@
 ﻿@model CRMProject.Models.Cancellation
 
 <dt class="col-sm-2 col-md-3">
-    <label asp-for="CancellationDate" class="control-label">Cancellation Date:</label>
+    <label asp-for="CancellationDate" class="control-label">Date:</label>
 </dt>
 <dd class="col-sm-10 col-md-9">
     <input asp-for="CancellationDate" class="form-control" type="date" />
     <span asp-validation-for="CancellationDate" class="text-danger"></span>
 </dd>
 
-<dt class ="col-sm-2 col-md-3">
-<label asp-for="CancellationReason" class="control-label">Cancellation Reason:</label>
+<dt class="col-sm-2 col-md-3">
+    <label asp-for="CancellationReason" class="control-label">Reason:</label>
 </dt>
 <dd class="col-sm-10 col-md-9">
 <textarea asp-for="CancellationReason" class="form-control" style="min-height: 100px; flex-grow: 1;"></textarea>
-<span asp-validation-for="CancellationReason" class="text-danger"></span>
+    <span asp-validation-for="CancellationReason" class="text-danger"></span>
 </dd>
 
 <dt class="col-sm-2 col-md-3">
-<label asp-for="CancellationNotes" class="control-label">Cancellation Notes:</label>
+    <label asp-for="CancellationNotes" class="control-label">Cancellation/Activation Notes:</label>
 </dt>
 <dd class="col-sm-10 col-md-9">
 <textarea asp-for="CancellationNotes" class="form-control" style="min-height: 100px; flex-grow: 1;"></textarea>
-<span asp-validation-for="CancellationNotes" class="text-danger"></span>
+    <span asp-validation-for="CancellationNotes" class="text-danger"></span>
 </dd>
