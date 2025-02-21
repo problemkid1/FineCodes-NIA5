@@ -76,10 +76,10 @@ namespace CRMProject.Controllers
             //    members = members.Where(m => m.MemberStatus == 0);
             //}
 
-            // Filter by Name
+            // Filter by Member Name (case-insensitive)
             if (!string.IsNullOrEmpty(SearchString))
             {
-                members = members.Where(m => m.MemberName.Contains(SearchString));
+                members = members.Where(m => m.MemberName.ToLower().Contains(SearchString.ToLower()));
                 numberFilters++;
             }
 
