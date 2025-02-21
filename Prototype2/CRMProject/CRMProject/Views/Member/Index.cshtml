@@ -37,18 +37,10 @@
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <div class="row">
-                        <!-- Search by Member Name -->
+                        <!-- Filter by Member Name -->
                         <div class="form-group col-md-4">
- P2GeorgeUpdated
-                            <label class="control-label">Filter by Member Status:</label>
-                            @Html.DropDownList("MemberStatus",
-                                     EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
-                                     "All Statuses",
-                                     new { @class = "form-control" })
-
-                            <label class="control-label">Search by Member Name:</label>
-                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
- main
+                            <label class="control-label">Filter by Member Name:</label>
+                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })   
                         </div>
 
                         <!-- Filter by Size -->
@@ -57,18 +49,14 @@
                             @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
                         </div>
 
- P2GeorgeUpdated
-
                         <!-- Filter by Status -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Member Status:</label>
                             @Html.DropDownList("MemberStatus",
                                      EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
-                                     "All Statuses",
                                      new { @class = "form-control" })
                         </div>
 
- main
                         <!-- Filter by Membership Type Name -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Membership Type:</label>
