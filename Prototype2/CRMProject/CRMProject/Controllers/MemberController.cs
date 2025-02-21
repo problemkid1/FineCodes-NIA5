@@ -203,6 +203,24 @@ namespace CRMProject.Controllers
                 {
                     ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
                 }
+                catch (DbUpdateException dex)
+                {
+                    string message = dex.GetBaseException().Message;
+                    if (message.Contains("UNIQUE") && message.Contains("MemberName"))
+                    {
+                        ModelState.AddModelError("MemberName", "Unable to save changes. Remember, " +
+                            "you cannot have duplicate Member Name .");
+                    }
+                    else if (message.Contains("UNIQUE") && message.Contains("MemberAccountsPayableEmail"))
+                    {
+                        ModelState.AddModelError("MemberAccountsPayableEmail", "Unable to save changes. Remember, " +
+                            "you cannot have duplicate MemberAccountsPayableEmail .");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    }
+                }
                 catch (Exception)
                 {
                     // Set error message in case of failure
@@ -372,6 +390,24 @@ namespace CRMProject.Controllers
 
                     TempData["SuccessMessage"] = "Member details updated successfully!";
                     return RedirectToAction(nameof(Details), new { id = memberToUpdate.ID });
+                }
+                catch (DbUpdateException dex)
+                {
+                    string message = dex.GetBaseException().Message;
+                    if (message.Contains("UNIQUE") && message.Contains("MemberName"))
+                    {
+                        ModelState.AddModelError("MemberName", "Unable to save changes. Remember, " +
+                            "you cannot have duplicate Member Name .");
+                    }
+                    else if (message.Contains("UNIQUE") && message.Contains("MemberAccountsPayableEmail"))
+                    {
+                        ModelState.AddModelError("MemberAccountsPayableEmail", "Unable to save changes. Remember, " +
+                            "you cannot have duplicate MemberAccountsPayableEmail .");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                    }
                 }
                 catch (Exception ex)
                 {

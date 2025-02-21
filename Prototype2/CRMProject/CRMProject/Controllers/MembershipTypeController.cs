@@ -95,6 +95,7 @@ namespace CRMProject.Controllers
         // GET: MembershipType/Create
         public IActionResult Create()
         {
+            ViewBag.MemberID = new SelectList(_context.Members, "ID", "MemberName");
             return View();
         }
 
