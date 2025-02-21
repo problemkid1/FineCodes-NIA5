@@ -147,22 +147,36 @@ namespace CRMProject.Controllers
                 try
                 {
                     _context.Update(membershipType);
-                    await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();// Set success message in TempData
+                    TempData["SuccessMessage"] = "Membership Type details updated successfully!";
+                    return RedirectToAction(nameof(Details), new { id = membershipType.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!MembershipTypeExists(membershipType.ID))
                     {
+                        // If the Opportunity does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
+                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (Exception)
+                {
+                    // Set error message for generic errors
+                    TempData["ErrorMessage"] = "An error occurred while updating the Opportunity details.";
+                }
+
             }
-            return View(membershipType);
+
+            // Set error message in case the model is invalid
+            TempData["ErrorMessage"] = "Please check the input data and try again.";
+
+            return View(membershipType); // Return to the edit view if there are validation errors
+
         }
 
         // GET: MembershipType/Delete/5
@@ -192,9 +206,18 @@ namespace CRMProject.Controllers
             if (membershipType != null)
             {
                 _context.MembershipTypes.Remove(membershipType);
+                await _context.SaveChangesAsync();
+
+                // Set success message in TempData
+                TempData["SuccessMessage"] = "Membership Type deleted successfully!";
+            }
+            else
+            {
+                // If contact not found, set an error message
+                TempData["ErrorMessage"] = "Membership Type not found!";
             }
 
-            await _context.SaveChangesAsync();
+            // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
 

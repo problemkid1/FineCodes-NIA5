@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using OfficeOpenXml;
 
 namespace CRMProject.Controllers
 {
@@ -305,6 +306,108 @@ namespace CRMProject.Controllers
             }
 
             // Redirect to the Index or other appropriate page
+            return RedirectToAction(nameof(Index));
+        }
+        /// <summary>
+        /// Planted the base code
+        /// </summary>
+        /// <param name="theExcel"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
+        {
+            string feedBack = string.Empty;
+            if (theExcel != null)
+            {
+                string mimeType = theExcel.ContentType;
+                long fileLength = theExcel.Length;
+                if (!(mimeType == "" || fileLength == 0))
+                {
+                    if (mimeType.Contains("excel") || mimeType.Contains("spreadsheet"))
+                    {
+                        ExcelPackage excel;
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await theExcel.CopyToAsync(memoryStream);
+                            excel = new ExcelPackage(memoryStream);
+                        }
+                        var workSheet = excel.Workbook.Worksheets[0];
+                        var start = workSheet.Dimension.Start;
+                        var end = workSheet.Dimension.End;
+                        int successCount = 0;
+                        int errorCount = 0;
+                        if (workSheet.Cells[1, 1].Text == "Industries")
+                        {
+                            for (int row = start.Row + 1; row <= end.Row; row++)
+                            {
+                                Industry industry = new Industry();
+                                try
+                                {
+                                    // Row by row...
+                                    industry.IndustryNAICSCode = workSheet.Cells[row, 1].Text;
+                                    _context.Industries.Add(industry);
+                                    _context.SaveChanges();
+                                    successCount++;
+                                }
+                                catch (DbUpdateException dex)
+                                {
+                                    errorCount++;
+                                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed"))
+                                    {
+                                        feedBack += "Error: Record " + industry.IndustryNAICSCode +
+                                            " was rejected as a duplicate." + "<br />";
+                                    }
+                                    else
+                                    {
+                                        feedBack += "Error: Record " + industry.IndustryNAICSCode +
+                                            " caused an error." + "<br />";
+                                    }
+                                    _context.Remove(industry);
+                                }
+                                catch (Exception ex)
+                                {
+                                    errorCount++;
+                                    if (ex.GetBaseException().Message.Contains("correct format"))
+                                    {
+                                        feedBack += "Error: Record " + industry.IndustryNAICSCode
+                                            + " was rejected becuase it was not in the correct format." + "<br />";
+                                    }
+                                    else
+                                    {
+                                        feedBack += "Error: Record " + industry.IndustryNAICSCode
+                                            + " caused and error." + "<br />";
+                                    }
+                                }
+                            }
+                            feedBack += "Finished Importing " + (successCount + errorCount).ToString() +
+                                " Records with " + successCount.ToString() + " inserted and " +
+                                errorCount.ToString() + " rejected";
+                        }
+                        else
+                        {
+                            feedBack = "Error: You may have selected the wrong file to upload.<br /> " +
+                                "Remember, you must have the heading 'Industries' in the " +
+                                "first cell of the first row.";
+                        }
+                    }
+                    else
+                    {
+                        feedBack = "Error: That file is not an Excel spreadsheet.";
+                    }
+                }
+                else
+                {
+                    feedBack = "Error:  file appears to be empty";
+                }
+            }
+            else
+            {
+                feedBack = "Error: No file uploaded";
+            }
+
+            TempData["Feedback"] = feedBack + "<br /><br />";
+
             return RedirectToAction(nameof(Index));
         }
 
