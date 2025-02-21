@@ -100,27 +100,42 @@ namespace CRMProject.Controllers
             {
                 try
                 {
-                    // Add the new member to the context and save changes
+                    var existingopportunity = await _context.Opportunities
+                        .FirstOrDefaultAsync(i => i.OpportunityName == opportunity.OpportunityName);
+
+                    if (existingopportunity != null)
+                    {
+                        ModelState.AddModelError("OpportunityName", "opportunity with this OpportunityName already exists.");
+                        return View(opportunity);
+                    }
+
                     _context.Add(opportunity);
                     await _context.SaveChangesAsync();
 
-                    // Set success message in TempData
                     TempData["SuccessMessage"] = "Opportunity created successfully!";
                     return RedirectToAction(nameof(Details), new { id = opportunity.ID });
                 }
+                catch (DbUpdateException dex)
+                {
+                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed"))
+                    {
+                        ModelState.AddModelError("OpportunityName", "Unable to save changes. Remember, Opportunity Name must be unique.");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "An error occurred while saving the Opportunity.";
+                    }
+                }
                 catch (Exception)
                 {
-                    // Set error message in case of failure
-                    TempData["ErrorMessage"] = "An error occurred while creating this Opportunity.";
+                    TempData["ErrorMessage"] = "An error occurred while creating the Opportunity.";
                 }
             }
             else
             {
-                // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
 
-            // Return to the Create view in case of failure or validation errors
             return View(opportunity);
         }
 
