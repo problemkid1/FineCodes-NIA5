@@ -12,23 +12,23 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CRMProject.Controllers
 {
-    public class CancellationController : Controller
+    public class StatusHistoryController : Controller
     {
         private readonly CRMContext _context;
 
-        public CancellationController(CRMContext context)
+        public StatusHistoryController(CRMContext context)
         {
             _context = context;
         }
 
-        // GET: Cancellation
-        public async Task<IActionResult> Index(DateTime? CancellationDate, string? CancellationReason, string? CancellationNotes, DateTime StartDate, DateTime EndDate)
+        // GET: StatusHistory
+        public async Task<IActionResult> Index(DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate)
         {
             // If first time loading the page, set date range based on DB values
             if (EndDate == DateTime.MinValue)
             {
-                StartDate = _context.Cancellations.Min(c => c.CancellationDate).Date;
-                EndDate = _context.Cancellations.Max(c => c.CancellationDate).Date;
+                StartDate = _context.StatusHistories.Min(c => c.Date).Date;
+                EndDate = _context.StatusHistories.Max(c => c.Date).Date;
             }
 
             // Swap dates if out of order
@@ -48,28 +48,35 @@ namespace CRMProject.Controllers
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
 
-            var cRMContext = _context.Cancellations.Include(c => c.Member)
-                .Where(c => c.CancellationDate >= StartDate && c.CancellationDate <= EndDate.AddDays(1))
+            var statusHistories = _context.StatusHistories.Include(c => c.Member)
+                .Where(c => c.Date >= StartDate && c.Date <= EndDate.AddDays(1))
                 .AsNoTracking(); // Eager loading the related Member entity
 
-            // Filter by Cancellation Date
-            if (CancellationDate.HasValue)
+            // Filter by StatusHistory Date
+            if (Date.HasValue)
             {
-                cRMContext = cRMContext.Where(c => c.CancellationDate == CancellationDate.Value);
+                statusHistories = statusHistories.Where(c => c.Date == Date.Value);
                 numberFilters++;
             }
 
-            // Filter by Cancellation Reason
-            if (!string.IsNullOrEmpty(CancellationReason))
+            // Filter by StatusHistory Status
+            if (!string.IsNullOrEmpty(Status))
             {
-                cRMContext = cRMContext.Where(c => c.CancellationReason.ToLower().Contains(CancellationReason.ToLower()));
+                statusHistories = statusHistories.Where(c => c.Status.ToLower().Contains(Status.ToLower()));
                 numberFilters++;
             }
 
-            // Filter by Cancellation Notes
-            if (!string.IsNullOrEmpty(CancellationNotes))
+            // Filter by StatusHistory Reason
+            if (!string.IsNullOrEmpty(Reason))
             {
-                cRMContext = cRMContext.Where(c => c.CancellationNotes.ToLower().Contains(CancellationNotes.ToLower()));
+                statusHistories = statusHistories.Where(c => c.Reason.ToLower().Contains(Reason.ToLower()));
+                numberFilters++;
+            }
+
+            // Filter by StatusHistory Notes
+            if (!string.IsNullOrEmpty(Notes))
+            {
+                statusHistories = statusHistories.Where(c => c.Notes.ToLower().Contains(Notes.ToLower()));
                 numberFilters++;
             }
 
@@ -84,62 +91,60 @@ namespace CRMProject.Controllers
                 ViewData["ShowFilter"] = "show";
             }
 
-            // Return the filtered list of cancellations with associated Member data
-            return View(await cRMContext.ToListAsync());
+            // Return the filtered list of status histories with associated Member data
+            return View(await statusHistories.ToListAsync());
         }
 
 
-        // GET: Cancellation/Details/5
+        // GET: StatusHistory/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
-            }
+            }                       
 
-            //DateTime? cancellationDate = model.CancellationDate;
-
-            var cancellation = await _context.Cancellations
+            var statusHistory = await _context.StatusHistories
                 .Include(c => c.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (cancellation == null)
+            if (statusHistory == null)
             {
                 return NotFound();
             }
 
-            return View(cancellation);
+            return View(statusHistory);
         }
 
-        // GET: Cancellation/Create
+        // GET: StatusHistory/Create
         public IActionResult Create()
         {
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName");
             return View();
         }
 
-        // POST: Cancellation/Create
+        // POST: StatusHistory/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CancellationDate,CancellationReason,CancellationNotes,MemberID")] Cancellation cancellation)
+        public async Task<IActionResult> Create([Bind("ID,Date,Status,Reason,Notes,MemberID")] StatusHistory statusHistory)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Add the new cancellation to the context and save changes
-                    _context.Add(cancellation);
+                    // Add the new statusHistory to the context and save changes
+                    _context.Add(statusHistory);
                     await _context.SaveChangesAsync();
 
                     // Set success message in TempData
-                    TempData["SuccessMessage"] = "Cancellation created successfully!";
-                    return RedirectToAction(nameof(Details), new { id = cancellation.ID });
+                    TempData["SuccessMessage"] = "Status History record created successfully!";
+                    return RedirectToAction(nameof(Details), new { id = statusHistory.ID });
                 }
                 catch (Exception)
                 {
                     // Set error message in case of failure
-                    TempData["ErrorMessage"] = "An error occurred while creating cancellation.";
+                    TempData["ErrorMessage"] = "An error occurred while creating status history.";
                 }
             }
             else
@@ -149,11 +154,11 @@ namespace CRMProject.Controllers
             }
 
             // Return to the Create view in case of failure or validation errors
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", cancellation.MemberID);
-            return View(cancellation);
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
+            return View(statusHistory);
         }
 
-        // GET: Cancellation/Edit/5
+        // GET: StatusHistory/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -161,23 +166,23 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var cancellation = await _context.Cancellations.FindAsync(id);
-            if (cancellation == null)
+            var statusHistory = await _context.StatusHistories.FindAsync(id);
+            if (statusHistory == null)
             {
                 return NotFound();
             }
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", cancellation.MemberID);
-            return View(cancellation);
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
+            return View(statusHistory);
         }
 
-        // POST: Cancellation/Edit/5
+        // POST: StatusHistory/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CancellationDate,CancellationReason,CancellationNotes,MemberID")] Cancellation cancellation)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Status,Reason,Notes,MemberID")] StatusHistory statusHistory)
         {
-            if (id != cancellation.ID)
+            if (id != statusHistory.ID)
             {
                 return NotFound();
             }
@@ -186,18 +191,18 @@ namespace CRMProject.Controllers
             {
                 try
                 {
-                    _context.Update(cancellation);
+                    _context.Update(statusHistory);
                     await _context.SaveChangesAsync();
 
                     // Set success message in TempData
-                    TempData["SuccessMessage"] = "Cancellation updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = cancellation.ID });
+                    TempData["SuccessMessage"] = "Status History updated successfully!";
+                    return RedirectToAction(nameof(Details), new { id = statusHistory.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CancellationExists(cancellation.ID))
+                    if (!StatusHistoryExists(statusHistory.ID))
                     {
-                        // If the cancellation does not exist anymore, return NotFound
+                        // If the status history does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
@@ -209,7 +214,7 @@ namespace CRMProject.Controllers
                 catch (Exception)
                 {
                     // Set error message for generic errors
-                    TempData["ErrorMessage"] = "An error occurred while updating cancellation.";
+                    TempData["ErrorMessage"] = "An error occurred while updating status history.";
                 }
 
             }
@@ -217,11 +222,11 @@ namespace CRMProject.Controllers
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
 
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", cancellation.MemberID);
-            return View(cancellation);
+            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
+            return View(statusHistory);
         }
 
-        // GET: Cancellation/Delete/5
+        // GET: StatusHistory/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -229,44 +234,44 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var cancellation = await _context.Cancellations
+            var statusHistory = await _context.StatusHistories
                 .Include(c => c.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (cancellation == null)
+            if (statusHistory == null)
             {
                 return NotFound();
             }
 
-            return View(cancellation);
+            return View(statusHistory);
         }
 
-        // POST: Cancellation/Delete/5
+        // POST: StatusHistory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cancellation = await _context.Cancellations.FindAsync(id);
-            if (cancellation != null)
+            var statusHistory = await _context.StatusHistories.FindAsync(id);
+            if (statusHistory != null)
             {
-                _context.Cancellations.Remove(cancellation);
+                _context.StatusHistories.Remove(statusHistory);
                 await _context.SaveChangesAsync();
 
                 // Set success message in TempData
-                TempData["SuccessMessage"] = "Cancellation deleted successfully!";
+                TempData["SuccessMessage"] = "Status History deleted successfully!";
             }
             else
             {
                 // If Address not found, set an error message
-                TempData["ErrorMessage"] = "Cancellation not found!";
+                TempData["ErrorMessage"] = "Status History not found!";
             }
 
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CancellationExists(int id)
+        private bool StatusHistoryExists(int id)
         {
-            return _context.Cancellations.Any(e => e.ID == id);
+            return _context.StatusHistories.Any(e => e.ID == id);
         }
     }
 }

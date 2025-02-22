@@ -1,8 +1,8 @@
-﻿@model IEnumerable<CRMProject.Models.Cancellation>
+﻿@model IEnumerable<CRMProject.Models.StatusHistory>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Cancellation Index";
+    ViewData["Title"] = "StatusHistory Index";
 }
 
 <!-- Display Success or Error Messages -->
@@ -28,29 +28,33 @@
         <div class="card-body">
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h1 mb-0 text-gray-1400">Status History</h1>
-                @* <a asp-action="Create" class="btn btn-primary btn-lg " >
-                    <i class="fas fa-plus"></i>Add Cancellation
-                </a> *@
+                <h1 class="h1 mb-0 text-gray-1400">Status History</h1>               
             </div>
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <div class="row">
+                        <!-- Filter by Status -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Status:</label>
+                            @Html.TextBox("Status", null, new { @class = "form-control", placeholder = "Enter status" })
+                            <span class="text-danger">@ViewData["ReasonCount"]</span>
+                        </div>
+
                         <!-- Filter by Reason -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Reason:</label>
-                            @Html.TextBox("CancellationReason", null, new { @class = "form-control", placeholder = "Enter reason" })
-                            <span class="text-danger">@ViewData["CancellationReasonCount"]</span>
+                            @Html.TextBox("Reason", null, new { @class = "form-control", placeholder = "Enter reason" })
+                            <span class="text-danger">@ViewData["ReasonCount"]</span>
                         </div>
 
-                        <!-- Filter by Cancellation Notes -->
+                        <!-- Filter by Notes -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Notes:</label>
-                            @Html.TextBox("CancellationNotes", null, new { @class = "form-control", placeholder = "Enter notes" })
+                            @Html.TextBox("Notes", null, new { @class = "form-control", placeholder = "Enter notes" })
                         </div><br />
 
-                        <!-- Filter by Cancellation Date Range -->
+                        <!-- Filter by Date Range -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Date:</label>
                             <div class="d-flex">
@@ -59,10 +63,10 @@
                                 <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
                             </div>
 
-                            <span class="text-danger">@ViewData["CancellationNotesCount"]</span>
+                            <span class="text-danger">@ViewData["NotesCount"]</span>
                         </div>
 
-                        <span class="text-danger">@ViewData["CancellationNotesCount"]</span>
+                        <span class="text-danger">@ViewData["NotesCount"]</span>
 
                         <!-- Filter Actions -->
                         <div class="form-group col-md-4 align-self-end">
@@ -85,13 +89,10 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
-                                @* <th>@Html.DisplayNameFor(model => model.CancellationDate)</th> *@
-                                <th>Date</th>
-                                @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberStatus)</th> *@
-                                @* <th>@Html.DisplayNameFor(model => model.CancellationReason)</th> *@
-                                <th>Status Change Reason</th>
-                                @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.CancellationNotes)</th> *@
-                                <th>Notes</th>
+                                <th>@Html.DisplayNameFor(model => model.Date)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Status)</th>
+                                <th>@Html.DisplayNameFor(model => model.Reason)</th>                                
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Notes)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -117,10 +118,10 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.CancellationDate)</td>
-                                        @* <td>@Html.DisplayFor(modelItem => item.Member.MemberStatus)</td> *@
-                                        <td>@Html.DisplayFor(modelItem => item.CancellationReason)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.CancellationNotes)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Notes)</td>
                                         <td>
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
@@ -132,17 +133,6 @@
                                                     <i class="bi bi-search"></i>
                                                 </a>
                                             </div>
-
-                                            @* <div class="btn-group" style="float: right; "> *@
-                                            @*     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false" *@
-                                            @*        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]"> *@
-                                            @*         <i class="bi bi-pencil-square"></i> *@
-                                            @*     </a> *@
-                                            @*     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" *@
-                                            @*        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]"> *@
-                                            @*         <i class="bi bi-search"></i> *@
-                                            @*     </a> *@
-                                            @* </div> *@
                                         </td>
                                     </tr>
                                 }

@@ -470,7 +470,7 @@ namespace CRMProject.Controllers
         // POST: Member/CancelMember/5
         [HttpPost, ActionName("Cancel")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CancelConfirmed([Bind("ID,CancellationDate,CancellationReason,CancellationNotes")] Cancellation input)
+        public async Task<IActionResult> CancelConfirmed([Bind("ID,Date,Status,Reason,Notes")] StatusHistory input)
         {
             var member = await _context.Members
                  .Include(m => m.MemberPhoto)
@@ -483,20 +483,21 @@ namespace CRMProject.Controllers
                     member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
                 }                
                 
-                var cancellation = new Cancellation
+                var cancellation = new StatusHistory
                 {
                     MemberID = member.ID,
-                    CancellationDate = input.CancellationDate,
-                    CancellationReason = input.CancellationReason,
-                    CancellationNotes = input.CancellationNotes
+                    Date = input.Date,
+                    Status = input.Status,
+                    Reason = input.Reason,
+                    Notes = input.Notes
                 };
-                _context.Cancellations.Add(cancellation);
+                _context.StatusHistories.Add(cancellation);
 
                 try
                 {
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = $"Member '{member.MemberName}' cancelled successfully!";
-                    return RedirectToAction("Index", "Cancellation");
+                    return RedirectToAction("Index", "StatusHistory");
                 }
                 catch (Exception ex)
                 {
@@ -515,7 +516,7 @@ namespace CRMProject.Controllers
         // POST: Member/ActivateMember/5
         [HttpPost, ActionName("Activate")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ActivateConfirmed([Bind("ID,CancellationDate,MemberStatus,CancellationReason,CancellationNotes")] Cancellation input)
+        public async Task<IActionResult> ActivateConfirmed([Bind("ID,Date,Status,Reason,Notes")] StatusHistory input)
         {
             var member = await _context.Members
                  .Include(m => m.MemberPhoto)
@@ -528,20 +529,21 @@ namespace CRMProject.Controllers
                     member.MemberStatus = MemberStatus.GoodStanding;  // Change status to Good Standing (Active)
                 }
                 
-                var cancellation = new Cancellation
+                var activation = new StatusHistory
                 {
                     MemberID = member.ID,
-                    CancellationDate = input.CancellationDate,
-                    CancellationReason = input.CancellationReason,
-                    CancellationNotes = input.CancellationNotes
+                    Date = input.Date,
+                    Status = input.Status,
+                    Reason = input.Reason,
+                    Notes = input.Notes
                 };
-                _context.Cancellations.Add(cancellation);
+                _context.StatusHistories.Add(activation);
                 
                 try
                 {
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = $"Member '{member.MemberName}' activated successfully!";
-                    return RedirectToAction("Index", "Cancellation");
+                    return RedirectToAction("Index", "StatusHistory");
                 }
                 catch (Exception ex)
                 {

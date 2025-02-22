@@ -119,10 +119,10 @@
                 </a>
             </li>
 
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "active" : "")">
-                <a class="nav-link" asp-controller="Cancellation" asp-action="Index">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "StatusHistory" ? "active" : "")">
+                <a class="nav-link" asp-controller="StatusHistory" asp-action="Index">
                     <i class="fas fa-calendar-times"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cancellation" ? "text-decoration: underline;" : "")  ;">Status History</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "StatusHistory" ? "text-decoration: underline;" : "")  ;">Status History</span>
                 </a>
             </li>
 

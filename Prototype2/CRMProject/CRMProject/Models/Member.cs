@@ -64,8 +64,8 @@ namespace CRMProject.Models
         [Display(Name = "Membership Types")]
         public ICollection<MemberMembershipType> MemberMembershipTypes { get; set; } = new HashSet<MemberMembershipType>();
 
-        [Display(Name = "Cancellations")]
-        public ICollection<Cancellation> Cancellations { get; set; } = new HashSet<Cancellation>();
+        [Display(Name = "StatusHistory")]
+        public ICollection<StatusHistory> StatusHistories { get; set; } = new HashSet<StatusHistory>();
 
         [Display(Name = "Contacts")]
         public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();

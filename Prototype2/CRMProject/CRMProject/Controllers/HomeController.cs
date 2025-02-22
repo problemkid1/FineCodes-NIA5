@@ -20,7 +20,7 @@ namespace CRMProject.Controllers
         public IActionResult Index()
         {
             // LINQ queries to get the counts
-            int cancellationCount = _context.Cancellations.Count();
+            int cancellationCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.Cancelled);
             int memberCount = _context.Members.Count();
             int opportunityCount = _context.Opportunities.Count();
             int industryCount = _context.Industries.Count();

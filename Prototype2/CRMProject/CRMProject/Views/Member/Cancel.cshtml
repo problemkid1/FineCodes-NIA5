@@ -73,15 +73,15 @@
                        </div>
                     </div>
 
-                    @* <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.MemberEndDate)</dt> *@
-                    @* <dd class="col-sm-10 col-md-9">@Model.MemberEndDate?.ToString("yyyy-MM-dd")</dd> *@
+                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
+                    <dd class="col-sm-10 col-md-9">@Model.MemberEndDate?.ToString("yyyy-MM-dd")</dd>
 
                      <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
                     <dd class="col-sm-10 col-md-9">
                         <textarea class="form-control" rows="4" readonly>@Model.MemberNotes</textarea>
                     </dd>
-
-                     @Html.Partial("_DetailCancellation", new Cancellation())
+                    
+                     @Html.Partial("_DetailStatusHistory", new StatusHistory())
    
                </dl>
 
