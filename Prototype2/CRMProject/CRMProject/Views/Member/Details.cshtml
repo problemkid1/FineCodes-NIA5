@@ -153,8 +153,9 @@
     </div>
 
     <div class="row-md-4">
-        @Html.Partial("_ListOfContacts", Model.MemberContacts)
+        @await Html.PartialAsync("_ListOfContacts", Model.MemberContacts)
     </div>
+
 
     <div class="row-md-4 mt-5">
         <!-- Added margin-top -->

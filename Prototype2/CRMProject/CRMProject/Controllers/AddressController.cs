@@ -293,23 +293,33 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var address = await _context.Addresses.FindAsync(id);
-            if (address != null)
+            try
             {
-                int memberId = address.MemberID; // Store MemberID before deleting
+                if (address != null)
+                {
+                    int memberId = address.MemberID; // Store MemberID before deleting
 
-                _context.Addresses.Remove(address);
-                await _context.SaveChangesAsync();
+                    _context.Addresses.Remove(address);
+                    await _context.SaveChangesAsync();
 
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Address deleted successfully!";
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Address deleted successfully!";
 
-                // Redirect to the Member's Details page
-                return RedirectToAction("Details", "Member", new { id = memberId });
+                    // Redirect to the Member's Details page
+                    return RedirectToAction("Details", "Member", new { id = memberId });
+                }
+
+
+                else
+                {
+                    // If Address not found, set an error message
+                    TempData["ErrorMessage"] = "Address not found!";
+                }
             }
-            else
+            catch (DbUpdateException)
             {
-                // If Address not found, set an error message
-                TempData["ErrorMessage"] = "Address not found!";
+                //Note: there is really no reason a delete should fail if you can "talk" to the database.
+                ModelState.AddModelError("", "Unable to delete record. Try again, and if the problem persists see your system administrator.");
             }
 
             // Redirect to the Member's Details page as a fallback

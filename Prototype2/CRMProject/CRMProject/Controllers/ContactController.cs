@@ -144,6 +144,76 @@ namespace CRMProject.Controllers
             return View(contact);
         }
 
+        //Adding a new contactmember
+        // Add this new action to your existing ContactController
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId)
+        {
+            // Check if model binding succeeded
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+
+                // Debug: Log model state errors (replace with your logging mechanism)
+                // _logger.LogWarning("CreateContact: ModelState is invalid. Errors: {@Errors}", errors);
+                return Json(new { success = false, message = "Invalid model state", errors });
+            }
+
+            try
+            {
+                // Debug: Log the incoming contact data
+                // _logger.LogInformation("CreateContact: Adding contact {@Contact}", contact);
+
+                // Add the contact and save to get the generated ID
+                _context.Contacts.Add(contact);
+                await _context.SaveChangesAsync();
+
+                // Debug: Check if contact ID has been generated
+                if (contact.ID <= 0)
+                {
+                    // _logger.LogError("CreateContact: Contact ID was not generated properly.");
+                    return Json(new { success = false, message = "Contact ID not generated after save." });
+                }
+
+                // Debug: Log the generated contact ID
+                // _logger.LogInformation("CreateContact: Generated Contact ID {ContactID}", contact.ID);
+
+                // Create and save the member-contact relationship
+                var memberContact = new MemberContact
+                {
+                    MemberID = memberId,
+                    ContactID = contact.ID
+                };
+
+                _context.MemberContacts.Add(memberContact);
+                await _context.SaveChangesAsync();
+
+                // Debug: Log successful creation of both contact and memberContact
+                // _logger.LogInformation("CreateContact: Successfully created Contact and MemberContact relationship.");
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Debug: Log the exception details (consider using a logging framework)
+                // _logger.LogError(ex, "CreateContact: Exception occurred while creating contact.");
+
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message,
+                    stackTrace = ex.StackTrace // For debugging only; remove in production
+                });
+            }
+        }
+
+
+
+
+
         // GET: Contact/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -183,6 +253,7 @@ namespace CRMProject.Controllers
                     TempData["SuccessMessage"] = "Contact details updated successfully!";
                     return RedirectToAction(nameof(Details), new { id = contact.ID });
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ContactExists(contact.ID))
@@ -212,18 +283,22 @@ namespace CRMProject.Controllers
         // GET: Contact/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var contact = await _context.Contacts
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
 
+               .FirstOrDefaultAsync(m => m.ID == id);
+            try
+            {
+
+                if (contact == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (DbUpdateException)
+            {
+                //Note: there is really no reason a delete should fail if you can "talk" to the database.
+                ModelState.AddModelError("", "Unable to delete record. Try again, and if the problem persists see your system administrator.");
+            }
             return View(contact);
         }
 
