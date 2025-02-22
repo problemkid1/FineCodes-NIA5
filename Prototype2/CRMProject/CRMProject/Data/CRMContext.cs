@@ -18,7 +18,7 @@ namespace CRMProject.Data
         public DbSet<MemberIndustry> MemberIndustries { get; set; }
         public DbSet<MembershipType> MembershipTypes { get; set; }
         public DbSet<MemberMembershipType> MemberMembershipTypes { get; set; }
-        public DbSet<Cancellation> Cancellations { get; set; }
+        public DbSet<StatusHistory> StatusHistories { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<MemberContact> MemberContacts { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
@@ -71,10 +71,10 @@ namespace CRMProject.Data
                 .HasForeignKey(mmt => mmt.MemberID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Prevent Cascade Delete from Member to Cancellation
-            modelBuilder.Entity<Cancellation>()
+            //Prevent Cascade Delete from Member to StatusHistory
+            modelBuilder.Entity<StatusHistory>()
                 .HasOne(c => c.Member)
-                .WithMany(m => m.Cancellations)
+                .WithMany(m => m.StatusHistories)
                 .HasForeignKey(c => c.MemberID)
                 .OnDelete(DeleteBehavior.Restrict);
 

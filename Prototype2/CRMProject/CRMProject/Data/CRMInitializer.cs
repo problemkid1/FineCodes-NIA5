@@ -433,8 +433,8 @@ namespace CRMProject.Data
                     }
 
 
-                    // Seed Cancellations if there aren't any.
-                    if (!context.Cancellations.Any())
+                    // Seed StatusHistories if there aren't any.
+                    if (!context.StatusHistories.Any())
                     {
                         // Get members with a status of 'Cancelled'
                         var cancelledMembers = context.Members
@@ -447,19 +447,20 @@ namespace CRMProject.Data
                             foreach (var member in cancelledMembers)
                             {
                                 // Check if the member already has a cancellation record (prevent duplicates)
-                                if (!context.Cancellations.Any(c => c.MemberID == member.ID))
+                                if (!context.StatusHistories.Any(c => c.MemberID == member.ID))
                                 {
-                                    context.Cancellations.Add(new Cancellation
+                                    context.StatusHistories.Add(new StatusHistory
                                     {
                                         MemberID = member.ID,
-                                        CancellationDate = DateTime.Now.AddDays(-180), // Fixed cancellation 6 months ago
-                                        CancellationReason = "Cancellation due to internal restructuring.",
-                                        CancellationNotes = "No renewal interest."
+                                        Date = DateTime.Now.AddDays(-180), // Fixed cancellation 6 months ago
+                                        Status = "Cancelled",
+                                        Reason = "Cancellation due to internal restructuring.",
+                                        Notes = "No renewal interest."
                                     });
                                 }
                             }
 
-                            // Save all cancellation records
+                            // Save all StatusHistory records
                             context.SaveChanges();
                         }
                         else
