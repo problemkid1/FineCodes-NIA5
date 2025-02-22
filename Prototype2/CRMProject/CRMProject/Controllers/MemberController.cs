@@ -446,6 +446,17 @@ namespace CRMProject.Controllers
 
         }
 
+        public async Task<IActionResult> GetMemberContacts(int id)
+        {
+            var memberContacts = await _context.MemberContacts
+                .Include(mc => mc.Contact)
+                .Where(mc => mc.MemberID == id)
+                .ToListAsync();
+
+            return PartialView("_ListOfContacts", memberContacts);
+        }
+
+
         // GET: Member/ActivateMember/5
         public async Task<IActionResult> Activate(int? id)
         {
