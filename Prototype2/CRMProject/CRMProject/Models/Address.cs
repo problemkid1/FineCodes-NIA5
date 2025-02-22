@@ -30,6 +30,7 @@ namespace CRMProject.Models
 
         [Display(Name = "City")]
         [MaxLength(100, ErrorMessage = "City cannot be more than 100 characters long.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "City name must contain only letters.")]
         public string? AddressCity { get; set; } = "";
 
         [Display(Name = "Province")]
