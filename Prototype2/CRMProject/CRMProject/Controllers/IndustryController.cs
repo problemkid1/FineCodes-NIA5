@@ -289,23 +289,28 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var industry = await _context.Industries
-               .Include(i => i.MemberIndustries).ThenInclude(i => i.Member)
-               .FirstOrDefaultAsync(i => i.ID == id);
-            if (industry != null)
-            {
-                _context.Industries.Remove(industry);
-                await _context.SaveChangesAsync();
+                .Include(i => i.MemberIndustries)
+                .ThenInclude(mi => mi.Member)
+                .FirstOrDefaultAsync(i => i.ID == id);
 
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Industry deleted successfully!";
-            }
-            else
+            if (industry == null)
             {
-                // If Insudtry not found, set an error message
                 TempData["ErrorMessage"] = "Industry not found!";
+                return RedirectToAction(nameof(Index));
             }
 
-            // Redirect to the Index or other appropriate page
+            // Check if the industry has members
+            if (industry.MemberIndustries.Any())
+            {
+                TempData["ErrorMessage"] = "Cannot delete industry because it has associated member(s).";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Proceed with deletion
+            _context.Industries.Remove(industry);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Industry deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
         /// <summary>

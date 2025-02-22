@@ -118,10 +118,7 @@
                                             <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">
-                                                @if (item.MemberStatus == MemberStatus.GoodStanding)
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.MemberStatus)
-                                                }
+                                                @Html.DisplayFor(modelItem => item.MemberStatus)
                                             </td>
                                             <td>
                                                 @{
