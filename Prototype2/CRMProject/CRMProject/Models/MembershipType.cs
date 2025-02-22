@@ -13,16 +13,17 @@ namespace CRMProject.Models
         [Display(Name = "Description")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for description.")]
         [DataType(DataType.MultilineText)]
-        public string? MembershipTypeDescription { get; set; } = "";
+        public string? MembershipTypeDescription { get; set; }
 
         [Display(Name = "Fee")]
         [DataType(DataType.Currency)]
-        public double? MembershipTypeFee { get; set; } 
+        [Range(0, double.MaxValue, ErrorMessage = "Fee must be a positive value.")]
+        public double? MembershipTypeFee { get; set; }
 
         [Display(Name = "Benefit")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for benefit.")]
         [DataType(DataType.MultilineText)]
-        public string? MembershipTypeBenefits { get; set; } = "";
+        public string? MembershipTypeBenefits { get; set; } 
 
         [Display(Name = "Member")]
         public ICollection<MemberMembershipType> MemberMembershipTypes { get; set; } = new HashSet<MemberMembershipType>();

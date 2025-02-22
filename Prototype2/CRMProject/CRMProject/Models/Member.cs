@@ -17,10 +17,12 @@ namespace CRMProject.Models
         [Display(Name = "Name")]
         [Required(ErrorMessage = "You cannot leave the member name blank.")]
         [MaxLength(255, ErrorMessage = "Member Name cannot be more than 255 characters long.")]
+        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Member name must contain only letters.")]
         public string MemberName { get; set; } = "";
 
         [Required(ErrorMessage = "You cannot leave the member size blank.")]
         [Display(Name = "Size")]
+        [Range(1, int.MaxValue, ErrorMessage = "Member size must be a positive number.")]
         public int? MemberSize { get; set; }
 
         [Required(ErrorMessage = "You must select the member status.")]
@@ -77,9 +79,21 @@ namespace CRMProject.Models
         {
             if (MemberEndDate < MemberStartDate)
             {
-                yield return new ValidationResult("Membership end date cannot be earlier than the start date.", ["MemberEndDate"]);
+                yield return new ValidationResult("Membership end date cannot be earlier than the start date.",
+                    new[] { "MemberEndDate" });
+            }
+
+            if (MemberStartDate > DateTime.Today)
+            {
+                yield return new ValidationResult("Member start date cannot be in the future.",
+                    new[] { "MemberStartDate" });
+            }
+
+            if (MemberLastContactDate > DateTime.Today)
+            {
+                yield return new ValidationResult("Last contact date cannot be in the future.",
+                    new[] { "MemberLastContactDate" });
             }
         }
-
     }
 }

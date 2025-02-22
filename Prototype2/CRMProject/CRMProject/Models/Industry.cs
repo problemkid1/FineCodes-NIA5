@@ -18,7 +18,7 @@ namespace CRMProject.Models
         [Display(Name = "Industry Sector")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for description.")]
         [DataType(DataType.MultilineText)]
-        public string? IndustrySector { get; set; } = "";
+        public string? IndustrySector { get; set; }
 
         [Display(Name = "Industry Subsector")]
         [Required(ErrorMessage = "You cannot leave the industry name blank.")]
