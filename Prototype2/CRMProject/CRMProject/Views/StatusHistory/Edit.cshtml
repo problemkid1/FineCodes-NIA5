@@ -25,18 +25,9 @@
             <h6 class="m-0 font-weight-bold text-primary">Status History Information</h6>
         </div>
         <div class="card-body">
-            <form asp-action="Edit">
+            <form asp-action="Edit" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <div class="row">
-                    <!-- Status History Date -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="Date" class="control-label">Date:</label>
-                            <input asp-for="Date" type="date" class="form-control" />
-                            <span asp-validation-for="Date" class="text-danger"></span>
-                        </div>
-                    </div>
-
                     <!-- Member ID -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
@@ -46,6 +37,15 @@
                         </div>
                     </div>
 
+                    <!-- Status History Date -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Date" class="control-label">Date:</label>
+                            <input asp-for="Date" type="date" class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                    </div>   
+                   
                     <!-- Status History Reason -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
