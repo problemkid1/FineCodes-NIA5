@@ -17,7 +17,7 @@
     vertical-align: middle;
 }
 
-.breadcrumb {
+/*.breadcrumb {
     background-color: #f8f9fc;
     border-radius: 0.35rem;
     padding: 0.75rem 1rem;
@@ -26,11 +26,18 @@
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
-}
+}*/
 
 .text-primary {
     color: #384B82 !important;
 }
+
+input[type="file"] {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
 
 body {
     margin: 0;
@@ -432,6 +439,7 @@ input[type="file"] {
     border-radius: 4px; /* Optional for rounded corners */
     white-space: pre;
     display: inline-block;
+
 }
 
 

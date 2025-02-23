@@ -23,7 +23,7 @@
     color: #384B82 !important;
 }
 
-.breadcrumb {
+/*.breadcrumb {
     background-color: #f8f9fc;
     border-radius: 0.35rem;
     padding: 0.75rem 1rem;
@@ -32,7 +32,14 @@
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
+}*/
+
+input[type="file"] {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
 }
+
 /*
 .img-fill {
     width: 100%;
