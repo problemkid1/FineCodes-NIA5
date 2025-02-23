@@ -9,8 +9,8 @@
     <div class="panel-heading">
         <div class="d-flex align-items-center justify-content-between">
             <h4 class="panel-title mb-0">Contact Information</h4>
-            <p class="mb-0">Contact Count: @Model.Count()</p>
         </div>
+
     </div>
 
     <div class="panel-body scrollable-panel">
@@ -106,7 +106,11 @@
                 </div>
             </div>
         </div>
-
+        <div style="float: right; padding-left: 10%;">
+            <button class="btn btn-primary" onclick="showContactForm()">
+                <strong><i class="fa-solid fa-plus"></i> Add</strong>
+            </button>
+        </div>
         @if (Model.Any())
         {
             <table class="table table-striped">
@@ -117,11 +121,7 @@
                         <th>@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
                         <th>@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
                         <th>@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>
-                        <th style="float: right; padding-left: 10%;">
-                            <button class="btn btn-primary" onclick="showContactForm()">
-                                <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                            </button>
-                        </th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,18 +142,15 @@
                             <td style="float: right; padding-left: 10%;">
                                 <div class="btn-group">
                                     <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                       data-bs-toggle="tooltip" title="Edit Contact">
+                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Contact">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                       class="btn btn-md btn-outline-primary" role="button"
-                                       data-bs-toggle="tooltip" title="Details Contact">
+                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Details Contact">
                                         <i class="bi bi-search"></i>
                                     </a>
                                     <a asp-action="Delete" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                       data-bs-toggle="tooltip" title="Delete Contact">
+                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Delete Contact">
                                         <i class="bi bi-archive-fill"></i>
                                     </a>
                                 </div>
@@ -165,47 +162,58 @@
         }
         else
         {
-            <p class="text-muted">No contact found.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Contact Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-muted text-center" colspan="6">No contact found.</td>
+                    </tr>
+                </tbody>
+            </table>
         }
+
     </div>
-</div>
 
-<script>
-    function showContactForm() {
-        $("#contactFormSection").slideDown();
-    }
+    <script>
+        function showContactForm() {
+            $("#contactFormSection").slideDown();
+        }
 
-    function hideContactForm() {
-        $("#contactFormSection").slideUp();
-        $("#createContactForm")[0].reset();
-    }
+        function hideContactForm() {
+            $("#contactFormSection").slideUp();
+            $("#createContactForm")[0].reset();
+        }
 
-    $(document).ready(function () {
-        $("#createContactForm").submit(function (e) {
-            e.preventDefault();
+        $(document).ready(function () {
+            $("#createContactForm").submit(function (e) {
+                e.preventDefault();
 
-            $.post('@Url.Action("CreateContact", "Contact")', $(this).serialize())
-                .done(function (response) {
-                    // Debug: Log the server's JSON response
-                    console.log("Server response:", response);
+                $.post('@Url.Action("CreateContact", "Contact")', $(this).serialize())
+                    .done(function (response) {
+                        // Debug: Log the server's JSON response
+                        console.log("Server response:", response);
 
-                    if (response.success) {
-                        // Optionally log success before reloading
-                        console.log("Contact successfully created. Reloading page...");
-                        location.reload();
-                    } else {
-                        // Alert and log any error message returned from the server
-                        console.error("Error from server:", response.message);
-                        alert("Error: " + response.message);
-                    }
-                })
-                .fail(function (jqXHR, textStatus, errorThrown) {
-                    // Debug: Log detailed AJAX error information
-                    console.error("AJAX error:", textStatus, errorThrown);
-                    alert("AJAX request failed: " + textStatus);
-                });
+                        if (response.success) {
+                            // Optionally log success before reloading
+                            console.log("Contact successfully created. Reloading page...");
+                            location.reload();
+                        } else {
+                            // Alert and log any error message returned from the server
+                            console.error("Error from server:", response.message);
+                            alert("Error: " + response.message);
+                        }
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Debug: Log detailed AJAX error information
+                        console.error("AJAX error:", textStatus, errorThrown);
+                        alert("AJAX request failed: " + textStatus);
+                    });
+            });
         });
-    });
-</script>
+    </script>
 
 
