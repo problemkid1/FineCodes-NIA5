@@ -31,7 +31,7 @@
         <div class="card-body">
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h1 mb-0 text-gray-1400">Membership Types</h1>
+                <h2 class="h2 mb-0 text-gray-1400">Membership Types</h2>
                 <a asp-action="Create" class="btn btn-primary btn-lg" >
                     <i class="fas fa-plus fs-4"></i> Add Membership
                 </a>
@@ -41,7 +41,7 @@
                 <div class="form-horizontal">
                     <div class="row">
                         <!-- Filter by Membership Type Name -->
-                        <div class="form-group">
+                        <div class="form-group col-md-4">
                             <label for="MembershipTypeName">Filter by Membership Type</label>
                             @Html.DropDownList("MembershipTypeName",
                                      EnumHelper.GetEnumSelectList < CRMProject.Models.MembershipTypeName>(),

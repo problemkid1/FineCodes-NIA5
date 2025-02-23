@@ -58,7 +58,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
 }
 
-.breadcrumb {
+/*.breadcrumb {
     background-color: #f8f9fc;
     border-radius: 0.35rem;
     padding: 0.75rem 1rem;
@@ -67,7 +67,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
-}
+}*/
 
 body {
   margin: 0;
