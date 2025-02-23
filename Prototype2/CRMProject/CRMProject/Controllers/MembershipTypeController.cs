@@ -68,6 +68,13 @@ namespace CRMProject.Controllers
                 ViewData["ShowFilter"] = "show";
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Status History", Url = "/Status History/Index", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             return View(await membershipTypes.ToListAsync());
         }
@@ -88,7 +95,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Membership Type"] = membershipType.ID;
             return View(membershipType);
         }
 
@@ -96,6 +113,14 @@ namespace CRMProject.Controllers
         public IActionResult Create()
         {
             ViewBag.MemberID = new SelectList(_context.Members, "ID", "MemberName");
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = "Create", Url = "/Membership Type/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View();
         }
 
@@ -112,6 +137,18 @@ namespace CRMProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
+
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Membership Type"] = membershipType.ID;
+
             return View(membershipType);
         }
 
@@ -128,6 +165,18 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
+
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Membership Type"] = membershipType.ID;
             return View(membershipType);
         }
 
@@ -175,7 +224,17 @@ namespace CRMProject.Controllers
 
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Membership Type"] = membershipType.ID;
             return View(membershipType); // Return to the edit view if there are validation errors
 
         }
@@ -194,7 +253,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Membership Type"] = membershipType.ID;
             return View(membershipType);
         }
 
@@ -217,7 +286,17 @@ namespace CRMProject.Controllers
                 // If contact not found, set an error message
                 TempData["ErrorMessage"] = "Membership Type not found!";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Membership Type"] = membershipType.ID;
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }

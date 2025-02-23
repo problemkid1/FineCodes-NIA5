@@ -19,6 +19,20 @@
     text-align: left;
     vertical-align: middle;
 }
+.text-primary {
+    color: #384B82 !important;
+}
+
+.breadcrumb {
+    background-color: #f8f9fc;
+    border-radius: 0.35rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+}
 /*
 .img-fill {
     width: 100%;

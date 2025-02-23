@@ -19,6 +19,14 @@ namespace CRMProject.Controllers
 
         public IActionResult Index()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Dashboard", Url = "/Home/Index", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             // LINQ queries to get the counts
             int cancellationCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.Cancelled);
             int memberCount = _context.Members.Count();
@@ -46,6 +54,10 @@ namespace CRMProject.Controllers
                     Count = g.Count()
                 })
                 .ToList();
+            foreach (var item in municipalityQuery)
+            {
+                Console.WriteLine($"Municipality: {item.Municipality}, Count: {item.Count}");
+            }
 
             // Supply these as labels and data for the chart.
             ViewData["MunicipalityLabels"] = municipalityQuery.Select(x => x.Municipality).ToList();

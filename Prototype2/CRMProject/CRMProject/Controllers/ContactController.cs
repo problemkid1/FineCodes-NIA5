@@ -80,6 +80,14 @@ namespace CRMProject.Controllers
                 ViewData["ShowFilter"] = ""; // Collapse closed
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             // Execute the query and pass the results to the view
             return View(await contacts.ToListAsync());
         }
@@ -99,13 +107,30 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["ContactId"] = contact.ID;
             return View(contact);
         }
 
         // GET: Contact/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                    new BreadcrumbItem { Title = "Create", Url = "/Contact/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View();
         }
 
@@ -139,7 +164,16 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["ContactId"] = contact.ID;
             // Return to the Create view in case of failure or validation errors
             return View(contact);
         }
@@ -208,6 +242,8 @@ namespace CRMProject.Controllers
                     stackTrace = ex.StackTrace // For debugging only; remove in production
                 });
             }
+
+            
         }
 
 
@@ -227,6 +263,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["ContactId"] = contact.ID;
             return View(contact);
         }
 
@@ -276,7 +323,17 @@ namespace CRMProject.Controllers
 
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
+            
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["ContactId"] = contact.ID;
             return View(contact); // Return to the edit view if there are validation errors
         }
 
@@ -299,6 +356,17 @@ namespace CRMProject.Controllers
                 //Note: there is really no reason a delete should fail if you can "talk" to the database.
                 ModelState.AddModelError("", "Unable to delete record. Try again, and if the problem persists see your system administrator.");
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["ContactId"] = contact.ID;
             return View(contact);
         }
 
@@ -321,7 +389,16 @@ namespace CRMProject.Controllers
                 // If contact not found, set an error message
                 TempData["ErrorMessage"] = "Contact not found!";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["ContactId"] = contact.ID;
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }

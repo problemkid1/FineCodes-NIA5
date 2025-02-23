@@ -64,7 +64,13 @@ namespace CRMProject.Controllers
                 // Keep the Bootstrap collapse open
                 ViewData["ShowFilter"] = "show";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = true }
+                    };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
             // Return the filtered list of industries with the related MemberIndustries and Member data
             return View(await industries.ToListAsync());
         }
@@ -89,6 +95,17 @@ namespace CRMProject.Controllers
                 {
                     return NotFound();
                 }
+                var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
+
+                };
+
+                ViewData["Breadcrumbs"] = breadcrumbs;
+
+                ViewData["Industry"] = industry.ID;
 
                 return View(industry);
             }
@@ -102,6 +119,14 @@ namespace CRMProject.Controllers
         // GET: Industry/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = "Create", Url = "/Industry/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View();
         }
 
@@ -158,7 +183,17 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Industry"] = industry.ID;
             // Return to the Create view in case of failure or validation errors
             return View(industry);
         }
@@ -178,7 +213,17 @@ namespace CRMProject.Controllers
                 {
                     return NotFound();
                 }
+                var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
 
+                };
+
+                ViewData["Breadcrumbs"] = breadcrumbs;
+
+                ViewData["Industry"] = industry.ID;
                 return View(industry);
             }
             catch (Exception ex)
@@ -250,7 +295,17 @@ namespace CRMProject.Controllers
                     TempData["ErrorMessage"] = "An error occurred while updating the industry details.";
                 }
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Industry"] = industry.ID;
             TempData["ErrorMessage"] = "Please check the input data and try again.";
             return View(industry); // Return to the edit view if there are validation errors
         }
@@ -273,7 +328,17 @@ namespace CRMProject.Controllers
                 {
                     return NotFound();
                 }
+                var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
 
+                };
+
+                ViewData["Breadcrumbs"] = breadcrumbs;
+
+                ViewData["Industry"] = industry.ID;
                 return View(industry);
             }
             catch (Exception ex)
@@ -309,7 +374,18 @@ namespace CRMProject.Controllers
             // Proceed with deletion
             _context.Industries.Remove(industry);
             await _context.SaveChangesAsync();
+            
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
+                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Industry"] = industry.ID;
             TempData["SuccessMessage"] = "Industry deleted successfully!";
             return RedirectToAction(nameof(Index));
         }

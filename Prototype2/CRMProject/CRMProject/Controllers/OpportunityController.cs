@@ -60,7 +60,13 @@ namespace CRMProject.Controllers
                 // Keep the Bootstrap collapse open
                 ViewData["ShowFilter"] = "show";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = true }
+                    };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View(await opportunities.ToListAsync());
         }
 
@@ -79,13 +85,31 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity);
         }
 
         // GET: Opportunity/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = "Create", Url = "/Oppurtunity/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View();
         }
 
@@ -135,7 +159,17 @@ namespace CRMProject.Controllers
             {
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity);
         }
 
@@ -152,6 +186,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity);
         }
 
@@ -201,7 +246,17 @@ namespace CRMProject.Controllers
 
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity); // Return to the edit view if there are validation errors
         }
 
@@ -219,7 +274,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity);
         }
 
@@ -242,7 +307,17 @@ namespace CRMProject.Controllers
                 // If Insudtry not found, set an error message
                 TempData["ErrorMessage"] = "Opportunity not found!";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
 
+                };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Opportunity"] = opportunity.ID;
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }

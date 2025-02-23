@@ -98,7 +98,13 @@ namespace CRMProject.Controllers
                 ViewData["numberFilters"] = "(" + numberFilters.ToString() + " Filter" + (numberFilters > 1 ? "s" : "") + " Applied)";
                 ViewData["ShowFilter"] = "show";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = true }
+                    };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View(await addresses.ToListAsync());
         }
     
@@ -119,7 +125,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["AddressId"] = address.ID;
             return View(address); 
         }
 
@@ -141,6 +156,15 @@ namespace CRMProject.Controllers
 
             ViewData["MemberId"] = memberId; // Ensure Member ID is passed to View
             PopulateDropDownLists();
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = true },
+                    new BreadcrumbItem { Title = "Create", Url = "/Address/Create", IsActive = true },
+                     new BreadcrumbItem { Title = memberId.ToString(), Url = "/Address/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View(address);
         }
 
@@ -195,6 +219,17 @@ namespace CRMProject.Controllers
 
             ViewData["MemberId"] = address.MemberID; // Make sure MemberID persists
             PopulateDropDownLists();
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["AddressId"] = address.ID;
             return View(address);
         }
 
@@ -216,6 +251,18 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
             PopulateDropDownLists();
+            
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["AddressId"] = address.ID;
+
             return View(address);
         }
 
@@ -265,6 +312,18 @@ namespace CRMProject.Controllers
 
             // Ensure dropdown lists are repopulated
             PopulateDropDownLists();
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["AddressId"] = address.ID;
+
             return View(address);
         }
 
@@ -283,7 +342,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["AddressId"] = address.ID;
             return View(address);
         }
 
@@ -321,7 +389,16 @@ namespace CRMProject.Controllers
                 //Note: there is really no reason a delete should fail if you can "talk" to the database.
                 ModelState.AddModelError("", "Unable to delete record. Try again, and if the problem persists see your system administrator.");
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["AddressId"] = address.ID;
             // Redirect to the Member's Details page as a fallback
             return RedirectToAction("Index", "Member");
         }
