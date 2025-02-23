@@ -15,7 +15,7 @@ namespace CRMProject.Models
         [Display(Name = "Status")]
         [Required(ErrorMessage = "You cannot leave the status blank.")]
         [MaxLength(255, ErrorMessage = "Status cannot be more than 255 characters long.")]
-        public string Status { get; set; } = "";
+        public string Status { get; set; } = "Cancelled";
 
         [Display(Name = "Reason")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for Reason.")]
