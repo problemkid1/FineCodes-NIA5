@@ -90,7 +90,13 @@ namespace CRMProject.Controllers
                 // Keep the Bootstrap collapse open
                 ViewData["ShowFilter"] = "show";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Status History", Url = "/Status History/Index", IsActive = true }
+                    };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
             // Return the filtered list of status histories with associated Member data
             return View(await statusHistories.ToListAsync());
         }
@@ -111,13 +117,30 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
+                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Status History"] = statusHistory.ID;
             return View(statusHistory);
         }
 
         // GET: StatusHistory/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = true },
+                    new BreadcrumbItem { Title = "Create", Url = "/StatusHistory/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName");
             return View();
         }
@@ -152,7 +175,16 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
+                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Status History"] = statusHistory.ID;
             // Return to the Create view in case of failure or validation errors
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
             return View(statusHistory);
@@ -171,6 +203,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
+                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Status History"] = statusHistory.ID;
+
             ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
             return View(statusHistory);
         }
@@ -218,7 +261,16 @@ namespace CRMProject.Controllers
                 }
 
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
+                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Status History"] = statusHistory.ID;
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
 
@@ -241,7 +293,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
+                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Status History"] = statusHistory.ID;
             return View(statusHistory);
         }
 
@@ -264,7 +325,16 @@ namespace CRMProject.Controllers
                 // If Address not found, set an error message
                 TempData["ErrorMessage"] = "Status History not found!";
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
+                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["Status History"] = statusHistory.ID;
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }

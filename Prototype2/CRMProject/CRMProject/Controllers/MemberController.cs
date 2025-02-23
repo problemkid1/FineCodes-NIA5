@@ -115,6 +115,14 @@ namespace CRMProject.Controllers
 
             ViewData["NewMemberCount"] = GetNewMemberCount();
 
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(await members.ToListAsync());
         }
 
@@ -140,6 +148,14 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             ViewData["MemberId"] = member.ID;
 
@@ -153,6 +169,15 @@ namespace CRMProject.Controllers
             Member member = new Member();
             PopulateAssignedIndustryData(member);
             PopulateAssignedMemberShipData(member);
+            
+            var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Member", Url = "/Member/Index", IsActive = false },
+                    new BreadcrumbItem { Title = "Create", Url = "/Member/Create", IsActive = true }
+                    };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
             return View();
         }
 
@@ -236,6 +261,17 @@ namespace CRMProject.Controllers
             // Populate the assigned data for the view
             PopulateAssignedMemberShipData(member);
             PopulateAssignedIndustryData(member);
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
 
             // Return to the Create view in case of failure or validation errors
             return View(member);
@@ -327,6 +363,17 @@ namespace CRMProject.Controllers
 
             PopulateAssignedMemberShipData(member);
             PopulateAssignedIndustryData(member);
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
 
             return View(member);
         }
@@ -421,6 +468,18 @@ namespace CRMProject.Controllers
             // Populate the assigned data for the view
             PopulateAssignedMemberShipData(memberToUpdate);
             PopulateAssignedIndustryData(memberToUpdate);
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = memberToUpdate.ID;
+
             return View(memberToUpdate);
         }
 
@@ -441,6 +500,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
 
             return View(member);
 
@@ -473,7 +543,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
 
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
             return View(member);
 
         }
@@ -521,6 +600,18 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
+
             return View(member);
         }
 
@@ -567,6 +658,18 @@ namespace CRMProject.Controllers
                 // If model validation fails, set an error message
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
+
             return View(member);
         }
 
@@ -606,6 +709,17 @@ namespace CRMProject.Controllers
 
             ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
             ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["MemberId"] = member.ID;
         }
 
         private void UpdateMemberMembershipTypes(string[] selectedOptions, Member memberToUpdate)

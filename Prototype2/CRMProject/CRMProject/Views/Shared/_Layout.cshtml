@@ -350,12 +350,19 @@
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                    <!-- Content Row -->
+                    <!-- Breadcrumb Row -->
                     <div class="row">
-                       
-                            @RenderBody()
-                         
-                    </div>   
+                        @if (ViewData["Breadcrumbs"] != null)
+                        {
+                            var breadcrumbs = ViewData["Breadcrumbs"] as List<CRMProject.Models.BreadcrumbItem>;
+                            @await Component.InvokeAsync("Breadcrumb", new { breadcrumbs = breadcrumbs })
+                        }
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="row">
+                        @RenderBody()
+                    </div>
                 </div>
             </div>
             <!-- End of Main Content -->
@@ -413,6 +420,7 @@
 
     <!-- Page level plugins -->
     <script src="~/theme/vendor/chart.js/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="~/theme/js/demo/chart-area-demo.js"></script>
