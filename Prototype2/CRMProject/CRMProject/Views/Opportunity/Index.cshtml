@@ -37,35 +37,43 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <div class="row">
-                        <!-- Filter by Opportunity Name -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Opportunity Name:</label>
-                            @Html.TextBox("OpportunityName", null, new { @class = "form-control", placeholder = "Enter opportunity name" })
-                        </div>
+                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Filter/Search @ViewData["numberFilters"]
+                    </button><br />
+                    <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+                                <!-- Filter by Opportunity Name -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Opportunity Name:</label>
+                                    @Html.TextBox("OpportunityName", null, new { @class = "form-control", placeholder = "Enter opportunity name" })
+                                </div>
 
-                        <!-- Filter by Opportunity Status -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Opportunity Status:</label>
-                            @Html.DropDownList("OpportunityStatus",
-                                     EnumHelper.GetEnumSelectList<CRMProject.Models.OpportunityStatus>(),
-                                     "All Statuses",
-                                     new { @class = "form-control" })
-                        </div>
+                                <!-- Filter by Opportunity Status -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Opportunity Status:</label>
+                                    @Html.DropDownList("OpportunityStatus",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.OpportunityStatus>(),
+                                             "All Statuses",
+                                             new { @class = "form-control" })
+                                </div>
 
-                        <!-- Filter by Opportunity Priority -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Opportunity Priority:</label>
-                            @Html.TextBox("OpportunityPriority", null, new { @class = "form-control", placeholder = "Enter priority" })
-                        </div>
+                                <!-- Filter by Opportunity Priority -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Opportunity Priority:</label>
+                                    @Html.TextBox("OpportunityPriority", null, new { @class = "form-control", placeholder = "Enter priority" })
+                                </div>
 
-                        <!-- Filter Actions -->
-                         <div class="form-group col-md-4 align-self-end">
-                            <button type="submit" name="actionButton"
-                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                Filter @ViewData["numberFilters"]
-                            </button>
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                                <!-- Filter Actions -->
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" name="actionButton"
+                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                        Filter @ViewData["numberFilters"]
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -115,7 +123,6 @@
                                                 </a>
 
                                                 <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                
                                                    data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-archive-fill"></i>
                                                 </a>

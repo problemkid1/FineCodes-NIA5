@@ -37,40 +37,49 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <div class="row">
-                        
-                        <!-- Filter by City -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by City:</label>
-                            @Html.TextBox("AddressCity", null, new { @class = "form-control", placeholder = "Enter city" })
-                            <span class="text-danger">@ViewData["AddressCityCount"]</span>
+                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Filter/Search @ViewData["numberFilters"]
+                    </button><br />
+                    <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+
+                                <!-- Filter by City -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by City:</label>
+                                    @Html.TextBox("AddressCity", null, new { @class = "form-control", placeholder = "Enter city" })
+                                    <span class="text-danger">@ViewData["AddressCityCount"]</span>
+                                </div>
+
+                                <!-- Filter by Province -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Province:</label>
+                                    @Html.DropDownList("Province",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.Province>(),
+                                             "All Provinces",
+                                             new { @class = "form-control" })
+                                    <span class="text-danger">@ViewData["ProvinceCount"]</span>
+                                </div>
+
+                                <!-- Filter by Postal Code -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Postal Code:</label>
+                                    @Html.TextBox("PostalCode", null, new { @class = "form-control", placeholder = "Enter postal code" })
+                                    <span class="text-danger">@ViewData["PostalCodeCount"]</span>
+                                </div>
+
+                                <!-- Filter Actions -->
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" name="actionButton"
+                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                        Filter @ViewData["numberFilters"]
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Filter by Province -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Province:</label>
-                            @Html.DropDownList("Province",
-                                     EnumHelper.GetEnumSelectList<CRMProject.Models.Province>(),
-                                     "All Provinces",
-                                     new { @class = "form-control" })
-                            <span class="text-danger">@ViewData["ProvinceCount"]</span>
-                        </div>
-
-                        <!-- Filter by Postal Code -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Postal Code:</label>
-                            @Html.TextBox("PostalCode", null, new { @class = "form-control", placeholder = "Enter postal code" })
-                            <span class="text-danger">@ViewData["PostalCodeCount"]</span>
-                        </div>
-
-                        <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <button type="submit" name="actionButton"
-                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                Filter @ViewData["numberFilters"]
-                            </button>
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
-                        </div>
                     </div>
                 </div>
             </form>

@@ -8,77 +8,79 @@
             <h4 class="panel-title">Membership Type Information</h4>
             <p>Membership Type Count: @Model.Count()</p>
         </div>
-        
-        
+
+
     </div>
     <div class="panel-body scrollable-panel">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeDescription)
-                    </th>
-                    
-                    <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeBenefits)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
-                    </th>
-                    <th style="float: right; padding-left: 10%;">
-                        <a asp-controller="MembershipType" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                            <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
-                                <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                            </span>
-                        </a>
-                    </th>
-
-                    
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
                     <tr>
-                        <td>
-                            <a asp-action="Details" asp-controller="MembershipType" asp-route-ID="@item.MembershipTypeID">
-                                @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeName)
+                        <th>
+                            @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeName)
+                        </th>
+                        <th class="d-none d-sm-table-cell">
+                            @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeDescription)
+                        </th>
+
+                        <th class="d-none d-sm-table-cell">
+                            @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeBenefits)
+                        </th>
+                        <th class="d-none d-sm-table-cell">
+                            @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
+                        </th>
+                        <th style="float: right; ">
+                            <a asp-controller="MembershipType" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                                <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
+                                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                                </span>
                             </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeDescription)
-                        </td>
-                        
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeBenefits)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
-                        </td>
-                        <td style="float: right; padding-left: 10%;">
-                            <div class="btn-group">
-                                <a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
+                        </th>
 
-                                <a asp-action="Details" class="btn btn-md btn-outline-primary"
-                                   role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                    <i class="bi bi-search"></i>
-                                </a>
 
-                                <a asp-action="Delete" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
-                                    <i class="bi bi-archive-fill"></i>
-                                </a>
-                            </div>
-                        </td>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="Details" asp-controller="MembershipType" asp-route-ID="@item.MembershipTypeID">
+                                    @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeName)
+                                </a>
+                            </td>
+                            <td class="d-none d-sm-table-cell">
+                                @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeDescription)
+                            </td>
+
+                            <td class="d-none d-sm-table-cell">
+                                @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeBenefits)
+                            </td>
+                            <td >
+                                @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
+                            </td>
+                            <td class="d-none d-sm-table-cell" style="float: right; ">
+                                <div class="btn-group">
+                                    <a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                       data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+
+                                    <a asp-action="Details" class="btn btn-md btn-outline-primary"
+                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                        <i class="bi bi-search"></i>
+                                    </a>
+
+                                    <a asp-action="Delete" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                       data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                        <i class="bi bi-archive-fill"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
