@@ -28,59 +28,67 @@
         <div class="card-body">
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h2 class="h2 mb-0 text-gray-1400">Status History</h2>               
+                <h2 class="h2 mb-0 text-gray-1400">Status History</h2>
             </div>
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <div class="row">
-                        <!-- Filter by Member Name -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Member Name:</label>
-                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
-                        </div>
+                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Filter/Search @ViewData["numberFilters"]
+                    </button><br />
+                    <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+                                <!-- Filter by Member Name -->
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Filter by Member Name:</label>
+                                        @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                                    </div>
 
-                        <!-- Filter by Status -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Status:</label>
-                            @Html.TextBox("Status", null, new { @class = "form-control", placeholder = "Enter status" })
-                            <span class="text-danger">@ViewData["ReasonCount"]</span>
-                        </div>
+                                <!-- Filter by Status -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Status:</label>
+                                    @Html.TextBox("Status", null, new { @class = "form-control", placeholder = "Enter status" })
+                                    <span class="text-danger">@ViewData["ReasonCount"]</span>
+                                </div>
 
-                        <!-- Filter by Reason -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Reason:</label>
-                            @Html.TextBox("Reason", null, new { @class = "form-control", placeholder = "Enter reason" })
-                            <span class="text-danger">@ViewData["ReasonCount"]</span>
-                        </div>
+                                <!-- Filter by Reason -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Reason:</label>
+                                    @Html.TextBox("Reason", null, new { @class = "form-control", placeholder = "Enter reason" })
+                                    <span class="text-danger">@ViewData["ReasonCount"]</span>
+                                </div>
 
-                        <!-- Filter by Notes -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Notes:</label>
-                            @Html.TextBox("Notes", null, new { @class = "form-control", placeholder = "Enter notes" })
-                        </div><br />
+                                <!-- Filter by Notes -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Notes:</label>
+                                    @Html.TextBox("Notes", null, new { @class = "form-control", placeholder = "Enter notes" })
+                                </div><br />
 
-                        <!-- Filter by Date Range -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Date:</label>
-                            <div class="d-flex">
-                                <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
-                                <span class="mx-2">to</span>
-                                <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                                <!-- Filter by Date Range -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Date:</label>
+                                    <div class="d-flex">
+                                        <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+                                        <span class="mx-2">to</span>
+                                        <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                                    </div>
+
+                                    <span class="text-danger">@ViewData["NotesCount"]</span>
+                                </div>
+
+                                <span class="text-danger">@ViewData["NotesCount"]</span>
+
+                                <!-- Filter Actions -->
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" name="actionButton"
+                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                        Filter @ViewData["numberFilters"]
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
+                                </div>
                             </div>
-
-                            <span class="text-danger">@ViewData["NotesCount"]</span>
-                        </div>
-
-                        <span class="text-danger">@ViewData["NotesCount"]</span>
-
-                        <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <button type="submit" name="actionButton"
-                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                Filter @ViewData["numberFilters"]
-                            </button>
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
                         </div>
                     </div>
                 </div>
@@ -96,7 +104,7 @@
                             <tr>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>                                
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Status)</th>
-                                <th>@Html.DisplayNameFor(model => model.Reason)</th>                                
+                                <th>@Html.DisplayNameFor(model => model.Reason)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Notes)</th>
                                 <th>@Html.DisplayNameFor(model => model.Date)</th>
                                 <th>Actions</th>

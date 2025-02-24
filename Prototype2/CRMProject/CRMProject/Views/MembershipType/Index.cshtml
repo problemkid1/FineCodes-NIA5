@@ -32,42 +32,50 @@
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h2 class="h2 mb-0 text-gray-1400">Membership Types</h2>
-                <a asp-action="Create" class="btn btn-primary btn-lg" >
+                <a asp-action="Create" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus fs-4"></i> Add Membership
                 </a>
             </div>
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <div class="row">
-                        <!-- Filter by Membership Type Name -->
-                        <div class="form-group col-md-4">
-                            <label for="MembershipTypeName">Filter by Membership Type</label>
-                            @Html.DropDownList("MembershipTypeName",
-                                     EnumHelper.GetEnumSelectList < CRMProject.Models.MembershipTypeName>(),
-                                     "Membership Type Names",
-                                     new { @class = "form-control" })
-                        </div>                        
+                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Filter/Search @ViewData["numberFilters"]
+                    </button><br />
+                    <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+                                <!-- Filter by Membership Type Name -->
+                                <div class="form-group col-md-4">
+                                    <label for="MembershipTypeName">Filter by Membership Type</label>
+                                    @Html.DropDownList("MembershipTypeName",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
+                                             "Membership Type Names",
+                                             new { @class = "form-control" })
+                                </div>
 
-                        <!-- Filter by Membership Type Description -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Membership Type Description:</label>
-                            @Html.TextBox("MembershipTypeDescription", null, new { @class = "form-control", placeholder = "Enter description" })
-                        </div>
+                                <!-- Filter by Membership Type Description -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Membership Type Description:</label>
+                                    @Html.TextBox("MembershipTypeDescription", null, new { @class = "form-control", placeholder = "Enter description" })
+                                </div>
 
-                        <!-- Filter by Membership Type Fee -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Membership Type Fee:</label>
-                            @Html.TextBox("MembershipTypeFee", null, new { @class = "form-control", placeholder = "Enter fee" })
-                        </div>
+                                <!-- Filter by Membership Type Fee -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Membership Type Fee:</label>
+                                    @Html.TextBox("MembershipTypeFee", null, new { @class = "form-control", placeholder = "Enter fee" })
+                                </div>
 
-                        <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <button type="submit" name="actionButton"
-                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                Filter @ViewData["numberFilters"]
-                            </button>
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                                <!-- Filter Actions -->
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" name="actionButton"
+                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                        Filter @ViewData["numberFilters"]
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

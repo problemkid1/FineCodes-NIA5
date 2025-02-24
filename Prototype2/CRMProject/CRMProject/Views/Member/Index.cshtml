@@ -21,8 +21,11 @@
     </div>
 }
 
+
+
 <!-- Custom styles for this template-->
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
+<link href="~/customs/css/style.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -36,54 +39,64 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <div class="row">
-                        <!-- Filter by Member Name -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Member Name:</label>
-                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })   
-                        </div>
+                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Filter/Search @ViewData["numberFilters"]
+                    </button><br />
+                    <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+                                <!-- Filter by Member Name -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Member Name:</label>
+                                    @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                                </div>
 
-                        <!-- Filter by Size -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Member Size:</label>
-                            @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
-                        </div>
+                                <!-- Filter by Size -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Member Size:</label>
+                                    @Html.TextBox("MemberSize", null, new { @class = "form-control", placeholder = "Enter size" })
+                                </div>
 
-                        <!-- Filter by Status -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Member Status:</label>
-                            @Html.DropDownList("MemberStatus",
-                                     EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
-                                     new { @class = "form-control" })
-                        </div>
+                                <!-- Filter by Status -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Member Status:</label>
+                                    @Html.DropDownList("MemberStatus",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
+                                             new { @class = "form-control" })
+                                </div>
 
-                        <!-- Filter by Membership Type Name -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Membership Type:</label>
-                            @Html.DropDownList("MembershipTypeName",
-                                     EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
-                                     "All Types",
-                                     new { @class = "form-control" })
-                        </div><hr />
+                                <!-- Filter by Membership Type Name -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Membership Type:</label>
+                                    @Html.DropDownList("MembershipTypeName",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
+                                             "All Types",
+                                             new { @class = "form-control" })
+                                </div><hr />
 
-                        <!-- Filter by Join Date Range -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Join Date:</label>
-                            <div class="d-flex">
-                                <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
-                                <span class="mx-2">to</span>
-                                <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                                <!-- Filter by Join Date Range -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Join Date:</label>
+                                    <div class="d-flex">
+                                        <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+                                        <span class="mx-2">to</span>
+                                        <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                                    </div>
+                                </div>
+
+
+                                <!-- Filter Actions -->
+                                <div class="form-group col-md-4 align-self-end">
+                                    <input type="submit" name="actionButton"
+                                           value="Filter @(ViewData["numberFilters"])"
+                                           class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")" />
+                                    <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
+                                </div>
+
+
                             </div>
                         </div>
-
-
-                        <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <input type="submit" name="actionButton" value="Filter @(ViewData["numberFilters"])" class="btn @ViewData["Filtering"]" />
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
-
-                        </div>
-
                     </div>
                 </div>
             </form>
@@ -100,7 +113,7 @@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
-                                    <th>Actions</th>
+                                    <th class="d-none d-sm-table-cell">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -219,7 +232,7 @@
                                             </td>
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
-                                            <td>
+                                            <td class="d-none d-sm-table-cell">
                                                 <div class="btn-group">
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
@@ -261,53 +274,70 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function (element) {
-            var collapseId = element.getAttribute('href').replace('#', '');
-            var collapseElement = document.getElementById(collapseId);
-            var badgeElement = document.getElementById('badge' + collapseId.replace('collapseSpecialty', ''));
-
-            if (collapseElement && badgeElement) {
-                collapseElement.addEventListener('show.bs.collapse', function () {
-                    badgeElement.style.display = 'none';
-                });
-
-                collapseElement.addEventListener('hide.bs.collapse', function () {
-                    badgeElement.style.display = 'inline-block';
-                });
-            }
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#filterToggle").click(function() {
+                $("#collapseFilter").collapse('toggle');
+            });
         });
-    });
+    </script>
+    <script>
+         function toggleTextName(itemId) {
+            var moreText = document.getElementById("moreTextName" + itemId);
+            var readMore = document.getElementById("readMoreName" + itemId);
 
-  
-     function toggleTextName(itemId) {
-        var moreText = document.getElementById("moreTextName" + itemId);
-        var readMore = document.getElementById("readMoreName" + itemId);
-
-        // Toggle member name text
-        if (moreText.style.display === "none") {
-            moreText.style.display = "inline";
-            readMore.innerHTML = " Read less";
-        } else {
-            moreText.style.display = "none";
-            readMore.innerHTML = "... ";
+            // Toggle member name text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
         }
-    }
 
-    function toggleTextIndustry(itemId) {
-        var moreText = document.getElementById("moreTextIndustry" + itemId);
-        var readMore = document.getElementById("readMoreIndustry" + itemId);
+        function toggleTextIndustry(itemId) {
+            var moreText = document.getElementById("moreTextIndustry" + itemId);
+            var readMore = document.getElementById("readMoreIndustry" + itemId);
 
-        // Toggle industry text
-        if (moreText.style.display === "none") {
-            moreText.style.display = "inline";
-            readMore.innerHTML = " Read less";
-        } else {
-            moreText.style.display = "none";
-            readMore.innerHTML = "... ";
+            // Toggle industry text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
         }
-    }
+    </script>
+}
 
+@* <script> *@
+@*        document.addEventListener('DOMContentLoaded', function () { *@
+@*         // Handle filter toggle button *@
+@*         const filterToggle = document.getElementById('filterToggle'); *@
+@*         const collapseFilter = document.getElementById('collapseFilter'); *@
 
-</script>
+@*         filterToggle.addEventListener('click', function() { *@
+@*             const isExpanded = filterToggle.getAttribute('aria-expanded') === 'true'; *@
+@*             filterToggle.setAttribute('aria-expanded', !isExpanded); *@
+
+@*             if (isExpanded) { *@
+@*                 collapseFilter.classList.remove('show'); *@
+@*             } else { *@
+@*                 collapseFilter.classList.add('show'); *@
+@*             } *@
+@*         }); *@
+
+@*         // Existing collapse handlers for specialty badges *@
+@*         document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function (element) { *@
+@*             var collapseId = element.getAttribute('href').replace('#', ''); *@
+@*             var collapseElement = document.getElementById(collapseId); *@
+@*             var badgeElement = document.getElementById('badge' + collapseId.replace('collapseSpecialty', '')); *@
+
+@*             if (collapseElement && badgeElement) { *@
+@*                 collapseElement.addEventListener('show.bs.collapse', function () { *@
+@*                     badgeElement.style.display = 'none'; *@
+@*                 }); *@

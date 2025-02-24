@@ -36,32 +36,40 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <div class="row">
-                        <!-- Filter by Industry Sector -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Industry Sector:</label>
-                            @Html.TextBox("IndustrySector", null, new { @class = "form-control", placeholder = "Enter industry sector" })
-                        </div>
+                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        Filter/Search @ViewData["numberFilters"]
+                    </button><br />
+                    <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
+                        <div class="card card-body bg-light">
+                            <div class="row">
+                                <!-- Filter by Industry Sector -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Industry Sector:</label>
+                                    @Html.TextBox("IndustrySector", null, new { @class = "form-control", placeholder = "Enter industry sector" })
+                                </div>
 
-                        <!-- Filter by Industry Subsector -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by Industry Subsector:</label>
-                            @Html.TextBox("IndustrySubsector", null, new { @class = "form-control", placeholder = "Enter subsector" })
-                        </div>
+                                <!-- Filter by Industry Subsector -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Industry Subsector:</label>
+                                    @Html.TextBox("IndustrySubsector", null, new { @class = "form-control", placeholder = "Enter subsector" })
+                                </div>
 
-                        <!-- Filter by NAICS Code -->
-                        <div class="form-group col-md-4">
-                            <label class="control-label">Filter by NAICS Code:</label>
-                            @Html.TextBox("IndustryNAICSCode", null, new { @class = "form-control", placeholder = "Enter NAICS code" })
-                        </div>                                               
+                                <!-- Filter by NAICS Code -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by NAICS Code:</label>
+                                    @Html.TextBox("IndustryNAICSCode", null, new { @class = "form-control", placeholder = "Enter NAICS code" })
+                                </div>
 
-                        <!-- Filter Actions -->
-                        <div class="form-group col-md-4 align-self-end">
-                            <button type="submit" name="actionButton"
-                                    class="btn @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                Filter @ViewData["numberFilters"]
-                            </button>
-                            <a asp-action="Index" class="btn btn-outline-dark">Clear</a>
+                                <!-- Filter Actions -->
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" name="actionButton"
+                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                        Filter @ViewData["numberFilters"]
+                                    </button>
+                                    <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,7 +85,7 @@
                                 <th>@Html.DisplayNameFor(model => model.MemberIndustries)</th>
                                 <th>@Html.DisplayNameFor(model => model.IndustrySector)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.IndustrySubsector)</th>
-                                <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode)</th>                                
+                                <th>@Html.DisplayNameFor(model => model.IndustryNAICSCode)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -123,7 +131,7 @@
                                         </td>
                                         <td>@Html.DisplayFor(modelItem => item.IndustrySector)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustrySubsector)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>                                        
+                                        <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
                                         <td>
                                             <div class="btn-group" style="float: none; ">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"

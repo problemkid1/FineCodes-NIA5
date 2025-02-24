@@ -17,60 +17,72 @@
     </div>
 
     <div class="panel-body scrollable-panel">
-        <table class="table table-striped">
-            @if (Model.Any())
-            {
-                <thead>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
                     <tr>
                         <th>@Html.DisplayNameFor(model => model.First().Summary)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().AddressCity)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().Province)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().PostalCode)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressCity)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().Province)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().PostalCode)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
+                        <th style="text-align: right;">
+                            <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                                <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
+                                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                                </span>
+                            </a>
+
+                        </th>
+
 
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @if (Model.Any()) // Check if there are addresses
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
+                                        @Html.DisplayFor(modelItem => item.Summary)
+                                    </a>
+                                </td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.AddressCity)</td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Province)</td>
+                                <td >@Html.DisplayFor(modelItem => item.PostalCode)</td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.AddressLine2)</td>
+                                <td class="d-none d-sm-table-cell"  style="text-align: right;">
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"
+                                           class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Address">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+                                        <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
+                                           data-bs-toggle="tooltip" title="View Address Details">
+                                            <i class="bi bi-search"></i>
+                                        </a>
+
+                                        <a asp-action="Delete" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
+                                           data-bs-toggle="tooltip" title="Delete Address">
+                                            <i class="bi bi-archive-fill"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
-                                    @Html.DisplayFor(modelItem => item.Summary)
-                                </a>
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Province)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
-                            <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
-                            <td style="float: right; padding-left: 10%;">
-                                <div class="btn-group">
-                                    <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"
-                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Address">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
-                                       data-bs-toggle="tooltip" title="View Address Details">
-                                        <i class="bi bi-search"></i>
-                                    </a>
-                                    <a asp-action="Delete" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
-                                       data-bs-toggle="tooltip" title="Delete Address">
-                                        <i class="bi bi-archive-fill"></i>
-                                    </a>
-                                </div>
-                            </td>
+                            <td colspan="4" class="text-muted text-center">No addresses found.</td>
                         </tr>
                     }
                 </tbody>
-            }
-            else
-            {
-                <tbody>
-                    <tr>
-                        <td class="text-muted text-center">No addresses found.</td>
-                    </tr>
-                </tbody>
-            }
-        </table>
+            </table>
+        </div>
     </div>
+
 </div>

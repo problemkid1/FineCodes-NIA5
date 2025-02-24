@@ -18,24 +18,31 @@
 
     </div>
     <div class="panel-body scrollable-panel">
-        <table class="table table-striped">
-            <thead>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeName)
                     </th>
-                    <th>
+                    <th class="d-none d-sm-table-cell">
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeDescription)
                     </th>
 
-                    <th>
+                    <th class="d-none d-sm-table-cell">
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeBenefits)
                     </th>
-                    <th>
+                    <th class="d-none d-sm-table-cell">
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
                     </th>
-
-
+                    <!-- Add button (added in your branch, kept in the header) -->
+                    <th style="float: right;">
+                        <a asp-controller="MembershipType" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                            <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Membership Type">
+                                <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                            </span>
+                        </a>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -47,19 +54,20 @@
                                 @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeName)
                             </a>
                         </td>
-                        <td>
+                        <td class="d-none d-sm-table-cell">
                             @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeDescription)
                         </td>
 
-                        <td>
+                        <td class="d-none d-sm-table-cell">
                             @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeBenefits)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.MembershipType.MembershipTypeFee)
                         </td>
-                        <td style="float: right; padding-left: 10%;">
+
+                        <td class="d-none d-sm-table-cell" style="float: right;">
                             <div class="btn-group">
-                                <a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                <a asp-action="Edit" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
@@ -69,7 +77,7 @@
                                     <i class="bi bi-search"></i>
                                 </a>
 
-                                <a asp-action="Delete" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                <a asp-action="Delete" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                    data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
                                     <i class="bi bi-archive-fill"></i>
                                 </a>
@@ -80,4 +88,6 @@
             </tbody>
         </table>
     </div>
+</div>
+
 </div>

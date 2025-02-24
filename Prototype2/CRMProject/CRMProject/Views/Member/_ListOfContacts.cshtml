@@ -113,52 +113,61 @@
         </div>
         @if (Model.Any())
         {
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.Contact.Summary)</th>
-                        <th>@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)</th>
-                        <th>@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
-                        <th>@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
-                        <th>@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-light">
                         <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID">
-                                    @Html.DisplayFor(modelItem => item.Contact.Summary)
-                                </a>
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)</td>
-                            <td>
-                                <a href="@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
-                            </td>
-                            <td>@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Contact.ContactWebsite)</td>
-                            <td style="float: right; padding-left: 10%;">
-                                <div class="btn-group">
-                                    <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Contact">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Details Contact">
-                                        <i class="bi bi-search"></i>
-                                    </a>
-                                    <a asp-action="Delete" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Delete Contact">
-                                        <i class="bi bi-archive-fill"></i>
-                                    </a>
-                                </div>
-                            </td>
+                            <th>@Html.DisplayNameFor(model => model.Contact.Summary)</th>
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)</th>
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>
+                            <th style="text-align: right;">
+                                <span class="btn btn-primary"  onclick="showContactForm()">
+                                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                                </span>
+                            </th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID">
+                                        @Html.DisplayFor(modelItem => item.Contact.Summary)
+                                    </a>
+                                </td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)</td>
+                                <td>
+                                    <a href="@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
+                                </td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactWebsite)</td>
+                                <td class="d-none d-sm-table-cell" style="float: right; ">
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
+                                           class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
+                                           data-bs-toggle="tooltip" title="Edit Contact">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
+                                           class="btn btn-md btn-outline-primary" role="button"
+                                           data-bs-toggle="tooltip" title="Details Contact">
+                                            <i class="bi bi-search"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-controller="Contact" asp-route-ID="@item.ContactID"
+                                           class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
+                                           data-bs-toggle="tooltip" title="Delete Contact">
+                                            <i class="bi bi-archive-fill"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
         else
         {
