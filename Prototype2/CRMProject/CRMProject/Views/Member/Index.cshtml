@@ -128,7 +128,25 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@Html.DisplayFor(modelItem => item.MemberName)</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.MemberName))
+                                                {
+                                                    var memberName = item.MemberName;
+                                                    var words = memberName.Split(' ');
+                                                    var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : memberName;
+                                                    var fullName = memberName;
+
+                                                    <span>
+                                                        @shortName
+                                                        @if (words.Length > 3)
+                                                        {
+                                                            <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
+                                                            <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">... </a>
+                                                        }
+                                                    </span>
+                                                }
+                                            </td>
+
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberSize)</td>
                                             <td class="d-none d-sm-table-cell">
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
@@ -138,59 +156,81 @@
                                                     int specCount = item.MemberMembershipTypes.Count;
                                                     if (specCount > 0)
                                                     {
-                                                        string firstSpec = item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName.ToString();
+                                                        // Get the first membership type and its display name
+                                                        string firstSpec = EnumHelper.GetDisplayName(item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName);
+                                                        var words = firstSpec?.Split(' ');
+                                                        var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : firstSpec;
+                                                        var fullSummary = firstSpec;
+
                                                         if (specCount > 1)
                                                         {
                                                             string specList = "";
                                                             var s = item.MemberMembershipTypes.ToList();
                                                             for (int i = 1; i < specCount; i++)
                                                             {
-                                                                specList += s[i].MembershipType.MembershipTypeName.ToString() + " <br />";
+                                                                // Use GetDisplayName to show the full name for each membership type
+                                                                specList += EnumHelper.GetDisplayName(s[i].MembershipType.MembershipTypeName) + " <br />";
                                                             }
+
                                                             <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
                                                                aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
-                                                                @firstSpec <span class="badge bg-info badge-count" id="badge@(item.ID)">@specCount</span>
+                                                                @shortSummary <span class="badge bg-info badge-count" id="badge@(item.ID)">@specCount</span>
                                                             </a>
                                                             <div class="collapse" id="collapseSpecialty@(item.ID)">
+                                                                <span>
+                                                                    @shortSummary
+                                                                    @if (words?.Length > 3)
+                                                                    {
+                                                                        <span id="moreText@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                                                        <a href="javascript:void(0);" id="readMore@(item.ID)" onclick="toggleText(@item.ID)">... </a>
+                                                                    }
+                                                                </span>
                                                                 @Html.Raw(specList)
                                                             </div>
                                                         }
                                                         else
                                                         {
-                                                            @firstSpec
+                                                            <span>
+                                                                @shortSummary
+                                                                @if (words?.Length > 3)
+                                                                {
+                                                                    <span id="moreText@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                                                    <a href="javascript:void(0);" id="readMore@(item.ID)" onclick="toggleText(@item.ID)">... </a>
+                                                                }
+                                                            </span>
                                                         }
                                                     }
                                                 }
                                             </td>
-                                            <td class="d-none d-sm-table-cell">
-                                                @{
-                                                    int instCount = item.MemberIndustries.Count;
-                                                    if (instCount > 0)
+
+
+                                            <td>
+                                                @if (item.MemberIndustries != null && item.MemberIndustries.Any())
+                                                {
+                                                    var primaryIndustry = item.MemberIndustries.FirstOrDefault();
+                                                    if (primaryIndustry != null)
                                                     {
-                                                        string firstSpec = item.MemberIndustries.FirstOrDefault().Industry.IndustrySubsector.ToString();
-                                                        if (instCount > 1)
-                                                        {
-                                                            string specList = "";
-                                                            var s = item.MemberIndustries.ToList();
-                                                            for (int i = 1; i < instCount; i++)
+                                                        var industrySummary = primaryIndustry.Industry.Summary;
+                                                        var words = industrySummary?.Split(' ');
+                                                        var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : industrySummary;
+                                                        var fullSummary = industrySummary;
+
+                                                        <span>
+                                                            @shortSummary
+                                                            @if (words?.Length > 3)
                                                             {
-                                                                specList += s[i].Industry.IndustrySubsector.ToString() + " <br />";
+                                                                <span id="moreTextIndustry@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                                                <a href="javascript:void(0);" id="readMoreIndustry@(item.ID)" onclick="toggleTextIndustry(@item.ID)">... </a>
                                                             }
-                                                            <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
-                                                               aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
-                                                                @firstSpec <span class="badge bg-info badge-count" id="badge@(item.ID)">@instCount</span>
-                                                            </a>
-                                                            <div class="collapse" id="collapseSpecialty@(item.ID)">
-                                                                @Html.Raw(specList)
-                                                            </div>
-                                                        }
-                                                        else
-                                                        {
-                                                            @firstSpec
-                                                        }
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No industry information available</span>
                                                     }
                                                 }
                                             </td>
+
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td class="d-none d-sm-table-cell">
                                                 <div class="btn-group">
@@ -243,6 +283,35 @@
             });
         });
     </script>
+    <script>
+         function toggleTextName(itemId) {
+            var moreText = document.getElementById("moreTextName" + itemId);
+            var readMore = document.getElementById("readMoreName" + itemId);
+
+            // Toggle member name text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+
+        function toggleTextIndustry(itemId) {
+            var moreText = document.getElementById("moreTextIndustry" + itemId);
+            var readMore = document.getElementById("readMoreIndustry" + itemId);
+
+            // Toggle industry text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+    </script>
 }
 
 @* <script> *@
@@ -272,12 +341,3 @@
 @*                 collapseElement.addEventListener('show.bs.collapse', function () { *@
 @*                     badgeElement.style.display = 'none'; *@
 @*                 }); *@
-
-@*                 collapseElement.addEventListener('hide.bs.collapse', function () { *@
-@*                     badgeElement.style.display = 'inline-block'; *@
-@*                 }); *@
-@*             } *@
-@*         }); *@
-@*     }); *@
-
-@* </script> *@

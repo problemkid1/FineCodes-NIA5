@@ -118,17 +118,17 @@
                             }
                         </dd>
 
-                        <dt class="col-5">Primary Address</dt>
+                        <dt class="col-5">City</dt>
                         <dd class="col-7">
                            
 
                             @if (Model.Address != null)
                             {
                                 <span>@Model.Address.AddressCity</span>
-                                @if (!string.IsNullOrEmpty(Model.Address.PostalCode))
+                                @* @if (!string.IsNullOrEmpty(Model.Address.PostalCode))
                                 {
                                     <span>- @Model.Address.PostalCode</span>
-                                }
+                                } *@
                             }
                             else
                             {

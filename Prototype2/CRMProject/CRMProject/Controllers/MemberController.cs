@@ -577,7 +577,7 @@ namespace CRMProject.Controllers
                 {
                     MemberID = member.ID,
                     Date = input.Date,
-                    Status = input.Status,
+                    Status = "Cancelled",
                     Reason = input.Reason,
                     Notes = input.Notes
                 };
@@ -635,7 +635,7 @@ namespace CRMProject.Controllers
                 {
                     MemberID = member.ID,
                     Date = input.Date,
-                    Status = input.Status,
+                    Status = "Good Standing",
                     Reason = input.Reason,
                     Notes = input.Notes
                 };

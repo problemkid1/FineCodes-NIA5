@@ -8,10 +8,6 @@
             <p class="mb-0">Industry Count: @Model.Count()</p>
         </div>
     </div>
-
-
-
-
     <div class="panel-body scrollable-panel">
 
         <div class="table-responsive">
@@ -27,9 +23,6 @@
                         <th class="d-none d-sm-table-cell">
                             @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
                         </th>
-                        @* <th> *@
-                        @*     @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode) *@
-                        @* </th> *@
 
                         <th style="float: right; ">
                             <a asp-controller="Industry" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
@@ -57,9 +50,6 @@
                             <td >
                                 @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
                             </td>
-                            @* <td> *@
-                            @*     @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode) *@
-                            @* </td> *@
 
                             <td class="d-none d-sm-table-cell"  style="float: right; ">
                                 <div class="btn-group">

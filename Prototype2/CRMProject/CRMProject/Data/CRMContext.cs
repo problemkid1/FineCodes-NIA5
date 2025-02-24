@@ -43,20 +43,6 @@ namespace CRMProject.Data
                 .HasForeignKey(mi => mi.MemberID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Prevent Cascade Delete from Member to MemberContact
-            modelBuilder.Entity<MemberContact>()
-                .HasOne(mc => mc.Member)
-                .WithMany(m => m.MemberContacts)
-                .HasForeignKey(mc => mc.MemberID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            //Prevent Cascade Delete from Contact to MemberContact
-            modelBuilder.Entity<MemberContact>()
-                .HasOne(mc => mc.Contact)
-                .WithMany(c => c.MemberContacts)
-                .HasForeignKey(mc => mc.ContactID)
-                .OnDelete(DeleteBehavior.Restrict);
-
             //Prevent Cascade Delete from MembershipType to MemberMembershipType
             modelBuilder.Entity<MemberMembershipType>()
                 .HasOne(mmt => mmt.MembershipType)
