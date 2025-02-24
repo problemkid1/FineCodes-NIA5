@@ -34,6 +34,12 @@
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <div class="row">
+                        <!-- Filter by Member Name -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">Filter by Member Name:</label>
+                            @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                        </div>
+
                         <!-- Filter by Status -->
                         <div class="form-group col-md-4">
                             <label class="control-label">Filter by Status:</label>
@@ -88,11 +94,11 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
-                                <th>@Html.DisplayNameFor(model => model.Date)</th>
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>                                
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Status)</th>
                                 <th>@Html.DisplayNameFor(model => model.Reason)</th>                                
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Notes)</th>
+                                <th>@Html.DisplayNameFor(model => model.Date)</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -108,20 +114,75 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+                                        <!-- Member Name -->
                                         <td class="d-none d-sm-table-cell">
                                             @if (item.Member != null)
                                             {
-                                                @Html.DisplayFor(modelItem => item.Member.MemberName)
+                                                var memberName = item.Member.MemberName;
+                                                var words = memberName.Split(' ');
+                                                var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : memberName;
+                                                var fullName = memberName;
+
+                                                <span>
+                                                    @shortName
+                                                    @if (words.Length > 3)
+                                                    {
+                                                        <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
+                                                        <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">... </a>
+                                                    }
+                                                </span>
                                             }
                                             else
                                             {
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
+
+                                        <!-- Status -->
                                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Reason)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Notes)</td>
+
+                                        <!-- Reason -->
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.Reason))
+                                            {
+                                                var reason = item.Reason;
+                                                var words = reason.Split(' ');
+                                                var shortReason = words.Length > 3 ? string.Join(" ", words.Take(3)) : reason;
+                                                var fullReason = reason;
+
+                                                <span>
+                                                    @shortReason
+                                                    @if (words.Length > 3)
+                                                    {
+                                                        <span id="moreTextReason@(item.ID)" style="display: none;"> @fullReason.Substring(shortReason.Length) </span>
+                                                        <a href="javascript:void(0);" id="readMoreReason@(item.ID)" onclick="toggleTextReason(@item.ID)">... </a>
+                                                    }
+                                                </span>
+                                            }
+                                        </td>
+
+                                        <!-- Notes -->
+                                        <td class="d-none d-sm-table-cell">
+                                            @if (!string.IsNullOrEmpty(item.Notes))
+                                            {
+                                                var notes = item.Notes;
+                                                var words = notes.Split(' ');
+                                                var shortNotes = words.Length > 3 ? string.Join(" ", words.Take(3)) : notes;
+                                                var fullNotes = notes;
+
+                                                <span>
+                                                    @shortNotes
+                                                    @if (words.Length > 3)
+                                                    {
+                                                        <span id="moreTextNotes@(item.ID)" style="display: none;"> @fullNotes.Substring(shortNotes.Length) </span>
+                                                        <a href="javascript:void(0);" id="readMoreNotes@(item.ID)" onclick="toggleTextNotes(@item.ID)">... </a>
+                                                    }
+                                                </span>
+                                            }
+                                        </td>
+                                    
+
+                                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
                                         <td>
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
@@ -144,3 +205,50 @@
         </div>
     </div>
 </div>
+<script>
+    // Toggle for Member Name
+    function toggleTextName(itemId) {
+        var moreText = document.getElementById("moreTextName" + itemId);
+        var readMore = document.getElementById("readMoreName" + itemId);
+
+        // Toggle member name text
+        if (moreText.style.display === "none") {
+            moreText.style.display = "inline";
+            readMore.innerHTML = " Read less";
+        } else {
+            moreText.style.display = "none";
+            readMore.innerHTML = "... ";
+        }
+    }
+
+    // Toggle for Reason
+    function toggleTextReason(itemId) {
+        var moreText = document.getElementById("moreTextReason" + itemId);
+        var readMore = document.getElementById("readMoreReason" + itemId);
+
+        // Toggle reason text
+        if (moreText.style.display === "none") {
+            moreText.style.display = "inline";
+            readMore.innerHTML = " Read less";
+        } else {
+            moreText.style.display = "none";
+            readMore.innerHTML = "... ";
+        }
+    }
+
+    // Toggle for Notes
+    function toggleTextNotes(itemId) {
+        var moreText = document.getElementById("moreTextNotes" + itemId);
+        var readMore = document.getElementById("readMoreNotes" + itemId);
+
+        // Toggle notes text
+        if (moreText.style.display === "none") {
+            moreText.style.display = "inline";
+            readMore.innerHTML = " Read less";
+        } else {
+            moreText.style.display = "none";
+            readMore.innerHTML = "... ";
+        }
+    }
+</script>
+

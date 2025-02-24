@@ -22,7 +22,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: StatusHistory
-        public async Task<IActionResult> Index(DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate)
+        public async Task<IActionResult> Index(string? SearchString, DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate)
         {
             // If first time loading the page, set date range based on DB values
             if (EndDate == DateTime.MinValue)
@@ -52,6 +52,12 @@ namespace CRMProject.Controllers
                 .Where(c => c.Date >= StartDate && c.Date <= EndDate.AddDays(1))
                 .AsNoTracking(); // Eager loading the related Member entity
 
+            // Filter by Member Name (case-insensitive)
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                statusHistories = statusHistories.Where(m => m.Member.MemberName.ToLower().Contains(SearchString.ToLower()));
+                numberFilters++;
+            }
             // Filter by StatusHistory Date
             if (Date.HasValue)
             {
@@ -203,6 +209,15 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            // Get the Member Name from the database using the MemberID
+            ViewBag.MemberName = _context.Members
+                .Where(m => m.ID == statusHistory.MemberID)
+                .Select(m => m.MemberName)
+                .FirstOrDefault();
+
+            ViewBag.Status = statusHistory.Status;
+
             var breadcrumbs = new List<BreadcrumbItem>
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -214,7 +229,7 @@ namespace CRMProject.Controllers
 
             ViewData["Status History"] = statusHistory.ID;
 
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
+            //ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
             return View(statusHistory);
         }
 
@@ -239,6 +254,9 @@ namespace CRMProject.Controllers
 
             // Retain the original Status value
             statusHistory.Status = existingStatusHistory.Status;
+
+            // Explicitly set MemberID to the existing MemberID in the database record
+            statusHistory.MemberID = existingStatusHistory.MemberID;
 
             if (ModelState.IsValid)
             {
@@ -284,7 +302,15 @@ namespace CRMProject.Controllers
             // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
 
-            ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
+            // Get the Member Name from the database using the MemberID
+            ViewBag.MemberName = _context.Members
+                .Where(m => m.ID == statusHistory.MemberID)
+                .Select(m => m.MemberName)
+                .FirstOrDefault();
+
+            // Get the Member Status from the database
+            ViewBag.Status = statusHistory.Status;
+            //ViewData["MemberID"] = new SelectList(_context.Members, "ID", "MemberName", statusHistory.MemberID);
             return View(statusHistory);
         }
 
