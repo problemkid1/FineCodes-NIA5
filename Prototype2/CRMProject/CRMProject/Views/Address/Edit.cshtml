@@ -93,7 +93,7 @@
 
                             <div class="form-group text-center">
                                 <input type="submit" value="Save Address" class="btn btn-primary" />
-                                <a asp-action="Index" class="btn btn-secondary ml-2">Back to Addresses</a>
+                    <a class="btn btn-secondary ml-2" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">Back to @Model.Member.MemberName</a>
                             </div>
                         </form>
                     </div>

@@ -75,7 +75,9 @@
                 {
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.ID">Edit Address</a>
                 }
-                <a class="btn btn-secondary ml-2" asp-action="Index">Back to Addresses</a>
+                <a class="btn btn-secondary ml-2" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">Back to @Model.Member.MemberName</a>
+
+
             </div>
         </div>
     </div>

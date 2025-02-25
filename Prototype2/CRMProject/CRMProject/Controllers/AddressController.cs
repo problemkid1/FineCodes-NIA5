@@ -179,7 +179,7 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,AddressLine1,AddressLine2,AddressCity,Province,PostalCode,AddressType,MemberID")] Address address)
         {
-            if (address.MemberID == 0) // Check if MemberID is missing
+            if (address.MemberID == 0)
             {
                 TempData["ErrorMessage"] = "Member ID is required!";
                 ViewData["MemberId"] = address.MemberID;
@@ -189,49 +189,47 @@ namespace CRMProject.Controllers
 
             if (ModelState.IsValid)
             {
+                // Check if the member already has an address
+                var existingAddress = await _context.Addresses
+                    .FirstOrDefaultAsync(a => a.MemberID == address.MemberID);
+
+                if (existingAddress != null)
+                {
+                    TempData["ErrorMessage"] = "This member already has an address.";
+                    ViewData["MemberId"] = address.MemberID;
+                    PopulateDropDownLists();
+                    return View(address);
+                }
+
                 try
                 {
-                    // Check if the member already has an address
-                    var existingAddress = await _context.Addresses
-                        .FirstOrDefaultAsync(a => a.MemberID == address.MemberID);
-
-                    if (existingAddress != null)
-                    {
-                        TempData["ErrorMessage"] = "This member already has an address.";
-                        return RedirectToAction("Details", "Member", new { id = address.MemberID });
-                    }
-
                     _context.Addresses.Add(address);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Address created successfully!";
                     return RedirectToAction("Details", "Member", new { id = address.MemberID });
                 }
-                catch (Exception)
+                catch (DbUpdateException)
                 {
-                    TempData["ErrorMessage"] = "An error occurred while creating the Address.";
+                    ModelState.AddModelError("", "Unable to save changes. Try again.");
                 }
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Please check the input data and try again.";
-            }
-
-            ViewData["MemberId"] = address.MemberID; // Make sure MemberID persists
-            PopulateDropDownLists();
 
             var breadcrumbs = new List<BreadcrumbItem>
-             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
-                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
-             };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+        new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
+            ViewData["MemberId"] = address.MemberID;
             ViewData["AddressId"] = address.ID;
+            PopulateDropDownLists();
+
             return View(address);
         }
+
 
 
 
