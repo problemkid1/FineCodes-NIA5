@@ -29,7 +29,7 @@ namespace CRMProject.Controllers
 
             // LINQ queries to get the counts
             int cancellationCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.Cancelled);
-            int memberCount = _context.Members.Count();
+            int memberCount = _context.Members.Count(m => m.MemberStatus != MemberStatus.Cancelled); // Exclude cancelled members
             int opportunityCount = _context.Opportunities.Count();
             int industryCount = _context.Industries.Count();
             int goodStandingCount = _context.Members.Count(m => m.MemberStatus == MemberStatus.GoodStanding);
@@ -45,8 +45,9 @@ namespace CRMProject.Controllers
             ViewData["OverduePaymentCount"] = overduePaymentCount;
             ViewData["NewMemberCount"] = newMemberCount;
 
-            // Query addresses to group by municipality (AddressCity) and count the number of members per city.
+            // Query addresses to group by municipality (AddressCity) and count the number of members per city, excluding cancelled members.
             var municipalityQuery = _context.Addresses
+                .Where(a => a.Member.MemberStatus != MemberStatus.Cancelled) // Exclude cancelled members
                 .GroupBy(a => a.AddressCity)
                 .Select(g => new
                 {
@@ -54,10 +55,6 @@ namespace CRMProject.Controllers
                     Count = g.Count()
                 })
                 .ToList();
-            foreach (var item in municipalityQuery)
-            {
-                Console.WriteLine($"Municipality: {item.Municipality}, Count: {item.Count}");
-            }
 
             // Supply these as labels and data for the chart.
             ViewData["MunicipalityLabels"] = municipalityQuery.Select(x => x.Municipality).ToList();
@@ -70,7 +67,7 @@ namespace CRMProject.Controllers
         private int GetNewMemberCount()
         {
             int currentYear = DateTime.Now.Year;
-            return _context.Members.Count(m => m.MemberStartDate.Year == currentYear);
+            return _context.Members.Count(m => m.MemberStartDate.Year == currentYear && m.MemberStatus != MemberStatus.Cancelled); // Exclude cancelled members
         }
 
         public IActionResult Privacy()
