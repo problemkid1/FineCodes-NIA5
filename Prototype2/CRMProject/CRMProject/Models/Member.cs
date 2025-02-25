@@ -17,7 +17,7 @@ namespace CRMProject.Models
         [Display(Name = "Name")]
         [Required(ErrorMessage = "You cannot leave the member name blank.")]
         [MaxLength(255, ErrorMessage = "Member Name cannot be more than 255 characters long.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Member name must contain only letters.")]
+      
         public string MemberName { get; set; } = "";
 
         [Required(ErrorMessage = "You cannot leave the member size blank.")]

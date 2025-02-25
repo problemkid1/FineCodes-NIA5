@@ -174,7 +174,7 @@ namespace CRMProject.Controllers
         // POST: Address/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,AddressLine1,AddressLine2,AddressCity,Province,PostalCode,AddressType,MemberID")] Address address)
