@@ -27,7 +27,7 @@ namespace CRMProject.Models
 
         [Required(ErrorMessage = "You must select the member status.")]
         [Display(Name = "Status")]
-        public MemberStatus MemberStatus { get; set; }
+        public MemberStatus? MemberStatus { get; set; }
 
         [Required(ErrorMessage = "You cannot leave the member accounts payable email blank.")]
         [Display(Name = "Accounts Payable Email")]

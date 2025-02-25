@@ -1,5 +1,4 @@
-﻿@* @await Component.InvokeAsync("Breadcrumb", (List<BreadcrumbItem>)ViewData["Breadcrumbs"]) *@
-@{
+﻿@{
     ViewData["Title"] = "CRM";
     // If ViewData["NewMemberCount"] is null, default to 0
     var newMemberCount = ViewData["NewMemberCount"] ?? 0;
@@ -29,13 +28,10 @@
                                     @ViewData["MemberCount"]
                                 </div>
                             </div>
-                            @* <div class="col-auto"> *@
-                            @*     <i class="fas fa-users fa-2x text-blue-300"></i> *@
-                            @* </div> *@
                         </div>
                     </div>
                 </div>
-             </a>
+            </a>
 
             <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
                 <div class="card border-left-success shadow h-100">
@@ -49,16 +45,13 @@
                                     @ViewData["IndustryCount"]
                                 </div>
                             </div>
-                            @* <div class="col-auto"> *@
-                            @*     <i class="fas fa-industry fa-2x text-blue-blue"></i> *@
-                            @* </div> *@
                         </div>
                     </div>
                 </div>
-             </a>
+            </a>
         </div>
         <div class="col-md-3 d-flex flex-column">
-            <a href="/StatusHistory" class="text-decoration-none mb-4 flex-grow-1">
+            <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none mb-4 flex-grow-1">
                 <div class="card border-left-primary shadow h-100">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -70,9 +63,6 @@
                                     @ViewData["CancellationCount"]
                                 </div>
                             </div>
-                            @* <div class="col-auto"> *@
-                            @*     <i class="fas fa-user-slash fa-2x text-red-300"></i> *@
-                            @* </div> *@
                         </div>
                     </div>
                 </div>
@@ -90,19 +80,16 @@
                                     @newMemberCount
                                 </div>
                             </div>
-                            @* <div class="col-auto"> *@
-                            @*     <i class="fas fa-user-plus fa-2x text-blue-300"></i> *@
-                            @* </div> *@
                         </div>
                     </div>
                 </div>
             </a>
         </div>
 
-        
+
         <!-- Right Column: Charts -->
         <div class="col-md-6 d-flex flex-column">
-            
+
             <div class="card shadow w-100">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
@@ -113,6 +100,7 @@
                     </div>
                 </div>
             </div>
+
             @* <div class="card shadow w-100 mb-3"> *@
             @*     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"> *@
             @*         <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5> *@
@@ -123,17 +111,54 @@
             @*         </div> *@
             @*     </div> *@
             @* </div> *@
-            
-
         </div>
     </div>
 </div>
 
 <script>
-     console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"])));
+    console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"])));
     console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"])));
+
     document.addEventListener("DOMContentLoaded", function () {
-        // Membership Overview Pie Chart
+        // Municipality Bar Chart
+        var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
+        var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
+        var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: municipalityLabels,
+                datasets: [{
+                    label: "Members",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: municipalityData
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, // Ensures only whole numbers
+                            stepSize: 1, // Forces increments of 1
+                            callback: function(value, index, values) {
+                                return Number(value).toLocaleString(); // Formats as whole number
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+                     // Membership Overview Pie Chart
         // var ctxPie = document.getElementById("memberPieChart").getContext("2d");
         // var goodStanding = @ViewData["GoodStandingCount"];
         // var overduePayment = @ViewData["OverduePaymentCount"];
@@ -154,44 +179,23 @@
         //         cutoutPercentage: 80
         //     }
         // });
-
-        // Municipality Bar Chart
-       var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
-       var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
-        var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
-
-        new Chart(ctxBar, {
-                type: 'bar',
-                data: 
-                {
-                    labels: municipalityLabels,
-                    datasets: [{
-                        label: "Members",
-                        backgroundColor: "#4e73df",
-                        hoverBackgroundColor: "#2e59d9",
-                        borderColor: "#4e73df",
-                        data: municipalityData
-                    }]
-                },
-        options: {
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    grid: { display: false }
-                },
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0, // Ensures only whole numbers
-                        stepSize: 1, // Forces increments of 1
-                        callback: function(value, index, values) {
-                            return Number(value).toLocaleString(); // Formats as whole number
-                        }
-                    }
-                }
-            }
-        }
-    });
-
     });
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
