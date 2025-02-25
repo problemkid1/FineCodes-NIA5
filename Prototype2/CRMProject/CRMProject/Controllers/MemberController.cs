@@ -841,49 +841,41 @@ namespace CRMProject.Controllers
         }
         private async Task AddPicture(Member member, IFormFile thePicture)
         {
-            //Get the picture and save it with the Member (2 sizes)
-            if (thePicture != null)
+            if (thePicture != null && thePicture.Length > 0 && thePicture.ContentType.StartsWith("image/"))
             {
-                string mimeType = thePicture.ContentType;
-                long fileLength = thePicture.Length;
-                if (!(mimeType == "" || fileLength == 0))//Looks like we have a file!!!
+                using var memoryStream = new MemoryStream();
+                await thePicture.CopyToAsync(memoryStream);
+                var pictureArray = memoryStream.ToArray();
+
+                if (member.MemberPhoto != null)
                 {
-                    if (mimeType.Contains("image"))
+                    member.MemberPhoto.Content = ResizeImage.ShrinkImageWebp(pictureArray, 500, 600);
+                    member.MemberPhoto.MimeType = "image/webp";
+
+                    member.MemberThumbnail = await _context.MemberThumbnails
+                        .FirstOrDefaultAsync(m => m.MemberID == member.ID);
+                    if (member.MemberThumbnail != null)
                     {
-                        using var memoryStream = new MemoryStream();
-                        await thePicture.CopyToAsync(memoryStream);
-                        var pictureArray = memoryStream.ToArray();//Gives us the Byte[]
-
-                        //Check if we are replacing or creating new
-                        if (member.MemberPhoto != null)
-                        {
-                            //We already have pictures so just replace the Byte[]
-                            member.MemberPhoto.Content = ResizeImage.ShrinkImageWebp(pictureArray, 500, 600);
-
-                            //Get the Thumbnail so we can update it.  Remember we didn't include it
-                            member.MemberThumbnail = _context.MemberThumbnails.Where(m => m.MemberID == member.ID).FirstOrDefault();
-                            if (member.MemberThumbnail != null)
-                            {
-                                member.MemberThumbnail.Content = ResizeImage.ShrinkImageWebp(pictureArray, 75, 90);
-                            }
-                        }
-                        else //No pictures saved so start new
-                        {
-                            member.MemberPhoto = new MemberPhoto
-                            {
-                                Content = ResizeImage.ShrinkImageWebp(pictureArray, 500, 600),
-                                MimeType = "image/webp"
-                            };
-                            member.MemberThumbnail = new MemberThumbnail
-                            {
-                                Content = ResizeImage.ShrinkImageWebp(pictureArray, 75, 90),
-                                MimeType = "image/webp"
-                            };
-                        }
+                        member.MemberThumbnail.Content = ResizeImage.ShrinkImageWebp(pictureArray, 75, 90);
+                        member.MemberThumbnail.MimeType = "image/webp";
                     }
+                }
+                else
+                {
+                    member.MemberPhoto = new MemberPhoto
+                    {
+                        Content = ResizeImage.ShrinkImageWebp(pictureArray, 500, 600),
+                        MimeType = "image/webp"
+                    };
+                    member.MemberThumbnail = new MemberThumbnail
+                    {
+                        Content = ResizeImage.ShrinkImageWebp(pictureArray, 75, 90),
+                        MimeType = "image/webp"
+                    };
                 }
             }
         }
+
 
         private bool MemberExists(int id)
         {

@@ -33,16 +33,18 @@
             <dl class="row">
                 <div class="col-xl-3">
                     <!-- Member Image -->
-                    @if (Model.MemberPhoto?.Content != null)
+                    <!-- Member Image -->
+                    @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
                     {
                         string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                        string imageSrc = $"data:{Model.MemberPhoto.MimeType};base64,{imageBase64}";
-                        <img src="@imageSrc" alt="Profile Picture of @Model.Summary" title="Profile Picture of @Model.Summary" class="img-fluid rounded" />
+                        string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
+                        <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
                     }
                     else
                     {
-                        <img src="~/images/blankProfile.jpg" style="max-height: 80px; max-width: 96px" class="img-fluid rounded" />
+                        <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
                     }
+
                    
                 </div>
 
