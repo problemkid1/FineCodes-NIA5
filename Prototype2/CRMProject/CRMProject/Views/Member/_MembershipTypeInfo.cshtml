@@ -36,13 +36,13 @@
                         @Html.DisplayNameFor(model => model.First().MembershipType.MembershipTypeFee)
                     </th>
                     <!-- Add button (added in your branch, kept in the header) -->
-                    <th style="float: right;">
+                    @* <th style="float: right;">
                         <a asp-controller="MembershipType" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
                             <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Membership Type">
                                 <strong><i class="fa-solid fa-plus"></i> Add</strong>
                             </span>
                         </a>
-                    </th>
+                    </th> *@
                 </tr>
             </thead>
             <tbody>
