@@ -114,7 +114,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactWebsite,ContactInteractions,ContactNotes")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactEmailAddress,ContactWebsite,ContactInteractions,ContactNotes")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -165,7 +165,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactWebsite,ContactInteractions,ContactNotes")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactWebsite,ContactEmailAddress,ContactInteractions,ContactNotes")] Contact contact)
         {
             if (id != contact.ID)
             {
@@ -179,9 +179,22 @@ namespace CRMProject.Controllers
                     _context.Update(contact);
                     await _context.SaveChangesAsync();
 
-                    // Set success message in TempData
-                    TempData["SuccessMessage"] = "Contact details updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = contact.ID });
+                    // Retrieve the associated member's ID
+                    var memberContact = await _context.MemberContacts
+                        .FirstOrDefaultAsync(mc => mc.ContactID == contact.ID);
+
+                    if (memberContact != null)
+                    {
+                        // Set success message in TempData
+                        TempData["SuccessMessage"] = "Contact details updated successfully!";
+                        // Redirect to the member's details page
+                        return RedirectToAction("Details", "Member", new { id = memberContact.MemberID });
+                    }
+                    else
+                    {
+                        // If no associated member is found, redirect to the contact's details page
+                        return RedirectToAction(nameof(Details), new { id = contact.ID });
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -235,11 +248,21 @@ namespace CRMProject.Controllers
             var contact = await _context.Contacts.FindAsync(id);
             if (contact != null)
             {
+                // Retrieve the associated member's ID
+                var memberContact = await _context.MemberContacts
+                    .FirstOrDefaultAsync(mc => mc.ContactID == contact.ID);
+
                 _context.Contacts.Remove(contact);
                 await _context.SaveChangesAsync();
 
                 // Set success message in TempData
                 TempData["SuccessMessage"] = "Contact deleted successfully!";
+
+                if (memberContact != null)
+                {
+                    // Redirect to the member's details page
+                    return RedirectToAction("Details", "Member", new { id = memberContact.MemberID });
+                }
             }
             else
             {
