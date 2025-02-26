@@ -31,7 +31,7 @@ namespace CRMProject.Models
         [MaxLength(50, ErrorMessage = "Contact cannot be more than 50 characters long.")]
         public string OpportunityContact { get; set; } = "";
 
-        [Display(Name = "Last Contact Date")]
+        [Display(Name = "Last Contacted")]
         [Required(ErrorMessage = "Last contact date is required.")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

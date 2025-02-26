@@ -30,7 +30,7 @@ namespace CRMProject.Models
         public MemberStatus? MemberStatus { get; set; }
 
         [Required(ErrorMessage = "You cannot leave the member accounts payable email blank.")]
-        [Display(Name = "Accounts Payable Email")]
+        [Display(Name = "A/P Email")]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please follow the correct email format test@email.com")]
         [StringLength(255)]
         [DataType(DataType.EmailAddress)]
@@ -47,7 +47,7 @@ namespace CRMProject.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? MemberEndDate { get; set; }
 
-        [Display(Name = "Last Contact Date")]
+        [Display(Name = "Last Contacted")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? MemberLastContactDate { get; set; } = DateTime.Today;
