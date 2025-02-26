@@ -89,10 +89,9 @@
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityName)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityStatus)</th>
-                                    @* <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th> *@
-                                    <th>@Html.DisplayNameFor(model => model.OpportunityAction)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th>
+                                    @* <th>@Html.DisplayNameFor(model => model.OpportunityAction)</th> *@
                                     <th>@Html.DisplayNameFor(model => model.OpportunityContact)</th>
-                                    @* <th>@Html.DisplayNameFor(model => model.OpportunityAccount)</th> *@
                                     <th>@Html.DisplayNameFor(model => model.OpportunityLastContactDate)</th>
                                     @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.OpportunityInteractions)</th> *@
                                     <th>Actions</th>
@@ -102,12 +101,28 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.OpportunityName)</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.OpportunityName))
+                                            {
+                                                var memberName = item.OpportunityName;
+                                                var words = memberName.Split(' ');
+                                                var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : memberName;
+                                                var fullName = memberName;
+
+                                                <span>
+                                                    @shortName
+                                                    @if (words.Length > 3)
+                                                    {
+                                                        <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
+                                                        <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">... </a>
+                                                    }
+                                                </span>
+                                            }
+                                        </td>
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityStatus)</td>
-                                        @* <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td> *@
-                                        <td>@Html.DisplayFor(modelItem => item.OpportunityAction)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td>
+                                        @* <td>@Html.DisplayFor(modelItem => item.OpportunityAction)</td> *@
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityContact)</td>
-                                        @* <td>@Html.DisplayFor(modelItem => item.OpportunityAccount)</td> *@
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityLastContactDate)</td>
                                         @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td> *@
                                         <td>
@@ -138,3 +153,28 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#filterToggle").click(function() {
+                $("#collapseFilter").collapse('toggle');
+            });
+        });
+    </script>
+    <script>
+         function toggleTextName(itemId) {
+            var moreText = document.getElementById("moreTextName" + itemId);
+            var readMore = document.getElementById("readMoreName" + itemId);
+
+            // Toggle member name text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }       
+    </script>
+    }

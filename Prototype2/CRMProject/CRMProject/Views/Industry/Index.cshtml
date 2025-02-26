@@ -129,8 +129,42 @@
                                                 }
                                             }
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.IndustrySector)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.IndustrySubsector)</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.IndustrySector))
+                                            {
+                                                var sector = item.IndustrySector;
+                                                var words = sector.Split(' ');
+                                                var shortSector = words.Length > 3 ? string.Join(" ", words.Take(3)) : sector;
+                                                var fullSector = sector;
+
+                                                <span>
+                                                    @shortSector
+                                                    @if (words.Length > 3)
+                                                    {
+                                                        <span id="moreTextSector@(item.ID)" style="display: none;"> @fullSector.Substring(shortSector.Length) </span>
+                                                        <a href="javascript:void(0);" id="readMoreSector@(item.ID)" onclick="toggleTextSector(@item.ID)">... </a>
+                                                    }
+                                                </span>
+                                            }
+                                        </td>
+                                        <td class="d-none d-sm-table-cell">
+                                            @if (!string.IsNullOrEmpty(item.IndustrySubsector))
+                                            {
+                                                var subsector = item.IndustrySubsector;
+                                                var words = subsector.Split(' ');
+                                                var shortSubsector = words.Length > 3 ? string.Join(" ", words.Take(3)) : subsector;
+                                                var fullSubsector = subsector;
+
+                                                <span>
+                                                    @shortSubsector
+                                                    @if (words.Length > 3)
+                                                    {
+                                                        <span id="moreTextSubsector@(item.ID)" style="display: none;"> @fullSubsector.Substring(shortSubsector.Length) </span>
+                                                        <a href="javascript:void(0);" id="readMoreSubsector@(item.ID)" onclick="toggleTextSubsector(@item.ID)">... </a>
+                                                    }
+                                                </span>
+                                            }
+                                            </td>
                                         <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
                                         <td>
                                             <div class="btn-group" style="float: none; ">
@@ -194,14 +228,57 @@
         </div>
     </div>
 </div>
-<script>
-    function checkFile() {
-        var fileInput = document.getElementById("fileUpload");
-        var file = fileInput.files[0];
-        if (file) {
-            alert("File selected: " + file.name);
-        } else {
-            alert("No file selected. Please choose an Excel file.");
+
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+
+    <script>
+        function checkFile() {
+            var fileInput = document.getElementById("fileUpload");
+            var file = fileInput.files[0];
+            if (file) {
+                alert("File selected: " + file.name);
+            } else {
+                alert("No file selected. Please choose an Excel file.");
+            }
         }
-    }
-</script>
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $("#filterToggle").click(function() {
+                $("#collapseFilter").collapse('toggle');
+            });
+        });
+    </script>
+    <script>
+         function toggleTextSubsector(itemId) {
+            var moreText = document.getElementById("moreTextSubsector" + itemId);
+            var readMore = document.getElementById("readMoreSubsector" + itemId);
+
+            // Toggle Subsector text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+
+        function toggleTextSector(itemId) {
+            var moreText = document.getElementById("moreTextSector" + itemId);
+            var readMore = document.getElementById("readMoreSector" + itemId);
+
+            // Toggle Sector text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+    </script>
+}

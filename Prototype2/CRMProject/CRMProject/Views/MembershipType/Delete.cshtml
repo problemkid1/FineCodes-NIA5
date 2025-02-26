@@ -24,7 +24,7 @@
     <div class="card">
         <div class="card-body">
             <div>
-                <h2>Are you sure you want to Delete this membership type?</h2>
+                <h2>Delete - @Html.DisplayFor(model => model.MembershipTypeName)</h2>
 
                 <hr />
                 
@@ -44,6 +44,7 @@
                 </dl>
 
                 <div class="form-group text-center">
+                    <h3>Are you sure you want to Delete this membership type?</h3>
                     <form asp-action="Delete" method="post">
                         <input type="hidden" asp-for="ID" />
                         <button type="submit" class="btn btn-danger">Delete Membership Type</button>

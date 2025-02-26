@@ -108,8 +108,42 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>@Html.DisplayFor(modelItem => item.MembershipTypeName)</td>
-                                            <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MembershipTypeDescription)</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(EnumHelper.GetDisplayName(item.MembershipTypeName)))
+                                                {
+                                                    var type = EnumHelper.GetDisplayName(item.MembershipTypeName);
+                                                    var words = type.Split(' ');
+                                                    var shortType = words.Length > 3 ? string.Join(" ", words.Take(3)) : type;
+                                                    var fullType = type;
+
+                                                    <span>
+                                                        @shortType
+                                                        @if (words.Length > 3)
+                                                        {
+                                                            <span id="moreTextType@(item.ID)" style="display: none;"> @fullType.Substring(shortType.Length) </span>
+                                                            <a href="javascript:void(0);" id="readMoreType@(item.ID)" onclick="toggleTextType(@item.ID)">... </a>
+                                                        }
+                                                    </span>
+                                                }
+                                            </td>
+                                            <td class="d-none d-sm-table-cell">
+                                                @if (!string.IsNullOrEmpty(item.MembershipTypeDescription))
+                                                {
+                                                    var description = item.MembershipTypeDescription;
+                                                    var words = description.Split(' ');
+                                                    var shortDescription = words.Length > 3 ? string.Join(" ", words.Take(3)) : description;
+                                                    var fullDescription = description;
+
+                                                    <span>
+                                                        @shortDescription
+                                                        @if (words.Length > 3)
+                                                        {
+                                                            <span id="moreTextDescription@(item.ID)" style="display: none;"> @fullDescription.Substring(shortDescription.Length) </span>
+                                                            <a href="javascript:void(0);" id="readMoreDescription@(item.ID)" onclick="toggleTextDescription(@item.ID)">... </a>
+                                                        }
+                                                    </span>
+                                                }
+                                            </td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MembershipTypeFee)</td>
                                             <td>
                                                 <div class="btn-group" style="float:none; padding-left:20%; ">
@@ -141,9 +175,40 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+         function toggleTextType(itemId) {
+            var moreText = document.getElementById("moreTextType" + itemId);
+            var readMore = document.getElementById("readMoreType" + itemId);
 
-<script>
-    $(document).ready(function () {
-        $('[data-bs-toggle="tooltip"]').tooltip();
-    });
-</script>
+            // Toggle membership type text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+
+        function toggleTextDescription(itemId) {
+            var moreText = document.getElementById("moreTextDescription" + itemId);
+            var readMore = document.getElementById("readMoreDescription" + itemId);
+
+            // Toggle Description text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+    </script>
+}

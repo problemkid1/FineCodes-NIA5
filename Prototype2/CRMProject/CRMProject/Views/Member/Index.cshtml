@@ -203,18 +203,19 @@
                                                 }
                                             </td>
 
-
                                             <td>
                                                 @if (item.MemberIndustries != null && item.MemberIndustries.Any())
                                                 {
                                                     var primaryIndustry = item.MemberIndustries.FirstOrDefault();
                                                     if (primaryIndustry != null)
                                                     {
+                                                        // Get the summary for the first industry
                                                         var industrySummary = primaryIndustry.Industry.Summary;
                                                         var words = industrySummary?.Split(' ');
                                                         var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : industrySummary;
                                                         var fullSummary = industrySummary;
 
+                                                        // Start the display with the first industry
                                                         <span>
                                                             @shortSummary
                                                             @if (words?.Length > 3)
@@ -223,6 +224,27 @@
                                                                 <a href="javascript:void(0);" id="readMoreIndustry@(item.ID)" onclick="toggleTextIndustry(@item.ID)">... </a>
                                                             }
                                                         </span>
+
+                                                        // Now create the collapsible section for the rest of the industries
+                                                        var industryCount = item.MemberIndustries.Count;
+                                                        if (industryCount > 1)
+                                                        {
+                                                            string industryList = ""; // Html string of industry names separated by <br /> tags
+                                                            var industries = item.MemberIndustries.Skip(1).ToList(); // Skip the first industry
+
+                                                            foreach (var industry in industries)
+                                                            {
+                                                                industryList += industry.Industry.IndustrySubsector + " <br />";
+                                                            }
+
+                                                            // Create the collapsible link and content for additional industries
+                                                            <a data-bs-toggle="collapse" href="#collapseIndustry@(item.ID)" aria-expanded="false" aria-controls="collapseIndustry@(item.ID)">
+                                                                <span class="badge bg-info">@industryCount</span>
+                                                            </a>
+                                                            <div class="collapse" id="collapseIndustry@(item.ID)">
+                                                                @Html.Raw(industryList)
+                                                            </div>
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -230,6 +252,7 @@
                                                     }
                                                 }
                                             </td>
+
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td class="d-none d-sm-table-cell">

@@ -25,11 +25,7 @@
     <div class="card">
         <div class="card-body">
             <div>
-                <h1>Activate Membership</h1>
-                <hr />
-                <h3>Are you sure you want to activate this membership?</h3>
-
-
+                <h2>Activate - @Html.DisplayFor(model => model.MemberName)</h2>
                 <hr />
                  @{
         if (Model.MemberPhoto?.Content != null)
@@ -72,7 +68,8 @@
                      
                 </dl>
 
-                <div class="form-group text-center">                    
+                <div class="form-group text-center">     
+                    <h3>Are you sure you want to activate this membership?</h3>
                         <input type="hidden" asp-for="ID" />
                         <button type="submit" class="btn btn-danger">Activate Member</button>
                         <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>                    
