@@ -9,6 +9,9 @@
     <div class="panel-heading">
         <div class="d-flex align-items-center justify-content-between">
             <h4 class="panel-title mb-0">Contact Information</h4>
+            <button class="btn btn-primary" onclick="showContactForm()" title="Add Contact">
+                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                </button>            
         </div>
 
     </div>
@@ -105,12 +108,7 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <div style="float: right; padding-left: 10%;">
-            <button class="btn btn-primary" onclick="showContactForm()">
-                <strong><i class="fa-solid fa-plus"></i> Add</strong>
-            </button>
-        </div>
+        </div>        
         @if (Model.Any())
         {
             <div class="table-responsive">
@@ -121,12 +119,7 @@
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
-                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>
-                         @*    <th style="text-align: right;">
-                                <span class="btn btn-primary"  onclick="showContactForm()">
-                                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                                </span>
-                            </th> *@
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>                        
                         </tr>
                     </thead>
                     <tbody>
