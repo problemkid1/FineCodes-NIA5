@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using CRMProject.Utilities;
 
 namespace CRMProject.Controllers
 {
@@ -28,6 +29,7 @@ namespace CRMProject.Controllers
 
             var membershipTypes = _context.MembershipTypes
                 .Include(mt => mt.MemberMembershipTypes)
+                .ThenInclude(mt => mt.Member)
                 .AsNoTracking();
 
             // Create a SelectList for MembershipTypeName enum to be used in the dropdown
@@ -71,7 +73,7 @@ namespace CRMProject.Controllers
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Status History", Url = "/Status History/Index", IsActive = true }
+                    new BreadcrumbItem { Title = "Membership Types", Url = "/MembershipType/Index", IsActive = true }
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -86,27 +88,34 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
-
-            var membershipType = await _context.MembershipTypes
+            try
+            {
+                var membershipType = await _context.MembershipTypes
                  .Include(i => i.MemberMembershipTypes).ThenInclude(i => i.Member)
                 .FirstOrDefaultAsync(m => m.ID == id);
-                        
-            if (membershipType == null)
-            {
-                return NotFound();
-            }
-            var breadcrumbs = new List<BreadcrumbItem>
+
+                if (membershipType == null)
+                {
+                    return NotFound();
+                }
+                var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
 
                 };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
+                ViewData["Breadcrumbs"] = breadcrumbs;
 
-            ViewData["Membership Type"] = membershipType.ID;
-            return View(membershipType);
+                ViewData["Membership Type"] = membershipType.ID;
+                return View(membershipType);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while retrieving the membership details: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: MembershipType/Create
@@ -133,22 +142,58 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(membershipType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    //Check for unique Membership Type Name
+                    var existingMembershipTypeName = await _context.MembershipTypes
+                        .FirstOrDefaultAsync(i => i.MembershipTypeName == membershipType.MembershipTypeName);
+
+                    if (existingMembershipTypeName != null)
+                    {
+                        // Return a validation error if the Name already exists
+                        ModelState.AddModelError("MembershipTypeName", "MembershipType with this name already exists.");
+                        return View(membershipType);
+                    }
+
+                    // Add the new member to the context and save changes
+                    _context.Add(membershipType);
+                    await _context.SaveChangesAsync();
+
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Membership Type created successfully!";
+                    return RedirectToAction(nameof(Details), new { id = membershipType.ID });
+                }
+                catch (DbUpdateException dex)
+                {
+                    // Directly handling the exception without ExceptionMessageVM
+                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed"))
+                    {
+                        ModelState.AddModelError("MembershipTypeName", "Unable to save changes. Remember, membership type name  must be unique.");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "An error occurred while saving the Membership Type.";
+                    }
+                }
+                catch (Exception)
+                {
+                    // General error handling
+                    TempData["ErrorMessage"] = "An error occurred while creating the Membership Type.";
+                }
+            }
+            else
+            {
+                // If model validation fails, set an error message
+                TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
             var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
-
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
                 };
-
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["Membership Type"] = membershipType.ID;
-
             return View(membershipType);
         }
 
@@ -160,24 +205,30 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var membershipType = await _context.MembershipTypes.FindAsync(id);
-            if (membershipType == null)
+            try
             {
-                return NotFound();
-            }
+                var membershipType = await _context.MembershipTypes.FindAsync(id);
+                if (membershipType == null)
+                {
+                    return NotFound();
+                }
 
-            var breadcrumbs = new List<BreadcrumbItem>
+                var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
-
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
                 };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
+                ViewData["Breadcrumbs"] = breadcrumbs;
 
-            ViewData["Membership Type"] = membershipType.ID;
-            return View(membershipType);
+                return View(membershipType);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while fetching the membership for editing: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: MembershipType/Edit/5
@@ -196,47 +247,65 @@ namespace CRMProject.Controllers
             {
                 try
                 {
+                    //Check for unique Membership Type Name before updating
+                    var existingMembershipTypeName = await _context.MembershipTypes
+                        .FirstOrDefaultAsync(i => i.MembershipTypeName == membershipType.MembershipTypeName && i.ID != membershipType.ID);
+
+                    if (existingMembershipTypeName != null)
+                    {
+                        // Return a validation error if the Name already exists
+                        ModelState.AddModelError("MembershipTypeName", "MembershipType with this name already exists.");
+                        return View(membershipType);
+                    }
+
+                    // Update membershipType to the context and save changes
                     _context.Update(membershipType);
-                    await _context.SaveChangesAsync();// Set success message in TempData
-                    TempData["SuccessMessage"] = "Membership Type details updated successfully!";
+                    await _context.SaveChangesAsync();
+
+                    // Set success message in TempData
+                    TempData["SuccessMessage"] = "Membership Type updated successfully!";
                     return RedirectToAction(nameof(Details), new { id = membershipType.ID });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!MembershipTypeExists(membershipType.ID))
                     {
-                        // If the Opportunity does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
+                    }
+                }
+                catch (DbUpdateException dex)
+                {
+                    // Directly handling the exception without ExceptionMessageVM
+                    if (dex.GetBaseException().Message.Contains("UNIQUE constraint failed"))
+                    {
+                        ModelState.AddModelError("MembershipTypeName", "Unable to save changes. Remember, membership type name must be unique.");
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "An error occurred while saving the Membership.";
                     }
                 }
                 catch (Exception)
                 {
                     // Set error message for generic errors
-                    TempData["ErrorMessage"] = "An error occurred while updating the Opportunity details.";
+                    TempData["ErrorMessage"] = "An error occurred while updating the Membership Type details.";
                 }
-
             }
-
-            // Set error message in case the model is invalid
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
             var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
 
                 };
-
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["Membership Type"] = membershipType.ID;
-            return View(membershipType); // Return to the edit view if there are validation errors
-
+            TempData["ErrorMessage"] = "Please check the input data and try again.";
+            return View(membershipType);
         }
 
         // GET: MembershipType/Delete/5
@@ -246,25 +315,32 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
-
-            var membershipType = await _context.MembershipTypes
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (membershipType == null)
+            try
             {
-                return NotFound();
-            }
-            var breadcrumbs = new List<BreadcrumbItem>
+                var membershipType = await _context.MembershipTypes
+                .Include(mt => mt.MemberMembershipTypes)
+                .ThenInclude(mt => mt.Member)
+                .FirstOrDefaultAsync(m => m.ID == id);
+                if (membershipType == null)
+                {
+                    return NotFound();
+                }
+                var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
-
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
                 };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
-
-            ViewData["Membership Type"] = membershipType.ID;
-            return View(membershipType);
+                ViewData["Breadcrumbs"] = breadcrumbs;
+                ViewData["Membership Type"] = membershipType.ID;
+                return View(membershipType);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while fetching the industry for deletion: {ex.Message}";
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: MembershipType/Delete/5
@@ -272,32 +348,35 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var membershipType = await _context.MembershipTypes.FindAsync(id);
-            if (membershipType != null)
+            var membershipType = await _context.MembershipTypes
+                .Include(mt => mt.MemberMembershipTypes)
+                .ThenInclude(mt => mt.Member)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (membershipType == null)
             {
-                _context.MembershipTypes.Remove(membershipType);
-                await _context.SaveChangesAsync();
+                TempData["ErrorMessage"] = "Membership not found!";
+                return RedirectToAction(nameof(Index));
+            }
+            // Check if the Membership has members
+            if (membershipType.MemberMembershipTypes.Any())
+            {
+                TempData["ErrorMessage"] = "Cannot delete membership because it has associated member(s).";
+                return RedirectToAction(nameof(Index));
+            }
+            _context.MembershipTypes.Remove(membershipType);
+            await _context.SaveChangesAsync();
 
-                // Set success message in TempData
-                TempData["SuccessMessage"] = "Membership Type deleted successfully!";
-            }
-            else
-            {
-                // If contact not found, set an error message
-                TempData["ErrorMessage"] = "Membership Type not found!";
-            }
             var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeDescription, Url = "#", IsActive = true }
-
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["Membership Type"] = membershipType.ID;
-            // Redirect to the Index or other appropriate page
+            // Set success message in TempData
+            TempData["SuccessMessage"] = "Membership Type deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
 
