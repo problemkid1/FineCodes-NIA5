@@ -70,7 +70,7 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Membership Type:</label>
                                     @Html.DropDownList("MembershipTypeName",
-                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
+                                             new SelectList(ViewBag.MembershipTypeNameList, "Value", "Text"),
                                              "All Types",
                                              new { @class = "form-control" })
                                 </div><hr />
@@ -157,7 +157,7 @@
                                                     if (specCount > 0)
                                                     {
                                                         // Get the first membership type and its display name
-                                                        string firstSpec = EnumHelper.GetDisplayName(item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName);
+                                                        string firstSpec = item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName;
                                                         var words = firstSpec?.Split(' ');
                                                         var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : firstSpec;
                                                         var fullSummary = firstSpec;
@@ -168,8 +168,7 @@
                                                             var s = item.MemberMembershipTypes.ToList();
                                                             for (int i = 1; i < specCount; i++)
                                                             {
-                                                                // Use GetDisplayName to show the full name for each membership type
-                                                                specList += EnumHelper.GetDisplayName(s[i].MembershipType.MembershipTypeName) + " <br />";
+                                                                specList += s[i].MembershipType.MembershipTypeName + " <br />";
                                                             }
 
                                                             <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"

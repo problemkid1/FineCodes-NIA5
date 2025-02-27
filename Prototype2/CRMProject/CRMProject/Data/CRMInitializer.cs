@@ -232,42 +232,42 @@ namespace CRMProject.Data
                         context.MembershipTypes.AddRange(
                             new MembershipType
                             {
-                                MembershipTypeName = MembershipTypeName.LocalIndustrial,
+                                MembershipTypeName = "Local Industrial",
                                 MembershipTypeDescription = "Local businesses in the industrial sector.",
                                 MembershipTypeFee = 1000.00,
                                 MembershipTypeBenefits = "Networking, Discounts, Free Events"
                             },
                             new MembershipType
                             {
-                                MembershipTypeName = MembershipTypeName.NonLocalIndustrial,
+                                MembershipTypeName = "Non-Local Industrial",
                                 MembershipTypeDescription = "Non-local industrial businesses.",
                                 MembershipTypeFee = 1500.00,
                                 MembershipTypeBenefits = "Enhanced Networking, Premium Events"
                             },
                             new MembershipType
                             {
-                                MembershipTypeName = MembershipTypeName.InKind,
+                                MembershipTypeName = "In-Kind",
                                 MembershipTypeDescription = "Non-monetary contributions.",
                                 MembershipTypeFee = 0.00, // In-Kind is typically free
                                 MembershipTypeBenefits = "Recognition, Networking"
                             },
                             new MembershipType
                             {
-                                MembershipTypeName = MembershipTypeName.GovernmentAndEducation,
+                                MembershipTypeName = "Government And Education",
                                 MembershipTypeDescription = "Government and educational institutions.",
                                 MembershipTypeFee = 500.00,
                                 MembershipTypeBenefits = "Discounts, Free Membership for First Year"
                             },
                             new MembershipType
                             {
-                                MembershipTypeName = MembershipTypeName.Chamber,
+                                MembershipTypeName = "Chamber",
                                 MembershipTypeDescription = "Chamber of Commerce members.",
                                 MembershipTypeFee = 250.00,
                                 MembershipTypeBenefits = "Chamber access, Local Networking"
                             },
                             new MembershipType
                             {
-                                MembershipTypeName = MembershipTypeName.Associate,
+                                MembershipTypeName = "Associate",
                                 MembershipTypeDescription = "Associate membership for smaller organizations.",
                                 MembershipTypeFee = 300.00,
                                 MembershipTypeBenefits = "Basic Access"
@@ -283,22 +283,22 @@ namespace CRMProject.Data
                         // Define fixed membership type assignments
                         var memberMembershipTypeMappings = new Dictionary<string, string>
                         {
-                            { "100 Marketing", "LocalIndustrial" },
-                            { "Technologies co.", "InKind" },
+                            { "100 Marketing", "Local Industrial" },
+                            { "Technologies co.", "In-Kind" },
                             { "Chain Management", "Chamber" },
-                            { "Acc Payments", "NonLocalIndustrial" },
-                            { "Radar Technologies", "GovernmentAndEducation" },
-                            { "Security Services Co.", "LocalIndustrial" },
-                            { "Agri-Plus", "InKind" },
+                            { "Acc Payments", "Non-Local Industrial" },
+                            { "Radar Technologies", "Government And Education" },
+                            { "Security Services Co.", "Local Industrial" },
+                            { "Agri-Plus", "In-Kind" },
                             { "Air Ca", "Chamber" },
-                            { "Airbus Canada", "LocalIndustrial" },
-                            { "Wood", "GovernmentAndEducation" }
+                            { "Airbus Canada", "Local Industrial" },
+                            { "Wood", "Government And Education" }
                         };
 
                         foreach (var entry in memberMembershipTypeMappings)
                         {
                             var member = context.Members.FirstOrDefault(m => m.MemberName == entry.Key);
-                            var membershipType = context.MembershipTypes.FirstOrDefault(mt => mt.MembershipTypeName.ToString() == entry.Value);
+                            var membershipType = context.MembershipTypes.FirstOrDefault(mt => mt.MembershipTypeName == entry.Value);
 
                             if (member != null && membershipType != null)
                             {

@@ -33,12 +33,15 @@ namespace CRMProject.Controllers
                 .AsNoTracking();
 
             // Create a SelectList for MembershipTypeName enum to be used in the dropdown
-            ViewData["MembershipTypeNameList"] = new SelectList(Enum.GetValues(typeof(MembershipTypeName)), MembershipTypeName);
+            ViewData["MembershipTypeNameList"] = new SelectList(membershipTypes
+                                                    .Select(mt => mt.MembershipTypeName)
+                                                    .Distinct()
+                                                    .OrderBy(name => name));
 
             // Filter by Membership Type Name (if selected from dropdown)
             if (!string.IsNullOrEmpty(MembershipTypeName))
             {
-                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName.ToString()
+                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName
                                                                .ToLower()
                                                                .Contains(MembershipTypeName.ToLower()));
                 numberFilters++;
@@ -102,7 +105,7 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
 
                 };
 
@@ -122,6 +125,14 @@ namespace CRMProject.Controllers
         public IActionResult Create()
         {
             ViewBag.MemberID = new SelectList(_context.Members, "ID", "MemberName");
+
+            ViewBag.MembershipTypeNameList = new SelectList(
+                _context.MembershipTypes
+                    .Select(mt => mt.MembershipTypeName)
+                    .Distinct()
+                    .OrderBy(name => name)
+                    .ToList()
+            );
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -146,7 +157,7 @@ namespace CRMProject.Controllers
                 {
                     //Check for unique Membership Type Name
                     var existingMembershipTypeName = await _context.MembershipTypes
-                        .FirstOrDefaultAsync(i => i.MembershipTypeName == membershipType.MembershipTypeName);
+                        .FirstOrDefaultAsync(i => i.MembershipTypeName.ToLower() == membershipType.MembershipTypeName.ToLower());
 
                     if (existingMembershipTypeName != null)
                     {
@@ -154,6 +165,7 @@ namespace CRMProject.Controllers
                         ModelState.AddModelError("MembershipTypeName", "MembershipType with this name already exists.");
                         return View(membershipType);
                     }
+                    membershipType.MembershipTypeName = membershipType.MembershipTypeName.Trim();
 
                     // Add the new member to the context and save changes
                     _context.Add(membershipType);
@@ -190,10 +202,18 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
                 };
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["Membership Type"] = membershipType.ID;
+            ViewBag.MembershipTypeNameList = new SelectList(
+                _context.MembershipTypes
+                    .Select(mt => mt.MembershipTypeName)
+                    .Distinct()
+                    .OrderBy(name => name)
+                    .ToList()
+            );
+
             return View(membershipType);
         }
 
@@ -217,10 +237,18 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
                 };
 
                 ViewData["Breadcrumbs"] = breadcrumbs;
+
+                ViewBag.MembershipTypeNameList = new SelectList(
+                    _context.MembershipTypes
+                        .Select(mt => mt.MembershipTypeName)
+                        .Distinct()
+                        .OrderBy(name => name)
+                        .ToList()
+                );
 
                 return View(membershipType);
             }
@@ -299,12 +327,21 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
 
                 };
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["Membership Type"] = membershipType.ID;
             TempData["ErrorMessage"] = "Please check the input data and try again.";
+
+            ViewBag.MembershipTypeNameList = new SelectList(
+            _context.MembershipTypes
+                .Select(mt => mt.MembershipTypeName)
+                .Distinct()
+                .OrderBy(name => name)
+                .ToList()
+            );
+
             return View(membershipType);
         }
 
@@ -329,7 +366,7 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
                 };
 
                 ViewData["Breadcrumbs"] = breadcrumbs;
@@ -370,7 +407,7 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName.GetDisplayName(), Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -379,7 +416,7 @@ namespace CRMProject.Controllers
             TempData["SuccessMessage"] = "Membership Type deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
-
+        
         private bool MembershipTypeExists(int id)
         {
             return _context.MembershipTypes.Any(e => e.ID == id);

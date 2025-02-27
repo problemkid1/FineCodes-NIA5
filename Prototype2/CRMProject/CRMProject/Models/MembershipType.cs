@@ -8,7 +8,7 @@ namespace CRMProject.Models
 
         [Display(Name = "Membership Type")]
         [Required(ErrorMessage = "You cannot leave the membership type blank.")]
-        public MembershipTypeName MembershipTypeName { get; set; }
+        public string MembershipTypeName { get; set; }
 
         [Display(Name = "Description")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for description.")]
