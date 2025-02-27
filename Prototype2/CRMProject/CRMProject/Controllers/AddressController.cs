@@ -27,7 +27,7 @@ namespace CRMProject.Controllers
     MemberStatus? memberStatus,
     string? memberSize,
     string? searchString,
-    MembershipTypeName? membershipTypeName)
+    string? membershipTypeName)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -79,11 +79,10 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Filter by Membership Type
-            if (membershipTypeName.HasValue)
+            if (!string.IsNullOrEmpty(membershipTypeName))
             {
                 addresses = addresses.Where(a => a.Member.MemberMembershipTypes
-                    .Any(mt => mt.MembershipType.MembershipTypeName == membershipTypeName.Value));
+                    .Any(mt => mt.MembershipType.MembershipTypeName.ToLower() == membershipTypeName.ToLower()));
                 numberFilters++;
             }
 

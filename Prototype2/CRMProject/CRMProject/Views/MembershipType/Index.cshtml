@@ -50,8 +50,8 @@
                                 <div class="form-group col-md-4">
                                     <label for="MembershipTypeName">Filter by Membership Type</label>
                                     @Html.DropDownList("MembershipTypeName",
-                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MembershipTypeName>(),
-                                             "Membership Type Names",
+                                             new SelectList(ViewBag.MembershipTypeNameList, "Value", "Text"),
+                                             "Select Membership Type",
                                              new { @class = "form-control" })
                                 </div>
 
@@ -109,9 +109,9 @@
                                     {
                                         <tr>
                                             <td>
-                                                @if (!string.IsNullOrEmpty(EnumHelper.GetDisplayName(item.MembershipTypeName)))
+                                                @if (!string.IsNullOrEmpty(item.MembershipTypeName))
                                                 {
-                                                    var type = EnumHelper.GetDisplayName(item.MembershipTypeName);
+                                                    var type = item.MembershipTypeName;
                                                     var words = type.Split(' ');
                                                     var shortType = words.Length > 3 ? string.Join(" ", words.Take(3)) : type;
                                                     var fullType = type;

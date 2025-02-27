@@ -25,7 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, MembershipTypeName? MembershipTypeName, DateTime StartDate, DateTime EndDate)
+        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, string? MembershipTypeName, DateTime StartDate, DateTime EndDate)
         {
             // Set date range if not specified
             if (EndDate == DateTime.MinValue)
@@ -98,12 +98,13 @@ namespace CRMProject.Controllers
             //}
 
             // Filter by MembershipTypeName
-            if (MembershipTypeName.HasValue)
+            if (!string.IsNullOrEmpty(MembershipTypeName))
             {
                 members = members.Where(m => m.MemberMembershipTypes
-                                .Any(mmt => mmt.MembershipType.MembershipTypeName == MembershipTypeName.Value));
+                                .Any(mmt => mmt.MembershipType.MembershipTypeName.ToLower() == MembershipTypeName.ToLower()));
                 numberFilters++;
             }
+
 
             // Feedback for applied filters
             if (numberFilters != 0)
@@ -122,6 +123,12 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewBag.MembershipTypeNameList = _context.MembershipTypes
+        .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })
+        .Distinct()
+        .OrderBy(mt => mt.Text)
+        .ToList();
 
             return View(await members.ToListAsync());
         }
@@ -276,72 +283,6 @@ namespace CRMProject.Controllers
             // Return to the Create view in case of failure or validation errors
             return View(member);
         }
-
-
-
-
-
-
-
-
-
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public async Task<IActionResult> Create(
-    //[Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member,
-    //IFormFile? thePicture,
-    //string[] selectedMembership,
-    //string[] selectedIndustry)
-    //    {
-    //        // Update membership types and industries
-    //        UpdateMemberMembershipTypes(selectedMembership, member);
-    //        UpdateIndustry(selectedIndustry, member);
-
-    //        if (ModelState.IsValid)
-    //        {
-    //            try
-    //            {
-    //                // Handle picture upload
-    //                await AddPicture(member, thePicture);
-
-    //                // Add the new member to the context and save changes
-    //                _context.Add(member);
-    //                await _context.SaveChangesAsync();
-
-    //                // Set success message
-    //                TempData["SuccessMessage"] = "Member created successfully!";
-    //                return RedirectToAction(nameof(Details), new { id = member.ID });
-    //            }
-    //            catch (RetryLimitExceededException /* dex */)
-    //            {
-    //                ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
-    //            }
-    //            catch (Exception)
-    //            {
-    //                // Set error message in case of failure
-    //                TempData["ErrorMessage"] = "An error occurred while creating the member.";
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // If model validation fails, set an error message
-    //            TempData["ErrorMessage"] = "Please check the input data and try again.";
-    //        }
-
-    //        // Populate the assigned data for the view
-    //        PopulateAssignedMemberShipData(member);
-    //        PopulateAssignedIndustryData(member);
-
-    //        // Return to the Create view in case of failure or validation errors
-    //        return View(member);
-    //    }
-
-    //    private int GetNewMemberCount()
-    //    {
-    //        int currentYear = DateTime.Now.Year;
-    //        return _context.Members.Count(m => m.MemberStartDate.Year == currentYear);
-    //    }
-
 
         // GET: Member/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -672,37 +613,31 @@ namespace CRMProject.Controllers
 
             return View(member);
         }
-
-
+                
         private void PopulateAssignedMemberShipData(Member member)
         {
             //For this to work, you must have Included the child collection in the parent object
-            var allOptions = Enum.GetValues(typeof(MembershipTypeName))
-                         .Cast<MembershipTypeName>();
-            var currentOptionsHS = new HashSet<int>(
-        member.MemberMembershipTypes
-              .Select(b => (int)b.MembershipType.MembershipTypeName)
-              );
+            var allOptions = _context.MembershipTypes.Select(mt => new { mt.ID, mt.MembershipTypeName }).ToList();
+            var currentOptionsHS = new HashSet<int>(member.MemberMembershipTypes.Select(b => b.MembershipTypeID));
             //Instead of one list with a boolean, we will make two lists
             var selected = new List<ListOptionVM>();
             var available = new List<ListOptionVM>();
             foreach (var s in allOptions)
             {
-                var displayText = s.GetDisplayName();
-                if (currentOptionsHS.Contains((int)s))
+                if (currentOptionsHS.Contains(s.ID))
                 {
                     selected.Add(new ListOptionVM
                     {
-                        ID = (int)s, // Store Enum as string
-                        DisplayText = displayText
+                        ID = s.ID,
+                        DisplayText = s.MembershipTypeName
                     });
                 }
                 else
                 {
                     available.Add(new ListOptionVM
                     {
-                        ID = (int)s,
-                        DisplayText = displayText
+                        ID = s.ID,
+                        DisplayText = s.MembershipTypeName
                     });
                 }
             }
