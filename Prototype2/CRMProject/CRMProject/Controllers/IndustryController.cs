@@ -420,13 +420,17 @@ namespace CRMProject.Controllers
                         int errorCount = 0;
                         if (workSheet.Cells[1, 1].Text == "Industries")
                         {
-                            for (int row = start.Row + 1; row <= end.Row; row++)
+                            int row;
+                            for (row = start.Row + 1; row <= end.Row; row++)
                             {
                                 Industry industry = new Industry();
+                                int column = 2;
                                 try
                                 {
                                     // Row by row...
-                                    industry.IndustryNAICSCode = workSheet.Cells[row, 1].Text;
+                                    industry.IndustryNAICSCode = workSheet.Cells[row, column++].Text;
+                                    industry.IndustrySector = workSheet.Cells[row, column++].Text;
+                                    industry.IndustrySubsector = workSheet.Cells[row, column++].Text;
                                     _context.Industries.Add(industry);
                                     _context.SaveChanges();
                                     successCount++;

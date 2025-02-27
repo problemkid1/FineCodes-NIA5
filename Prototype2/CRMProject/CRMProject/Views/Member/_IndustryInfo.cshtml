@@ -25,7 +25,7 @@
 
                         <th style="float: right; ">
                             <a asp-controller="Industry" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                                <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
+                                <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Industry">
                                     <strong><i class="fa-solid fa-plus"></i> Add</strong>
                                 </span>
                             </a>
@@ -52,18 +52,18 @@
 
                             <td class="d-none d-sm-table-cell"  style="float: right; ">
                                 <div class="btn-group">
-                                    <a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                    <a asp-action="Edit" asp-controller="Industry"  asp-route-id="@item.IndustryID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <a asp-action="Details" class="btn btn-md btn-outline-primary"
-                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                    <a asp-action="Details" asp-controller="Industry" asp-route-id="@item.IndustryID" class="btn btn-md btn-outline-primary"
+                                       role="button" data-bs-toggle="tooltip" title="Details @* @ViewData["ControllerFriendlyName"] *@">
                                         <i class="bi bi-search"></i>
                                     </a>
 
-                                    <a asp-action="Delete" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                       data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                    <a asp-action="Delete" asp-controller="Industry" asp-route-id="@item.IndustryID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                       data-bs-toggle="tooltip" title="Delete@*  @ViewData["ControllerFriendlyName"] *@">
                                         <i class="bi bi-archive-fill"></i>
                                     </a>
                                 </div>
