@@ -399,98 +399,120 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {
             string feedBack = string.Empty;
-            if (theExcel != null)
-            {
-                string mimeType = theExcel.ContentType;
-                long fileLength = theExcel.Length;
-                if (!(string.IsNullOrEmpty(mimeType) || fileLength == 0))
-                {
-                    if (mimeType.Contains("excel") || mimeType.Contains("spreadsheet"))
-                    {
-                        ExcelPackage excel;
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await theExcel.CopyToAsync(memoryStream);
-                            excel = new ExcelPackage(memoryStream);
-                        }
-                        var workSheet = excel.Workbook.Worksheets[0];
-                        var start = workSheet.Dimension.Start;
-                        var end = workSheet.Dimension.End;
-                        int successCount = 0;
-                        int errorCount = 0;
-
-                        // Validate Header
-                        if (workSheet.Cells[1, 1].Text == "Industries Sector" &&
-                            workSheet.Cells[1, 2].Text == "NAICS Code" &&
-                            workSheet.Cells[1, 3].Text == "Industry Subsector")
-                        {
-                            for (int row = start.Row + 1; row <= end.Row; row++)
-                            {
-                                try
-                                {
-                                    string sector = workSheet.Cells[row, 1].Text?.Trim();
-                                    string naicsCode = workSheet.Cells[row, 2].Text?.Trim();
-                                    string subsector = workSheet.Cells[row, 3].Text?.Trim();
-
-                                    if (string.IsNullOrEmpty(sector) || string.IsNullOrEmpty(naicsCode) || string.IsNullOrEmpty(subsector))
-                                    {
-                                        errorCount++;
-                                        feedBack += $"Error: Row {row} has missing values.<br />";
-                                        continue;
-                                    }
-
-                                    // Check for duplicate NAICS Code
-                                    bool exists = _context.Industries.Any(i => i.IndustryNAICSCode == naicsCode);
-                                    if (exists)
-                                    {
-                                        errorCount++;
-                                        feedBack += $"Error: NAICS Code {naicsCode} already exists. Skipping.<br />";
-                                        continue;
-                                    }
-
-                                    // Create and add industry
-                                    Industry industry = new Industry
-                                    {
-                                        IndustrySector = sector,
-                                        IndustryNAICSCode = naicsCode,
-                                        IndustrySubsector = subsector
-                                    };
-
-                                    _context.Industries.Add(industry);
-                                    await _context.SaveChangesAsync();
-                                    successCount++;
-                                }
-                                catch (Exception ex)
-                                {
-                                    errorCount++;
-                                    feedBack += $"Error: Row {row} caused an exception - {ex.Message}.<br />";
-                                }
-                            }
-                            feedBack += $"Import complete: {successCount} records inserted, {errorCount} records rejected.";
-                        }
-                        else
-                        {
-                            feedBack = "Error: Incorrect file format. Ensure headers are 'Industries Sector', 'NAICS Code', 'Industry Subsector'.";
-                        }
-                    }
-                    else
-                    {
-                        feedBack = "Error: Invalid file type. Please upload an Excel spreadsheet.";
-                    }
-                }
-                else
-                {
-                    feedBack = "Error: The uploaded file is empty.";
-                }
-            }
-            else
+            if (theExcel == null)
             {
                 feedBack = "Error: No file uploaded.";
+                TempData["Feedback"] = feedBack;
+                return RedirectToAction(nameof(Index));
+            }
+
+            string mimeType = theExcel.ContentType;
+            long fileLength = theExcel.Length;
+
+            if (string.IsNullOrEmpty(mimeType) || fileLength == 0)
+            {
+                feedBack = "Error: The uploaded file is empty.";
+                TempData["Feedback"] = feedBack;
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (mimeType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+                mimeType != "application/vnd.ms-excel")
+            {
+                feedBack = "Error: Invalid file type. Please upload an Excel spreadsheet.";
+                TempData["Feedback"] = feedBack;
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                using var memoryStream = new MemoryStream();
+                await theExcel.CopyToAsync(memoryStream);
+
+                using var excel = new ExcelPackage(memoryStream);
+                var workSheet = excel.Workbook.Worksheets[0];
+
+                if (workSheet == null || workSheet.Dimension == null)
+                {
+                    feedBack = "Error: Empty or unreadable Excel file.";
+                    TempData["Feedback"] = feedBack;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var start = workSheet.Dimension.Start;
+                var end = workSheet.Dimension.End;
+
+                // Validate Header
+                if (workSheet.Cells[1, 1].Text.Trim() != "Industries Sector" ||
+                    workSheet.Cells[1, 2].Text.Trim() != "Industry Subsector" ||
+                    workSheet.Cells[1, 3].Text.Trim() != "NAICS Code")
+                {
+                    feedBack = "Error: Incorrect file format. Ensure headers are 'Industries Sector', 'Industry Subsector', 'NAICS Code'.";
+                    TempData["Feedback"] = feedBack;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                int successCount = 0, errorCount = 0;
+                var existingNaicsCodes = new HashSet<string>(_context.Industries.Select(i => i.IndustryNAICSCode));
+                var newIndustries = new List<Industry>();
+
+                for (int row = start.Row + 1; row <= end.Row; row++)
+                {
+                    try
+                    {
+                        string sector = workSheet.Cells[row, 1].Text?.Trim();
+                        string naicsCode = workSheet.Cells[row, 3].Text?.Trim();
+                        string subsector = workSheet.Cells[row, 2].Text?.Trim();
+
+                        if (string.IsNullOrEmpty(sector) || string.IsNullOrEmpty(naicsCode) || string.IsNullOrEmpty(subsector))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Row {row} has missing values.<br />";
+                            continue;
+                        }
+
+                        if (existingNaicsCodes.Contains(naicsCode))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: NAICS Code {naicsCode} already exists. Skipping.<br />";
+                            continue;
+                        }
+
+                        newIndustries.Add(new Industry
+                        {
+                            IndustrySector = sector,
+                            IndustryNAICSCode = naicsCode,
+                            IndustrySubsector = subsector
+                        });
+
+                        existingNaicsCodes.Add(naicsCode); // Add to the set to prevent future duplicates
+                    }
+                    catch (Exception ex)
+                    {
+                        errorCount++;
+                        feedBack += $"Error: Row {row} caused an exception - {ex.Message}.<br />";
+                    }
+                }
+
+                // Bulk insert to improve performance
+                if (newIndustries.Count > 0)
+                {
+                    _context.Industries.AddRange(newIndustries);
+                    await _context.SaveChangesAsync();
+                    successCount = newIndustries.Count;
+                }
+
+                feedBack += $"Import complete: {successCount} records inserted, {errorCount} records rejected.";
+            }
+            catch (Exception ex)
+            {
+                feedBack = $"Error: An unexpected error occurred - {ex.Message}.";
             }
 
             TempData["Feedback"] = feedBack + "<br /><br />";
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool IndustryExists(int id)
         {
