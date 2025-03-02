@@ -42,10 +42,9 @@ namespace CRMProject.Controllers
             if (!string.IsNullOrEmpty(MembershipTypeName))
             {
                 membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName
-                                                               .ToLower()
-                                                               .Contains(MembershipTypeName.ToLower()));
+                                                               .ToLower() == MembershipTypeName.ToLower());
                 numberFilters++;
-            }
+            }                     
 
             // Filter by Membership Type Description
             if (!string.IsNullOrEmpty(MembershipTypeDescription))
@@ -80,6 +79,12 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewBag.MembershipTypeNameList = _context.MembershipTypes
+        .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })
+        .Distinct()
+        .OrderBy(mt => mt.Text)
+        .ToList();
 
             return View(await membershipTypes.ToListAsync());
         }

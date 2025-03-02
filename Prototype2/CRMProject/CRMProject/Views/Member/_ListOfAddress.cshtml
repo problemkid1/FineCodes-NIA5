@@ -9,25 +9,27 @@
         <div class="d-flex align-items-center justify-content-between">
             <h4 class="panel-title">Address Information</h4>
             <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
+                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
                     <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                </span>
+                </button>
             </a>
         </div>
     </div>
 
     <div class="panel-body scrollable-panel">
         <table class="table table-striped">
+            <div class="table-responsive">
+
             @if (Model.Any())
             {
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => model.First().Summary)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().AddressCity)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().Province)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().PostalCode)</th>
-                        <th>@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
-
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine1)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressCity)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().Province)</th>
+                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().PostalCode)</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,14 +38,14 @@
                         <tr>
                             <td>
                                 <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
-                                    @Html.DisplayFor(modelItem => item.Summary)
+                                    @Html.DisplayFor(modelItem => item.AddressLine1)
                                 </a>
-                            </td>
+                            </td>                            
+                            <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
                             <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
                             <td>@Html.DisplayFor(modelItem => item.Province)</td>
                             <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
-                            <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
-                            <td style="float: right; padding-left: 10%;">
+                            <td class="d-none d-sm-table-cell" style="float: right;">
                                 <div class="btn-group">
                                     <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"
                                        class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Address">
@@ -72,5 +74,6 @@
                 </tbody>
             }
         </table>
+        </div>
     </div>
 </div>

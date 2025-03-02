@@ -5,12 +5,19 @@
     <div class="panel-heading">
         <div class="d-flex align-items-center justify-content-between">
             <h4 class="panel-title mb-0">Industry Information</h4>
+            <a asp-controller="Member" asp-action="Edit" asp-route-ID="@ViewData["MemberId"]">
+                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Membership Type">
+                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                </button>
+            </a>
         </div>
     </div>
     <div class="panel-body scrollable-panel">
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+            <table class="table table-striped">
+                @if (Model.Any())
+            {
                 <thead class="table-light">
                     <tr>
                         <th>
@@ -22,16 +29,6 @@
                         <th class="d-none d-sm-table-cell">
                             @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
                         </th>
-
-                        <th style="float: right; ">
-                            <a asp-controller="Industry" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                                <span class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
-                                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                                </span>
-                            </a>
-                        </th>
-
-
                     </tr>
                 </thead>
                 <tbody>
@@ -50,7 +47,7 @@
                                 @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
                             </td>
 
-                            <td class="d-none d-sm-table-cell"  style="float: right; ">
+                           @*  <td class="d-none d-sm-table-cell"  style="float: right; ">
                                 <div class="btn-group">
                                     <a asp-action="Edit" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
@@ -67,10 +64,19 @@
                                         <i class="bi bi-archive-fill"></i>
                                     </a>
                                 </div>
-                            </td>
+                            </td> *@
                         </tr>
                     }
                 </tbody>
+                }
+                else
+                {
+                    <tbody>
+                        <tr>
+                            <td class="text-muted text-center">No Industries found.</td>
+                        </tr>
+                    </tbody>
+                }
             </table>
         </div>
     </div>
