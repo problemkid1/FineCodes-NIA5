@@ -249,8 +249,6 @@ namespace CRMProject.Controllers
 
 
 
-
-        // GET: Contact/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -264,16 +262,25 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var breadcrumbs = new List<BreadcrumbItem>
-             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
-             };
+            // Retrieve MemberContactID from the bridge table
+            var memberContact = await _context.MemberContacts
+                .FirstOrDefaultAsync(mc => mc.ContactID == contact.ID);
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
+            if (memberContact != null)
+            {
+                ViewData["MemberContactID"] = memberContact.MemberID; // Pass MemberContactID to the view
+            }
 
-            ViewData["ContactId"] = contact.ID;
+                var breadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                    new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+                };
+
+                    ViewData["Breadcrumbs"] = breadcrumbs;
+                    ViewData["ContactId"] = contact.ID;
+
             return View(contact);
         }
 
@@ -296,58 +303,50 @@ namespace CRMProject.Controllers
                     _context.Update(contact);
                     await _context.SaveChangesAsync();
 
-                    // Retrieve the associated member's ID
+                    // Retrieve the MemberContactID
                     var memberContact = await _context.MemberContacts
                         .FirstOrDefaultAsync(mc => mc.ContactID == contact.ID);
 
                     if (memberContact != null)
                     {
-                        // Set success message in TempData
-                        TempData["SuccessMessage"] = "Contact details updated successfully!";
-                        // Redirect to the member's details page
+                        TempData["SuccessMessage"] = "Contact updated successfully!";
                         return RedirectToAction("Details", "Member", new { id = memberContact.MemberID });
                     }
                     else
                     {
-                        // If no associated member is found, redirect to the contact's details page
                         return RedirectToAction(nameof(Details), new { id = contact.ID });
                     }
                 }
-
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ContactExists(contact.ID))
                     {
-                        // If the contact does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
                 catch (Exception)
                 {
-                    // Set error message for generic errors
                     TempData["ErrorMessage"] = "An error occurred while updating the contact details.";
                 }
             }
 
-            // Set error message in case the model is invalid
             TempData["ErrorMessage"] = "Please check the input data and try again.";
-            
-            var breadcrumbs = new List<BreadcrumbItem>
-             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
-             };
+
+                    var breadcrumbs = new List<BreadcrumbItem>
+                    {
+                        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                        new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                        new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+                    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["ContactId"] = contact.ID;
-            return View(contact); // Return to the edit view if there are validation errors
+
+            return View(contact);
         }
 
         // GET: Contact/Delete/5
