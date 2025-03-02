@@ -251,25 +251,25 @@
                                                         if (specCount > 1)
                                                         {
                                                             string specList = "";
-                                                            var s = item.MemberMembershipTypes.ToList();
-                                                            for (int i = 1; i < specCount; i++)
+                                                            var s = item.MemberMembershipTypes.Skip(1).ToList();
+                                                            foreach (var membershipType in s)
                                                             {
-                                                                specList += s[i].MembershipType.MembershipTypeName + " <br />";
+                                                                specList += membershipType.MembershipType.MembershipTypeName + "<br />";
                                                             }
 
-                                                            <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecialty@(item.ID)"
-                                                               aria-expanded="false" aria-controls="collapseSpecialty@(item.ID)">
-                                                                @shortSummary <span class="badge bg-info badge-count" id="badge@(item.ID)">@specCount</span>
+                                                            <span>
+                                                                @shortSummary
+                                                                @if (words?.Length > 3)
+                                                                {
+                                                                    <span id="moreTextMembership@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                                                    <a href="javascript:void(0);" id="readMoreMembership@(item.ID)" onclick="toggleTextMembership(@item.ID)">... </a>
+                                                                }
+                                                            </span>
+                                                            <a class="" role="button" data-bs-toggle="collapse" href="#collapseMembership@(item.ID)"
+                                                               aria-expanded="false" aria-controls="collapseMembership@(item.ID)">
+                                                                <span class="badge bg-info">@specCount</span>
                                                             </a>
-                                                            <div class="collapse" id="collapseSpecialty@(item.ID)">
-                                                                <span>
-                                                                    @shortSummary
-                                                                    @if (words?.Length > 3)
-                                                                    {
-                                                                        <span id="moreText@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                                                        <a href="javascript:void(0);" id="readMore@(item.ID)" onclick="toggleText(@item.ID)">... </a>
-                                                                    }
-                                                                </span>
+                                                            <div class="collapse" id="collapseMembership@(item.ID)">
                                                                 @Html.Raw(specList)
                                                             </div>
                                                         }
@@ -279,18 +279,19 @@
                                                                 @shortSummary
                                                                 @if (words?.Length > 3)
                                                                 {
-                                                                    <span id="moreText@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                                                    <a href="javascript:void(0);" id="readMore@(item.ID)" onclick="toggleText(@item.ID)">... </a>
+                                                                    <span id="moreTextMembership@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                                                    <a href="javascript:void(0);" id="readMoreMembership@(item.ID)" onclick="toggleTextMembership(@item.ID)">... </a>
                                                                 }
                                                             </span>
                                                         }
                                                     }
                                                     else
-                                                    {                                                     
-                                                            <span>N/A</span>
-                                                    }                                                    
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
                                                 }
                                             </td>
+
 
                                             <td>
                                                 @if (item.MemberIndustries != null && item.MemberIndustries.Any())
