@@ -25,7 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index(string? SearchString, int? MemberSize, MemberStatus? MemberStatus, string? MembershipTypeName, DateTime StartDate, DateTime EndDate)
+        public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact ,int? MemberSize, MemberStatus? MemberStatus, string? MembershipTypeName, DateTime StartDate, DateTime EndDate)
         {
             // Set date range if not specified
             if (EndDate == DateTime.MinValue)
@@ -83,6 +83,20 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
+            // Filter by City
+            if (!string.IsNullOrEmpty(AddressCity))
+            {
+                members = members.Where(m => m.Address.AddressCity.ToLower() == AddressCity.ToLower());
+                numberFilters++;
+            }
+
+            // Filter by City
+            if (!string.IsNullOrEmpty(Contact))
+            {
+                members = members.Where(m => m.MemberContacts.Any(c => c.Contact.FirstName.ToLower().Contains(Contact.ToLower())));
+                numberFilters++;
+            }
+
             // Filter by Size
             if (MemberSize.HasValue)
             {
@@ -123,6 +137,12 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewBag.addressCityList = _context.Addresses
+        .Select(a => new { Value = a.AddressCity, Text = a.AddressCity })
+        .Distinct()
+        .OrderBy(mt => mt.Text)
+        .ToList();
 
             ViewBag.MembershipTypeNameList = _context.MembershipTypes
         .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })

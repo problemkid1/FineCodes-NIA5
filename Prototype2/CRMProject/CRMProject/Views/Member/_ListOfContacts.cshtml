@@ -109,17 +109,19 @@
                 </div>
             </div>
         </div>        
-        @if (Model.Any())
-        {
+        
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table table-striped">
+                @if (Model.Any())
+                {
                     <thead class="table-light">
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.Contact.Summary)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
-                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>                        
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>                 
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,25 +160,18 @@
                                 </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                    </tbody>              
         }
         else
         {
-            <table class="table table-striped">
-                <thead>
+            <tbody>
                     <tr>
-                        <th>Contact Information</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="text-muted text-center" colspan="6">No contact found.</td>
+                        <td class="text-muted text-center">No Contacts found.</td>
                     </tr>
                 </tbody>
-            </table>
         }
+            </table>
+        </div>
 
     </div>
 
