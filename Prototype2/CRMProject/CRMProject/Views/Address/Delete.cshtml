@@ -54,7 +54,7 @@
                     <form asp-action="Delete" method="post">
                         <input type="hidden" asp-for="ID" />
                         <button type="submit" class="btn btn-danger">Delete Address</button>
-                        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Addresses</a>
+                        <a class="btn btn-secondary ml-2" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">Back to @Model.Member.MemberName</a>
                     </form>
                 </div>
             </div>

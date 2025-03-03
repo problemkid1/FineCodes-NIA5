@@ -27,6 +27,7 @@ namespace CRMProject.Controllers
             int numberFilters = 0;
 
             var opportunities = _context.Opportunities
+                .Include(o => o.Contact)
                 .AsNoTracking();
 
             // Filter by Opportunity Name
@@ -182,7 +183,8 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var opportunity = await _context.Opportunities.FindAsync(id);
+            var opportunity = await _context.Opportunities
+                .FindAsync(id);
             if (opportunity == null)
             {
                 return NotFound();

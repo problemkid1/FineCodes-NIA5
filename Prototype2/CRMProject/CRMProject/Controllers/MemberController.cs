@@ -207,6 +207,7 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewData["MemberId"] = member.ID;
             return View();
         }
 

@@ -595,6 +595,54 @@ namespace CRMProject.Data
                                 ContactWebsite = "https://lindamiller.com",
                                 ContactInteractions = "Provided legal advice on contract agreements.",
                                 ContactNotes = "Send draft of contract revisions for review."
+                            },
+                            new Contact
+                            {
+                                FirstName = "Alice",
+                                LastName = "Thompson",
+                                ContactTitleRole = "Project Manager",
+                                ContactPhone = "9988776655",
+                                ContactEmailAddress = "alice.thompson@example.com",
+                                ContactEmailType = EmailType.Primary,
+                                ContactWebsite = "https://alicethompson.com",
+                                ContactInteractions = "Managed large-scale software projects.",
+                                ContactNotes = "Send updates on new project management software."
+                            },
+                            new Contact
+                            {
+                                FirstName = "Mark",
+                                LastName = "Evans",
+                                ContactTitleRole = "Software Architect",
+                                ContactPhone = "8877665544",
+                                ContactEmailAddress = "mark.evans@example.com",
+                                ContactEmailType = EmailType.VIP,
+                                ContactWebsite = "https://markevans.com",
+                                ContactInteractions = "Led architecture discussions on system design.",
+                                ContactNotes = "Follow up on microservices implementation proposal."
+                            },
+                            new Contact
+                            {
+                                FirstName = "Laura",
+                                LastName = "Scott",
+                                ContactTitleRole = "HR Director",
+                                ContactPhone = "7766554433",
+                                ContactEmailAddress = "laura.scott@example.com",
+                                ContactEmailType = EmailType.Secondary,
+                                ContactWebsite = "https://laurascott.com",
+                                ContactInteractions = "Recruiting discussions for key engineering roles.",
+                                ContactNotes = "Send CVs of shortlisted candidates."
+                            },
+                            new Contact
+                            {
+                                FirstName = "Tom",
+                                LastName = "Baker",
+                                ContactTitleRole = "Finance Manager",
+                                ContactPhone = "6655443322",
+                                ContactEmailAddress = "tom.baker@example.com",
+                                ContactEmailType = EmailType.Primary,
+                                ContactWebsite = "https://tombaker.com",
+                                ContactInteractions = "Discussed investment strategies and budgets.",
+                                ContactNotes = "Provide financial report for next quarter."
                             }
                         };
 
@@ -662,7 +710,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Negotiating,
                             OpportunityPriority = "High",
                             OpportunityAction = "Initial Meeting Scheduled",
-                            OpportunityContact = "Michael Carter",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-30),
                             OpportunityInteractions = "Discussed potential collaboration with Michael Carter from Walker Industries. Next steps include scheduling a meeting."
                         },
@@ -672,7 +719,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Qualification,
                             OpportunityPriority = "Medium",
                             OpportunityAction = "Proposal Sent",
-                            OpportunityContact = "Jennifer Adams",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-45),
                             OpportunityInteractions = "Proposal sent to Jennifer Adams at Niagara Casinos. Waiting for feedback."
                         },
@@ -682,7 +728,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.ClosedNotInterested,
                             OpportunityPriority = "High",
                             OpportunityAction = "Follow-up Next semester",
-                            OpportunityContact = "Robert Dawson",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-20),
                             OpportunityInteractions = "Negotiating contract terms with Robert Dawson from Brock University."
                         },
@@ -692,7 +737,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Negotiating,
                             OpportunityPriority = "Low",
                             OpportunityAction = "Contract Signed",
-                            OpportunityContact = "Emily Robinson",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-10),
                             OpportunityInteractions = "Contract successfully signed with Emily Robinson from Niagara College."
                         },
@@ -702,7 +746,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Qualification,
                             OpportunityPriority = "Low",
                             OpportunityAction = "Follow-up Required",
-                            OpportunityContact = "David Johnson",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-60),
                             OpportunityInteractions = "Lost contract with General Motors St. Catharines. Follow-up required."
                         },
@@ -712,7 +755,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.ClosedNotInterested,
                             OpportunityPriority = "Medium",
                             OpportunityAction = "Follow-up Next semester",
-                            OpportunityContact = "Sarah Mitchell",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-25),
                             OpportunityInteractions = "Proposal sent to Sarah Mitchell at Canadian Niagara Power. Awaiting response."
                         },
@@ -722,7 +764,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Negotiating,
                             OpportunityPriority = "High",
                             OpportunityAction = "Negotiation Ongoing",
-                            OpportunityContact = "James Thompson",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-35),
                             OpportunityInteractions = "Ongoing discussions with James Thompson at Niagara Falls Tourism."
                         },
@@ -732,7 +773,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Qualification,
                             OpportunityPriority = "Low",
                             OpportunityAction = "Follow-up Required",
-                            OpportunityContact = "Lisa White",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-80),
                             OpportunityInteractions = "Lost deal with Silicon Knights. Follow-up scheduled."
                         },
@@ -742,7 +782,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Negotiating,
                             OpportunityPriority = "Medium",
                             OpportunityAction = "Initial Meeting Scheduled",
-                            OpportunityContact = "William Scott",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-15),
                             OpportunityInteractions = "Initial meeting scheduled with William Scott at Stanpac."
                         },
@@ -752,7 +791,6 @@ namespace CRMProject.Data
                             OpportunityStatus = OpportunityStatus.Qualification,
                             OpportunityPriority = "High",
                             OpportunityAction = "Contract Signed",
-                            OpportunityContact = "Jessica Martin",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-5),
                             OpportunityInteractions = "Contract signed successfully with Rankin Construction."
                         }
@@ -769,8 +807,43 @@ namespace CRMProject.Data
 
                         // Save all opportunities at once
                         context.SaveChanges();
-                    }
 
+                        // Dictionary to link Contacts to Opportunities (One Contact → Many Opportunities)
+                        var opportunityContactMappings = new Dictionary<string, string[]>
+                        {
+                            { "Alice Thompson", new[] { "Walker Industries", "Niagara Casinos" } },
+                            { "Mark Evans", new[] {  "Brock University" } },
+                            { "Laura Scott", new[] { "Stanpac" } },
+                            { "Tom Baker", new[] { "Niagara Falls Tourism" } },
+                            { "Jane Smith", new[] { "General Motors St. Catharines" } },
+                            { "James Brown", new[] { "Rankin Construction" } },
+                            { "Michael Garcia", new[] { "Canadian Niagara Power" } }
+                        };
+
+                        // Assign Contacts to Opportunities (One Contact → Many Opportunities)
+                        foreach (var entry in opportunityContactMappings)
+                        {
+                            var contactName = entry.Key;
+                            var opportunityNames = entry.Value;
+
+                            var contact = context.Contacts.FirstOrDefault(c => c.FirstName + " " + c.LastName == contactName);
+                            if (contact != null)
+                            {
+                                foreach (var opportunityName in opportunityNames)
+                                {
+                                    var opportunity = context.Opportunities.FirstOrDefault(o => o.OpportunityName == opportunityName);
+                                    if (opportunity != null)
+                                    {
+                                        // Assign ContactID to Opportunity
+                                        opportunity.ContactID = contact.ID;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Save updated Opportunities with assigned Contacts
+                        context.SaveChanges();
+                    }
 
                 }
                 #endregion

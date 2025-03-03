@@ -90,8 +90,7 @@
                                     <th>@Html.DisplayNameFor(model => model.OpportunityName)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityStatus)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th>
-                                    @* <th>@Html.DisplayNameFor(model => model.OpportunityAction)</th> *@
-                                    <th>@Html.DisplayNameFor(model => model.OpportunityContact)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Contact)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityLastContactDate)</th>
                                     @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.OpportunityInteractions)</th> *@
                                     <th>Actions</th>
@@ -123,7 +122,7 @@
                                        
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td>
                                         @* <td>@Html.DisplayFor(modelItem => item.OpportunityAction)</td> *@
-                                        <td>@Html.DisplayFor(modelItem => item.OpportunityContact)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Contact.Summary)</td>
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityLastContactDate)</td>
                                         @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td> *@
                                         <td>

@@ -26,11 +26,6 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Action cannot be more than 255 characters long.")]
         public string OpportunityAction { get; set; } = "";
 
-        [Display(Name = "Contact")]
-        [Required(ErrorMessage = "You cannot leave the contact blank.")]
-        [MaxLength(50, ErrorMessage = "Contact cannot be more than 50 characters long.")]
-        public string OpportunityContact { get; set; } = "";
-
         [Display(Name = "Last Contacted")]
         [Required(ErrorMessage = "Last contact date is required.")]
         [DataType(DataType.Date)]

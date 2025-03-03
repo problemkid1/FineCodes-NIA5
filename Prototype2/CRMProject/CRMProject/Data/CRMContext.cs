@@ -64,6 +64,13 @@ namespace CRMProject.Data
                 .HasForeignKey(c => c.MemberID)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // One Contact has many Opportunity
+            //modelBuilder.Entity<Opportunity>()
+            //    .HasOne(c => c.Contact)
+            //    .WithMany(o => o.Opportunities)
+            //    .HasForeignKey(c => c.ContactID)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
             //Unique Index for Contact email
             modelBuilder.Entity<Contact>()
                 .HasIndex(ce => ce.ContactEmailAddress)

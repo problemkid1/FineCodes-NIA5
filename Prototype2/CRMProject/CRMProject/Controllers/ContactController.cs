@@ -388,7 +388,26 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts
+                .Include(c => c.Opportunities)
+                .Include(c => c.MemberContacts)
+                .ThenInclude(c => c.Member)
+                .FirstOrDefaultAsync(c => c.ID == id);
+
+            // Check if the contact has members
+            //if (Member != null)
+            //{
+            //    TempData["ErrorMessage"] = "Cannot delete contact because it has associated member(s).";
+            //    return RedirectToAction(nameof(Index));
+            //}
+
+            //// Check if the contact has opportunities
+            //if (contact.Opportunities.Any())
+            //{
+            //    TempData["ErrorMessage"] = "Cannot delete contact because it has associated opportunities.";
+            //    return RedirectToAction(nameof(Index));
+            //}
+
             if (contact != null)
             {
                 // Retrieve the associated member's ID
