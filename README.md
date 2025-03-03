@@ -1,5 +1,4 @@
-**Niagara Industrial Association** 
-
+**Niagara Industrial Association/CRM Web Application** 
 
 **Jordan Sherlock** | Executive Director 
 
@@ -8,14 +7,9 @@
 
 W25 PROG1440 Community Sponsored Project
 
-**George Birch** – Azure Hoster
-
-**Sujit Shrestha** - Presentation Coordinator
-
-**Geisyanne Soares** – Communications Manager
-
-**Shadab Hasan** – Git Hub Manager
-
-**Bismark Addae** – Scheduler and Team Lead
-
-**Chinbat Erdenebat** - Disaster Recovery Manager
+**George Birch** – Azure Hoster <br>
+**Sujit Shrestha** - Presentation Coordinator <br>
+**Geisyanne Soares** – Communications Manager <br>
+**Shadab Hasan** – GitHub Manager <br>
+**Bismark Addae** – Scheduler and Team Lead <br>
+**Chinbat Erdenebat** - Disaster Recovery Manager 
