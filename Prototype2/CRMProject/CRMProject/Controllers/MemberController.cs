@@ -12,6 +12,8 @@ using System.Numerics;
 using Humanizer;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Diagnostics;
+using OfficeOpenXml;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace CRMProject.Controllers
 {
@@ -831,6 +833,155 @@ namespace CRMProject.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
+        {
+            string feedBack = string.Empty;
+            if (theExcel == null)
+            {
+                feedBack = "Error: No file uploaded.";
+                TempData["Feedback"] = feedBack;
+                return RedirectToAction(nameof(Index));
+            }
+
+            string mimeType = theExcel.ContentType;
+            long fileLength = theExcel.Length;
+
+            if (string.IsNullOrEmpty(mimeType) || fileLength == 0)
+            {
+                feedBack = "Error: The uploaded file is empty.";
+                TempData["Feedback"] = feedBack;
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (mimeType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" &&
+                mimeType != "application/vnd.ms-excel")
+            {
+                feedBack = "Error: Invalid file type. Please upload an Excel spreadsheet.";
+                TempData["Feedback"] = feedBack;
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                using var memoryStream = new MemoryStream();
+                await theExcel.CopyToAsync(memoryStream);
+
+                using var excel = new ExcelPackage(memoryStream);
+                var workSheet = excel.Workbook.Worksheets[0];
+
+                if (workSheet == null || workSheet.Dimension == null)
+                {
+                    feedBack = "Error: Empty or unreadable Excel file.";
+                    TempData["Feedback"] = feedBack;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var start = workSheet.Dimension.Start;
+                var end = workSheet.Dimension.End;
+
+                // Validate Header
+                if (workSheet.Cells[1, 1].Text.Trim() != "Member Name" ||
+                    workSheet.Cells[1, 2].Text.Trim() != "Size" ||
+                    workSheet.Cells[1, 3].Text.Trim() != "Status"||
+                    workSheet.Cells[1, 4].Text.Trim() != "Payable email" ||
+                    workSheet.Cells[1, 5].Text.Trim() != "Start date")
+                {
+                    feedBack = "Error: Incorrect file format. Ensure headers are 'Name', 'Size', 'Status', 'Payable email', 'Start date'.";
+                    TempData["Feedback"] = feedBack;
+                    return RedirectToAction(nameof(Index));
+                }
+
+                int successCount = 0, errorCount = 0;
+                var existingMemberName = new HashSet<string>(_context.Members.Select(i => i.MemberName));
+                var existingMemberAccountsPayableEmail = new HashSet<string>(_context.Members.Select(i => i.MemberAccountsPayableEmail));
+                var newMembers = new List<Member>();
+
+                for (int row = start.Row + 1; row <= end.Row; row++)
+                {
+                    try
+                    {
+                        string name = workSheet.Cells[row, 1].Text?.Trim();
+                        string sizeText = workSheet.Cells[row, 2].Text?.Trim();
+                        string statusText = workSheet.Cells[row, 3].Text?.Trim();
+                        string payableEmail = workSheet.Cells[row, 4].Text?.Trim();
+                        string startDateText = workSheet.Cells[row, 5].Text?.Trim();
+
+                        if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(sizeText) || string.IsNullOrEmpty(statusText) || string.IsNullOrEmpty(payableEmail) || string.IsNullOrEmpty(startDateText))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Row {row} has missing values.<br />";
+                            continue;
+                        }
+
+                        if (existingMemberName.Contains(name))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Member Name {name} already exists. Skipping.<br />";
+                            continue;
+                        }
+                        if (existingMemberAccountsPayableEmail.Contains(payableEmail))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Member account's payable email {payableEmail} already exists. Skipping.<br />";
+                            continue;
+                        }
+                        if (!int.TryParse(sizeText, out int memberSize))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Row {row} has invalid size value. Must be a number.<br />";
+                            continue;
+                        }
+                        if (!DateTime.TryParse(startDateText, out DateTime memberStartDate))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Row {row} has invalid date format. Use yyyy-MM-dd format.<br />";
+                            continue;
+                        }
+                        if (!Enum.TryParse<MemberStatus>(statusText, true, out MemberStatus memberStatus))
+                        {
+                            errorCount++;
+                            feedBack += $"Error: Row {row} has invalid status value. Valid values are: {string.Join(", ", Enum.GetNames(typeof(MemberStatus)))}.<br />";
+                            continue;
+                        }
+
+                        newMembers.Add(new Member
+                        {
+                            MemberName = name,
+                            MemberSize = memberSize,
+                            MemberStatus = memberStatus,
+                            MemberStartDate = memberStartDate,
+                            MemberAccountsPayableEmail = payableEmail
+                        });
+
+                        existingMemberName.Add(name);
+                        existingMemberAccountsPayableEmail.Add(payableEmail);// Add to the set to prevent future duplicates
+                    }
+                    catch (Exception ex)
+                    {
+                        errorCount++;
+                        feedBack += $"Error: Row {row} caused an exception - {ex.Message}.<br />";
+                    }
+                }
+
+                // Bulk insert to improve performance
+                if (newMembers.Count > 0)
+                {
+                    _context.Members.AddRange(newMembers);  
+                    await _context.SaveChangesAsync();
+                    successCount = newMembers.Count;
+                }
+
+                feedBack += $"Import complete: {successCount} records inserted, {errorCount} records rejected.";
+            }
+            catch (Exception ex)
+            {
+                feedBack = $"Error: An unexpected error occurred - {ex.Message}.";
+            }
+
+            TempData["Feedback"] = feedBack + "<br /><br />";
+            return RedirectToAction(nameof(Index));
+        }
 
         private bool MemberExists(int id)
         {

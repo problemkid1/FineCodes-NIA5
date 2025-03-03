@@ -387,6 +387,39 @@
                     </div>
                 </div>
             </div>
+            <br />
+            <div class="card mb-3" style="min-width: 18rem;">
+                <h4 class="card-header" id="IndustryUpload">Upload Members</h4>
+                <div class="card-body">
+                    <div class="text-danger">@Html.Raw(TempData["Feedback"])</div>
+                    <form asp-action="InsertFromExcel" asp-controller="Member" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">Upload Excel File:</label>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" name="theExcel" id="fileUpload" accept=".xls,.xlsx">
+                                        @* <button type="button" class="btn btn-outline-secondary" onclick="checkFile()">Check File</button> *@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Upload Data" class="btn btn-primary" />
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <p>
+                                    Ensure that your Excel file follows the required format:<br />
+                                    - Place all data in the first column.<br />
+                                    - Start data from the second row, leaving room for the heading "Member Name" in the first row.<br />
+                                    - The system verifies the column heading to ensure correctness.
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
