@@ -81,6 +81,9 @@ namespace CRMProject.Models
         public string? ContactNotes { get; set; } = "";
 
         [Display(Name = "Member")]
-        public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();               
+        public ICollection<MemberContact> MemberContacts { get; set; } = new HashSet<MemberContact>();
+
+        [Display(Name = "Opportunities")]
+        public ICollection<Opportunity> Opportunities { get; set; } = new HashSet<Opportunity>();
     }
 }
