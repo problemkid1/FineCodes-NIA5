@@ -24,7 +24,8 @@ namespace CRMProject.Controllers
         {
             // Initialize the queryable contacts dataset
             var contacts = _context.Contacts
-                .Include(c => c.MemberContacts)
+                .Include(o => o.Opportunities)
+                .Include(c => c.MemberContacts)                
                 .ThenInclude(mc => mc.Member)
                 .AsNoTracking();
 

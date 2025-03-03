@@ -926,7 +926,7 @@ namespace CRMProject.Controllers
                     workSheet.Cells[1, 4].Text.Trim() != "Payable email" ||
                     workSheet.Cells[1, 5].Text.Trim() != "Start date")
                 {
-                    feedBack = "Error: Incorrect file format. Ensure headers are 'Name', 'Size', 'Status', 'Payable email', 'Start date'.";
+                    feedBack = "Error: Incorrect file format. Ensure headers are 'Member Name', 'Size', 'Status', 'Payable email', 'Start date'.";
                     TempData["Feedback"] = feedBack;
                     return RedirectToAction(nameof(Index));
                 }

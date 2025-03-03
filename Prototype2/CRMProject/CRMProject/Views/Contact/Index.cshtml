@@ -90,6 +90,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberContacts)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
@@ -127,6 +128,35 @@
                                                         <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecalty@(item.ID)"
                                                            aria-expanded="false" aria-controls="collapseSpecalty@(item.ID)">
                                                             @firstSpec <span class="badge bg-info">@specCount</span>
+                                                        </a>
+                                                        <div class="collapse" id="collapseSpecalty@(item.ID)">
+                                                            @Html.Raw(specList)
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        @firstSpec
+                                                    }
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @{
+                                                int count = item.Opportunities.Count;
+                                                if (count > 0)
+                                                {
+                                                    string firstSpec = item.Opportunities.FirstOrDefault().OpportunityName;
+                                                    if (count > 1)
+                                                    {
+                                                        string specList = "";//Html string of specialty names separated by <br /> tags
+                                                        var s = item.Opportunities.ToList();
+                                                        for (int i = 1; i < count; i++)//Skip the first because we have it already
+                                                        {
+                                                            specList += s[i].OpportunityName + " <br />";
+                                                        }
+                                                        <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecalty@(item.ID)"
+                                                           aria-expanded="false" aria-controls="collapseSpecalty@(item.ID)">
+                                                            @firstSpec <span class="badge bg-info">@count</span>
                                                         </a>
                                                         <div class="collapse" id="collapseSpecalty@(item.ID)">
                                                             @Html.Raw(specList)

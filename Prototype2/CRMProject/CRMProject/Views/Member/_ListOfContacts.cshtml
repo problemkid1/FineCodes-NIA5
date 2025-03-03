@@ -121,6 +121,8 @@
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th>
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailType)</th>
+                            <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactNotes)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -139,6 +141,8 @@
                                 </td>
                                 <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
                                 <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactWebsite)</td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)</td>
+                                <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactNotes)</td>
                                 <td class="d-none d-sm-table-cell" style="float: right; ">
                                     <div class="btn-group">
                                         @* <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
@@ -146,11 +150,11 @@
                                            data-bs-toggle="tooltip" title="Edit Contact">
                                             <i class="bi bi-pencil-square"></i>
                                         </a> *@
-                                        <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
+                                        @* <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
                                            class="btn btn-md btn-outline-primary" role="button"
                                            data-bs-toggle="tooltip" title="Details Contact">
                                             <i class="bi bi-search"></i>
-                                        </a>
+                                        </a> *@
                                         <a asp-action="RemoveContact" asp-controller="Member" asp-route-contactID="@item.ContactID" asp-route-memberID="@item.MemberID"
                                            class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                            data-bs-toggle="tooltip" title="Remove Contact">
