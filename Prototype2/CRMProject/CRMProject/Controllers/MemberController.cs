@@ -477,6 +477,45 @@ namespace CRMProject.Controllers
 
         }
 
+        // GET: Member/RemoveContact/5
+        public async Task<IActionResult> RemoveContact(int contactID, int memberID)
+        {
+            var memberContact = await _context.MemberContacts
+                .Include(mc => mc.Member)
+                .Include(mc => mc.Contact)
+                .FirstOrDefaultAsync(mc => mc.ContactID == contactID && mc.MemberID == memberID);
+
+            if (memberContact == null)
+            {
+                TempData["ErrorMessage"] = "Contact relationship not found!";
+                return RedirectToAction("Details", new { id = memberID });
+            }
+
+            return View(memberContact); // Show confirmation view
+        }
+
+        // POST: Member/RemoveContact/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveContactConfirmed(int contactID, int memberID)
+        {
+            var memberContact = await _context.MemberContacts
+                .FirstOrDefaultAsync(mc => mc.ContactID == contactID && mc.MemberID == memberID);
+
+            if (memberContact != null)
+            {
+                _context.MemberContacts.Remove(memberContact);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Contact removed from the member successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Contact relationship not found!";
+            }
+
+            return RedirectToAction("Details", new { id = memberID });
+        }
+
         public async Task<IActionResult> GetMemberContacts(int id)
         {
             var memberContacts = await _context.MemberContacts
