@@ -214,19 +214,19 @@ namespace CRMProject.Controllers
                 }
             }
 
-            var breadcrumbs = new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-        new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
-        new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
-    };
+                 var breadcrumbs = new List<BreadcrumbItem>
+                 {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
+                    new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+                 };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
-            ViewData["MemberId"] = address.MemberID;
-            ViewData["AddressId"] = address.ID;
-            PopulateDropDownLists();
+                    ViewData["Breadcrumbs"] = breadcrumbs;
+                    ViewData["MemberId"] = address.MemberID;
+                    ViewData["AddressId"] = address.ID;
+                    PopulateDropDownLists();
 
-            return View(address);
+                    return View(address);
         }
 
 
