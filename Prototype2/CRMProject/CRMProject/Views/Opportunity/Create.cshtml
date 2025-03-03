@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Create";
 }
-<!-- Display Success or Error Messages -->
+
+<!-- Alert Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success" role="alert">
@@ -19,7 +20,6 @@
 }
 
 <div class="col-12">
-
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h2>Create Opportunity</h2>
@@ -27,94 +27,81 @@
         <div class="card-body">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
                 <div class="row">
-                    <!-- Opportunity Name -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityName" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Name
-                            </label>
-                            <input asp-for="OpportunityName" class="form-control" required />
-                            <span asp-validation-for="OpportunityName" class="text-danger"></span>
-                        </div>
+                    <!-- First Row -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="OpportunityName" class="form-label">
+                            <span class="text-danger">*</span> Opportunity Name
+                        </label>
+                        <input asp-for="OpportunityName" class="form-control" required />
+                        <span asp-validation-for="OpportunityName" class="text-danger"></span>
                     </div>
 
-                    <!-- Opportunity Status -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityStatus" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Status
-                            </label>
-                            <select asp-for="OpportunityStatus" class="form-control"
-                                    asp-items="Html.GetEnumSelectList<OpportunityStatus>()" required>
-                            </select>
-                            <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
-                        </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="OpportunityStatus" class="form-label">
+                            <span class="text-danger">*</span> Status
+                        </label>
+                        <select asp-for="OpportunityStatus" class="form-control"
+                                asp-items="Html.GetEnumSelectList<OpportunityStatus>()" required>
+                        </select>
+                        <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
                     </div>
 
-                    <!-- Opportunity Priority -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityPriority" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Priority
-                            </label>
-                            <input asp-for="OpportunityPriority" class="form-control" required />
-                            <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
-                        </div>
+                    <!-- Second Row -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="OpportunityPriority" class="form-label">
+                            <span class="text-danger">*</span> Priority
+                        </label>
+                        <input asp-for="OpportunityPriority" class="form-control" required />
+                        <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
                     </div>
 
-                    <!-- Opportunity Action -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityAction" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Action
-                            </label>
-                            <input asp-for="OpportunityAction" class="form-control" required />
-                            <span asp-validation-for="OpportunityAction" class="text-danger"></span>
-                        </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="OpportunityAction" class="form-label">
+                            <span class="text-danger">*</span> Action
+                        </label>
+                        <input asp-for="OpportunityAction" class="form-control" required />
+                        <span asp-validation-for="OpportunityAction" class="text-danger"></span>
                     </div>
 
-                    <!-- Opportunity Contact -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityContact" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Contact
-                            </label>
-                            <input asp-for="OpportunityContact" class="form-control" required />
-                            <span asp-validation-for="OpportunityContact" class="text-danger"></span>
-                        </div>
+                    <!-- Third Row -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="OpportunityContact" class="form-label">
+                            <span class="text-danger">*</span> Contact
+                        </label>
+                        <input asp-for="OpportunityContact" class="form-control" required />
+                        <span asp-validation-for="OpportunityContact" class="text-danger"></span>
                     </div>
 
-                    <!-- Opportunity Last Contact Date -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityLastContactDate" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Last Contact Date
-                            </label>
-                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required />
-                            <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
-                        </div>
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="OpportunityLastContactDate" class="form-label">
+                            <span class="text-danger">*</span> Last Contact Date
+                        </label>
+                        <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required />
+                        <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
                     </div>
 
-                    <!-- Opportunity Interactions -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityInteractions" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Interactions
-                            </label>
-                            <input asp-for="OpportunityInteractions" class="form-control" required />
-                            <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
-                        </div>
+                    <!-- Fourth Row -->
+                    <div class="col-12 mb-3">
+                        <label asp-for="OpportunityInteractions" class="form-label">
+                            <span class="text-danger">*</span> Interactions
+                        </label>
+                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" required></textarea>
+                        <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
                     </div>
+                </div>
 
-                <div class="form-group text-center">
-                    <input type="submit" value="Create Opportunity" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Oppurtunities</a>
+                <!-- Buttons -->
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary">Create Opportunity</button>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">Back to Opportunities</a>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
-
 </div>
 
 @section Scripts {

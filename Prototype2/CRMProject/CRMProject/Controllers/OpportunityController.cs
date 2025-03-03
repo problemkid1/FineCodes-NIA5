@@ -80,6 +80,7 @@ namespace CRMProject.Controllers
             }
 
             var opportunity = await _context.Opportunities
+                 .Include(o => o.Contact)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (opportunity == null)
             {
@@ -287,6 +288,25 @@ namespace CRMProject.Controllers
             ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddContact(Contact contact, int opportunityId)
+        {
+            if (ModelState.IsValid)
+            {
+                var opportunity = await _context.Opportunities.FindAsync(opportunityId);
+                if (opportunity != null)
+                {
+                    _context.Contacts.Add(contact);
+                    opportunity.Contact = contact;
+                    await _context.SaveChangesAsync();
+                    return Json(new { success = true, message = "Contact added successfully" });
+                }
+            }
+            return Json(new { success = false, message = "Failed to add contact" });
+        }
+
+
 
         // POST: Opportunity/Delete/5
         [HttpPost, ActionName("Delete")]
