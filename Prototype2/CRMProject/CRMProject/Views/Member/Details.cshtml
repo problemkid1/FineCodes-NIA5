@@ -52,7 +52,12 @@
                 <div class="col-xl-3">
                     <div class="row">
                         <dt class="col-5">@Html.DisplayNameFor(model => model.MemberSize)</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberSize)</dd>
+                        <dd class="col-7">
+                            @if(Model.MemberSize == null)
+                            {
+                                <span>N/A</span>
+                            }
+                            @Html.DisplayFor(model => model.MemberSize)</dd>
 
                         <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
                         <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>

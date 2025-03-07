@@ -71,8 +71,10 @@
                     <!-- Member Size -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MemberSize" class="control-label"></label>
-                            <input asp-for="MemberSize" class="form-control" />
+                            <label asp-for="MemberSize" class="control-label">
+                                <span class="text-danger"></span> Member Size
+                            </label>
+                            <input asp-for="MemberSize" class="form-control" min="0" onkeydown="return event.keyCode !== 189;" />
                             <span asp-validation-for="MemberSize" class="text-danger"></span>
                         </div>
                     </div>
@@ -176,4 +178,13 @@
 <script src="~/js/multiselect.js"></script>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        // Disable the negative sign "-" from being typed
+        document.querySelector('input[name="MemberSize"]').addEventListener('keydown', function(event) {
+            if (event.key === "-" || event.keyCode === 189) {
+                event.preventDefault();
+            }
+        });
+    </script>
 }
