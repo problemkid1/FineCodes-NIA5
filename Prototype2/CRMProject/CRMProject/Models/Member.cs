@@ -19,10 +19,10 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Member Name cannot be more than 255 characters long.")]
       
         public string MemberName { get; set; } = "";
-
-        [Required(ErrorMessage = "You cannot leave the member size blank.")]
+                
         [Display(Name = "Size")]
-        [Range(1, int.MaxValue, ErrorMessage = "Member size must be a positive number.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Member size must zero or greater.")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Member size must zero or greater.")]
         public int? MemberSize { get; set; }
 
         [Required(ErrorMessage = "You must select the member status.")]
