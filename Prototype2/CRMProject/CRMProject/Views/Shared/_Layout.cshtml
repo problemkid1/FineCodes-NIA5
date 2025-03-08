@@ -147,6 +147,13 @@
                 </a>
             </li>
 
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
+                <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
+                    <i class="fas fa-lightbulb"></i>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "text-decoration: underline;" : "")  ;">Opportunities</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             
 
@@ -154,14 +161,9 @@
             @* <div class="sidebar-heading"> *@
             @*     @* Addons *@ 
             @* </div> *@
-            <hr class="sidebar-divider">
+            @* <hr class="sidebar-divider"> *@
 
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
-                <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
-                    <i class="fas fa-lightbulb"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "text-decoration: underline;" : "")  ;">Opportunities</span>
-                </a>
-            </li>
+            
 
 
             @* <!-- Nav Item - Pages Collapse Menu --> *@
