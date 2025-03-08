@@ -21,6 +21,9 @@
     </div>
 }
 
+<link href="~/theme/css/custom-colors.css" rel="stylesheet">
+<link href="~/customs/css/style.css" rel="stylesheet">
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -31,20 +34,21 @@
 
             <!-- Two-Column Layout -->
             <dl class="row">
-                <div class="col-xl-3">
+                <div class="col-xl-1">
                     <!-- Member Image -->
                     <!-- Member Image -->
-                    @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
-                    {
-                        string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                        string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
-                        <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
-                    }
-                    else
-                    {
-                        <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
-                    }
-
+                    <div class="photo">
+                         @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
+                         {
+                                 string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
+                                string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
+                                <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                         }
+                         else
+                         {
+                                <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                         }
+                    </div>
                    
                 </div>
 
@@ -70,13 +74,13 @@
                 <div class="col-xl-3">
                     <div class="row">
                         <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
+                        <dd class="col-5">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
 
                         <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
+                        <dd class="col-5">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
 
                         <dt class="col-5">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
+                        <dd class="col-5">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
                     </div>
                 </div>
 
