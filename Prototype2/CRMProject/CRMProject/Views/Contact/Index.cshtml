@@ -90,7 +90,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberContacts)</th>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th>
+                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th> *@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
@@ -140,7 +140,7 @@
                                                 }
                                             }
                                         </td>
-                                        <td>
+                                        @* <td>
                                             @{
                                                 int count = item.Opportunities.Count;
                                                 if (count > 0)
@@ -168,7 +168,7 @@
                                                     }
                                                 }
                                             }
-                                        </td>
+                                        </td> *@
                                         <td>@Html.DisplayFor(modelItem => item.Summary)</td>
                                         <td>@Html.DisplayFor(modelItem => item.ContactTitleRole)</td>
                                         <td style="white-space: nowrap;">
