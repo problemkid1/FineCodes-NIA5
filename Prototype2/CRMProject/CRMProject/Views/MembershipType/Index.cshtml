@@ -40,7 +40,7 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                     <button class="btn btn-outline-secondary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
                             data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
@@ -70,10 +70,9 @@
 
                                 <!-- Filter Actions -->
                                 <div class="form-group col-md-4 align-self-end">
-                                    <button type="submit" name="actionButton"
-                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                        Filter @ViewData["numberFilters"]
-                                    </button>
+                                    <input type="submit" name="actionButton"
+                                           value="Filter @(ViewData["numberFilters"])"
+                                           class="btn btn-outline-secondary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")" />
                                     <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
                                 </div>
                             </div>

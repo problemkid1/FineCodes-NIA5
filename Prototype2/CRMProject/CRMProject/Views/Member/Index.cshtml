@@ -251,115 +251,66 @@
                                             <td class="d-none d-sm-table-cell">
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
                                             </td>
-                                            <td>
-                                                @{
-                                                    int specCount = item.MemberMembershipTypes.Count;
-                                                    if (specCount > 0)
-                                                    {
-                                                        // Get the first membership type and its display name
-                                                        string firstSpec = item.MemberMembershipTypes.FirstOrDefault().MembershipType.MembershipTypeName;
-                                                        var words = firstSpec?.Split(' ');
-                                                        var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : firstSpec;
-                                                        var fullSummary = firstSpec;
+<td>
+    @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())
+    {
+        var membershipList = item.MemberMembershipTypes.Select(m => m.MembershipType.MembershipTypeName).ToList();
+        var count = membershipList.Count;
+        var collapseId = $"collapseMembership{item.ID}";
 
-                                                        if (specCount > 1)
-                                                        {
-                                                            string specList = "";
-                                                            var s = item.MemberMembershipTypes.Skip(1).ToList();
-                                                            foreach (var membershipType in s)
-                                                            {
-                                                                specList += membershipType.MembershipType.MembershipTypeName + "<br />";
-                                                            }
-
-                                                            <span>
-                                                                @shortSummary
-                                                                @if (words?.Length > 3)
-                                                                {
-                                                                    <span id="moreTextMembership@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                                                    <a href="javascript:void(0);" id="readMoreMembership@(item.ID)" onclick="toggleTextMembership(@item.ID)">... </a>
-                                                                }
-                                                            </span>
-                                                            <a class="" role="button" data-bs-toggle="collapse" href="#collapseMembership@(item.ID)"
-                                                               aria-expanded="false" aria-controls="collapseMembership@(item.ID)">
-                                                                <span class="badge bg-info">@specCount</span>
-                                                            </a>
-                                                            <div class="collapse" id="collapseMembership@(item.ID)">
-                                                                @Html.Raw(specList)
-                                                            </div>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>
-                                                                @shortSummary
-                                                                @if (words?.Length > 3)
-                                                                {
-                                                                    <span id="moreTextMembership@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                                                    <a href="javascript:void(0);" id="readMoreMembership@(item.ID)" onclick="toggleTextMembership(@item.ID)">... </a>
-                                                                }
-                                                            </span>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>N/A</span>
-                                                    }
-                                                }
-                                            </td>
+        <span>
+            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
+               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                Memberships (@count)
+                <i class="bi bi-chevron-down" id="arrowMembership@(item.ID)"></i>  <!-- Down arrow icon -->
+            </a>
+            <div class="collapse mt-1" id="@collapseId" data-item-id="@item.ID">
+                <ul class="list-unstyled">
+                    @foreach (var membership in membershipList)
+                    {
+                        <li>@membership</li>
+                    }
+                </ul>
+            </div>
+        </span>
+    }
+    else
+    {
+        <span>N/A</span>
+    }
+</td>
 
 
-                                            <td>
-                                                @if (item.MemberIndustries != null && item.MemberIndustries.Any())
-                                                {
-                                                    var primaryIndustry = item.MemberIndustries.FirstOrDefault();
-                                                    if (primaryIndustry != null)
-                                                    {
-                                                        // Get the summary for the first industry
-                                                        var industrySummary = primaryIndustry.Industry.Summary;
-                                                        var words = industrySummary?.Split(' ');
-                                                        var shortSummary = words?.Length > 2 ? string.Join(" ", words.Take(2)) : industrySummary;
-                                                        var fullSummary = industrySummary;
 
-                                                        // Start the display with the first industry
-                                                        <span>
-                                                            @shortSummary
-                                                            @if (words?.Length > 2)
-                                                            {
-                                                                <span id="moreTextIndustry@(item.ID)" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                                                <a href="javascript:void(0);" id="readMoreIndustry@(item.ID)" onclick="toggleTextIndustry(@item.ID)">... </a>
-                                                            }
-                                                        </span>
 
-                                                        // Now create the collapsible section for the rest of the industries
-                                                        var industryCount = item.MemberIndustries.Count;
-                                                        if (industryCount > 1)
-                                                        {
-                                                            string industryList = ""; // Html string of industry names separated by <br /> tags
-                                                            var industries = item.MemberIndustries.Skip(1).ToList(); // Skip the first industry
+<td>
+    @if (item.MemberIndustries != null && item.MemberIndustries.Any())
+    {
+        var industryList = item.MemberIndustries.Select(m => m.Industry.IndustrySubsector).ToList();
+        var count = industryList.Count;
+        var collapseId = $"collapseIndustry{item.ID}";
 
-                                                            foreach (var industry in industries)
-                                                            {
-                                                                industryList += industry.Industry.IndustrySubsector + " <br />";
-                                                            }
-
-                                                            // Create the collapsible link and content for additional industries
-                                                            <a data-bs-toggle="collapse" href="#collapseIndustry@(item.ID)" aria-expanded="false" aria-controls="collapseIndustry@(item.ID)">
-                                                                <span class="badge bg-info">@industryCount</span>
-                                                            </a>
-                                                            <div class="collapse" id="collapseIndustry@(item.ID)">
-                                                                @Html.Raw(industryList)
-                                                            </div>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>No industry information available</span>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                <span>N/A</span>
-                                                }
-                                            </td>
+        <span>
+            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
+               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                Industries (@count)
+                <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
+            </a>
+            <div class="collapse mt-1" id="@collapseId">
+                <ul class="list-unstyled">
+                    @foreach (var industry in industryList)
+                    {
+                        <li>@industry</li>
+                    }
+                </ul>
+            </div>
+        </span>
+    }
+    else
+    {
+        <span>N/A</span>
+    }
+</td>
 
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
@@ -491,6 +442,19 @@
             }
         }
     </script>
+<script>
+    function toggleIndustry(id) {
+        var countSpan = document.getElementById("industryCount" + id);
+        var collapseElement = document.getElementById("collapseIndustry" + id);
+
+        if (collapseElement.classList.contains("show")) {
+            countSpan.style.display = "inline"; // Show the count when collapsed
+        } else {
+            countSpan.style.display = "none"; // Hide the count when expanded
+        }
+    }
+</script>
+
 }
 
 @* <script> *@

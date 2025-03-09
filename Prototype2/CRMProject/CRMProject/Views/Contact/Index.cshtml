@@ -112,64 +112,56 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>
-                                            @{
-                                                int specCount = item.MemberContacts.Count;
-                                                if (specCount > 0)
-                                                {
-                                                    string firstSpec = item.MemberContacts.FirstOrDefault().Member.MemberName;
-                                                    if (specCount > 1)
-                                                    {
-                                                        string specList = "";//Html string of specialty names separated by <br /> tags
-                                                        var s = item.MemberContacts.ToList();
-                                                        for (int i = 1; i < specCount; i++)//Skip the first because we have it already
-                                                        {
-                                                            specList += s[i].Member.MemberName + " <br />";
-                                                        }
-                                                        <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecalty@(item.ID)"
-                                                           aria-expanded="false" aria-controls="collapseSpecalty@(item.ID)">
-                                                            @firstSpec <span class="badge bg-info">@specCount</span>
-                                                        </a>
-                                                        <div class="collapse" id="collapseSpecalty@(item.ID)">
-                                                            @Html.Raw(specList)
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        @firstSpec
-                                                    }
-                                                }
-                                            }
-                                        </td>
-                                        @* <td>
-                                            @{
-                                                int count = item.Opportunities.Count;
-                                                if (count > 0)
-                                                {
-                                                    string firstSpec = item.Opportunities.FirstOrDefault().OpportunityName;
-                                                    if (count > 1)
-                                                    {
-                                                        string specList = "";//Html string of specialty names separated by <br /> tags
-                                                        var s = item.Opportunities.ToList();
-                                                        for (int i = 1; i < count; i++)//Skip the first because we have it already
-                                                        {
-                                                            specList += s[i].OpportunityName + " <br />";
-                                                        }
-                                                        <a class="" role="button" data-bs-toggle="collapse" href="#collapseSpecalty@(item.ID)"
-                                                           aria-expanded="false" aria-controls="collapseSpecalty@(item.ID)">
-                                                            @firstSpec <span class="badge bg-info">@count</span>
-                                                        </a>
-                                                        <div class="collapse" id="collapseSpecalty@(item.ID)">
-                                                            @Html.Raw(specList)
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        @firstSpec
-                                                    }
-                                                }
-                                            }
-                                        </td> *@
+
+<td>
+    @if (item.MemberContacts != null && item.MemberContacts.Any())
+    {
+        var specCount = item.MemberContacts.Count;
+        var collapseId = $"collapseSpecalty{item.ID}";
+
+        <span>
+            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
+               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                Members (@specCount)
+                <i class="bi bi-chevron-down" id="arrowSpec@(item.ID)"></i>  <!-- Down arrow icon -->
+            </a>
+            <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                <ul class="list-unstyled">
+                    @foreach (var contact in item.MemberContacts)
+                    {
+                        <li>@contact.Member.MemberName</li>
+                    }
+                </ul>
+            </div>
+        </span>
+    }
+</td>
+
+<td>
+    @if (item.Opportunities != null && item.Opportunities.Any())
+    {
+        var count = item.Opportunities.Count;
+        var collapseId = $"collapseOpportunity{item.ID}";
+
+        <span>
+            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
+               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                Opportunities (@count)  
+                <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>  <!-- Down arrow icon -->
+            </a>
+            <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                <ul class="list-unstyled">
+                    @foreach (var opportunity in item.Opportunities)
+                    {
+                        <li>@opportunity.OpportunityName</li>
+                    }
+                </ul>
+            </div>
+        </span>
+    }
+</td>
+
+
                                         <td>@Html.DisplayFor(modelItem => item.Summary)</td>
                                         <td>@Html.DisplayFor(modelItem => item.ContactTitleRole)</td>
                                         <td style="white-space: nowrap;">
