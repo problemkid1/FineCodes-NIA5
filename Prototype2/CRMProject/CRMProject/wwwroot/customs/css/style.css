@@ -1,7 +1,10 @@
 ﻿
+.bi-chevron-down.rotate {
+    transform: rotate(180deg); /* Rotates the down arrow to an up arrow */
+    transition: transform 0.3s; /* Smooth transition */
+}
 
-
-   .btn-group .btn
+    .btn-group .btn
 
 {
     margin-right: 10px;

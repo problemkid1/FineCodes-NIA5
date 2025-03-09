@@ -49,7 +49,7 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
+                    <button class="btn btn-outline-secondary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
                             data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
@@ -76,10 +76,9 @@
 
                                 <!-- Filter Actions -->
                                 <div class="form-group col-md-4 align-self-end">
-                                    <button type="submit" name="actionButton"
-                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
-                                        Filter @ViewData["numberFilters"]
-                                    </button>
+                                    <input type="submit" name="actionButton"
+                                           value="Filter @(ViewData["numberFilters"])"
+                                           class="btn btn-outline-secondary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")" />
                                     <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
                                 </div>
                             </div>
@@ -153,34 +152,34 @@
                                                 </span>
                                             }
                                             </td>
-                                        <td>
-                                            @{
-                                                int industryCount = item.MemberIndustries.Count;
-                                                if (industryCount > 0)
-                                                {
-                                                    string firstIndustry = item.MemberIndustries.FirstOrDefault().Member.MemberName;
-                                                    if (industryCount > 1)
-                                                    {
-                                                        string industryList = ""; // Html string of industry names separated by <br /> tags
-                                                        var industries = item.MemberIndustries.ToList();
-                                                        for (int i = 1; i < industryCount; i++) // Skip the first because we have it already
-                                                        {
-                                                            industryList += industries[i].Member.MemberName + " <br />";
-                                                        }
-                                                        <a data-bs-toggle="collapse" href="#collapseIndustry@(item.ID)" aria-expanded="false" aria-controls="collapseIndustry@(item.ID)">
-                                                            @firstIndustry <span class="badge bg-info">@industryCount</span>
-                                                        </a>
-                                                        <div class="collapse" id="collapseIndustry@(item.ID)">
-                                                            @Html.Raw(industryList)
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        @firstIndustry
-                                                    }
-                                                }
-                                            }
-                                        </td>
+<td>
+    @if (item.MemberIndustries != null && item.MemberIndustries.Any())
+    {
+        var industries = item.MemberIndustries.Select(m => m.Member.MemberName).ToList();
+        var industryCount = industries.Count;
+        var collapseId = $"collapseIndustry{item.ID}";
+
+        <span>
+            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
+               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                Members (@industryCount)
+                <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
+            </a>
+            <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                <ul class="list-unstyled">
+                    @foreach (var industry in industries)
+                    {
+                        <li>@industry</li>
+                    }
+                </ul>
+            </div>
+        </span>
+    }
+</td>
+
+
+
+
                                        
                                         <td>
                                             <div class="btn-group" style="float: none; ">
@@ -298,4 +297,6 @@
             }
         }
     </script>
+
+   
 }
