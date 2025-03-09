@@ -22,8 +22,7 @@
 
 
 <!-- Custom styles for this template-->
-<link href="~/theme/css/custom-colors.css" rel="stylesheet">
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+<link href="~/customs/css/style.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -91,7 +90,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberContacts)</th>
-                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th> *@
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
@@ -112,54 +111,53 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+                                        <td>
+                                            @if (item.MemberContacts != null && item.MemberContacts.Any())
+                                            {
+                                                var specCount = item.MemberContacts.Count;
+                                                var collapseId = $"collapseSpecalty{item.ID}";
 
-<td>
-    @if (item.MemberContacts != null && item.MemberContacts.Any())
-    {
-        var specCount = item.MemberContacts.Count;
-        var collapseId = $"collapseSpecalty{item.ID}";
+                                                <span>
+                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
+                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                        Members (@specCount)
+                                                        <i class="bi bi-chevron-down" id="arrowSpec@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                    </a>
+                                                    <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                                                        <ul class="list-unstyled">
+                                                            @foreach (var contact in item.MemberContacts)
+                                                            {
+                                                                <li>@contact.Member.MemberName</li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                            }
+                                        </td>
 
-        <span>
-            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
-               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                Members (@specCount)
-                <i class="bi bi-chevron-down" id="arrowSpec@(item.ID)"></i>  <!-- Down arrow icon -->
-            </a>
-            <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
-                <ul class="list-unstyled">
-                    @foreach (var contact in item.MemberContacts)
-                    {
-                        <li>@contact.Member.MemberName</li>
-                    }
-                </ul>
-            </div>
-        </span>
-    }
-</td>
+                                        <td>
+                                            @if (item.Opportunities != null && item.Opportunities.Any())
+                                            {
+                                                var count = item.Opportunities.Count;
+                                                var collapseId = $"collapseOpportunity{item.ID}";
 
-<td>
-    @if (item.Opportunities != null && item.Opportunities.Any())
-    {
-        var count = item.Opportunities.Count;
-        var collapseId = $"collapseOpportunity{item.ID}";
-
-        <span>
-            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
-               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                Opportunities (@count)  
-                <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>  <!-- Down arrow icon -->
-            </a>
-            <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
-                <ul class="list-unstyled">
-                    @foreach (var opportunity in item.Opportunities)
-                    {
-                        <li>@opportunity.OpportunityName</li>
-                    }
-                </ul>
-            </div>
-        </span>
-    }
-</td>
+                                                <span>
+                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
+                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                        Opportunities (@count)
+                                                        <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                    </a>
+                                                    <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                                                        <ul class="list-unstyled">
+                                                            @foreach (var opportunity in item.Opportunities)
+                                                            {
+                                                                <li>@opportunity.OpportunityName</li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                            }
+                                        </td>
 
 
                                         <td>@Html.DisplayFor(modelItem => item.Summary)</td>
@@ -196,7 +194,7 @@
                                             }
                                         </td>
                                         <td>
-                                            <div class="btn-group" style="float: none; ">
+                                            <div class="btn-group" style="float: none; padding-left: 13%;">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>
