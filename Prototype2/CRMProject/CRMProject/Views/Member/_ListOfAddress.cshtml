@@ -2,78 +2,81 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-<br />
+<div class="card">
+    <div class="card-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h4 class="panel-title"><strong>Address Information</strong></h4>
+                    <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                        <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
+                            <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                        </button>
+                    </a>
+                </div>
+            </div>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="d-flex align-items-center justify-content-between">
-            <h4 class="panel-title">Address Information</h4>
-            <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
-                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                </button>
-            </a>
-        </div>
-    </div>
+            <div class="panel-body scrollable-panel">
+                <div class="table-responsive">
+                    <table class="table table-striped">
 
-    <div class="panel-body scrollable-panel">
-        <table class="table table-striped">
-            <div class="table-responsive">
+                        @if (Model.Any())
+                        {
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine1)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressCity)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().Province)</th>
+                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().PostalCode)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
+                                                @Html.DisplayFor(modelItem => item.AddressLine1)
+                                            </a>
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Province)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
+                                        <td class="d-none d-sm-table-cell" style="float: right;">
+                                            <div class="btn-group">
+                                                <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"
+                                                   class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Address">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                                <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
+                                                   data-bs-toggle="tooltip" title="View Address Details">
+                                                    <i class="bi bi-search"></i>
+                                                </a>
+                                                <a asp-action="Delete" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
+                                                   data-bs-toggle="tooltip" title="Delete Address">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                        else
+                        {
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted text-center">No addresses found.</td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
 
-            @if (Model.Any())
-            {
-                <thead class="table-light">
-                    <tr>
-                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine1)</th>
-                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressLine2)</th>
-                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().AddressCity)</th>
-                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().Province)</th>
-                        <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().PostalCode)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID">
-                                    @Html.DisplayFor(modelItem => item.AddressLine1)
-                                </a>
-                            </td>                            
-                            <td>@Html.DisplayFor(modelItem => item.AddressLine2)</td>
-                            <td>@Html.DisplayFor(modelItem => item.AddressCity)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Province)</td>
-                            <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
-                            <td class="d-none d-sm-table-cell" style="float: right;">
-                                <div class="btn-group">
-                                    <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"
-                                       class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Address">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
-                                       data-bs-toggle="tooltip" title="View Address Details">
-                                        <i class="bi bi-search"></i>
-                                    </a>
-                                    <a asp-action="Delete" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
-                                       data-bs-toggle="tooltip" title="Delete Address">
-                                        <i class="bi bi-archive-fill"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            }
-            else
-            {
-                <tbody>
-                    <tr>
-                        <td class="text-muted text-center">No addresses found.</td>
-                    </tr>
-                </tbody>
-            }
-        </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
