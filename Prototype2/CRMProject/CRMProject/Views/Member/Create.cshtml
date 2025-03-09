@@ -22,81 +22,94 @@
 <div class="col-12">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h2>Create Member</h2>
+            <h2><strong>Create Member</strong></h2>
         </div>
+
         <div class="card-body">
             <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                <div class="row">
-                    <!-- Member Name -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberName" class="control-label">
-                                <span class="text-danger">*</span> Member Name 
-                            </label>
-                            <input asp-for="MemberName" class="form-control" id="MemberName" name="MemberName" required />
-                            <span asp-validation-for="MemberName" class="text-danger"></span>
+
+                <!-- Member Information Section -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>Member Information</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Member Name -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MemberName" class="control-label">
+                                        <span class="text-danger">*</span> Member Name
+                                    </label>
+                                    <input asp-for="MemberName" class="form-control" id="MemberName" name="MemberName" required />
+                                    <span asp-validation-for="MemberName" class="text-danger"></span>
+                                </div>
+                                <!-- Member Size -->
+                                <div class="form-group">
+                                    <label asp-for="MemberSize" class="control-label">
+                                        <span class="text-danger"></span> Member Size
+                                    </label>
+                                    <input asp-for="MemberSize" class="form-control" min="0" onkeydown="return event.keyCode !== 189;" />
+                                    <span asp-validation-for="MemberSize" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Member Status -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MemberStatus" class="control-label">
+                                        <span class="text-danger">*</span> Member Status
+                                    </label>
+                                    <input class="form-control" value="Good Standing" readonly></input>
+                                    <input type="hidden" asp-for="MemberStatus" value="0" />
+                                    <span asp-validation-for="MemberStatus" class="text-danger"></span>
+                                </div>
+                                <!-- Accounts Payable Email -->
+                                <div class="form-group">
+                                    <label asp-for="MemberAccountsPayableEmail" class="control-label">
+                                        <span class="text-danger">*</span> Accounts Payable Email
+                                    </label>
+                                    <input asp-for="MemberAccountsPayableEmail" class="form-control" required />
+                                    <span asp-validation-for="MemberAccountsPayableEmail" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Member Start Date -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MemberStartDate" class="control-label">
+                                        <span class="text-danger">*</span> Member Start Date
+                                    </label>
+                                    <input asp-for="MemberStartDate" type="date" class="form-control" id="MemberStartDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                                    <span asp-validation-for="MemberStartDate" class="text-danger"></span>
+                                </div>
+                                <!-- Member Last Contacted -->
+                                <div class="form-group">
+                                    <label asp-for="MemberLastContactDate" class="control-label"></label>
+                                    <input asp-for="MemberLastContactDate" type="date" class="form-control" id="MemberLastContactDate" />
+                                    <span asp-validation-for="MemberLastContactDate" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <!-- Member End Date -->
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="MemberEndDate" class="control-label"></label>
+                                    <input asp-for="MemberEndDate" type="date" class="form-control" id="MemberEndDate" />
+                                    <span asp-validation-for="MemberEndDate" class="text-danger"></span>
+                                </div>
+                                <!-- Member Notes -->
+                                <div class="form-group">
+                                    <label asp-for="MemberNotes" class="control-label"></label>
+                                    <textarea asp-for="MemberNotes" class="form-control" id="MemberNotes" name="MemberNotes" /></textarea>
+                                    <span asp-validation-for="MemberNotes" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Member Size -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberSize" class="control-label">
-                                <span class="text-danger"></span> Member Size 
-                            </label>
-                            <input asp-for="MemberSize" class="form-control" min="0" onkeydown="return event.keyCode !== 189;" />
-                            <span asp-validation-for="MemberSize" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Member Status -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberStatus" class="control-label">
-                                <span class="text-danger">*</span> Member Status 
-                            </label>
-                            <span class="form-control-plaintext">Good Standing</span>
-                            <!--<select asp-for="MemberStatus" class="form-control"
-                                    asp-items="Html.GetEnumSelectList<MemberStatus>()" required>
-                                <option value="">Select a Member Status</option>
-                            </select>-->
-                            <span asp-validation-for="MemberStatus" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Accounts Payable Email -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberAccountsPayableEmail" class="control-label">
-                                <span class="text-danger">*</span> Accounts Payable Email 
-                            </label>
-                            <input asp-for="MemberAccountsPayableEmail" class="form-control" required />
-                            <span asp-validation-for="MemberAccountsPayableEmail" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Member Start Date -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberStartDate" class="control-label">
-                                <span class="text-danger">*</span> Member Start Date 
-                            </label>
-                            <input asp-for="MemberStartDate" type="date" class="form-control" id="MemberStartDate" required />
-                            <span asp-validation-for="MemberStartDate" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <!-- Member End Date -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="MemberEndDate" class="control-label"></label>
-                            <input asp-for="MemberEndDate" type="date" class="form-control" id="MemberEndDate" />
-                            <span asp-validation-for="MemberEndDate" class="text-danger"></span>
-                        </div>
-                    </div>                    
                 </div>
-                <!-- Create Contact 
+                <!-- Create Contact
                 <div class="card-body">
                     <div id="createContactForm">
                         <input type="hidden" id="MemberID" value="@ViewData["MemberID"]" />
@@ -152,52 +165,62 @@
                     </div>
                 </div>
                 -->
-
                 <!-- Membership Types -->
-                <div class="row">
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Available Membership Types</label>
-                        <button type="button" id="btnAddMembership" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                        @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>Select Membership Types</strong>
                     </div>
+                    <div class="card-body">
+                        <div class="row">
 
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Selected Membership Types</label>
-                        <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                        @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                            <div class="form-group col-md-6">
+                                <span class="control-label">Available Membership Types</span>
+                                <button type="button" id="btnAddMembership" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                                @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <span class="control-label">Selected Membership Types</span>
+                                <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                                @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
-
-                    
                 </div>
 
-                <!-- Industry Types -->
-                <div class="row">
-
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Available Industry Types</label>
-                        <button type="button" id="btnAddIndustry" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                        @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                <!-- Industries -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>Select Industries</strong>
                     </div>
+                    <div class="card-body">
+                        <div class="row">
 
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Selected Industry Types</label>
-                        <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                        @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
+                            <div class="form-group col-md-6">
+                                <span class="control-label">Available Industry Types</span>
+                                <button type="button" id="btnAddIndustry" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                                @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <span class="control-label">Selected Industry Types</span>
+                                <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                                @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
-
-                    
                 </div>
-                <!-- Profile Picture -->
+
+                <!-- Picture Upload -->
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label asp-for="MemberPhoto" class="control-label"></label>
-                        <input asp-for="MemberPhoto" type="file" class="form-control-file" accept="image/*" />
-                        <span asp-validation-for="MemberPhoto" class="text-danger"></span>
+                        <span>Picture File:</span>
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" name="thePicture" id="thePicture">
+                        </div>
                     </div>
                 </div>
 
-                
                 <div class="form-group text-center">
                     <input type="submit" value="Create Member" id="btnSubmit" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary ml-2">Back to Members</a>
