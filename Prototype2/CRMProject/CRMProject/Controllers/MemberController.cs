@@ -195,10 +195,14 @@ namespace CRMProject.Controllers
         // GET: Member/Create
         public IActionResult Create()
         {
-            Member member = new Member();
+            Member member = new Member
+            {
+                MemberStatus = MemberStatus.GoodStanding,
+                MemberStartDate = DateTime.Today
+            };
             PopulateAssignedIndustryData(member);
             PopulateAssignedMemberShipData(member);
-            
+
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -227,7 +231,7 @@ namespace CRMProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberNotes")] Member member,
+            [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
             IFormFile? thePicture,
             string[] selectedMembership,
             string[] selectedIndustry)
@@ -387,6 +391,7 @@ namespace CRMProject.Controllers
                     // Handle image deletion or upload
                     if (chkRemoveImage != null)
                     {
+                        memberToUpdate.MemberThumbnail = _context.MemberThumbnails.Where(p => p.MemberID == memberToUpdate.ID).FirstOrDefault();
                         memberToUpdate.MemberPhoto = null;
                         memberToUpdate.MemberThumbnail = null;
                     }
