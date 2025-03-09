@@ -27,7 +27,7 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h2>Details - @Html.DisplayFor(model => model.MemberName)</h2>
+            <h2><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
             <hr />
             <!-- Two-Column Layout -->
             <dl class="summ-view">
@@ -66,12 +66,12 @@
 
                 <div class="col-sm-3">
                     <div class="summ-view">
-                        <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                        <dd class="col-5">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
-                        <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                        <dd class="col-5">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
-                        <dt class="col-5">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
-                        <dd class="col-5">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
+                        <dt class="col-6">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
+                        <dd class="col-6">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
+                        <dt class="col-6">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
+                        <dd class="col-6">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
+                        <dt class="col-6">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
+                        <dd class="col-6">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
                     </div>
                 </div>
 
@@ -136,54 +136,55 @@
                 <textarea class="form-control" readonly>@Model.MemberNotes</textarea>
             </dd>
         </div>
-    </div>
+
+        <div class="row-md-4 mt-4">
+            @await Html.PartialAsync("_ListOfContacts", Model.MemberContacts)
+        </div>
 
 
-    <div class="row-md-4">
-        @await Html.PartialAsync("_ListOfContacts", Model.MemberContacts)
-    </div>
+        <div class="row-md-4">
+            <!-- Added margin-top -->
+            @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
+        </div>
+
+        <div class="row-md-4">
+            <!-- Added margin-top -->
+            @Html.Partial("_IndustryInfo", Model.MemberIndustries)
+        </div>
+
+        <div class="row-md-4">
+            <!-- Ensures consistent spacing -->
+            @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
+        </div>
 
 
-    <div class="row-md-4 mt-5">
-        <!-- Added margin-top -->
-        @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
-    </div>
+        @* <div class="row-md-4"> *@
+        @*     @Html.Partial("_ListOfContacts", Model.MemberContacts) *@
+        @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@
+        @* </div> *@
+        @* @* <div class="mt-4"> *@ 
+        @* @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@ 
+        @* @* </div> *@ 
+        @* <div class="row-md-4"> *@
+        @*     @Html.Partial("_IndustryInfo", Model.MemberIndustries) *@
+        @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
+        @* </div> *@
 
-    <div class="row-md-4 mt-5">
-        <!-- Added margin-top -->
-        @Html.Partial("_IndustryInfo", Model.MemberIndustries)
-    </div>
-
-    <div class="row-md-4 mt-4">
-        <!-- Ensures consistent spacing -->
-        @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
-    </div>
-
-
-    @* <div class="row-md-4"> *@
-    @*     @Html.Partial("_ListOfContacts", Model.MemberContacts) *@
-    @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@
-    @* </div> *@
-    @* @* <div class="mt-4"> *@ 
-    @* @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@ 
-    @* @* </div> *@ 
-    @* <div class="row-md-4"> *@
-    @*     @Html.Partial("_IndustryInfo", Model.MemberIndustries) *@
-    @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
-    @* </div> *@
-   
-    @* <div class="mt-4"> *@
-    @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
-    @* </div> *@
-
-    <div class="form-group text-center">
-        @if (Model?.ID != null)
-        {
-            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
-        }
-        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
+        @* <div class="mt-4"> *@
+        @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
+        @* </div> *@
     </div>
 </div>
+<br />
+
+<div class="form-group text-center">
+    @if (Model?.ID != null)
+    {
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+    }
+    <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
+</div>
+
 
 <script>
     function toggleText() {

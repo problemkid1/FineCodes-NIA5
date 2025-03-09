@@ -1,53 +1,55 @@
 ﻿@model IEnumerable<CRMProject.Models.MemberIndustry>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<br />
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="d-flex align-items-center justify-content-between">
-            <h4 class="panel-title mb-0">Industry Information</h4>
-            <a asp-controller="Member" asp-action="Edit" asp-route-ID="@ViewData["MemberId"]">
-                <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Membership Type">
-                    <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                </button>
-            </a>
-        </div>
-    </div>
-    <div class="panel-body scrollable-panel">
 
-        <div class="table-responsive">
-            <table class="table table-striped">
-                @if (Model.Any())
-            {
-                <thead class="table-light">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.First().Industry.IndustrySector)
-                        </th>
-                        <th class="d-none d-sm-table-cell">
-                            @Html.DisplayNameFor(model => model.First().Industry.IndustrySubsector)
-                        </th>
-                        <th class="d-none d-sm-table-cell">
-                            @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <a asp-action="Details" asp-controller="Industry" asp-route-ID="@item.IndustryID">
-                                    @Html.DisplayFor(modelItem => item.Industry.IndustrySector)
-                                </a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                @Html.DisplayFor(modelItem => item.Industry.IndustrySubsector)
-                            </td>
-                            <td >
-                                @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
-                            </td>
+<div class="card">
+    <div class="card-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h4 class="panel-title mb-0"><strong>Industry Information</strong></h4>
+                    <a asp-controller="Member" asp-action="Edit" asp-route-ID="@ViewData["MemberId"]">
+                        <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Membership Type">
+                            <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body scrollable-panel">
 
-                           @*  <td class="d-none d-sm-table-cell"  style="float: right; ">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        @if (Model.Any())
+                        {
+                            <thead class="table-light">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.First().Industry.IndustrySector)
+                                    </th>
+                                    <th class="d-none d-sm-table-cell">
+                                        @Html.DisplayNameFor(model => model.First().Industry.IndustrySubsector)
+                                    </th>
+                                    <th class="d-none d-sm-table-cell">
+                                        @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Details" asp-controller="Industry" asp-route-ID="@item.IndustryID">
+                                                @Html.DisplayFor(modelItem => item.Industry.IndustrySector)
+                                            </a>
+                                        </td>
+                                        <td class="d-none d-sm-table-cell">
+                                            @Html.DisplayFor(modelItem => item.Industry.IndustrySubsector)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
+                                        </td>
+
+                                        @*  <td class="d-none d-sm-table-cell"  style="float: right; ">
                                 <div class="btn-group">
                                     <a asp-action="Edit" asp-controller="Industry"  asp-route-id="@item.IndustryID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
@@ -65,19 +67,21 @@
                                     </a>
                                 </div>
                             </td> *@
-                        </tr>
-                    }
-                </tbody>
-                }
-                else
-                {
-                    <tbody>
-                        <tr>
-                            <td class="text-muted text-center">No Industries found.</td>
-                        </tr>
-                    </tbody>
-                }
-            </table>
+                                    </tr>
+                                }
+                            </tbody>
+                        }
+                        else
+                        {
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted text-center">No Industries found.</td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
