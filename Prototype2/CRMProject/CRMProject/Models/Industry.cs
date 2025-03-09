@@ -10,7 +10,7 @@ namespace CRMProject.Models
         {
             get
             {
-                return IndustrySubsector + " - " + IndustryNAICSCode;
+                return IndustryNAICSCode+ " - " +IndustrySubsector  ;
             }
         }
 

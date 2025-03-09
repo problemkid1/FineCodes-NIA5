@@ -80,6 +80,20 @@ body {
   background-color: #fff;
 }
 
+.summ-view {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.75rem;
+    /* margin-left: -.75rem;*/
+}
+
+.photo {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.75rem;
+    /*    margin-left: -.75rem;*/
+}
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }

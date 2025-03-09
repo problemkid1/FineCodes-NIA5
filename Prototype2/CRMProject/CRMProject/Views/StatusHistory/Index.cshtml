@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CRMProject.Models.StatusHistory>
+﻿@using CRMProject.Utilities
+@model IEnumerable<CRMProject.Models.StatusHistory>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,7 +22,8 @@
 }
 
 <!-- Custom styles for this template-->
-<link href="~/customs/css/style.css" rel="stylesheet">
+@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+<link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -48,17 +50,19 @@
 
                                 <!-- Filter by Status -->
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Status:</label>
-                                    @Html.TextBox("Status", null, new { @class = "form-control", placeholder = "Enter status" })
-                                    <span class="text-danger">@ViewData["ReasonCount"]</span>
+                                    <label class="control-label">Filter by Member Status:</label>
+                                    @Html.DropDownList("MemberStatus",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
+                                            "All Statuses",
+                                             new { @class = "form-control" })
                                 </div>
 
-                                <!-- Filter by Reason -->
+                                @* <!-- Filter by Reason -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Reason:</label>
                                     @Html.TextBox("Reason", null, new { @class = "form-control", placeholder = "Enter reason" })
                                     <span class="text-danger">@ViewData["ReasonCount"]</span>
-                                </div>
+                                </div> *@
 
                                 <!-- Filter by Notes -->
                                 <div class="form-group col-md-4">

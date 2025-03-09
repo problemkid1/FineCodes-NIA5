@@ -1,131 +1,262 @@
 ﻿@{
     ViewData["Title"] = "CRM";
-    // If ViewData["NewMemberCount"] is null, default to 0
     var newMemberCount = ViewData["NewMemberCount"] ?? 0;
 }
 
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <div class="container-fluid">
-    <!-- Page Heading -->
+    <!-- Page Heading with Edit Controls -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        @* <h1 class="h3 mb-0 text-gray-800">Dashboard</h1> *@
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div class="dashboard-controls">
+            <button id="editDashboardBtn" class="btn btn-primary">
+                <i class="fas fa-edit mr-1"></i> Edit Dashboard
+            </button>
+            <div id="dashboardEditControls" style="display: none;">
+                <button id="saveDashboardBtn" class="btn btn-success mr-2">
+                    <i class="fas fa-save mr-1"></i> Save Changes
+                </button>
+                <button id="cancelEditBtn" class="btn btn-secondary">
+                    <i class="fas fa-times mr-1"></i> Cancel
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="row">
-        <!-- Left Column: Stacked Cards -->
-        <div class="col-md-3 d-flex flex-column">
-            <a href="/Member" class="text-decoration-none mb-4 flex-grow-1">
-                <div class="card border-left-primary shadow h-100">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                    <h5>Total Members</h5>
-                                </div>
-                                <div class="h1 mb-0 font-weight-bold text-gray-1200">
-                                    @ViewData["MemberCount"]
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
-                <div class="card border-left-success shadow h-100">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                    <h5>Industries</h5>
-                                </div>
-                                <div class="h1 mb-0 font-weight-bold text-gray-1200">
-                                    @ViewData["IndustryCount"]
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
+    <!-- Layout Controls - Only visible in edit mode -->
+    <div id="layoutControls" class="card shadow mb-4" style="display: none;">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dashboard Layout</h6>
         </div>
-        <div class="col-md-3 d-flex flex-column">
-            <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none mb-4 flex-grow-1">
-                <div class="card border-left-primary shadow h-100">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                    <h5>Cancellations</h5>
-                                </div>
-                                <div class="h1 mb-0 font-weight-bold text-gray-1200">
-                                    @ViewData["CancellationCount"]
-                                </div>
-                            </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Layout Type:</label>
+                        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                            <label class="btn btn-outline-primary active">
+                                <input type="radio" name="layoutType" id="layoutStandard" value="standard" checked> Standard
+                            </label>
+                            <label class="btn btn-outline-primary">
+                                <input type="radio" name="layoutType" id="layoutSplit" value="split"> Split View
+                            </label>
                         </div>
                     </div>
                 </div>
-            </a>
+                <div class="col-md-6 mb-3">
+                    <div class="form-group" id="splitViewOptions" style="display: none;">
+                        <label class="font-weight-bold">Split View Configuration:</label>
+                        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                            <label class="btn btn-outline-primary active">
+                                <input type="radio" name="splitConfig" id="splitConfigMetricsLeft" value="metricsLeft" checked> Metrics Left
+                            </label>
+                            <label class="btn btn-outline-primary">
+                                <input type="radio" name="splitConfig" id="splitConfigChartsLeft" value="chartsLeft"> Charts Left
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <a href="/Member" class="text-decoration-none mb-0 flex-grow-1">
-                <div class="card border-left-info shadow h-100">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                    <h5>New Members (@DateTime.Now.Year)</h5>
-                                </div>
-                                <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
-                                    @newMemberCount
+    <!-- Dashboard Content -->
+    <div id="dashboardContent">
+        <!-- Container for metrics cards -->
+        <div id="metricsContainer" class="row">
+            <!-- Total Members -->
+            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
+                <div class="widget" data-widget-id="total-members">
+                    <div class="widget-controls" style="display: none;">
+                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <a href="/Member" class="text-decoration-none flex-grow-1">
+                        <div class="card border-left-primary shadow h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                            <h5>Total Members</h5>
+                                        </div>
+                                        <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                            @ViewData["MemberCount"]
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            </a>
+            </div>
+
+            <!-- Industries -->
+            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
+                <div class="widget" data-widget-id="industries">
+                    <div class="widget-controls" style="display: none;">
+                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <a href="/Industry" class="text-decoration-none flex-grow-1">
+                        <div class="card border-left-success shadow h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                            <h5>Industries</h5>
+                                        </div>
+                                        <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                            @ViewData["IndustryCount"]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cancellations -->
+            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
+                <div class="widget" data-widget-id="cancellations">
+                    <div class="widget-controls" style="display: none;">
+                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none flex-grow-1">
+                        <div class="card border-left-primary shadow h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                            <h5>Cancellations</h5>
+                                        </div>
+                                        <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                            @ViewData["CancellationCount"]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- New Members -->
+            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
+                <div class="widget" data-widget-id="new-members">
+                    <div class="widget-controls" style="display: none;">
+                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <a href="/Member" class="text-decoration-none flex-grow-1">
+                        <div class="card border-left-info shadow h-100">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                            <h5>New Members (@DateTime.Now.Year)</h5>
+                                        </div>
+                                        <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
+                                            @newMemberCount
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
 
-
-        <!-- Right Column: Charts -->
-        <div class="col-md-6 d-flex flex-column">
-
-            <div class="card shadow w-100">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
-                </div>
-                <div class="card-body d-flex align-items-center">
-                    <div class="chart-bar w-100">
-                        <canvas id="municipalityBarChart"></canvas>
+        <!-- Container for charts -->
+        <div id="chartsContainer" class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="widget" data-widget-id="municipality-chart">
+                    <div class="widget-controls" style="display: none;">
+                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="card shadow h-100">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
+                        </div>
+                        <div class="card-body d-flex align-items-center">
+                            <div class="chart-bar w-100">
+                                <canvas id="municipalityBarChart"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            @* <div class="card shadow w-100 mb-3"> *@
-            @*     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"> *@
-            @*         <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5> *@
-            @*     </div> *@
-            @*     <div class="card-body d-flex align-items-center"> *@
-            @*         <div class="chart-pie w-100"> *@
-            @*             <canvas id="memberPieChart"></canvas> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </div> *@
+            <div class="col-lg-6 mb-4">
+                <div class="widget" data-widget-id="membership-pie">
+                    <div class="widget-controls" style="display: none;">
+                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                    </div>
+                    <div class="card shadow h-100">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5>
+                        </div>
+                        <div class="card-body d-flex align-items-center">
+                            <div class="chart-pie w-100">
+                                <canvas id="memberPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Widget Selector Menu (Hidden by default) -->
+        <div id="widgetSelector" class="card shadow mt-4" style="display: none;">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Add Widgets</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="total-members">
+                            <i class="fas fa-users mr-1"></i> Total Members
+                        </button>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="industries">
+                            <i class="fas fa-industry mr-1"></i> Industries
+                        </button>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="cancellations">
+                            <i class="fas fa-ban mr-1"></i> Cancellations
+                        </button>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="new-members">
+                            <i class="fas fa-user-plus mr-1"></i> New Members
+                        </button>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="municipality-chart">
+                            <i class="fas fa-chart-bar mr-1"></i> Municipality Chart
+                        </button>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="membership-pie">
+                            <i class="fas fa-chart-pie mr-1"></i> Membership Pie
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
 <script>
-    console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"])));
-    console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"])));
-
     document.addEventListener("DOMContentLoaded", function () {
         // Municipality Bar Chart
         var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
         var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
         var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
 
-        new Chart(ctxBar, {
+        var municipalityChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
                 labels: municipalityLabels,
@@ -146,10 +277,10 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            precision: 0, // Ensures only whole numbers
-                            stepSize: 1, // Forces increments of 1
-                            callback: function(value, index, values) {
-                                return Number(value).toLocaleString(); // Formats as whole number
+                            precision: 0,
+                            stepSize: 1,
+                            callback: function(value) {
+                                return Number(value).toLocaleString();
                             }
                         }
                     }
@@ -157,30 +288,361 @@
             }
         });
 
+        // Initialize the pie chart
+        var ctxPie = document.getElementById("memberPieChart").getContext("2d");
+        var goodStanding = @ViewData["GoodStandingCount"];
+        var overduePayment = @ViewData["OverduePaymentCount"];
+        var cancellations = @ViewData["CancellationCount"];
 
-                     // Membership Overview Pie Chart
-        // var ctxPie = document.getElementById("memberPieChart").getContext("2d");
-        // var goodStanding = @ViewData["GoodStandingCount"];
-        // var overduePayment = @ViewData["OverduePaymentCount"];
-        // var cancellations = @ViewData["CancellationCount"];
+        var pieChart = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ["Good Standing", "Overdue Payment", "Cancelled"],
+                datasets: [{
+                    data: [goodStanding, overduePayment, cancellations],
+                    backgroundColor: ['#36479B', '#933515', '#D9534F'],
+                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: '80%'
+            }
+        });
 
-        // new Chart(ctxPie, {
-        //     type: 'doughnut',
-        //     data: {
-        //         labels: ["Good Standing", "Overdue Payment", "Cancelled"],
-        //         datasets: [{
-        //             data: [goodStanding, overduePayment, cancellations],
-        //             backgroundColor: ['#36479B', '#933515', '#D9534F'],
-        //             hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
-        //         }]
-        //     },
-        //     options: {
-        //         maintainAspectRatio: false,
-        //         cutoutPercentage: 80
-        //     }
-        // });
+        // Dashboard Edit Functionality
+        const editDashboardBtn = document.getElementById('editDashboardBtn');
+        const saveDashboardBtn = document.getElementById('saveDashboardBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const dashboardEditControls = document.getElementById('dashboardEditControls');
+        const widgetSelector = document.getElementById('widgetSelector');
+        const layoutControls = document.getElementById('layoutControls');
+        const widgets = document.querySelectorAll('.widget');
+        const widgetControls = document.querySelectorAll('.widget-controls');
+        const metricsContainer = document.getElementById('metricsContainer');
+        const chartsContainer = document.getElementById('chartsContainer');
+
+        // Layout control elements
+        const layoutStandard = document.getElementById('layoutStandard');
+        const layoutSplit = document.getElementById('layoutSplit');
+        const splitViewOptions = document.getElementById('splitViewOptions');
+        const splitConfigMetricsLeft = document.getElementById('splitConfigMetricsLeft');
+        const splitConfigChartsLeft = document.getElementById('splitConfigChartsLeft');
+
+        // Load saved dashboard configuration
+        loadDashboardConfig();
+
+        // Layout Type Radio Change
+        layoutStandard.addEventListener('change', function() {
+            if (this.checked) {
+                splitViewOptions.style.display = 'none';
+                applyStandardLayout();
+            }
+        });
+
+        layoutSplit.addEventListener('change', function() {
+            if (this.checked) {
+                splitViewOptions.style.display = 'block';
+                applySplitLayout();
+            }
+        });
+
+        // Split Config Radio Change
+        splitConfigMetricsLeft.addEventListener('change', function() {
+            if (this.checked) {
+                applySplitLayout('metricsLeft');
+            }
+        });
+
+        splitConfigChartsLeft.addEventListener('change', function() {
+            if (this.checked) {
+                applySplitLayout('chartsLeft');
+            }
+        });
+
+        // Enter edit mode
+        editDashboardBtn.addEventListener('click', function() {
+            enterEditMode();
+        });
+
+        // Save changes
+        saveDashboardBtn.addEventListener('click', function() {
+            saveChanges();
+        });
+
+        // Cancel edit mode
+        cancelEditBtn.addEventListener('click', function() {
+            cancelEdit();
+        });
+
+        // Add event listeners for widget removal buttons
+        document.querySelectorAll('.widget-remove').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const widget = this.closest('.widget');
+                widget.style.display = 'none';
+                updateLayout();
+            });
+        });
+
+        // Add event listeners for widget addition buttons
+        document.querySelectorAll('.add-widget').forEach(button => {
+            button.addEventListener('click', function() {
+                const widgetId = this.getAttribute('data-widget-id');
+                const widget = document.querySelector(`.widget[data-widget-id="${widgetId}"]`);
+                if (widget) {
+                    widget.style.display = '';
+                    updateLayout();
+
+                    // Ensure charts are properly sized after showing
+                    if (widgetId === 'membership-pie' || widgetId === 'municipality-chart') {
+                        setTimeout(function() {
+                            if (pieChart && widgetId === 'membership-pie') pieChart.resize();
+                            if (municipalityChart && widgetId === 'municipality-chart') municipalityChart.resize();
+                        }, 100);
+                    }
+                }
+            });
+        });
+
+        function enterEditMode() {
+            // Show edit controls
+            editDashboardBtn.style.display = 'none';
+            dashboardEditControls.style.display = 'inline-block';
+            widgetSelector.style.display = 'block';
+            layoutControls.style.display = 'block';
+
+            // Show widget controls
+            widgetControls.forEach(control => {
+                control.style.display = 'block';
+            });
+
+            // Add edit styling
+            widgets.forEach(widget => {
+                widget.classList.add('widget-edit-mode');
+            });
+        }
+
+        function saveChanges() {
+            // Hide edit controls
+            exitEditMode();
+
+            // Save configuration to localStorage
+            saveDashboardConfig();
+
+            // Update layout based on current settings
+            updateLayout();
+
+            // Show success notification
+            alert('Dashboard configuration saved successfully!');
+        }
+
+        function cancelEdit() {
+            // Hide edit controls
+            exitEditMode();
+
+            // Revert to saved configuration
+            loadDashboardConfig();
+        }
+
+        function exitEditMode() {
+            editDashboardBtn.style.display = 'inline-block';
+            dashboardEditControls.style.display = 'none';
+            widgetSelector.style.display = 'none';
+            layoutControls.style.display = 'none';
+
+            // Hide widget controls
+            widgetControls.forEach(control => {
+                control.style.display = 'none';
+            });
+
+            // Remove edit styling
+            widgets.forEach(widget => {
+                widget.classList.remove('widget-edit-mode');
+            });
+        }
+
+        function saveDashboardConfig() {
+            const config = {
+                layout: layoutSplit.checked ? 'split' : 'standard',
+                splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
+                widgets: {}
+            };
+
+            widgets.forEach(widget => {
+                const id = widget.getAttribute('data-widget-id');
+                config.widgets[id] = widget.style.display !== 'none';
+            });
+
+            localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
+        }
+
+        function loadDashboardConfig() {
+            const savedConfig = localStorage.getItem('crmDashboardConfig');
+
+            if (savedConfig) {
+                const config = JSON.parse(savedConfig);
+
+                // Set layout type
+                if (config.layout === 'split') {
+                    layoutSplit.checked = true;
+                    splitViewOptions.style.display = 'block';
+
+                    // Set split configuration
+                    if (config.splitConfig === 'chartsLeft') {
+                        splitConfigChartsLeft.checked = true;
+                    } else {
+                        splitConfigMetricsLeft.checked = true;
+                    }
+
+                    applySplitLayout(config.splitConfig);
+                } else {
+                    layoutStandard.checked = true;
+                    applyStandardLayout();
+                }
+
+                // Apply widget visibility
+                if (config.widgets) {
+                    widgets.forEach(widget => {
+                        const id = widget.getAttribute('data-widget-id');
+                        if (config.widgets.hasOwnProperty(id)) {
+                            widget.style.display = config.widgets[id] ? '' : 'none';
+                        }
+                    });
+                }
+            } else {
+                // Default configuration - standard layout
+                layoutStandard.checked = true;
+                applyStandardLayout();
+
+                // Make sure all metrics are visible
+                document.querySelectorAll('.metrics-item .widget').forEach(widget => {
+                    widget.style.display = '';
+                });
+            }
+
+            // Update layout to handle any empty containers
+            updateLayout();
+        }
+
+        function applyStandardLayout() {
+            // Reset all column classes for metrics items
+            document.querySelectorAll('.metrics-item').forEach(item => {
+                item.className = 'col-xl-3 col-md-6 mb-4 metrics-item';
+            });
+
+            // Reset all column classes for chart containers
+            document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                item.className = 'col-lg-6 mb-4';
+            });
+
+            // Ensure containers have row class
+            metricsContainer.className = 'row';
+            chartsContainer.className = 'row';
+
+            // Resize charts if they exist
+            setTimeout(function() {
+                if (pieChart) pieChart.resize();
+                if (municipalityChart) municipalityChart.resize();
+            }, 100);
+        }
+
+        function applySplitLayout(config = null) {
+            // Get the currently selected config if none is provided
+            if (!config) {
+                config = splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft';
+            }
+
+            // Adjust the layout based on configuration
+            if (config === 'metricsLeft') {
+                // Metrics on left, charts on right
+                metricsContainer.className = 'col-md-6 float-left';
+                chartsContainer.className = 'col-md-6 float-right';
+
+                // Adjust metrics items to be full width in their container
+                document.querySelectorAll('.metrics-item').forEach(item => {
+                    item.className = 'col-12 mb-4 metrics-item';
+                });
+
+                // Make charts full width in their container
+                document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                    item.className = 'col-12 mb-4';
+                });
+            } else {
+                // Charts on left, metrics on right
+                chartsContainer.className = 'col-md-6 float-left';
+                metricsContainer.className = 'col-md-6 float-right';
+
+                // Adjust metrics items to be full width in their container
+                document.querySelectorAll('.metrics-item').forEach(item => {
+                    item.className = 'col-12 mb-4 metrics-item';
+                });
+
+                // Make charts full width in their container
+                document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                    item.className = 'col-12 mb-4';
+                });
+            }
+
+            // Clear the floats
+            const clearFix = document.createElement('div');
+            clearFix.className = 'clearfix';
+            document.getElementById('dashboardContent').appendChild(clearFix);
+
+            // Resize charts after layout change
+            setTimeout(function() {
+                if (pieChart) pieChart.resize();
+                if (municipalityChart) municipalityChart.resize();
+            }, 100);
+        }
+
+        function updateLayout() {
+            // Check if metrics section has visible widgets
+            const hasVisibleMetrics = Array.from(document.querySelectorAll('.metrics-item .widget'))
+                .some(widget => widget.style.display !== 'none');
+
+            // Check if charts section has visible widgets
+            const hasVisibleCharts = Array.from(document.querySelectorAll('#chartsContainer .widget'))
+                .some(widget => widget.style.display !== 'none');
+
+            // If nothing is visible in a section, hide it
+            metricsContainer.style.display = hasVisibleMetrics ? '' : 'none';
+            chartsContainer.style.display = hasVisibleCharts ? '' : 'none';
+
+            // If only one section is visible, make it full width
+            if (hasVisibleMetrics && !hasVisibleCharts) {
+                if (layoutStandard.checked) {
+                    // No change needed, metrics are already responsive
+                } else {
+                    metricsContainer.className = 'col-md-12';
+                }
+            } else if (!hasVisibleMetrics && hasVisibleCharts) {
+                if (layoutStandard.checked) {
+                    document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                        item.className = 'col-lg-12 mb-4';
+                    });
+                } else {
+                    chartsContainer.className = 'col-md-12';
+                }
+            } else if (hasVisibleMetrics && hasVisibleCharts) {
+                // Both sections are visible, apply the selected layout
+                if (layoutStandard.checked) {
+                    applyStandardLayout();
+                } else {
+                    applySplitLayout();
+                }
+            }
+
+            // Resize charts after updating layout
+            setTimeout(function() {
+                if (pieChart) pieChart.resize();
+                if (municipalityChart) municipalityChart.resize();
+            }, 100);
+        }
     });
 </script>
+
 
 
 

@@ -22,7 +22,8 @@
 
 
 <!-- Custom styles for this template-->
-<link href="~/customs/css/style.css" rel="stylesheet">
+<link href="~/theme/css/custom-colors.css" rel="stylesheet">
+@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
 
 <div class="col-12">
     <div class="card">
@@ -90,7 +91,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberContacts)</th>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th>
+                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th> *@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
@@ -111,6 +112,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+
 <td>
     @if (item.MemberContacts != null && item.MemberContacts.Any())
     {
@@ -194,7 +196,7 @@
                                             }
                                         </td>
                                         <td>
-                                            <div class="btn-group" style="float: none; padding-left: 13%;">
+                                            <div class="btn-group" style="float: none; ">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>

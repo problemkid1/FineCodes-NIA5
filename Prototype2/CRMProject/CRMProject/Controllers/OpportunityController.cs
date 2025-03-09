@@ -30,6 +30,11 @@ namespace CRMProject.Controllers
                 .Include(o => o.Contact)
                 .AsNoTracking();
 
+            //By default, exclude closed opportunities
+            if (!OpportunityStatus.HasValue || (OpportunityStatus != CRMProject.Models.OpportunityStatus.ClosedNewMember && OpportunityStatus != CRMProject.Models.OpportunityStatus.ClosedNotInterested))
+            {
+                opportunities = opportunities.Where(o => o.OpportunityStatus != CRMProject.Models.OpportunityStatus.ClosedNewMember && o.OpportunityStatus != CRMProject.Models.OpportunityStatus.ClosedNotInterested);
+            }
             // Filter by Opportunity Name
             if (!string.IsNullOrEmpty(OpportunityName))
             {
@@ -120,7 +125,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions")] Opportunity opportunity)
+        public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions,ContactID")] Opportunity opportunity)
         {
             if (ModelState.IsValid)
             {

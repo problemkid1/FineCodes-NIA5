@@ -36,6 +36,8 @@
 
 
 <!-- Custom styles for this template-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -313,7 +315,7 @@
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td class="d-none d-sm-table-cell">
-                                                <div class="btn-group">
+                                                <div class="btn-group" style="align-content: center;">
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
@@ -327,8 +329,9 @@
                                                         <form asp-action="Cancel" method="get" class="d-inline">
                                                             <input type="hidden" name="id" value="@item.ID" />
                                                             <button type="submit" class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Cancel">
-                                                                <i class="bi bi-x-circle"></i>
+                                                                <i class="fa-solid fa-user-slash"></i>
                                                             </button>
+
                                                         </form>
                                                     }
                                                     else

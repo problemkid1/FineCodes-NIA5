@@ -63,9 +63,7 @@
                     <!-- Phone -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactPhone" class="control-label">
-                                <span class="text-danger">*</span> Phone
-                            </label>
+                            <label asp-for="ContactPhone" class="control-label">Phone</label>
                             <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" />
                             <span asp-validation-for="ContactPhone" class="text-danger"></span>
                         </div>
@@ -74,9 +72,7 @@
                     <!-- Email -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactEmailAddress" class="control-label">
-                                <span class="text-danger">*</span> Email 
-                            </label>
+                            <label asp-for="ContactEmailAddress" class="control-label">Email</label>
                             <input asp-for="ContactEmailAddress" class="form-control" placeholder="Enter email address" />
                             <span asp-validation-for="ContactEmailAddress" class="text-danger"></span>
                         </div>
@@ -88,7 +84,7 @@
                             <label asp-for="ContactEmailType" class="control-label"></label>
                             <select asp-for="ContactEmailType" class="form-control"
                                     asp-items="Html.GetEnumSelectList<EmailType>()">
-                                <option value="">Select a Member Status</option>
+                                <option value="">Select an Email Type</option>
                             </select>
                             <span asp-validation-for="ContactEmailType" class="text-danger"></span>
                         </div>
@@ -97,9 +93,7 @@
                     <!-- Website -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactWebsite" class="control-label">
-                                <span class="text-danger">*</span> Website 
-                            </label>
+                            <label asp-for="ContactWebsite" class="control-label">Website</label>
                             <input asp-for="ContactWebsite" class="form-control" placeholder="Enter website URL" />
                             <span asp-validation-for="ContactWebsite" class="text-danger"></span>
                         </div>
@@ -108,8 +102,8 @@
                     <!-- Interactions -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactInteractions" class="control-label"></label>
-                            <input asp-for="ContactInteractions" class="form-control" placeholder="Enter interaction details" />
+                            <label asp-for="ContactInteractions" class="control-label mr-3" style="min-width: 150px; white-space: nowrap;">Contact Interactions:</label>
+                            <textarea asp-for="ContactInteractions" class="form-control" style="min-height: 100px; flex-grow: 1;" placeholder="Enter interaction details"></textarea>
                             <span asp-validation-for="ContactInteractions" class="text-danger"></span>
                         </div>
                     </div>

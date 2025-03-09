@@ -50,6 +50,22 @@ body {
     background-color: #fff;
 }
 
+.summ-view {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.75rem;
+    /* margin-left: -.75rem;*/
+}
+
+.photo 
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.75rem;
+/*    margin-left: -.75rem;*/
+}
+
+
 .font-weight-bold {
     font-weight: 900 !important;
     text-align: center;

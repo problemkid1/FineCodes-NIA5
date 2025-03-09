@@ -50,12 +50,12 @@ namespace CRMProject.Models
         [Display(Name = "Last Contacted")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? MemberLastContactDate { get; set; } = DateTime.Today;
+        public DateTime? MemberLastContactDate { get; set; }
 
         [Display(Name = "Notes")]
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
-        public string? MemberNotes { get; set; } = "";
+        public string? MemberNotes { get; set; }
                
         [Display(Name = "Address")]
         public Address? Address { get; set; }
