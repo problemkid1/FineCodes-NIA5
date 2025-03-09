@@ -1375,7 +1375,7 @@ DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 		_xlsxToStrings( xlsx );
 
 		flash.setAction( 'excel' );
-		flash.setFileName( _filename( config ) );
+		flash.setFileName('NIA.xlsx');
 		flash.setSheetData( xlsx );
 		_setText( flash, '' );
 
