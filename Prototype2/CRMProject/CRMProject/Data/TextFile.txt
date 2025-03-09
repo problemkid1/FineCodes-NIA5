@@ -26,54 +26,17 @@
         </div>
     </div>
 
-    <!-- Layout Controls - Only visible in edit mode -->
-    <div id="layoutControls" class="card shadow mb-4" style="display: none;">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Dashboard Layout</h6>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label class="font-weight-bold">Layout Type:</label>
-                        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-                            <label class="btn btn-outline-primary active">
-                                <input type="radio" name="layoutType" id="layoutStandard" value="standard" checked> Standard
-                            </label>
-                            <label class="btn btn-outline-primary">
-                                <input type="radio" name="layoutType" id="layoutSplit" value="split"> Split View
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group" id="splitViewOptions" style="display: none;">
-                        <label class="font-weight-bold">Split View Configuration:</label>
-                        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-                            <label class="btn btn-outline-primary active">
-                                <input type="radio" name="splitConfig" id="splitConfigMetricsLeft" value="metricsLeft" checked> Metrics Left
-                            </label>
-                            <label class="btn btn-outline-primary">
-                                <input type="radio" name="splitConfig" id="splitConfigChartsLeft" value="chartsLeft"> Charts Left
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Dashboard Content -->
     <div id="dashboardContent">
-        <!-- Container for metrics cards -->
-        <div id="metricsContainer" class="row">
-            <!-- Total Members -->
-            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
+        <div class="row">
+            <!-- Left Column: Stacked Cards -->
+            <div class="col-md-3 d-flex flex-column">
                 <div class="widget" data-widget-id="total-members">
                     <div class="widget-controls" style="display: none;">
                         <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
                     </div>
-                    <a href="/Member" class="text-decoration-none flex-grow-1">
+                    <a href="/Member" class="text-decoration-none mb-4 flex-grow-1">
                         <div class="card border-left-primary shadow h-100">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -90,15 +53,12 @@
                         </div>
                     </a>
                 </div>
-            </div>
 
-            <!-- Industries -->
-            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
                 <div class="widget" data-widget-id="industries">
                     <div class="widget-controls" style="display: none;">
                         <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
                     </div>
-                    <a href="/Industry" class="text-decoration-none flex-grow-1">
+                    <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
                         <div class="card border-left-success shadow h-100">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -117,13 +77,12 @@
                 </div>
             </div>
 
-            <!-- Cancellations -->
-            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
+            <div class="col-md-3 d-flex flex-column">
                 <div class="widget" data-widget-id="cancellations">
                     <div class="widget-controls" style="display: none;">
                         <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
                     </div>
-                    <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none flex-grow-1">
+                    <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none mb-4 flex-grow-1">
                         <div class="card border-left-primary shadow h-100">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -140,15 +99,12 @@
                         </div>
                     </a>
                 </div>
-            </div>
 
-            <!-- New Members -->
-            <div class="col-xl-3 col-md-6 mb-4 metrics-item">
                 <div class="widget" data-widget-id="new-members">
                     <div class="widget-controls" style="display: none;">
                         <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
                     </div>
-                    <a href="/Member" class="text-decoration-none flex-grow-1">
+                    <a href="/Member" class="text-decoration-none mb-0 flex-grow-1">
                         <div class="card border-left-info shadow h-100">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -166,16 +122,14 @@
                     </a>
                 </div>
             </div>
-        </div>
 
-        <!-- Container for charts -->
-        <div id="chartsContainer" class="row">
-            <div class="col-lg-6 mb-4">
+            <!-- Right Column: Charts -->
+            <div class="col-md-6 d-flex flex-column">
                 <div class="widget" data-widget-id="municipality-chart">
                     <div class="widget-controls" style="display: none;">
                         <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
                     </div>
-                    <div class="card shadow h-100">
+                    <div class="card shadow w-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
                         </div>
@@ -188,12 +142,12 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 mb-4">
-                <div class="widget" data-widget-id="membership-pie">
+            <div class="col-md-6 d-flex flex-column">
+                <div class="widget" data-widget-id="membership-pie" style="display: none;">
                     <div class="widget-controls" style="display: none;">
                         <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
                     </div>
-                    <div class="card shadow h-100">
+                    <div class="card shadow w-100 mb-3">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5>
                         </div>
@@ -248,15 +202,20 @@
             </div>
         </div>
     </div>
+
 </div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"])));
+    console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"])));
+
+        document.addEventListener("DOMContentLoaded", function () {
         // Municipality Bar Chart
         var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
         var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
         var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
 
-        var municipalityChart = new Chart(ctxBar, {
+        new Chart(ctxBar, {
             type: 'bar',
             data: {
                 labels: municipalityLabels,
@@ -277,10 +236,10 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            precision: 0,
-                            stepSize: 1,
-                            callback: function(value) {
-                                return Number(value).toLocaleString();
+                            precision: 0, // Ensures only whole numbers
+                            stepSize: 1, // Forces increments of 1
+                            callback: function(value, index, values) {
+                                return Number(value).toLocaleString(); // Formats as whole number
                             }
                         }
                     }
@@ -288,27 +247,32 @@
             }
         });
 
-        // Initialize the pie chart
-        var ctxPie = document.getElementById("memberPieChart").getContext("2d");
-        var goodStanding = @ViewData["GoodStandingCount"];
-        var overduePayment = @ViewData["OverduePaymentCount"];
-        var cancellations = @ViewData["CancellationCount"];
+        // Initialize the pie chart (but don't render it if hidden)
+        var pieChartInstance = null;
+        function initPieChart() {
+            if (pieChartInstance) return; // Don't initialize twice
 
-        var pieChart = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: ["Good Standing", "Overdue Payment", "Cancelled"],
-                datasets: [{
-                    data: [goodStanding, overduePayment, cancellations],
-                    backgroundColor: ['#36479B', '#933515', '#D9534F'],
-                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                cutout: '80%'
-            }
-        });
+            var ctxPie = document.getElementById("memberPieChart").getContext("2d");
+            var goodStanding = @ViewData["GoodStandingCount"];
+            var overduePayment = @ViewData["OverduePaymentCount"];
+            var cancellations = @ViewData["CancellationCount"];
+
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Good Standing", "Overdue Payment", "Cancelled"],
+                    datasets: [{
+                        data: [goodStanding, overduePayment, cancellations],
+                        backgroundColor: ['#36479B', '#933515', '#D9534F'],
+                        hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    cutout: '80%' // Note: cutoutPercentage is deprecated in Chart.js v3+
+                }
+            });
+        }
 
         // Dashboard Edit Functionality
         const editDashboardBtn = document.getElementById('editDashboardBtn');
@@ -316,49 +280,11 @@
         const cancelEditBtn = document.getElementById('cancelEditBtn');
         const dashboardEditControls = document.getElementById('dashboardEditControls');
         const widgetSelector = document.getElementById('widgetSelector');
-        const layoutControls = document.getElementById('layoutControls');
         const widgets = document.querySelectorAll('.widget');
         const widgetControls = document.querySelectorAll('.widget-controls');
-        const metricsContainer = document.getElementById('metricsContainer');
-        const chartsContainer = document.getElementById('chartsContainer');
-
-        // Layout control elements
-        const layoutStandard = document.getElementById('layoutStandard');
-        const layoutSplit = document.getElementById('layoutSplit');
-        const splitViewOptions = document.getElementById('splitViewOptions');
-        const splitConfigMetricsLeft = document.getElementById('splitConfigMetricsLeft');
-        const splitConfigChartsLeft = document.getElementById('splitConfigChartsLeft');
 
         // Load saved dashboard configuration
         loadDashboardConfig();
-
-        // Layout Type Radio Change
-        layoutStandard.addEventListener('change', function() {
-            if (this.checked) {
-                splitViewOptions.style.display = 'none';
-                applyStandardLayout();
-            }
-        });
-
-        layoutSplit.addEventListener('change', function() {
-            if (this.checked) {
-                splitViewOptions.style.display = 'block';
-                applySplitLayout();
-            }
-        });
-
-        // Split Config Radio Change
-        splitConfigMetricsLeft.addEventListener('change', function() {
-            if (this.checked) {
-                applySplitLayout('metricsLeft');
-            }
-        });
-
-        splitConfigChartsLeft.addEventListener('change', function() {
-            if (this.checked) {
-                applySplitLayout('chartsLeft');
-            }
-        });
 
         // Enter edit mode
         editDashboardBtn.addEventListener('click', function() {
@@ -382,7 +308,6 @@
                 e.stopPropagation();
                 const widget = this.closest('.widget');
                 widget.style.display = 'none';
-                updateLayout();
             });
         });
 
@@ -393,14 +318,10 @@
                 const widget = document.querySelector(`.widget[data-widget-id="${widgetId}"]`);
                 if (widget) {
                     widget.style.display = '';
-                    updateLayout();
 
-                    // Ensure charts are properly sized after showing
-                    if (widgetId === 'membership-pie' || widgetId === 'municipality-chart') {
-                        setTimeout(function() {
-                            if (pieChart && widgetId === 'membership-pie') pieChart.resize();
-                            if (municipalityChart && widgetId === 'municipality-chart') municipalityChart.resize();
-                        }, 100);
+                    // Initialize pie chart if it's being shown
+                    if (widgetId === 'membership-pie') {
+                        setTimeout(initPieChart, 100); // Small delay to ensure DOM is ready
                     }
                 }
             });
@@ -411,7 +332,6 @@
             editDashboardBtn.style.display = 'none';
             dashboardEditControls.style.display = 'inline-block';
             widgetSelector.style.display = 'block';
-            layoutControls.style.display = 'block';
 
             // Show widget controls
             widgetControls.forEach(control => {
@@ -431,9 +351,6 @@
             // Save configuration to localStorage
             saveDashboardConfig();
 
-            // Update layout based on current settings
-            updateLayout();
-
             // Show success notification
             alert('Dashboard configuration saved successfully!');
         }
@@ -450,7 +367,6 @@
             editDashboardBtn.style.display = 'inline-block';
             dashboardEditControls.style.display = 'none';
             widgetSelector.style.display = 'none';
-            layoutControls.style.display = 'none';
 
             // Hide widget controls
             widgetControls.forEach(control => {
@@ -464,15 +380,10 @@
         }
 
         function saveDashboardConfig() {
-            const config = {
-                layout: layoutSplit.checked ? 'split' : 'standard',
-                splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
-                widgets: {}
-            };
-
+            const config = {};
             widgets.forEach(widget => {
                 const id = widget.getAttribute('data-widget-id');
-                config.widgets[id] = widget.style.display !== 'none';
+                config[id] = widget.style.display !== 'none';
             });
 
             localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
@@ -484,163 +395,36 @@
             if (savedConfig) {
                 const config = JSON.parse(savedConfig);
 
-                // Set layout type
-                if (config.layout === 'split') {
-                    layoutSplit.checked = true;
-                    splitViewOptions.style.display = 'block';
+                // Apply saved configuration
+                widgets.forEach(widget => {
+                    const id = widget.getAttribute('data-widget-id');
+                    if (config.hasOwnProperty(id)) {
+                        widget.style.display = config[id] ? '' : 'none';
 
-                    // Set split configuration
-                    if (config.splitConfig === 'chartsLeft') {
-                        splitConfigChartsLeft.checked = true;
-                    } else {
-                        splitConfigMetricsLeft.checked = true;
-                    }
-
-                    applySplitLayout(config.splitConfig);
-                } else {
-                    layoutStandard.checked = true;
-                    applyStandardLayout();
-                }
-
-                // Apply widget visibility
-                if (config.widgets) {
-                    widgets.forEach(widget => {
-                        const id = widget.getAttribute('data-widget-id');
-                        if (config.widgets.hasOwnProperty(id)) {
-                            widget.style.display = config.widgets[id] ? '' : 'none';
+                        // Initialize pie chart if it's visible
+                        if (id === 'membership-pie' && config[id]) {
+                            setTimeout(initPieChart, 100);
                         }
-                    });
-                }
-            } else {
-                // Default configuration - standard layout
-                layoutStandard.checked = true;
-                applyStandardLayout();
-
-                // Make sure all metrics are visible
-                document.querySelectorAll('.metrics-item .widget').forEach(widget => {
-                    widget.style.display = '';
-                });
-            }
-
-            // Update layout to handle any empty containers
-            updateLayout();
-        }
-
-        function applyStandardLayout() {
-            // Reset all column classes for metrics items
-            document.querySelectorAll('.metrics-item').forEach(item => {
-                item.className = 'col-xl-3 col-md-6 mb-4 metrics-item';
-            });
-
-            // Reset all column classes for chart containers
-            document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                item.className = 'col-lg-6 mb-4';
-            });
-
-            // Ensure containers have row class
-            metricsContainer.className = 'row';
-            chartsContainer.className = 'row';
-
-            // Resize charts if they exist
-            setTimeout(function() {
-                if (pieChart) pieChart.resize();
-                if (municipalityChart) municipalityChart.resize();
-            }, 100);
-        }
-
-        function applySplitLayout(config = null) {
-            // Get the currently selected config if none is provided
-            if (!config) {
-                config = splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft';
-            }
-
-            // Adjust the layout based on configuration
-            if (config === 'metricsLeft') {
-                // Metrics on left, charts on right
-                metricsContainer.className = 'col-md-6 float-left';
-                chartsContainer.className = 'col-md-6 float-right';
-
-                // Adjust metrics items to be full width in their container
-                document.querySelectorAll('.metrics-item').forEach(item => {
-                    item.className = 'col-12 mb-4 metrics-item';
-                });
-
-                // Make charts full width in their container
-                document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                    item.className = 'col-12 mb-4';
+                    }
                 });
             } else {
-                // Charts on left, metrics on right
-                chartsContainer.className = 'col-md-6 float-left';
-                metricsContainer.className = 'col-md-6 float-right';
+                // Default configuration - hide pie chart initially
+                const pieWidget = document.querySelector('.widget[data-widget-id="membership-pie"]');
+                if (pieWidget) {
+                    pieWidget.style.display = 'none';
+                }
 
-                // Adjust metrics items to be full width in their container
-                document.querySelectorAll('.metrics-item').forEach(item => {
-                    item.className = 'col-12 mb-4 metrics-item';
-                });
-
-                // Make charts full width in their container
-                document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                    item.className = 'col-12 mb-4';
+                // Initialize visible widgets
+                widgets.forEach(widget => {
+                    if (widget.style.display !== 'none' && widget.getAttribute('data-widget-id') === 'membership-pie') {
+                        setTimeout(initPieChart, 100);
+                    }
                 });
             }
-
-            // Clear the floats
-            const clearFix = document.createElement('div');
-            clearFix.className = 'clearfix';
-            document.getElementById('dashboardContent').appendChild(clearFix);
-
-            // Resize charts after layout change
-            setTimeout(function() {
-                if (pieChart) pieChart.resize();
-                if (municipalityChart) municipalityChart.resize();
-            }, 100);
-        }
-
-        function updateLayout() {
-            // Check if metrics section has visible widgets
-            const hasVisibleMetrics = Array.from(document.querySelectorAll('.metrics-item .widget'))
-                .some(widget => widget.style.display !== 'none');
-
-            // Check if charts section has visible widgets
-            const hasVisibleCharts = Array.from(document.querySelectorAll('#chartsContainer .widget'))
-                .some(widget => widget.style.display !== 'none');
-
-            // If nothing is visible in a section, hide it
-            metricsContainer.style.display = hasVisibleMetrics ? '' : 'none';
-            chartsContainer.style.display = hasVisibleCharts ? '' : 'none';
-
-            // If only one section is visible, make it full width
-            if (hasVisibleMetrics && !hasVisibleCharts) {
-                if (layoutStandard.checked) {
-                    // No change needed, metrics are already responsive
-                } else {
-                    metricsContainer.className = 'col-md-12';
-                }
-            } else if (!hasVisibleMetrics && hasVisibleCharts) {
-                if (layoutStandard.checked) {
-                    document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                        item.className = 'col-lg-12 mb-4';
-                    });
-                } else {
-                    chartsContainer.className = 'col-md-12';
-                }
-            } else if (hasVisibleMetrics && hasVisibleCharts) {
-                // Both sections are visible, apply the selected layout
-                if (layoutStandard.checked) {
-                    applyStandardLayout();
-                } else {
-                    applySplitLayout();
-                }
-            }
-
-            // Resize charts after updating layout
-            setTimeout(function() {
-                if (pieChart) pieChart.resize();
-                if (municipalityChart) municipalityChart.resize();
-            }, 100);
         }
     });
+
+    
 </script>
 
 
@@ -657,6 +441,91 @@
 
 
 
+function applySplitLayout(config = null) {
+            // Get the currently selected config if none is provided
+            if (!config) {
+                config = splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft';
+            }
+            
+            // Reset dashboard content
+            document.getElementById('dashboardContent').innerHTML = '';
+            
+            // Create main row
+            const mainRow = document.createElement('div');
+            mainRow.className = 'row';
+            
+            // Create left and right columns based on configuration
+            const leftCol = document.createElement('div');
+            const rightCol = document.createElement('div');
+            
+            // Check which metric widgets are visible
+            const metricWidgets = ['total-members', 'industries', 'cancellations', 'new-members'];
+            const visibleMetricWidgets = metricWidgets.filter(id => {
+                const widget = document.querySelector(`.widget[data-widget-id="${id}"]`);
+                return widget && widget.style.display !== 'none';
+            });
+            
+            // Check which chart widgets are visible
+            const chartWidgets = ['municipality-chart', 'membership-pie'];
+            const visibleChartWidgets = chartWidgets.filter(id => {
+                const widget = document.querySelector(`.widget[data-widget-id="${id}"]`);
+                return widget && widget.style.display !== 'none';
+            });
+            
+            // Set up columns based on configuration
+            if (config === 'metricsLeft') {
+                setupMetricsColumn(leftCol, visibleMetricWidgets);
+                setupChartsColumn(rightCol, visibleChartWidgets);
+            } else {
+                setupChartsColumn(leftCol, visibleChartWidgets);
+                setupMetricsColumn(rightCol, visibleMetricWidgets);
+            }
+            
+            // Add columns to row
+            mainRow.appendChild(leftCol);
+            mainRow.appendChild(rightCol);
+            
+            // Add row to dashboard
+            document.getElementById('dashboardContent').appendChild(mainRow);
+            
+            // Recreate charts since we cloned the containers
+            recreateCharts();
+        }
+
+
+
+
+
+
+
+
+
+        CSS for widget edit mode
+        const style = document.createElement('style');
+        style.textContent = `
+            .widget-edit-mode {
+                position: relative;
+                transition: all 0.2s ease;
+                outline: 2px dashed #ccc;
+                outline-offset: -2px;
+            }
+            .widget-edit-mode:hover {
+                outline: 2px dashed #4e73df;
+                background-color: rgba(78, 115, 223, 0.05);
+            }
+            .widget-controls {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                z-index: 10;
+            }
+            .clearfix::after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+        `;
+        document.head.appendChild(style);
 
 
 

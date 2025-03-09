@@ -1,6 +1,102 @@
-﻿
+﻿/* Dashboard Layout CSS */
+.chart-bar, .chart-pie {
+    height: 350px;
+    position: relative;
+}
+
+/* Ensure chart containers maintain height */
+#std-municipality-chart, #std-pie-chart,
+#split-municipality-chart, #split-pie-chart {
+    min-height: 350px;
+}
+
+/* Smooth transitions */
+#standard-layout, #split-layout,
+#split-stats-section, #split-charts-section {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Active state for control buttons */
+.btn-outline-primary.active,
+.btn-outline-info.active {
+    color: white;
+    background-color: #4e73df;
+    border-color: #4e73df;
+}
+
+/* Ensure cards have consistent height */
+.card {
+    transition: all 0.3s ease;
+}
+
+/* Split layout specific adjustments */
+#split-layout .card {
+    height: calc(100% - 1.5rem);
+    margin-bottom: 1.5rem;
+}
+
+#split-charts-section .card {
+    height: 100%;
+}
 
 
+.widget-edit-mode {
+    position: relative;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    outline: 2px dashed #ccc;
+    outline-offset: -2px;
+    cursor: move;
+}
+
+    .widget-edit-mode:hover {
+        outline: 2px dashed #4e73df;
+        background-color: rgba(78, 115, 223, 0.05);
+    }
+
+.widget-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.metrics-item .card {
+    height: 100%;
+}
+
+#metricsContainer .widget .card {
+    height: 100%;
+}
+
+#chartsContainer .widget .card {
+    height: 100%;
+}
+
+.chart-pie, .chart-bar {
+    position: relative;
+    height: 300px;
+}
+
+@media (max-width: 768px) {
+    .chart-pie, .chart-bar {
+        height: 250px;
+    }
+
+    .widget-controls button {
+        padding: .2rem .4rem;
+        font-size: .75rem;
+    }
+}
+
+
+.summ-view {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -.75rem;
+    /* margin-left: -.75rem;*/
+}
    .btn-group .btn
 
 {
@@ -98,7 +194,7 @@
     content: ">";
 }*/
 
-input[type="file"] {
+    input [type="file"] {
     display: block !important;
     opacity: 1 !important;
     pointer-events: auto !important;

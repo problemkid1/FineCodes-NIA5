@@ -1,0 +1,776 @@
+﻿@{
+    ViewData["Title"] = "CRM";
+    var newMemberCount = ViewData["NewMemberCount"] ?? 0;
+}
+
+<!-- Custom styles for this template-->
+<link href="~/customs/css/style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container-fluid">
+    <!-- Page Heading with Edit Controls -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div class="dashboard-controls">
+            <button id="editDashboardBtn" class="btn btn-primary">
+                <i class="fas fa-edit mr-1"></i> Edit Dashboard
+            </button>
+            <div id="layoutSelector" style="display: none;" class="mt-3">
+                <h6 class="mb-2">Dashboard Layout</h6>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary layout-option" data-layout="standard">
+                        <i class="fas fa-columns mr-1"></i> Standard Layout
+                    </button>
+                    <button type="button" class="btn btn-outline-primary layout-option" data-layout="split">
+                        <i class="fas fa-th-large mr-1"></i> Split Layout
+                    </button>
+                </div>
+            </div>
+            <div id="dashboardEditControls" style="display: none;">
+                <button id="saveDashboardBtn" class="btn btn-success mr-2">
+                    <i class="fas fa-save mr-1"></i> Save Changes
+                </button>
+                <button id="cancelEditBtn" class="btn btn-secondary">
+                    <i class="fas fa-times mr-1"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Content with Dynamic Layout -->
+    <div id="dashboardContent">
+        <!-- Stat Cards Container - Will be rearranged based on visibility -->
+        <div id="statCardsContainer" class="row mb-4">
+            <!-- Total Members -->
+            <div class="widget col-md-3" data-widget-id="total-members" data-widget-type="stat">
+                <div class="widget-controls" style="display: none;">
+                    <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                </div>
+                <a href="/Member" class="text-decoration-none mb-4 flex-grow-1">
+                    <div class="card border-left-primary shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>Total Members</h5>
+                                    </div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                        @ViewData["MemberCount"]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Industries -->
+            <div class="widget col-md-3" data-widget-id="industries" data-widget-type="stat">
+                <div class="widget-controls" style="display: none;">
+                    <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                </div>
+                <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
+                    <div class="card border-left-success shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>Industries</h5>
+                                    </div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                        @ViewData["IndustryCount"]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Cancellations -->
+            <div class="widget col-md-3" data-widget-id="cancellations" data-widget-type="stat">
+                <div class="widget-controls" style="display: none;">
+                    <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                </div>
+                <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none mb-4 flex-grow-1">
+                    <div class="card border-left-primary shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>Cancellations</h5>
+                                    </div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                        @ViewData["CancellationCount"]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- New Members -->
+            <div class="widget col-md-3" data-widget-id="new-members" data-widget-type="stat">
+                <div class="widget-controls" style="display: none;">
+                    <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                </div>
+                <a href="/Member" class="text-decoration-none mb-0 flex-grow-1">
+                    <div class="card border-left-info shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>New Members (@DateTime.Now.Year)</h5>
+                                    </div>
+                                    <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
+                                        @newMemberCount
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Charts Container - Will be rearranged based on visibility -->
+        <div id="chartsContainer" class="row">
+            <!-- Municipality Chart -->
+            <div class="widget col-md-12" data-widget-id="municipality-chart" data-widget-type="chart">
+                <div class="widget-controls" style="display: none;">
+                    <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="card shadow w-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                        <div class="chart-bar w-100">
+                            <canvas id="municipalityBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership Pie Chart -->
+            <div class="widget col-md-12" data-widget-id="membership-pie" data-widget-type="chart" style="display: none;">
+                <div class="widget-controls" style="display: none;">
+                    <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="card shadow w-100 mb-3">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                        <div class="chart-pie w-100">
+                            <canvas id="memberPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Selector Menu (Hidden by default) -->
+    <div id="widgetSelector" class="card shadow mt-4" style="display: none;">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Add Widgets</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="total-members">
+                        <i class="fas fa-users mr-1"></i> Total Members
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="industries">
+                        <i class="fas fa-industry mr-1"></i> Industries
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="cancellations">
+                        <i class="fas fa-ban mr-1"></i> Cancellations
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="new-members">
+                        <i class="fas fa-user-plus mr-1"></i> New Members
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="municipality-chart">
+                        <i class="fas fa-chart-bar mr-1"></i> Municipality Chart
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="membership-pie">
+                        <i class="fas fa-chart-pie mr-1"></i> Membership Pie
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"])));
+    console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"])));
+
+    document.addEventListener("DOMContentLoaded", function () {
+    // Initialize charts
+    var barChartInstance = null;
+    function initBarChart() {
+        if (barChartInstance) return;
+
+        var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
+        var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
+        var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
+
+        barChartInstance = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: municipalityLabels,
+                datasets: [{
+                    label: "Members",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: municipalityData
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1,
+                            callback: function(value) {
+                                return Number(value).toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    var pieChartInstance = null;
+    function initPieChart() {
+        if (pieChartInstance) return;
+
+        var ctxPie = document.getElementById("memberPieChart").getContext("2d");
+        var goodStanding = @ViewData["GoodStandingCount"];
+        var overduePayment = @ViewData["OverduePaymentCount"];
+        var cancellations = @ViewData["CancellationCount"];
+
+        pieChartInstance = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ["Good Standing", "Overdue Payment", "Cancelled"],
+                datasets: [{
+                    data: [goodStanding, overduePayment, cancellations],
+                    backgroundColor: ['#36479B', '#933515', '#D9534F'],
+                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: '80%'
+            }
+        });
+    }
+
+    // Dashboard Edit Functionality
+    const editDashboardBtn = document.getElementById('editDashboardBtn');
+    const saveDashboardBtn = document.getElementById('saveDashboardBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const dashboardEditControls = document.getElementById('dashboardEditControls');
+    const widgetSelector = document.getElementById('widgetSelector');
+    const widgets = document.querySelectorAll('.widget');
+    const widgetControls = document.querySelectorAll('.widget-controls');
+
+    // Current layout state
+    let currentLayout = localStorage.getItem('crmDashboardLayout') || 'standard';
+    let currentSplitOption = localStorage.getItem('crmDashboardSplitOption') || 'stats-left';
+
+    // Create the swap option for split layout
+    const layoutSelector = document.getElementById('layoutSelector');
+    const splitLayoutOption = document.querySelector('.layout-option[data-layout="split"]');
+
+    if (splitLayoutOption && !document.getElementById('splitLayoutOptions')) {
+        // Create a container for split layout options that will appear when split layout is selected
+        const splitLayoutOptions = document.createElement('div');
+        splitLayoutOptions.id = 'splitLayoutOptions';
+        splitLayoutOptions.className = 'mt-2 ml-4 d-none';
+        splitLayoutOptions.innerHTML = `
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-outline-secondary split-option active" data-split-option="stats-left">
+                    <i class="fas fa-th-list mr-1"></i> Stats Left
+                </button>
+                <button type="button" class="btn btn-outline-secondary split-option" data-split-option="charts-left">
+                    <i class="fas fa-chart-bar mr-1"></i> Charts Left
+                </button>
+            </div>
+        `;
+        layoutSelector.appendChild(splitLayoutOptions);
+    }
+
+    // Load saved dashboard configuration
+    loadDashboardConfig();
+
+    // Enter edit mode
+    editDashboardBtn.addEventListener('click', function() {
+        enterEditMode();
+    });
+
+    // Save changes
+    saveDashboardBtn.addEventListener('click', function() {
+        saveChanges();
+    });
+
+    // Cancel edit mode
+    cancelEditBtn.addEventListener('click', function() {
+        cancelEdit();
+    });
+
+    // Add event listeners for widget removal buttons
+    document.querySelectorAll('.widget-remove').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const widget = this.closest('.widget');
+            widget.style.display = 'none';
+            updateLayout();
+        });
+    });
+
+    // Add event listeners for widget addition buttons
+    document.querySelectorAll('.add-widget').forEach(button => {
+        button.addEventListener('click', function() {
+            const widgetId = this.getAttribute('data-widget-id');
+            const widget = document.querySelector(`.widget[data-widget-id="${widgetId}"]`);
+            if (widget) {
+                widget.style.display = '';
+
+                // Initialize charts if needed
+                if (widgetId === 'membership-pie') {
+                    setTimeout(initPieChart, 100);
+                } else if (widgetId === 'municipality-chart') {
+                    setTimeout(initBarChart, 100);
+                }
+
+                // Update layout
+                updateLayout();
+            }
+        });
+    });
+
+    // Layout switching
+    document.querySelectorAll('.layout-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const layoutType = this.getAttribute('data-layout');
+            currentLayout = layoutType;
+
+            // Update active state in selector
+            document.querySelectorAll('.layout-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            // Show/hide split layout options
+            const splitLayoutOptions = document.getElementById('splitLayoutOptions');
+            if (splitLayoutOptions) {
+                if (layoutType === 'split') {
+                    splitLayoutOptions.classList.remove('d-none');
+                } else {
+                    splitLayoutOptions.classList.add('d-none');
+                }
+            }
+
+            // Apply the layout
+            updateLayout();
+        });
+    });
+
+    // Split layout options
+    document.querySelectorAll('.split-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const splitOption = this.getAttribute('data-split-option');
+            currentSplitOption = splitOption;
+
+            // Update active state
+            document.querySelectorAll('.split-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            // If currently in split layout, update the layout immediately
+            if (currentLayout === 'split') {
+                updateLayout();
+            }
+        });
+    });
+
+    function enterEditMode() {
+        // Show edit controls
+        editDashboardBtn.style.display = 'none';
+        dashboardEditControls.style.display = 'inline-block';
+        widgetSelector.style.display = 'block';
+        document.getElementById('layoutSelector').style.display = 'block';
+
+        // Show widget controls
+        widgetControls.forEach(control => {
+            control.style.display = 'block';
+        });
+
+        // Add edit styling
+        widgets.forEach(widget => {
+            widget.classList.add('widget-edit-mode');
+        });
+
+        // Highlight current layout option
+        document.querySelector(`.layout-option[data-layout="${currentLayout}"]`).classList.add('active');
+
+        // Show/hide split layout options based on current layout
+        const splitLayoutOptions = document.getElementById('splitLayoutOptions');
+        if (splitLayoutOptions) {
+            if (currentLayout === 'split') {
+                splitLayoutOptions.classList.remove('d-none');
+                // Highlight current split option
+                document.querySelector(`.split-option[data-split-option="${currentSplitOption}"]`).classList.add('active');
+            } else {
+                splitLayoutOptions.classList.add('d-none');
+            }
+        }
+    }
+
+    function saveChanges() {
+        // Hide edit controls
+        exitEditMode();
+
+        // Save configuration to localStorage
+        saveDashboardConfig();
+
+        // Update layout
+        updateLayout();
+
+        // Show success notification
+        alert('Dashboard configuration saved successfully!');
+    }
+
+    function cancelEdit() {
+        // Hide edit controls
+        exitEditMode();
+
+        // Revert to saved configuration
+        loadDashboardConfig();
+    }
+
+    function exitEditMode() {
+        editDashboardBtn.style.display = 'inline-block';
+        dashboardEditControls.style.display = 'none';
+        widgetSelector.style.display = 'none';
+        document.getElementById('layoutSelector').style.display = 'none';
+
+        // Hide widget controls
+        widgetControls.forEach(control => {
+            control.style.display = 'none';
+        });
+
+        // Remove edit styling
+        widgets.forEach(widget => {
+            widget.classList.remove('widget-edit-mode');
+        });
+    }
+
+    function saveDashboardConfig() {
+        // Save widget visibility
+        const config = {};
+        widgets.forEach(widget => {
+            const id = widget.getAttribute('data-widget-id');
+            config[id] = widget.style.display !== 'none';
+        });
+
+        localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
+
+        // Save layout choice
+        localStorage.setItem('crmDashboardLayout', currentLayout);
+
+        // Save split layout option
+        localStorage.setItem('crmDashboardSplitOption', currentSplitOption);
+    }
+
+    function loadDashboardConfig() {
+        // Load widget visibility
+        const savedConfig = localStorage.getItem('crmDashboardConfig');
+
+        if (savedConfig) {
+            const config = JSON.parse(savedConfig);
+
+            // Apply saved configuration
+            widgets.forEach(widget => {
+                const id = widget.getAttribute('data-widget-id');
+                if (config.hasOwnProperty(id)) {
+                    widget.style.display = config[id] ? '' : 'none';
+                }
+            });
+
+            // Initialize visible charts
+            if (config['membership-pie']) {
+                setTimeout(initPieChart, 100);
+            }
+            if (config['municipality-chart']) {
+                setTimeout(initBarChart, 100);
+            }
+        } else {
+            // Default configuration - show everything except pie chart
+            const pieWidget = document.querySelector('.widget[data-widget-id="membership-pie"]');
+            if (pieWidget) {
+                pieWidget.style.display = 'none';
+            }
+
+            // Initialize the bar chart
+            setTimeout(initBarChart, 100);
+        }
+
+        // Load layout choice
+        currentLayout = localStorage.getItem('crmDashboardLayout') || 'standard';
+
+        // Load split layout option
+        currentSplitOption = localStorage.getItem('crmDashboardSplitOption') || 'stats-left';
+
+        // Update active state in split option selector
+        if (document.querySelector(`.split-option[data-split-option="${currentSplitOption}"]`)) {
+            document.querySelectorAll('.split-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            document.querySelector(`.split-option[data-split-option="${currentSplitOption}"]`).classList.add('active');
+        }
+
+        // Show/hide split options based on current layout
+        const splitLayoutOptions = document.getElementById('splitLayoutOptions');
+        if (splitLayoutOptions) {
+            if (currentLayout === 'split') {
+                splitLayoutOptions.classList.remove('d-none');
+            } else {
+                splitLayoutOptions.classList.add('d-none');
+            }
+        }
+
+        // Update layout
+        updateLayout();
+    }
+
+    function updateLayout() {
+        // Remove any previously created containers from split layout
+        const oldStatsContainer = document.getElementById('statsHalfContainer');
+        const oldChartsContainer = document.getElementById('chartsHalfContainer');
+
+        if (oldStatsContainer) {
+            const parentRow = oldStatsContainer.parentNode;
+            const originalContainer = document.createElement('div');
+            originalContainer.className = 'container-fluid';
+
+            // Move all widgets back to a fresh container
+            widgets.forEach(widget => {
+                originalContainer.appendChild(widget);
+            });
+
+            // Replace the row with our fresh container
+            parentRow.parentNode.replaceChild(originalContainer, parentRow);
+        }
+
+        // Now apply the selected layout
+        if (currentLayout === 'standard') {
+            applyStandardLayout();
+        } else if (currentLayout === 'split') {
+            applySplitLayout();
+        }
+
+        // Refresh charts if needed
+        setTimeout(() => {
+            if (barChartInstance && document.querySelector('.widget[data-widget-id="municipality-chart"]').style.display !== 'none') {
+                barChartInstance.resize();
+            }
+            if (pieChartInstance && document.querySelector('.widget[data-widget-id="membership-pie"]').style.display !== 'none') {
+                pieChartInstance.resize();
+            }
+        }, 300);
+    }
+
+    function applyStandardLayout() {
+        // Create a fresh row for our standard layout
+        const container = document.getElementById('dashboardContent');
+        const row = document.createElement('div');
+        row.className = 'row';
+        container.appendChild(row);
+
+        // Stat cards in top rows
+        const statCards = document.querySelectorAll('.widget[data-widget-type="stat"]');
+        const visibleStatCards = Array.from(statCards).filter(card => card.style.display !== 'none');
+
+        // Create a row for stat cards
+        const statCardsRow = document.createElement('div');
+        statCardsRow.className = 'row mb-4';
+        container.insertBefore(statCardsRow, row);
+
+        // Add stat cards to their row
+        visibleStatCards.forEach(card => {
+            card.className = 'widget col-md-3';
+            statCardsRow.appendChild(card);
+        });
+
+        // Charts (full width or side-by-side)
+        const municipalityChart = document.querySelector('.widget[data-widget-id="municipality-chart"]');
+        const pieChart = document.querySelector('.widget[data-widget-id="membership-pie"]');
+
+        if (municipalityChart.style.display !== 'none' && pieChart.style.display !== 'none') {
+            municipalityChart.className = 'widget col-md-6';
+            pieChart.className = 'widget col-md-6';
+        } else {
+            if (municipalityChart.style.display !== 'none') {
+                municipalityChart.className = 'widget col-md-12';
+            }
+            if (pieChart.style.display !== 'none') {
+                pieChart.className = 'widget col-md-12';
+            }
+        }
+
+        // Add visible charts to the charts row
+        if (municipalityChart.style.display !== 'none') {
+            row.appendChild(municipalityChart);
+        }
+        if (pieChart.style.display !== 'none') {
+            row.appendChild(pieChart);
+        }
+    }
+
+    function applySplitLayout() {
+        // Create a fresh row for our split layout
+        const container = document.getElementById('dashboardContent');
+        const row = document.createElement('div');
+        row.className = 'row';
+        container.appendChild(row);
+
+        // Create the half containers
+        const statsContainer = document.createElement('div');
+        statsContainer.id = 'statsHalfContainer';
+        statsContainer.className = 'col-md-6';
+
+        const chartsContainer = document.createElement('div');
+        chartsContainer.id = 'chartsHalfContainer';
+        chartsContainer.className = 'col-md-6';
+
+        row.appendChild(statsContainer);
+        row.appendChild(chartsContainer);
+
+        // Move stat widgets to stats container
+        const statCards = document.querySelectorAll('.widget[data-widget-type="stat"]');
+        const visibleStatCards = Array.from(statCards).filter(card => card.style.display !== 'none');
+
+        visibleStatCards.forEach(card => {
+            // Determine width based on number of visible cards
+            let colWidth = 'col-md-6';
+            if (visibleStatCards.length === 1) {
+                colWidth = 'col-md-12';
+            } else if (visibleStatCards.length === 3) {
+                colWidth = 'col-md-4';
+            } else if (visibleStatCards.length >= 4) {
+                colWidth = 'col-md-6'; // 2x2 grid for 4 or more
+            }
+
+            card.className = `widget ${colWidth} mb-4`;
+            statsContainer.appendChild(card);
+        });
+
+        // Chart toggle for the right side
+        const municipalityChart = document.querySelector('.widget[data-widget-id="municipality-chart"]');
+        const pieChart = document.querySelector('.widget[data-widget-id="membership-pie"]');
+
+        // Create chart selector if both charts are visible
+        if (municipalityChart.style.display !== 'none' && pieChart.style.display !== 'none') {
+            const chartSelector = document.createElement('div');
+            chartSelector.className = 'btn-group mb-3';
+            chartSelector.innerHTML = `
+                <button type="button" class="btn btn-outline-primary active" id="municipalityBtn">
+                    Municipality Chart
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="pieBtn">
+                    Membership Pie
+                </button>
+            `;
+            chartsContainer.appendChild(chartSelector);
+
+            // Initially show municipality and hide pie
+            municipalityChart.className = 'widget col-md-12';
+            pieChart.className = 'widget col-md-12';
+            pieChart.style.display = 'none';
+
+            // Add event listeners for chart toggle
+            document.getElementById('municipalityBtn').addEventListener('click', function() {
+                municipalityChart.style.display = '';
+                pieChart.style.display = 'none';
+                this.classList.add('active');
+                document.getElementById('pieBtn').classList.remove('active');
+                setTimeout(initBarChart, 100);
+            });
+
+            document.getElementById('pieBtn').addEventListener('click', function() {
+                municipalityChart.style.display = 'none';
+                pieChart.style.display = '';
+                this.classList.add('active');
+                document.getElementById('municipalityBtn').classList.remove('active');
+                setTimeout(initPieChart, 100);
+            });
+        }
+             // Add charts to container
+        chartsContainer.appendChild(municipalityChart);
+        chartsContainer.appendChild(pieChart);
+
+        // If only one chart is visible
+        if (municipalityChart.style.display !== 'none' && pieChart.style.display === 'none') {
+            municipalityChart.className = 'widget col-md-12';
+            setTimeout(initBarChart, 100);
+        } else if (pieChart.style.display !== 'none' && municipalityChart.style.display === 'none') {
+            pieChart.className = 'widget col-md-12';
+            setTimeout(initPieChart, 100);
+        }
+        }
+         // Initialize visible charts at startup
+    if (document.querySelector('.widget[data-widget-id="municipality-chart"]').style.display !== 'none') {
+        setTimeout(initBarChart, 100);
+    }
+    if (document.querySelector('.widget[data-widget-id="membership-pie"]').style.display !== 'none') {
+        setTimeout(initPieChart, 100);
+    }
+
+    // Initial layout application
+    updateLayout();
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

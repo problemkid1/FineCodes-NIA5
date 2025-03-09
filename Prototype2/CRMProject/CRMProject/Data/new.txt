@@ -1,0 +1,501 @@
+﻿@{
+    ViewData["Title"] = "CRM";
+    var newMemberCount = ViewData["NewMemberCount"] ?? 0;
+}
+
+<!-- Custom styles for this template-->
+<link href="~/customs/css/style.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container-fluid" id="dashboard-container">
+    <!-- Dashboard Controls -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div class="btn-toolbar">
+            <div class="btn-group mr-2">
+                <button id="standardLayoutBtn" class="btn btn-sm btn-outline-primary active">Standard Layout</button>
+                <button id="splitLayoutBtn" class="btn btn-sm btn-outline-primary">Split Layout</button>
+            </div>
+            <button id="swapPositionsBtn" class="btn btn-sm btn-outline-secondary mr-2" style="display: none;">Move Stats to Right</button>
+            <div class="btn-group">
+                <button id="municipalityChartBtn" class="btn btn-sm btn-outline-info active">Municipality Chart</button>
+                <button id="pieChartBtn" class="btn btn-sm btn-outline-info">Pie Chart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard Layout -->
+    <div id="standard-layout">
+        <div class="row">
+            <!-- Top row with stat cards -->
+            <div class="col-md-3 d-flex flex-column">
+                <a href="/Member" class="text-decoration-none mb-4 flex-grow-1">
+                    <div class="card border-left-primary shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>Total Members</h5>
+                                    </div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                        @ViewData["MemberCount"]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
+                    <div class="card border-left-success shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>Industries</h5>
+                                    </div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                        @ViewData["IndustryCount"]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 d-flex flex-column">
+                <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none mb-4 flex-grow-1">
+                    <div class="card border-left-primary shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>Cancellations</h5>
+                                    </div>
+                                    <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                        @ViewData["CancellationCount"]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/Member" class="text-decoration-none mb-0 flex-grow-1">
+                    <div class="card border-left-info shadow h-100">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                        <h5>New Members (@DateTime.Now.Year)</h5>
+                                    </div>
+                                    <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
+                                        @newMemberCount
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6">
+                <!-- Charts - only one shown at a time -->
+                <div id="std-municipality-chart" class="card shadow w-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                        <div class="chart-bar w-100">
+                            <canvas id="municipalityBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="std-pie-chart" class="card shadow w-100" style="display: none;">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                        <div class="chart-pie w-100">
+                            <canvas id="memberPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Split Layout -->
+    <div id="split-layout" style="display: none;">
+        <div class="row">
+            <!-- Stats Section (defaulted to left side) -->
+            <div id="split-stats-section" class="col-md-6 order-first">
+                <div class="row">
+                    <div class="col-md-6 d-flex flex-column">
+                        <a href="/Member" class="text-decoration-none mb-4 flex-grow-1">
+                            <div class="card border-left-primary shadow h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                                <h5>Total Members</h5>
+                                            </div>
+                                            <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                                @ViewData["MemberCount"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="/Industry" class="text-decoration-none mb-0 flex-grow-1">
+                            <div class="card border-left-success shadow h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                                <h5>Industries</h5>
+                                            </div>
+                                            <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                                @ViewData["IndustryCount"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6 d-flex flex-column">
+                        <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none mb-4 flex-grow-1">
+                            <div class="card border-left-primary shadow h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                                <h5>Cancellations</h5>
+                                            </div>
+                                            <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                                @ViewData["CancellationCount"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="/Member" class="text-decoration-none mb-0 flex-grow-1">
+                            <div class="card border-left-info shadow h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
+                                                <h5>New Members (@DateTime.Now.Year)</h5>
+                                            </div>
+                                            <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
+                                                @newMemberCount
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section (defaulted to right side) -->
+            <div id="split-charts-section" class="col-md-6 order-last">
+                <!-- Municipality Chart -->
+                <div id="split-municipality-chart" class="card shadow w-100 h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                        <div class="chart-bar w-100">
+                            <canvas id="municipalityBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart (hidden by default) -->
+                <div id="split-pie-chart" class="card shadow w-100 h-100" style="display: none;">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5>
+                    </div>
+                    <div class="card-body d-flex align-items-center">
+                        <div class="chart-pie w-100">
+                            <canvas id="memberPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Widget Selector Menu (Hidden by default) -->
+    <div id="widgetSelector" class="card shadow mt-4" style="display: none;">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Add Widgets</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="total-members">
+                        <i class="fas fa-users mr-1"></i> Total Members
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="industries">
+                        <i class="fas fa-industry mr-1"></i> Industries
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="cancellations">
+                        <i class="fas fa-ban mr-1"></i> Cancellations
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="new-members">
+                        <i class="fas fa-user-plus mr-1"></i> New Members
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="municipality-chart">
+                        <i class="fas fa-chart-bar mr-1"></i> Municipality Chart
+                    </button>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="membership-pie">
+                        <i class="fas fa-chart-pie mr-1"></i> Membership Pie
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"])));
+    console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"])));
+
+         document.addEventListener("DOMContentLoaded", function () {
+        // Chart initialization functions
+        var barChartInstance = null;
+        function initBarChart() {
+            if (barChartInstance) return;
+
+            var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
+            var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
+            var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
+
+            barChartInstance = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: municipalityLabels,
+                    datasets: [{
+                        label: "Members",
+                        backgroundColor: "#4e73df",
+                        hoverBackgroundColor: "#2e59d9",
+                        borderColor: "#4e73df",
+                        data: municipalityData
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return Number(value).toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        var pieChartInstance = null;
+        function initPieChart() {
+            if (pieChartInstance) return;
+
+            var ctxPie = document.getElementById("memberPieChart").getContext("2d");
+            var goodStanding = @ViewData["GoodStandingCount"];
+            var overduePayment = @ViewData["OverduePaymentCount"];
+            var cancellations = @ViewData["CancellationCount"];
+
+            pieChartInstance = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Good Standing", "Overdue Payment", "Cancelled"],
+                    datasets: [{
+                        data: [goodStanding, overduePayment, cancellations],
+                        backgroundColor: ['#36479B', '#933515', '#D9534F'],
+                        hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    cutout: '80%'
+                }
+            });
+        }
+
+        // Dashboard layout configuration
+        let currentLayout = localStorage.getItem('dashboardLayout') || 'standard';
+        let splitSide = localStorage.getItem('dashboardSplitSide') || 'statsLeft';
+        let activeChart = localStorage.getItem('dashboardActiveChart') || 'municipality';
+
+        // Get references to the layout containers
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const standardLayoutContainer = document.getElementById('standard-layout');
+        const splitLayoutContainer = document.getElementById('split-layout');
+
+        // Apply initial layout and configuration
+        applyLayoutSelection();
+        applyChartSelection();
+
+        // Layout toggle controls
+        document.getElementById('standardLayoutBtn').addEventListener('click', function() {
+            currentLayout = 'standard';
+            localStorage.setItem('dashboardLayout', currentLayout);
+            applyLayoutSelection();
+            updateCharts();
+        });
+
+        document.getElementById('splitLayoutBtn').addEventListener('click', function() {
+            currentLayout = 'split';
+            localStorage.setItem('dashboardLayout', currentLayout);
+            applyLayoutSelection();
+            updateCharts();
+        });
+
+        // Split layout position toggle
+        document.getElementById('swapPositionsBtn').addEventListener('click', function() {
+            splitSide = splitSide === 'statsLeft' ? 'statsRight' : 'statsLeft';
+            localStorage.setItem('dashboardSplitSide', splitSide);
+            applySplitSideSelection();
+            updateCharts();
+        });
+
+        // Chart toggle controls
+        document.getElementById('municipalityChartBtn').addEventListener('click', function() {
+            activeChart = 'municipality';
+            localStorage.setItem('dashboardActiveChart', activeChart);
+            applyChartSelection();
+        });
+
+        document.getElementById('pieChartBtn').addEventListener('click', function() {
+            activeChart = 'pie';
+            localStorage.setItem('dashboardActiveChart', activeChart);
+            applyChartSelection();
+        });
+
+        // Apply the selected layout (standard or split)
+        function applyLayoutSelection() {
+            // Update button active states
+            document.getElementById('standardLayoutBtn').classList.toggle('active', currentLayout === 'standard');
+            document.getElementById('splitLayoutBtn').classList.toggle('active', currentLayout === 'split');
+
+            // Show/hide swap positions button based on layout
+            document.getElementById('swapPositionsBtn').style.display = currentLayout === 'split' ? 'inline-block' : 'none';
+
+            if (currentLayout === 'standard') {
+                standardLayoutContainer.style.display = '';
+                splitLayoutContainer.style.display = 'none';
+            } else {
+                standardLayoutContainer.style.display = 'none';
+                splitLayoutContainer.style.display = '';
+                applySplitSideSelection();
+            }
+        }
+
+        // Apply the selected position for split layout (stats left/right)
+        function applySplitSideSelection() {
+            const statsSection = document.getElementById('split-stats-section');
+            const chartsSection = document.getElementById('split-charts-section');
+
+            if (splitSide === 'statsLeft') {
+                statsSection.classList.remove('order-last');
+                statsSection.classList.add('order-first');
+                chartsSection.classList.remove('order-first');
+                chartsSection.classList.add('order-last');
+                document.getElementById('swapPositionsBtn').textContent = 'Move Stats to Right';
+            } else {
+                statsSection.classList.remove('order-first');
+                statsSection.classList.add('order-last');
+                chartsSection.classList.remove('order-last');
+                chartsSection.classList.add('order-first');
+                document.getElementById('swapPositionsBtn').textContent = 'Move Stats to Left';
+            }
+        }
+
+        // Apply the selected chart (municipality or pie)
+        function applyChartSelection() {
+            // Update button active states
+            document.getElementById('municipalityChartBtn').classList.toggle('active', activeChart === 'municipality');
+            document.getElementById('pieChartBtn').classList.toggle('active', activeChart === 'pie');
+
+            // Standard layout charts
+            const stdMunicipalityChart = document.getElementById('std-municipality-chart');
+            const stdPieChart = document.getElementById('std-pie-chart');
+
+            // Split layout charts
+            const splitMunicipalityChart = document.getElementById('split-municipality-chart');
+            const splitPieChart = document.getElementById('split-pie-chart');
+
+            if (activeChart === 'municipality') {
+                stdMunicipalityChart.style.display = '';
+                stdPieChart.style.display = 'none';
+                splitMunicipalityChart.style.display = '';
+                splitPieChart.style.display = 'none';
+                setTimeout(initBarChart, 100);
+            } else {
+                stdMunicipalityChart.style.display = 'none';
+                stdPieChart.style.display = '';
+                splitMunicipalityChart.style.display = 'none';
+                splitPieChart.style.display = '';
+                setTimeout(initPieChart, 100);
+            }
+        }
+
+        // Update charts after layout changes
+        function updateCharts() {
+            setTimeout(function() {
+                if (activeChart === 'municipality' && barChartInstance) {
+                    barChartInstance.resize();
+                } else if (activeChart === 'pie' && pieChartInstance) {
+                    pieChartInstance.resize();
+                }
+            }, 300);
+        }
+    });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
