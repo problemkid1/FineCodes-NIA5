@@ -304,8 +304,7 @@ namespace CRMProject.Controllers
             contactToUpdate.FirstName = contact.FirstName;
             contactToUpdate.LastName = contact.LastName;
             contactToUpdate.ContactTitleRole = contact.ContactTitleRole;
-            contactToUpdate.ContactPhone = contact.ContactPhone;
-            contactToUpdate.ContactWebsite = contact.ContactWebsite;
+            contactToUpdate.ContactPhone = contact.ContactPhone;            
             contactToUpdate.ContactEmailAddress = contact.ContactEmailAddress;
             contactToUpdate.ContactInteractions = contact.ContactInteractions;
             contactToUpdate.ContactNotes = contact.ContactNotes;

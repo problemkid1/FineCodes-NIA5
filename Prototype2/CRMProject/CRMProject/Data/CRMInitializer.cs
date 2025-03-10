@@ -65,6 +65,7 @@ namespace CRMProject.Data
                                     MemberSize = 50,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "info@180marketing.com",
+                                    MemberWebsite = "https://100Marketing.com",
                                     MemberStartDate = DateTime.Parse("2021-01-15"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-30), // Last contacted a month ago
@@ -76,6 +77,7 @@ namespace CRMProject.Data
                                     MemberSize = 300,
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "finance@greenenergy.com",
+                                    MemberWebsite = "https://Technologiesco.com",
                                     MemberStartDate = DateTime.Parse("2020-06-10"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-60), // Last contacted 2 months ago
@@ -87,6 +89,7 @@ namespace CRMProject.Data
                                     MemberSize = 70,
                                     MemberStatus = MemberStatus.Cancelled,
                                     MemberAccountsPayableEmail = "billing@urbanbuilders.com",
+                                    MemberWebsite = "https://ChainManagement.com",
                                     MemberStartDate = DateTime.Parse("2018-03-20"),
                                     MemberEndDate = DateTime.Parse("2023-05-10"), // Canceled last year
                                     MemberLastContactDate = DateTime.Today.AddDays(-120), // Last contacted 4 months ago
@@ -98,6 +101,7 @@ namespace CRMProject.Data
                                     MemberSize = 120,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payroll@freshfoods.com",
+                                    MemberWebsite = "https://AccPayments.com",
                                     MemberStartDate = DateTime.Parse("2019-11-05"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-15), // Recently contacted
@@ -109,6 +113,7 @@ namespace CRMProject.Data
                                     MemberSize = 15,
                                     MemberStatus = MemberStatus.Cancelled,
                                     MemberAccountsPayableEmail = "accounting@smartsolutions.com",
+                                    MemberWebsite = "https://RadarTechnologies.com",
                                     MemberStartDate = DateTime.Parse("2020-08-01"),
                                     MemberEndDate = DateTime.Parse("2022-12-15"), // Canceled 2 years ago
                                     MemberLastContactDate = DateTime.Today.AddDays(-300), // No contact for almost a year
@@ -120,6 +125,7 @@ namespace CRMProject.Data
                                     MemberSize = 25,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@edutech.com",
+                                    MemberWebsite = "https://SecurityServices Co.com",
                                     MemberStartDate = DateTime.Parse("2022-05-12"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-10), // Recently contacted
@@ -131,6 +137,7 @@ namespace CRMProject.Data
                                     MemberSize = 80,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "payments@autohub.com",
+                                    MemberWebsite = "https://Agri-Plus.com",
                                     MemberStartDate = DateTime.Parse("2021-09-30"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-45), // Contacted 1.5 months ago
@@ -142,6 +149,7 @@ namespace CRMProject.Data
                                     MemberSize = 2000,
                                     MemberStatus = MemberStatus.OverduePayment,
                                     MemberAccountsPayableEmail = "billing@globaltextiles.com",
+                                    MemberWebsite = "https://AirCa.com",
                                     MemberStartDate = DateTime.Parse("2017-04-15"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-90), // Last contacted 3 months ago
@@ -153,6 +161,7 @@ namespace CRMProject.Data
                                     MemberSize = 600,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "accounting@nextgen.com",
+                                    MemberWebsite = "https://AirbusCanada.com",
                                     MemberStartDate = DateTime.Parse("2019-07-22"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-20), // Contacted recently
@@ -164,6 +173,7 @@ namespace CRMProject.Data
                                     MemberSize = 100,
                                     MemberStatus = MemberStatus.GoodStanding,
                                     MemberAccountsPayableEmail = "finance@primelogistics.com",
+                                    MemberWebsite = "https://Wood.com",
                                     MemberStartDate = DateTime.Parse("2020-02-10"),
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
@@ -484,7 +494,6 @@ namespace CRMProject.Data
                                 ContactPhone = "1234567890",
                                 ContactEmailAddress = "johndoe@example.com",
                                 ContactEmailType = EmailType.Primary,
-                                ContactWebsite = "https://johndoe.com",
                                 ContactInteractions = "Met at conference, discussed potential partnership.",
                                 ContactNotes = "Follow up in 2 weeks regarding partnership opportunities."
                             },
@@ -496,7 +505,6 @@ namespace CRMProject.Data
                                 ContactPhone = "0987654321",
                                 ContactEmailAddress = "janesmith@example.com",
                                 ContactEmailType = EmailType.VIP,
-                                ContactWebsite = "https://janesmith.com",
                                 ContactInteractions = "Phone call to discuss new product launch.",
                                 ContactNotes = "Send product information via email."
                             },
@@ -508,7 +516,6 @@ namespace CRMProject.Data
                                 ContactPhone = "1122334455",
                                 ContactEmailAddress = "jamesbrown@example.com",
                                 ContactEmailType = EmailType.Primary,
-                                ContactWebsite = "https://jamesbrown.com",
                                 ContactInteractions = "Helped resolve technical issue over email.",
                                 ContactNotes = "Follow up in 1 week to ensure continued satisfaction."
                             },
@@ -520,7 +527,6 @@ namespace CRMProject.Data
                                 ContactPhone = "2233445566",
                                 ContactEmailAddress = "maryjohnson@example.com",
                                 ContactEmailType = EmailType.VIP,
-                                ContactWebsite = "https://maryjohnson.com",
                                 ContactInteractions = "Met during marketing seminar, discussed brand strategy.",
                                 ContactNotes = "Send case study on brand awareness campaign."
                             },
@@ -532,7 +538,6 @@ namespace CRMProject.Data
                                 ContactPhone = "3344556677",
                                 ContactEmailAddress = "chriswilliams@example.com",
                                 ContactEmailType = EmailType.Secondary,
-                                ContactWebsite = "https://chriswilliams.com",
                                 ContactInteractions = "Interviewed for job opening, followed up on interview questions.",
                                 ContactNotes = "Send hiring feedback."
                             },
@@ -544,7 +549,6 @@ namespace CRMProject.Data
                                 ContactPhone = "4455667788",
                                 ContactEmailAddress = "patriciadavis@example.com",
                                 ContactEmailType = EmailType.VIP,
-                                ContactWebsite = "https://patriciadavis.com",
                                 ContactInteractions = "Discussed product features and benefits with clients.",
                                 ContactNotes = "Provide additional product training materials."
                             },
@@ -556,7 +560,6 @@ namespace CRMProject.Data
                                 ContactPhone = "5566778899",
                                 ContactEmailAddress = "michaelgarcia@example.com",
                                 ContactEmailType = EmailType.Secondary,
-                                ContactWebsite = "https://michaelgarcia.com",
                                 ContactInteractions = "Coordinated project timelines and operational workflows.",
                                 ContactNotes = "Follow up on project status next week."
                             },
@@ -568,7 +571,6 @@ namespace CRMProject.Data
                                 ContactPhone = "6677889900",
                                 ContactEmailAddress = "sarahmartinez@example.com",
                                 ContactEmailType = EmailType.VIP,
-                                ContactWebsite = "https://sarahmartinez.com",
                                 ContactInteractions = "Worked on analysis for business growth strategies.",
                                 ContactNotes = "Review report with senior team members."
                             },
@@ -580,7 +582,6 @@ namespace CRMProject.Data
                                 ContactPhone = "7788990011",
                                 ContactEmailAddress = "davidlopez@example.com",
                                 ContactEmailType = EmailType.Primary,
-                                ContactWebsite = "https://davidlopez.com",
                                 ContactInteractions = "Reviewed financial reports and budgeting with team.",
                                 ContactNotes = "Send updated financial forecast."
                             },
@@ -592,7 +593,6 @@ namespace CRMProject.Data
                                 ContactPhone = "8899001122",
                                 ContactEmailAddress = "lindamiller@example.com",
                                 ContactEmailType = EmailType.VIP,
-                                ContactWebsite = "https://lindamiller.com",
                                 ContactInteractions = "Provided legal advice on contract agreements.",
                                 ContactNotes = "Send draft of contract revisions for review."
                             },
@@ -604,7 +604,6 @@ namespace CRMProject.Data
                                 ContactPhone = "9988776655",
                                 ContactEmailAddress = "alice.thompson@example.com",
                                 ContactEmailType = EmailType.Primary,
-                                ContactWebsite = "https://alicethompson.com",
                                 ContactInteractions = "Managed large-scale software projects.",
                                 ContactNotes = "Send updates on new project management software."
                             },
@@ -616,7 +615,6 @@ namespace CRMProject.Data
                                 ContactPhone = "8877665544",
                                 ContactEmailAddress = "mark.evans@example.com",
                                 ContactEmailType = EmailType.VIP,
-                                ContactWebsite = "https://markevans.com",
                                 ContactInteractions = "Led architecture discussions on system design.",
                                 ContactNotes = "Follow up on microservices implementation proposal."
                             },
@@ -628,7 +626,6 @@ namespace CRMProject.Data
                                 ContactPhone = "7766554433",
                                 ContactEmailAddress = "laura.scott@example.com",
                                 ContactEmailType = EmailType.Secondary,
-                                ContactWebsite = "https://laurascott.com",
                                 ContactInteractions = "Recruiting discussions for key engineering roles.",
                                 ContactNotes = "Send CVs of shortlisted candidates."
                             },
@@ -640,7 +637,6 @@ namespace CRMProject.Data
                                 ContactPhone = "6655443322",
                                 ContactEmailAddress = "tom.baker@example.com",
                                 ContactEmailType = EmailType.Primary,
-                                ContactWebsite = "https://tombaker.com",
                                 ContactInteractions = "Discussed investment strategies and budgets.",
                                 ContactNotes = "Provide financial report for next quarter."
                             }

@@ -33,7 +33,9 @@
                     <!-- Opportunity Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityName" class="control-label"></label>
+                            <label asp-for="OpportunityName" class="control-label">
+                                <span class="text-danger">*</span> Opportunity Name
+                            </label>
                             <input asp-for="OpportunityName" class="form-control" />
                             <span asp-validation-for="OpportunityName" class="text-danger"></span>
                         </div>
@@ -42,7 +44,9 @@
                     <!-- Opportunity Status -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityStatus" class="control-label"></label>
+                            <label asp-for="OpportunityStatus" class="control-label">
+                                <span class="text-danger">*</span> Status
+                            </label>
                             <select asp-for="OpportunityStatus" class="form-control"
                                     asp-items="Html.GetEnumSelectList<OpportunityStatus>()">
                                 <option value="">Select a Opportunity Status </option>
@@ -54,7 +58,9 @@
                     <!-- Opportunity Priority -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityPriority" class="control-label"></label>
+                            <label asp-for="OpportunityPriority" class="control-label">
+                                <span class="text-danger">*</span> Priority
+                            </label>
                             <input asp-for="OpportunityPriority" class="form-control" />
                             <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
                         </div>
@@ -63,7 +69,9 @@
                     <!-- Opportunity Action -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityAction" class="control-label"></label>
+                            <label asp-for="OpportunityAction" class="control-label">
+                                <span class="text-danger">*</span> Action
+                            </label>
                             <input asp-for="OpportunityAction" class="form-control" />
                             <span asp-validation-for="OpportunityAction" class="text-danger"></span>
                         </div>
@@ -72,10 +80,17 @@
                     <!-- Opportunity Contact -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="Contact.Summary" class="control-label"></label>
+
+                             <label asp-for="Contact.Summary" class="control-label">
+                                <span class="text-danger">*</span> Contact
+                            </label>
                             <!-- Display as read-only text instead of an input -->
                             <div class="form-control">@(Model.Contact?.Summary ?? "No contact summary available")</div>
                             <input type="hidden" asp-for="Contact.ID" />
+                           
+                            <input asp-for="Contact.Summary" class="form-control" />
+                            <span asp-validation-for="Contact.Summary" class="text-danger"></span>
+
                         </div>
                     </div>
 
@@ -83,19 +98,22 @@
                     <!-- Opportunity Last Contact Date -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityLastContactDate" class="control-label"></label>
-                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" />
+                            <label asp-for="OpportunityLastContactDate" class="form-label">
+                                <span class="text-danger">*</span> Last Contact Date
+                            </label>
+                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required
+                                   max="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
                         </div>
                     </div>
 
                     <!-- Opportunity Interactions -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityInteractions" class="control-label"></label>
-                            <input asp-for="OpportunityInteractions" class="form-control" />
-                            <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
-                        </div>
+                    <div class="col-12 mb-3">
+                        <label asp-for="OpportunityInteractions" class="form-label">
+                            <span class="text-danger">*</span> Interactions
+                        </label>
+                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" required></textarea>
+                        <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
                     </div>
                 </div>
 
