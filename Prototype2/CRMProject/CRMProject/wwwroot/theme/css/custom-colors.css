@@ -59,6 +59,57 @@ body {
     background-color: #fff;
 }
 
+
+
+.btn-close {
+    color: #fff;
+    background-color: #364472;
+    border-color: #364472;
+    border-radius: 35%;
+}
+
+    .btn-close:hover {
+        color: #fff;
+        background-color: #2e59d9;
+        border-color: #2653d4;
+    }
+
+    .btn-close:focus, .btn-close.focus {
+        color: #fff;
+        background-color: #2e59d9;
+        border-color: #2653d4;
+        box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+    }
+
+    /* Updated Disabled Button Styles */
+    .btn-close.disabled,
+    .btn-close:disabled {
+        color: #ddd; /* Lighten the text for a more faded look */
+        background-color: #364472;
+        border-color: #364472;
+        opacity: 1; /* Reduce opacity */
+        filter: grayscale(80%); /* Make it appear faded */
+        border-style: dashed; /* Dashed border for distinction */
+        pointer-events: none; /* Ensure it's non-clickable */
+    }
+
+    .btn-close:not(:disabled):not(.disabled):active,
+    .btn-close:not(:disabled):not(.disabled).active,
+    .show > .btn-close.dropdown-toggle {
+        color: #fff;
+        background-color: #2653d4;
+        border-color: #244ec9;
+    }
+
+        .btn-close:not(:disabled):not(.disabled):active:focus,
+        .btn-close:not(:disabled):not(.disabled).active:focus,
+        .show > .btn-primary.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.2rem rgba(105, 136, 228, 0.5);
+        }
+
+
+
+
 .summ-view {
     display: flex;
     flex-wrap: wrap;
