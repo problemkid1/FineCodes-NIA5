@@ -14,6 +14,18 @@ namespace CRMProject.Models
                 return FirstName
                     + (string.IsNullOrEmpty(MiddleName) ? " " :
                         (" " + (char?)MiddleName[0] + ". ").ToUpper())
+                    + LastName;
+            }
+        }
+
+        [Display(Name = "Contact")]
+        public string ContactType
+        {
+            get
+            {
+                return FirstName
+                    + (string.IsNullOrEmpty(MiddleName) ? " " :
+                        (" " + (char?)MiddleName[0] + ". ").ToUpper())
                     + LastName + " - " + ContactEmailType;
             }
         }
@@ -66,11 +78,7 @@ namespace CRMProject.Models
         public string? ContactEmailAddress { get; set; } = "";
 
         [Display(Name = "Email Type")]
-        public EmailType? ContactEmailType { get; set; }
-
-        [Display(Name = "Website")]
-        [MaxLength(100)]
-        public string? ContactWebsite { get; set; } = "";
+        public EmailType? ContactEmailType { get; set; }        
 
         [MaxLength(255)]
         [Display(Name = "Interactions")]

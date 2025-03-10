@@ -36,6 +36,10 @@ namespace CRMProject.Models
         [DataType(DataType.EmailAddress)]
         public string MemberAccountsPayableEmail { get; set; } = "";
 
+        [Display(Name = "Website")]
+        [MaxLength(100)]
+        public string? MemberWebsite { get; set; } = "";
+
         [Display(Name = "Join Date")]
         [Required(ErrorMessage = "Member start date is required.")]
         [DataType(DataType.Date)]
