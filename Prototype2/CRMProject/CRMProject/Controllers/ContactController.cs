@@ -199,15 +199,11 @@ namespace CRMProject.Controllers
                                               .Select(e => e.ErrorMessage)
                                               .ToList();
 
-                // Debug: Log model state errors (replace with your logging mechanism)
-                // _logger.LogWarning("CreateContact: ModelState is invalid. Errors: {@Errors}", errors);
                 return Json(new { success = false, message = "Invalid model state", errors });
             }
 
             try
             {
-                // Debug: Log the incoming contact data
-                // _logger.LogInformation("CreateContact: Adding contact {@Contact}", contact);
 
                 // Add the contact and save to get the generated ID
                 _context.Contacts.Add(contact);
@@ -220,9 +216,6 @@ namespace CRMProject.Controllers
                     return Json(new { success = false, message = "Contact ID not generated after save." });
                 }
 
-                // Debug: Log the generated contact ID
-                // _logger.LogInformation("CreateContact: Generated Contact ID {ContactID}", contact.ID);
-
                 // Create and save the member-contact relationship
                 var memberContact = new MemberContact
                 {
@@ -233,21 +226,19 @@ namespace CRMProject.Controllers
                 _context.MemberContacts.Add(memberContact);
                 await _context.SaveChangesAsync();
 
-                // Debug: Log successful creation of both contact and memberContact
-                // _logger.LogInformation("CreateContact: Successfully created Contact and MemberContact relationship.");
+               
 
                 return Json(new { success = true });
             }
             catch (Exception ex)
             {
-                // Debug: Log the exception details (consider using a logging framework)
-                // _logger.LogError(ex, "CreateContact: Exception occurred while creating contact.");
+               
 
                 return Json(new
                 {
                     success = false,
-                    message = ex.Message,
-                    stackTrace = ex.StackTrace // For debugging only; remove in production
+                    message = ex.Message
+                   
                 });
             }
 
