@@ -14,7 +14,7 @@ namespace CRMProject.Models
                 return FirstName
                     + (string.IsNullOrEmpty(MiddleName) ? " " :
                         (" " + (char?)MiddleName[0] + ". ").ToUpper())
-                    + LastName;
+                    + LastName + " - " + ContactEmailType;
             }
         }
 

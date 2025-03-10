@@ -61,7 +61,7 @@
                                     <label asp-for="MemberStatus" class="control-label">
                                         <span class="text-danger">*</span> Member Status
                                     </label>
-                                    <input class="form-control" value="Good Standing" readonly></input>
+                                    <input class="form-control" value="Good Standing" readonly>
                                     <input type="hidden" asp-for="MemberStatus" value="0" />
                                     <span asp-validation-for="MemberStatus" class="text-danger"></span>
                                 </div>
@@ -102,7 +102,7 @@
                                 <!-- Member Notes -->
                                 <div class="form-group">
                                     <label asp-for="MemberNotes" class="control-label"></label>
-                                    <textarea asp-for="MemberNotes" class="form-control" id="MemberNotes" name="MemberNotes" /></textarea>
+                                    <textarea asp-for="MemberNotes" class="form-control" id="MemberNotes" name="MemberNotes"></textarea>
                                     <span asp-validation-for="MemberNotes" class="text-danger"></span>
                                 </div>
                             </div>
