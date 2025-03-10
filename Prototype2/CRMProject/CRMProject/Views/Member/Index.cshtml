@@ -1,4 +1,4 @@
-﻿@using CRMProject.Utilities
+@using CRMProject.Utilities
 @model IEnumerable<CRMProject.Models.Member>
 
 @{
@@ -243,7 +243,7 @@
                                                 {
 
                                                     <span>N/A</span>
-
+                                            
                                                 }
                                             </td>
 
@@ -255,16 +255,20 @@
                                                 @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())
                                                 {
                                                     var membershipList = item.MemberMembershipTypes.Select(m => m.MembershipType.MembershipTypeName).ToList();
-                                                    var count = membershipList.Count;
+                                                    var membershipCount = membershipList.Count;
                                                     var collapseId = $"collapseMembership{item.ID}";
+                                                    var fullMembershipNames = string.Join(", ", membershipList); // Full membership names for export
+
+                                                    <!-- Hidden span to store full membership names for export -->
+                                                    <span class="export-membership-data" style="display:none;">@fullMembershipNames</span>
 
                                                     <span>
                                                         <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
-                                                           data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                                                            Memberships (@count)
+                                                           data-bs-target="#@collapseId" aria-expanded="false" aria-controls="#@collapseId">
+                                                            Memberships (@membershipCount)
                                                             <i class="bi bi-chevron-down" id="arrowMembership@(item.ID)"></i>  <!-- Down arrow icon -->
                                                         </a>
-                                                        <div class="collapse mt-1" id="@collapseId" data-item-id="@item.ID">
+                                                        <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
                                                             <ul class="list-unstyled">
                                                                 @foreach (var membership in membershipList)
                                                                 {
@@ -274,31 +278,28 @@
                                                         </div>
                                                     </span>
                                                 }
-                                                else
-                                                {
-                                                    <span>N/A</span>
-                                                }
                                             </td>
-
-
-
 
                                             <td>
                                                 @if (item.MemberIndustries != null && item.MemberIndustries.Any())
                                                 {
-                                                    var industryList = item.MemberIndustries.Select(m => m.Industry.IndustrySubsector).ToList();
-                                                    var count = industryList.Count;
+                                                    var industries = item.MemberIndustries.Select(m => m.Industry.IndustrySector).ToList();
+                                                    var industryCount = industries.Count;
                                                     var collapseId = $"collapseIndustry{item.ID}";
+                                                    var fullIndustryNames = string.Join(", ", industries); // Full industry names for export
+
+                                                    <!-- Hidden span to store full industry names for export -->
+                                                    <span class="export-industry-data" style="display:none;">@fullIndustryNames</span>
 
                                                     <span>
                                                         <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
-                                                           data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                                                            Industries (@count)
+                                                           data-bs-target="#@collapseId" aria-expanded="false" aria-controls="#@collapseId">
+                                                            Industries (@industryCount)
                                                             <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
                                                         </a>
-                                                        <div class="collapse mt-1" id="@collapseId">
+                                                        <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
                                                             <ul class="list-unstyled">
-                                                                @foreach (var industry in industryList)
+                                                                @foreach (var industry in industries)
                                                                 {
                                                                     <li>@industry</li>
                                                                 }
@@ -306,26 +307,19 @@
                                                         </div>
                                                     </span>
                                                 }
-                                                else
-                                                {
-                                                    <span>N/A</span>
-                                                }
                                             </td>
+
+
+
 
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
                                             <td class="d-none d-sm-table-cell">
                                                 <div class="btn-group" style="align-content: center;">
-                                                    @if (@item.MemberStatus == MemberStatus.Cancelled)
-                                                    {
-                                                    }
-                                                    else
-                                                    {
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                    }
                                                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                        role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-search"></i>
@@ -448,18 +442,18 @@
             }
         }
     </script>
-    <script>
-        function toggleIndustry(id) {
-            var countSpan = document.getElementById("industryCount" + id);
-            var collapseElement = document.getElementById("collapseIndustry" + id);
+<script>
+    function toggleIndustry(id) {
+        var countSpan = document.getElementById("industryCount" + id);
+        var collapseElement = document.getElementById("collapseIndustry" + id);
 
-            if (collapseElement.classList.contains("show")) {
-                countSpan.style.display = "inline"; // Show the count when collapsed
-            } else {
-                countSpan.style.display = "none"; // Hide the count when expanded
-            }
+        if (collapseElement.classList.contains("show")) {
+            countSpan.style.display = "inline"; // Show the count when collapsed
+        } else {
+            countSpan.style.display = "none"; // Hide the count when expanded
         }
-    </script>
+    }
+</script>
 
 }
 

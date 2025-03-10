@@ -21,7 +21,7 @@
     <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
- 
+
 
     <!-- Upload spreadsheet-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -45,24 +45,24 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Home" asp-action="Index">
-                <div class="sidebar-brand-icon rotate-n-15">  
-               <img src="~/image/CLogo2 (2).png" alt="NIA-CRM Logo" placeholder="NiagaraIndustrial Logo"  style="height : 60px; width: auto;" />
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <img src="~/image/CLogo2 (2).png" alt="NIA-CRM Logo" placeholder="NiagaraIndustrial Logo" style="height : 60px; width: auto;" />
 
 
-                </div> 
+                </div>
                 @* <div class="sidebar-brand-icon "> *@
                 @*     <img src="~/image/CLogo2 (2).png" alt="NIA-CRM Logo" style="height : 60px; width: auto;" /> *@
 
 
                 @* </div> *@
 
-                 @* <div class="sidebar-brand-text mx-3">NIA-CRM <sup>2</sup></div>  *@
-                 <div class="sidebar-brand-text mx-1"> 
+                @* <div class="sidebar-brand-text mx-3">NIA-CRM <sup>2</sup></div>  *@
+                <div class="sidebar-brand-text mx-1">
                     <img src="~/image/Cname.png" alt="NIA-CRM Name" style="height :40px; width: auto:" />
-                   @* <i class="fas fa-laugh-wink"></i> <sup>2</sup>  *@
-                 </div>
+                    @* <i class="fas fa-laugh-wink"></i> <sup>2</sup>  *@
+                </div>
 
-              
+
 
 
             </a>
@@ -85,7 +85,7 @@
 
             <!-- Heading -->
             @* <div class="sidebar-heading"> *@
-            @*     @* Membership Pages *@ 
+            @*     @* Membership Pages *@
             @* </div> *@
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -119,11 +119,11 @@
                 </a>
             </li>
 
-           @*  <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "active" : "")">
-                <a class="nav-link" asp-controller="Address" asp-action="Index">
-                    <i class="fas fa-fw fa-map-marker-alt"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "text-decoration: underline;" : "")  ;">Addresses</span>
-                </a>
+            @*  <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "active" : "")">
+            <a class="nav-link" asp-controller="Address" asp-action="Index">
+            <i class="fas fa-fw fa-map-marker-alt"></i>
+            <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "text-decoration: underline;" : "")  ;">Addresses</span>
+            </a>
             </li> *@
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "StatusHistory" ? "active" : "")">
@@ -155,15 +155,13 @@
             </li>
 
             <!-- Divider -->
-            
-
             <!-- Heading -->
             @* <div class="sidebar-heading"> *@
-            @*     @* Addons *@ 
+            @*     @* Addons *@
             @* </div> *@
             @* <hr class="sidebar-divider"> *@
 
-            
+
 
 
             @* <!-- Nav Item - Pages Collapse Menu --> *@
@@ -187,7 +185,7 @@
             @*     </div> *@
             @* </li> *@
 
-            
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -279,8 +277,8 @@
                                 @*         <span class="font-weight-bold">A new monthly report is ready to download!</span> *@
                                 @*     </div> *@
                                 @* </a> *@
-                                
-                                
+
+
                                 <a class="dropdown-item text-center small text-gray-500" href="#">No Alerts for now..</a>
                             </div>
                         </li>
@@ -299,23 +297,23 @@
                         @*         <h6 class="dropdown-header"> *@
                         @*             Message Center *@
                         @*         </h6> *@
-                                @* <a class="dropdown-item d-flex align-items-center" href="#"> *@
-                                @*     <div class="dropdown-list-image mr-3"> *@
-                                @*         <img class="rounded-circle" src="~/theme/img/undraw_profile_1.svg" *@
-                                @*              alt="..."> *@
-                                @*         <div class="status-indicator bg-success"></div> *@
-                                @*     </div> *@
-                                @*     <div class="font-weight-bold"> *@
-                                @*         <div class="text-truncate"> *@
-                                @*             Hi there! I am wondering if you can help me with a *@
-                                @*             problem I've been having. *@
-                                @*         </div> *@
-                                @*         <div class="small text-gray-500">Emily Fowler · 58m</div> *@
-                                @*     </div> *@
-                                @* </a> *@
-                                
-                                
-                                
+                        @* <a class="dropdown-item d-flex align-items-center" href="#"> *@
+                        @*     <div class="dropdown-list-image mr-3"> *@
+                        @*         <img class="rounded-circle" src="~/theme/img/undraw_profile_1.svg" *@
+                        @*              alt="..."> *@
+                        @*         <div class="status-indicator bg-success"></div> *@
+                        @*     </div> *@
+                        @*     <div class="font-weight-bold"> *@
+                        @*         <div class="text-truncate"> *@
+                        @*             Hi there! I am wondering if you can help me with a *@
+                        @*             problem I've been having. *@
+                        @*         </div> *@
+                        @*         <div class="small text-gray-500">Emily Fowler · 58m</div> *@
+                        @*     </div> *@
+                        @* </a> *@
+
+
+
                         @*         <a class="dropdown-item text-center small text-gray-500" href="#">No messages for now..</a> *@
                         @*     </div> *@
                         @* </li> *@
@@ -438,84 +436,98 @@
     <!-- Page level custom scripts -->
     <script src="~/theme/js/demo/chart-area-demo.js"></script>
     <script src="~/theme/js/demo/chart-pie-demo.js"></script>
-        <!-- DataTables  & Plugins -->
-        <script src="~/theme/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="~/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script src="~/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-        <script src="~/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-        <script src="~/theme/plugins/jszip/jszip.min.js"></script>
-        <script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
-        <script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
-        <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-        <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-        <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="~/theme/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/theme/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/theme/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/theme/plugins/jszip/jszip.min.js"></script>
+    <script src="~/theme/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="~/theme/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script>
         $(function () {
-            $("#example1").DataTable({
+            var table = $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": [
                     {
-                        extend: "copy",
-                        exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
-                        }
-                    },
-                    {
                         extend: "excel",
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    // Extract text from hidden span (for correct industry names)
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+
+                                    // Remove any remaining HTML tags (just in case)
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     },
                     {
                         extend: "pdf",
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     },
                     {
                         extend: "print",
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     }
                 ]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
             });
+
+            table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
+
+
+
+
     </script>
 
 
 
     @* <script>
-            $(function () {
-                $("#example1").DataTable({
-                    "responsive": true, "lengthChange": false, "autoWidth": false,
-                    "buttons": ["copy","excel", "pdf", "print"]
-                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                $('#example2').DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
-            });
-        </script> *@
+    $(function () {
+    $("#example1").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "buttons": ["copy","excel", "pdf", "print"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false,
+    "responsive": true,
+    });
+    });
+    </script> *@
     @RenderSection("Scripts", required: false)
 
 </body>
