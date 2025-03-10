@@ -27,17 +27,7 @@
             <div>
                 <h2>Cancel - @Html.DisplayFor(model => model.MemberName)</h2>               
                 
-                <hr />
-                 @{
-        if (Model.MemberPhoto?.Content != null)
-        {
-            @:<div>
-                string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                string imageSrc = string.Format("data:" + Model.MemberPhoto.MimeType + ";base64,{0}", imageBase64);
-                <img src="@imageSrc" alt="Profile Picture of @Model.Summary" title="Profile Picture of @Model.Summary" class="img-fluid rounded" />
-            @:</div><hr />
-        }
-    }
+                <hr />                 
                <dl class="row">
     
                     <div class="col-xl-4">

@@ -24,155 +24,146 @@
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
 
-<div class="col-12">
-    <div class="card">
-        <div class="card-body">
-            <h2><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
-            <hr />
-            <!-- Two-Column Layout -->
-            <dl class="summ-view">
-                <div class="col-xl-1">
-                    <!-- Member Image -->
-                    <div class="photo">
-                        @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
+
+<div class="card">
+    <div class="card-body">
+        <h2><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
+        <hr />
+        <!-- Two-Column Layout -->
+
+        <div class="row">
+            <div class="col-xl-1">
+                <!-- Member Image -->
+                <div class="photo">
+                    @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
+                    {
+                        string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
+                        string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
+                        <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                    }
+                    else
+                    {
+                        <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                    }
+                </div>
+            </div>
+
+
+            <div class="col-xl-5">
+                <dl class="summ-view">
+                    <dt class="col-5">Contact</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberContacts != null && Model.MemberContacts.Any())
                         {
-                            string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                            string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
-                            <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                            var primaryContact = Model.MemberContacts.FirstOrDefault();
+                            if (primaryContact != null)
+                            {
+                                <span>@primaryContact.Contact.Summary</span>
+                            }
                         }
                         else
                         {
-                            <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                            <span>No contacts available</span>
                         }
-                    </div>
-                </div>
+                    </dd>
 
-                <div class="col-xl-3">
-                    <div class="summ-view">
-                        <dt class="col-5">@Html.DisplayNameFor(model => model.MemberSize)</dt>
-                        <dd class="col-7">
-                            @if (Model.MemberSize == null)
-                            {
-                                <span>N/A</span>
-                            }
-                            @Html.DisplayFor(model => model.MemberSize)
-                        </dd>
-                        <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>
-                        <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
-                    </div>
-                </div>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
+                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
+                    <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
+                    <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
+                    <dd class="col-sm-12">
+                        <textarea class="form-control" readonly>@Model.MemberNotes</textarea>
+                    </dd>
+                </dl>
+            </div>
 
-                <div class="col-sm-3">
-                    <div class="summ-view">
-                        <dt class="col-6">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                        <dd class="col-6">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
-                        <dt class="col-6">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                        <dd class="col-6">@Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")</dd>
-                        <dt class="col-6">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
-                        <dd class="col-6">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
-                    </div>
-                </div>
-
-                <div class="col-xl-5">
-                    <div class="summ-view">
-                        <dt class="col-4">Primary Contact</dt>
-                        <dd class="col-8">
-                            @if (Model.MemberContacts != null && Model.MemberContacts.Any())
+            <div class="col-xl-5">
+                <dl class="summ-view">
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberLastContactDate == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        @Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")
+                    </dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
+                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberEndDate == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        @Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")
+                    </dd>
+                    <dt class="col-5">Industry</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberIndustries != null && Model.MemberIndustries.Any())
+                        {
+                            var primaryIndustry = Model.MemberIndustries.FirstOrDefault();
+                            if (primaryIndustry != null)
                             {
-                                var primaryContact = Model.MemberContacts.FirstOrDefault();
-                                if (primaryContact != null)
-                                {
-                                    <span>@primaryContact.Contact.Summary</span>
-                                }
+                                var words = primaryIndustry.Industry.Summary?.Split(' ');
+                                var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : primaryIndustry.Industry.Summary;
+                                var fullSummary = primaryIndustry.Industry.Summary;
+                                <span>
+                                    @shortSummary
+                                    @if (words?.Length > 3)
+                                    {
+                                        <span id="moreText" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                        <a href="javascript:void(0);" id="readMore" onclick="toggleText()">... </a>
+                                    }
+                                </span>
                             }
-                            else
-                            {
-                                <span>No contacts available</span>
-                            }
-                        </dd>
-                        <dt class="col-4">Industry</dt>
-                        <dd class="col-8">
-                            @if (Model.MemberIndustries != null && Model.MemberIndustries.Any())
-                            {
-                                var primaryIndustry = Model.MemberIndustries.FirstOrDefault();
-                                if (primaryIndustry != null)
-                                {
-                                    var words = primaryIndustry.Industry.Summary?.Split(' ');
-                                    var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : primaryIndustry.Industry.Summary;
-                                    var fullSummary = primaryIndustry.Industry.Summary;
-                                    <span>
-                                        @shortSummary
-                                        @if (words?.Length > 3)
-                                        {
-                                            <span id="moreText" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                            <a href="javascript:void(0);" id="readMore" onclick="toggleText()">... </a>
-                                        }
-                                    </span>
-                                }
-                            }
-                            else
-                            {
-                                <span>No industry information available</span>
-                            }
-                        </dd>
-                        <dt class="col-4">City</dt>
-                        <dd class="col-8">
-                            @if (Model.Address != null)
-                            {
-                                <span>@Model.Address.AddressCity</span>
-                            }
-                            else
-                            {
-                                <span>No address available</span>
-                            }
-                        </dd>
-                    </div>
-                </div>
-            </dl>
-            <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
-            <dd class="col-sm-12">
-                <textarea class="form-control" readonly>@Model.MemberNotes</textarea>
-            </dd>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberSize)</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberSize == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        @Html.DisplayFor(model => model.MemberSize)
+                    </dd>
+                    <dt class="col-5">City</dt>
+                    <dd class="col-7">
+                        @if (Model.Address != null)
+                        {
+                            <span>@Model.Address.AddressCity</span>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
+                </dl>
+            </div>
         </div>
+    </div>
 
-        <div class="row-md-4 mt-4">
-            @await Html.PartialAsync("_ListOfContacts", Model.MemberContacts)
-        </div>
-
-
-        <div class="row-md-4">
-            <!-- Added margin-top -->
-            @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
-        </div>
-
-        <div class="row-md-4">
-            <!-- Added margin-top -->
-            @Html.Partial("_IndustryInfo", Model.MemberIndustries)
-        </div>
-
-        <div class="row-md-4">
-            <!-- Ensures consistent spacing -->
-            @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
-        </div>
-
-
-        @* <div class="row-md-4"> *@
-        @*     @Html.Partial("_ListOfContacts", Model.MemberContacts) *@
-        @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@
-        @* </div> *@
-        @* @* <div class="mt-4"> *@ 
-        @* @*     @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>()) *@ 
-        @* @* </div> *@ 
-        @* <div class="row-md-4"> *@
-        @*     @Html.Partial("_IndustryInfo", Model.MemberIndustries) *@
-        @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
-        @* </div> *@
-
-        @* <div class="mt-4"> *@
-        @*     @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes) *@
-        @* </div> *@
+    <div class="row-md-4 mt-4">
+        @await Html.PartialAsync("_ListOfContacts", Model.MemberContacts)
+    </div>
+    <br />
+    <div class="row-md-4">
+        <!-- Added margin-top -->
+        @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
+    </div>
+    <br />
+    <div class="row-md-4">
+        <!-- Added margin-top -->
+        @Html.Partial("_IndustryInfo", Model.MemberIndustries)
+    </div>
+    <br />
+    <div class="row-md-4">
+        <!-- Ensures consistent spacing -->
+        @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
     </div>
 </div>
 <br />
@@ -180,7 +171,14 @@
 <div class="form-group text-center">
     @if (Model?.ID != null)
     {
-        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+        @if (Model.MemberStatus == MemberStatus.Cancelled)
+        {
+
+        }
+        else
+        {
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+        }        
     }
     <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
 </div>
