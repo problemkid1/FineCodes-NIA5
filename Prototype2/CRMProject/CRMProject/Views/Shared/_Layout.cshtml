@@ -133,19 +133,7 @@
                 </a>
             </li>
 
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "active" : "")">
-                <a class="nav-link" asp-controller="Industry" asp-action="Index">
-                    <i class="fas fa-industry"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "text-decoration: underline;" : "")  ;">Industries</span>
-                </a>
-            </li>
-
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "active" : "")">
-                <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
-                    <i class="fas fa-id-card"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "text-decoration: underline;" : "")  ;">Membership Types</span>
-                </a>
-            </li>
+            
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
@@ -161,9 +149,21 @@
             @* <div class="sidebar-heading"> *@
             @*     @* Addons *@ 
             @* </div> *@
-            @* <hr class="sidebar-divider"> *@
+            <hr class="sidebar-divider">
 
-            
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "active" : "")">
+                <a class="nav-link" asp-controller="Industry" asp-action="Index">
+                    <i class="fas fa-industry"></i>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "text-decoration: underline;" : "")  ;">Industries</span>
+                </a>
+            </li>
+
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "active" : "")">
+                <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
+                    <i class="fas fa-id-card"></i>
+                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "text-decoration: underline;" : "")  ;">Membership Types</span>
+                </a>
+            </li>
 
 
             @* <!-- Nav Item - Pages Collapse Menu --> *@
@@ -379,7 +379,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; CRM Management @DateTime.Today </span>
+                        <span>Copyright &copy; CRM Management @DateOnly.FromDateTime(DateTime.Today) </span>
                     </div>
                 </div>
             </footer>
@@ -418,6 +418,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Bootstrap core JavaScript-->
+    <script src="~/theme/js/sb-admin-2.js"></script>
     <script src="~/theme/vendor/jquery/jquery.min.js"></script>
     <script src="~/theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -452,7 +453,9 @@
         <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script>
-        $(function () {
+           $(function () {
+            var pageTitle = '@ViewData["Title"]'; // Get the current page title
+
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -460,24 +463,28 @@
                 "buttons": [
                     {
                         extend: "copy",
+                        title: pageTitle, // Set the title dynamically
                         exportOptions: {
                             columns: ':not(:last-child)' // Exclude the last column (Actions)
                         }
                     },
                     {
                         extend: "excel",
+                        title: pageTitle, // Set the title dynamically
                         exportOptions: {
                             columns: ':not(:last-child)' // Exclude the last column (Actions)
                         }
                     },
                     {
                         extend: "pdf",
+                        title: pageTitle, // Set the title dynamically
                         exportOptions: {
                             columns: ':not(:last-child)' // Exclude the last column (Actions)
                         }
                     },
                     {
                         extend: "print",
+                        title: pageTitle, // Set the title dynamically
                         exportOptions: {
                             columns: ':not(:last-child)' // Exclude the last column (Actions)
                         }
@@ -493,6 +500,23 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+            });
+        });
+
+                $(document).ready(function() {
+            // Scroll to top button appearance
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 100) { // Show after scrolling 100px
+                    $('.scroll-to-top').fadeIn('slow');
+                } else {
+                    $('.scroll-to-top').fadeOut('slow');
+                }
+            });
+
+            // Scroll to top animation
+            $('.scroll-to-top').click(function() {
+                $('html, body').animate({scrollTop : 0}, 800); // Animation speed in ms
+                return false;
             });
         });
     </script>
