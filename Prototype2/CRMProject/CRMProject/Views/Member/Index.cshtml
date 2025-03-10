@@ -251,66 +251,66 @@
                                             <td class="d-none d-sm-table-cell">
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
                                             </td>
-<td>
-    @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())
-    {
-        var membershipList = item.MemberMembershipTypes.Select(m => m.MembershipType.MembershipTypeName).ToList();
-        var count = membershipList.Count;
-        var collapseId = $"collapseMembership{item.ID}";
+                                            <td>
+                                                @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())
+                                                {
+                                                    var membershipList = item.MemberMembershipTypes.Select(m => m.MembershipType.MembershipTypeName).ToList();
+                                                    var membershipCount = membershipList.Count;
+                                                    var collapseId = $"collapseMembership{item.ID}";
+                                                    var fullMembershipNames = string.Join(", ", membershipList); // Full membership names for export
 
-        <span>
-            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
-               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                Memberships (@count)
-                <i class="bi bi-chevron-down" id="arrowMembership@(item.ID)"></i>  <!-- Down arrow icon -->
-            </a>
-            <div class="collapse mt-1" id="@collapseId" data-item-id="@item.ID">
-                <ul class="list-unstyled">
-                    @foreach (var membership in membershipList)
-                    {
-                        <li>@membership</li>
-                    }
-                </ul>
-            </div>
-        </span>
-    }
-    else
-    {
-        <span>N/A</span>
-    }
-</td>
+                                                    <!-- Hidden span to store full membership names for export -->
+                                                    <span class="export-membership-data" style="display:none;">@fullMembershipNames</span>
+
+                                                    <span>
+                                                        <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
+                                                           data-bs-target="#@collapseId" aria-expanded="false" aria-controls="#@collapseId">
+                                                            Memberships (@membershipCount)
+                                                            <i class="bi bi-chevron-down" id="arrowMembership@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                        </a>
+                                                        <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                                                            <ul class="list-unstyled">
+                                                                @foreach (var membership in membershipList)
+                                                                {
+                                                                    <li>@membership</li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </span>
+                                                }
+                                            </td>
+
+                                            <td>
+                                                @if (item.MemberIndustries != null && item.MemberIndustries.Any())
+                                                {
+                                                    var industries = item.MemberIndustries.Select(m => m.Industry.IndustrySector).ToList();
+                                                    var industryCount = industries.Count;
+                                                    var collapseId = $"collapseIndustry{item.ID}";
+                                                    var fullIndustryNames = string.Join(", ", industries); // Full industry names for export
+
+                                                    <!-- Hidden span to store full industry names for export -->
+                                                    <span class="export-industry-data" style="display:none;">@fullIndustryNames</span>
+
+                                                    <span>
+                                                        <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
+                                                           data-bs-target="#@collapseId" aria-expanded="false" aria-controls="#@collapseId">
+                                                            Industries (@industryCount)
+                                                            <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                        </a>
+                                                        <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                                                            <ul class="list-unstyled">
+                                                                @foreach (var industry in industries)
+                                                                {
+                                                                    <li>@industry</li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </span>
+                                                }
+                                            </td>
 
 
 
-
-<td>
-    @if (item.MemberIndustries != null && item.MemberIndustries.Any())
-    {
-        var industryList = item.MemberIndustries.Select(m => m.Industry.IndustrySubsector).ToList();
-        var count = industryList.Count;
-        var collapseId = $"collapseIndustry{item.ID}";
-
-        <span>
-            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
-               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                Industries (@count)
-                <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
-            </a>
-            <div class="collapse mt-1" id="@collapseId">
-                <ul class="list-unstyled">
-                    @foreach (var industry in industryList)
-                    {
-                        <li>@industry</li>
-                    }
-                </ul>
-            </div>
-        </span>
-    }
-    else
-    {
-        <span>N/A</span>
-    }
-</td>
 
 
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>

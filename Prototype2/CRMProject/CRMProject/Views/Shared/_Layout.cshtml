@@ -453,48 +453,62 @@
         <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script>
         $(function () {
-            $("#example1").DataTable({
+            var table = $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": [
                     {
-                        extend: "copy",
-                        exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
-                        }
-                    },
-                    {
                         extend: "excel",
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    // Extract text from hidden span (for correct industry names)
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+
+                                    // Remove any remaining HTML tags (just in case)
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     },
                     {
                         extend: "pdf",
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     },
                     {
                         extend: "print",
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     }
                 ]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
             });
+
+            table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
+
+
+
+
     </script>
 
 

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using CRMProject.Utilities;
+using System.Numerics;
 
 namespace CRMProject.Controllers
 {
@@ -124,6 +126,7 @@ namespace CRMProject.Controllers
         // GET: Contact/Create
         public IActionResult Create()
         {
+            Contact contact = new Contact();
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -132,6 +135,7 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+            PopulateAssignedMemberData(contact);
             return View();
         }
 
@@ -140,8 +144,10 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactEmailAddress,ContactWebsite,ContactInteractions,ContactNotes")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactEmailAddress,ContactWebsite,ContactInteractions,ContactNotes")] Contact contact,
+            string[] selectedMember)
         {
+            UpdateMember(selectedMember, contact);
             if (ModelState.IsValid)
             {
                 try
@@ -175,6 +181,7 @@ namespace CRMProject.Controllers
             ViewData["Breadcrumbs"] = breadcrumbs;
 
             ViewData["ContactId"] = contact.ID;
+            PopulateAssignedMemberData(contact);
             // Return to the Create view in case of failure or validation errors
             return View(contact);
         }
@@ -281,7 +288,7 @@ namespace CRMProject.Controllers
 
                     ViewData["Breadcrumbs"] = breadcrumbs;
                     ViewData["ContactId"] = contact.ID;
-
+            PopulateAssignedMemberData(contact);
             return View(contact);
         }
 
@@ -290,65 +297,77 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactWebsite,ContactEmailAddress,ContactInteractions,ContactNotes")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactWebsite,ContactEmailAddress,ContactInteractions,ContactNotes")] Contact contact, string[] selectedOptions)
         {
-            if (id != contact.ID)
+            var contactToUpdate = await _context.Contacts
+                .Include(d => d.MemberContacts)
+                .ThenInclude(d => d.Member)
+                .FirstOrDefaultAsync(p => p.ID == id);
+
+            if (contactToUpdate == null)
             {
                 return NotFound();
             }
+
+            // Update the contactToUpdate properties
+            contactToUpdate.FirstName = contact.FirstName;
+            contactToUpdate.LastName = contact.LastName;
+            contactToUpdate.ContactTitleRole = contact.ContactTitleRole;
+            contactToUpdate.ContactPhone = contact.ContactPhone;
+            contactToUpdate.ContactWebsite = contact.ContactWebsite;
+            contactToUpdate.ContactEmailAddress = contact.ContactEmailAddress;
+            contactToUpdate.ContactInteractions = contact.ContactInteractions;
+            contactToUpdate.ContactNotes = contact.ContactNotes;
+
+            UpdateMember(selectedOptions, contactToUpdate);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(contact);
+                    _context.Entry(contactToUpdate).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
-
-                    // Retrieve the MemberContactID
-                    var memberContact = await _context.MemberContacts
-                        .FirstOrDefaultAsync(mc => mc.ContactID == contact.ID);
-
-                    if (memberContact != null)
-                    {
-                        TempData["SuccessMessage"] = "Contact updated successfully!";
-                        return RedirectToAction("Details", "Member", new { id = memberContact.MemberID });
-                    }
-                    else
-                    {
-                        return RedirectToAction(nameof(Details), new { id = contact.ID });
-                    }
+                    TempData["SuccessMessage"] = "Contact updated successfully!";
+                    return RedirectToAction(nameof(Details), new { id = contact.ID });
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
                     if (!ContactExists(contact.ID))
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    Console.WriteLine($"Concurrency error: {ex.Message}");
+                    TempData["ErrorMessage"] = "The contact was modified by another user. Please refresh and try again.";
                 }
-                catch (Exception)
+                catch (DbUpdateException ex)
                 {
-                    TempData["ErrorMessage"] = "An error occurred while updating the contact details.";
+                    Console.WriteLine($"Database error: {ex.Message}");
+                    TempData["ErrorMessage"] = "A database error occurred. Please ensure all required fields are filled correctly.";
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"General error: {ex.Message}");
+                    TempData["ErrorMessage"] = "An unexpected error occurred. Please try again.";
                 }
             }
 
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
-
-                    var breadcrumbs = new List<BreadcrumbItem>
-                    {
-                        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                        new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                        new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
-                    };
+            var breadcrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+        new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["ContactId"] = contact.ID;
-
-            return View(contact);
+            PopulateAssignedMemberData(contact);
+            return View(contactToUpdate);
         }
+
+
+
+
+
 
         // GET: Contact/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -444,6 +463,77 @@ namespace CRMProject.Controllers
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
+
+        private void PopulateAssignedMemberData(Contact contact)
+        {
+            //For this to work, you must have Included the child collection in the parent object
+            var allOptions = _context.Members;
+            var currentOptionsHS = new HashSet<int>(contact.MemberContacts.Select(b => b.MemberID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.MemberName
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.MemberName
+                    });
+                }
+            }
+
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
+        private void UpdateMember(string[] selectedOptions, Contact contactToUpdate)
+        {
+            if (selectedOptions == null)
+            {
+                contactToUpdate.MemberContacts = new List<MemberContact>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(contactToUpdate.MemberContacts.Select(b => b.MemberID));
+            foreach (var s in _context.Members)
+            {
+                if (selectedOptionsHS.Contains(s.ID.ToString()))//it is selected
+                {
+                    if (!currentOptionsHS.Contains(s.ID))//but not currently in the Doctor's collection - Add it!
+                    {
+                        contactToUpdate.MemberContacts.Add(new MemberContact
+                        {
+                            MemberID = s.ID,
+                            ContactID = contactToUpdate.ID
+                        });
+                    }
+                }
+                else //not selected
+                {
+                    if (currentOptionsHS.Contains(s.ID))//but is currently in the Doctor's collection - Remove it!
+                    {
+                        MemberContact? specToRemove = contactToUpdate.MemberContacts.FirstOrDefault(d => d.MemberID == s.ID);
+                        if (specToRemove != null)
+                        {
+                            _context.Remove(specToRemove);
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         private bool ContactExists(int id)
         {

@@ -152,30 +152,35 @@
                                                 </span>
                                             }
                                             </td>
-<td>
-    @if (item.MemberIndustries != null && item.MemberIndustries.Any())
-    {
-        var industries = item.MemberIndustries.Select(m => m.Member.MemberName).ToList();
-        var industryCount = industries.Count;
-        var collapseId = $"collapseIndustry{item.ID}";
+                                        <td>
+                                            @if (item.MemberIndustries != null && item.MemberIndustries.Any())
+                                            {
+                                                var industries = item.MemberIndustries.Select(m => m.Member.MemberName).ToList();
+                                                var industryCount = industries.Count;
+                                                var collapseId = $"collapseIndustry{item.ID}";
+                                                var fullIndustryNames = string.Join(", ", industries); // Full industry names for export
 
-        <span>
-            <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
-               data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                Members (@industryCount)
-                <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
-            </a>
-            <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
-                <ul class="list-unstyled">
-                    @foreach (var industry in industries)
-                    {
-                        <li>@industry</li>
-                    }
-                </ul>
-            </div>
-        </span>
-    }
-</td>
+                                                <!-- Hidden span to store full industry names for export -->
+                                                <span class="export-industry-data" style="display:none;">@fullIndustryNames</span>
+
+                                                <span>
+                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
+                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                        Members (@industryCount)
+                                                        <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                    </a>
+                                                    <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                                                        <ul class="list-unstyled">
+                                                            @foreach (var industry in industries)
+                                                            {
+                                                                <li>@industry</li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                            }
+                                        </td>
+
 
 
 
