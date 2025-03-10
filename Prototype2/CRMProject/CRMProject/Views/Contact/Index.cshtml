@@ -114,8 +114,13 @@
                                         <td>
                                             @if (item.MemberContacts != null && item.MemberContacts.Any())
                                             {
-                                                var specCount = item.MemberContacts.Count;
+                                                var contacts = item.MemberContacts.Select(c => c.Member.MemberName).Distinct().ToList(); // Remove duplicates
+                                                var specCount = contacts.Count;
                                                 var collapseId = $"collapseSpecalty{item.ID}";
+                                                var fullMemberNames = string.Join(", ", contacts); // Full member names for export
+
+                                                <!-- Hidden span to store full member names for export -->
+                                                <span class="export-member-data" style="display:none;">@fullMemberNames</span>
 
                                                 <span>
                                                     <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
@@ -125,9 +130,9 @@
                                                     </a>
                                                     <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
                                                         <ul class="list-unstyled">
-                                                            @foreach (var contact in item.MemberContacts)
+                                                            @foreach (var contact in contacts)
                                                             {
-                                                                <li>@contact.Member.MemberName</li>
+                                                                <li>@contact</li>
                                                             }
                                                         </ul>
                                                     </div>
@@ -138,26 +143,32 @@
                                         <td>
                                             @if (item.Opportunities != null && item.Opportunities.Any())
                                             {
-                                                var count = item.Opportunities.Count;
+                                                var opportunities = item.Opportunities.Select(o => o.OpportunityName).Distinct().ToList(); // Remove duplicates
+                                                var opportunityCount = opportunities.Count;
                                                 var collapseId = $"collapseOpportunity{item.ID}";
+                                                var fullOpportunityNames = string.Join(", ", opportunities); // Full opportunity names for export
+
+                                                <!-- Hidden span to store full opportunity names for export -->
+                                                <span class="export-opportunity-data" style="display:none;">@fullOpportunityNames</span>
 
                                                 <span>
                                                     <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
                                                        data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
-                                                        Opportunities (@count)
+                                                        Opportunities (@opportunityCount)
                                                         <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>  <!-- Down arrow icon -->
                                                     </a>
                                                     <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
                                                         <ul class="list-unstyled">
-                                                            @foreach (var opportunity in item.Opportunities)
+                                                            @foreach (var opportunity in opportunities)
                                                             {
-                                                                <li>@opportunity.OpportunityName</li>
+                                                                <li>@opportunity</li>
                                                             }
                                                         </ul>
                                                     </div>
                                                 </span>
                                             }
                                         </td>
+
 
 
                                         <td>@Html.DisplayFor(modelItem => item.Summary)</td>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CRMProject.Models.Industry>
+@model IEnumerable<CRMProject.Models.Industry>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -151,16 +151,20 @@
                                                     }
                                                 </span>
                                             }
-                                        </td>
+                                            </td>
                                         <td>
                                             @if (item.MemberIndustries != null && item.MemberIndustries.Any())
                                             {
                                                 var industries = item.MemberIndustries.Select(m => m.Member.MemberName).ToList();
                                                 var industryCount = industries.Count;
                                                 var collapseId = $"collapseIndustry{item.ID}";
+                                                var fullIndustryNames = string.Join(", ", industries); // Full industry names for export
+
+                                                <!-- Hidden span to store full industry names for export -->
+                                                <span class="export-industry-data" style="display:none;">@fullIndustryNames</span>
 
                                                 <span>
-                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse" 
+                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
                                                        data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
                                                         Members (@industryCount)
                                                         <i class="bi bi-chevron-down" id="arrowIndustry@(item.ID)"></i>  <!-- Down arrow icon -->
@@ -180,9 +184,10 @@
 
 
 
+
                                        
                                         <td>
-                                            <div class="btn-group" style="float: none; margin-left: 10%; ">
+                                            <div class="btn-group" style="float: none; ">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-pencil-square"></i>

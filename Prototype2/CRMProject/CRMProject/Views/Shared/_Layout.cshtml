@@ -453,15 +453,18 @@
         <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script>
+
            $(function () {
             var pageTitle = '@ViewData["Title"]'; // Get the current page title
 
             $("#example1").DataTable({
+
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": [
                     {
+
                         extend: "copy",
                         title: pageTitle, // Set the title dynamically
                         exportOptions: {
@@ -469,39 +472,57 @@
                         }
                     },
                     {
+
                         extend: "excel",
                         title: pageTitle, // Set the title dynamically
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    // Extract text from hidden span (for correct industry names)
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+
+                                    // Remove any remaining HTML tags (just in case)
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     },
                     {
                         extend: "pdf",
                         title: pageTitle, // Set the title dynamically
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     },
                     {
                         extend: "print",
                         title: pageTitle, // Set the title dynamically
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)',
+                            format: {
+                                body: function (data, row, column, node) {
+                                    var hiddenData = $(node).find(".export-industry-data").text().trim();
+                                    var cleanData = hiddenData.length ? hiddenData : data;
+                                    return cleanData.replace(/<[^>]+>/g, '');
+                                }
+                            }
                         }
                     }
                 ]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
             });
+
+            table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
+
 
                 $(document).ready(function() {
             // Scroll to top button appearance
@@ -519,6 +540,7 @@
                 return false;
             });
         });
+
     </script>
 
 
