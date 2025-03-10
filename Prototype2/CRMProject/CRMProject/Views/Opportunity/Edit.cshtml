@@ -73,10 +73,12 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="Contact.Summary" class="control-label"></label>
-                            <input asp-for="Contact.Summary" class="form-control" />
-                            <span asp-validation-for="Contact.Summary" class="text-danger"></span>
+                            <!-- Display as read-only text instead of an input -->
+                            <div class="form-control">@(Model.Contact?.Summary ?? "No contact summary available")</div>
+                            <input type="hidden" asp-for="Contact.ID" />
                         </div>
                     </div>
+
 
                     <!-- Opportunity Last Contact Date -->
                     <div class="col-12 col-md-6">
