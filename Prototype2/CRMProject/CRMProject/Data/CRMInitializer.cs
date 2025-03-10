@@ -178,6 +178,30 @@ namespace CRMProject.Data
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
                                     MemberNotes = "Specializes in wood vents and moldings."
+                                },
+                                new Member
+                                {
+                                    MemberName = "Allied Marine Inc.",
+                                    MemberSize = 100,
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "alliedmarine@google.com",
+                                    MemberWebsite = "https://alliedmarine.com",
+                                    MemberStartDate = DateTime.Parse("2021-02-10"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
+                                    MemberNotes = "Specializes in Marine & Industrial Repairs."
+                                },
+                                new Member
+                                {
+                                    MemberName = "Altra Rentals",
+                                    MemberSize = 100,
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "altrarentals@google.com",
+                                    MemberWebsite = "https://altrarentals.com",
+                                    MemberStartDate = DateTime.Parse("2022-02-10"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
+                                    MemberNotes = "Construction Rentals is a full-service Rental."
                                 }
                             );
 
@@ -207,7 +231,9 @@ namespace CRMProject.Data
                             { "Agri-Plus", ("404 Ridge Rd", "Warehouse", "Port Colborne", "L3K 5X6") },
                             { "Air Ca", ("505 Willowdale Ave", "", "Beamsville", "L0R 1B4") }, // No AddressLine2
                             { "Airbus Canada", ("606 King St", "Unit 7", "Niagara-on-the-Lake", "L0S 1J0") },
-                            { "Wood", ("707 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 2M1") }
+                            { "Wood", ("707 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 2M1") },
+                            { "Allied Marine Inc.", ("708 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 8M1") },
+                            { "Altra Rentals", ("709 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 9M1") }
                         };
 
                         foreach (var entry in addressMappings)
@@ -302,7 +328,9 @@ namespace CRMProject.Data
                             { "Agri-Plus", "In-Kind" },
                             { "Air Ca", "Chamber" },
                             { "Airbus Canada", "Local Industrial" },
-                            { "Wood", "Government And Education" }
+                            { "Wood", "Government And Education" },
+                            { "Allied Marine Inc.", "Government And Education" },
+                            { "Altra Rentals", "Government And Education" }
                         };
 
                         foreach (var entry in memberMembershipTypeMappings)
@@ -392,6 +420,18 @@ namespace CRMProject.Data
                                 IndustrySector = "Manufacturing",
                                 IndustrySubsector = "Wood product manufacturing",
                                 IndustryNAICSCode = "321"
+                            },
+                            new Industry
+                            {
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Fabricated metal product manufacturing",
+                                IndustryNAICSCode = "332"
+                            },
+                            new Industry
+                            {
+                                IndustrySector = "Manufacturing",
+                                IndustrySubsector = "Machinery, equipment and supplies merchant wholesalers",
+                                IndustryNAICSCode = "417"
                             }
                         );
                         context.SaveChanges();
@@ -412,7 +452,9 @@ namespace CRMProject.Data
                             { "Agri-Plus", new[] { "Plastics and rubber products manufacturing" } },
                             { "Air Ca", new[] { "Miscellaneous manufacturing" } },
                             { "Airbus Canada", new[] { "Transportation equipment manufacturing" } },
-                            { "Wood", new[] { "Wood product manufacturing" } }
+                            { "Wood", new[] { "Wood product manufacturing" } },
+                            { "Allied Marine Inc.", new[] { "Fabricated metal product manufacturing" } },
+                            { "Altra Rentals", new[] { "Machinery, equipment and supplies merchant wholesalers" } }
                         };
 
                         foreach (var entry in memberIndustryMappings)
@@ -657,7 +699,8 @@ namespace CRMProject.Data
                             { new[] { "Jane Smith", "James Brown", "Michael Garcia" }, new[] { "Airbus Canada", "Radar Technologies" } },
                             { new[] { "Mary Johnson", "Chris Williams" }, new[] { "Acc Payments", "Technologies co." } },
                             { new[] { "Patricia Davis" }, new[] { "Air Ca" } },
-                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Wood", "Chain Management" } }
+                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Wood", "Chain Management" } },
+                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Allied Marine Inc.", "Altra Rentals" } }
                         };
 
                         foreach (var entry in memberContactMappings)
