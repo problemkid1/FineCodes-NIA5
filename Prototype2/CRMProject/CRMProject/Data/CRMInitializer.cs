@@ -202,7 +202,97 @@ namespace CRMProject.Data
                                     MemberEndDate = null, // Still active
                                     MemberLastContactDate = DateTime.Today.AddDays(-75), // Contacted 2.5 months ago
                                     MemberNotes = "Construction Rentals is a full-service Rental."
+                                },
+                                new Member
+                                {
+                                    MemberName = "Armstrong Strategy Group",
+                                    MemberSize = 50,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "armstrongstrategy@google.com",
+                                    MemberWebsite = "https://armstrongstrategygroup.com",
+                                    MemberStartDate = DateTime.Parse("2022-03-01"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-60),
+                                    MemberNotes = "A strategic communication & planning firm with expertise in media, public relations, and community relations."
+                                },
+
+                                new Member
+                                {
+                                    MemberName = "Asahi Kasei Battery Separator Canada Corporation",
+                                    MemberSize = 200,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "asahikasei@google.com",
+                                    MemberWebsite = "https://asahikaseibattery.com",
+                                    MemberStartDate = DateTime.Parse("2021-08-15"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-45),
+                                    MemberNotes = "Home to the company’s first wet-process lithium-ion battery separator manufacturing facility in North America."
+                                },
+
+                                new Member
+                                {
+                                    MemberName = "ASW Steel Inc.",
+                                    MemberSize = 150,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "aswsteel@google.com",
+                                    MemberWebsite = "https://aswsteel.com",
+                                    MemberStartDate = DateTime.Parse("2020-01-10"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-90),
+                                    MemberNotes = "A premier specialty steel-making facility offering a unique combination of carbon, stainless, and other specialty steel."
+                                },
+                                new Member
+                                {
+                                    MemberName = "Attar Metals Inc.",
+                                    MemberSize = 100,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "attarmetals@google.com",
+                                    MemberWebsite = "https://attarmetals.com",
+                                    MemberStartDate = DateTime.Parse("2018-06-05"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-120),
+                                    MemberNotes = "An industry leader in full-service metal recycling throughout the Americas, Europe, and Asia."
+                                },
+
+                                new Member
+                                {
+                                    MemberName = "Axzora Inc.",
+                                    MemberSize = 25,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "axzora@google.com",
+                                    MemberWebsite = "https://axzora.com",
+                                    MemberStartDate = DateTime.Parse("2019-11-20"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-30),
+                                    MemberNotes = "A Welland-based IT/Software start-up specializing in application development for small/mid-sized organizations."
+                                },
+
+                                new Member
+                                {
+                                    MemberName = "B4 Networks Inc.",
+                                    MemberSize = 30,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "b4networks@google.com",
+                                    MemberWebsite = "https://b4networks.com",
+                                    MemberStartDate = DateTime.Parse("2017-10-12"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-60),
+                                    MemberNotes = "Helping with quality IT services, focusing on cost-effective solutions for businesses."
+                                },
+
+                                new Member
+                                {
+                                    MemberName = "Barber Hymac Hydro Inc.",
+                                    MemberSize = 80,  // Adjust size as needed
+                                    MemberStatus = MemberStatus.GoodStanding,
+                                    MemberAccountsPayableEmail = "barberhymac@google.com",
+                                    MemberWebsite = "https://barberhymac.com",
+                                    MemberStartDate = DateTime.Parse("2021-05-01"),
+                                    MemberEndDate = null, // Still active
+                                    MemberLastContactDate = DateTime.Today.AddDays(-45),
+                                    MemberNotes = "A Canadian owned family business specializing in large machining and fabrication, including large turning and vertical boring mills."
                                 }
+
                             );
 
                             context.SaveChanges();
@@ -233,7 +323,14 @@ namespace CRMProject.Data
                             { "Airbus Canada", ("606 King St", "Unit 7", "Niagara-on-the-Lake", "L0S 1J0") },
                             { "Wood", ("707 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 2M1") },
                             { "Allied Marine Inc.", ("708 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 8M1") },
-                            { "Altra Rentals", ("709 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 9M1") }
+                            { "Altra Rentals", ("709 Lundy’s Lane", "Floor 4", "St. Catharines", "L2S 9M1") },
+                            { "Armstrong Strategy Group", ("123 Queenston Rd", "Suite 200", "St. Catharines", "L2R 4B7") },
+                            { "Asahi Kasei Battery Separator Canada Corporation", ("789 Industry Rd", "Unit A", "Port Colborne", "L2A 6J3") },
+                            { "ASW Steel Inc.", ("101 Steel St", "Unit B", "Welland", "L2V 4J6") },
+                            { "Attar Metals Inc.", ("505 Metal Rd", "Floor 2", "Fort Erie", "L2E 5B8") },
+                            { "Axzora Inc.", ("102 Software Dr", "Unit 5", "Niagara Falls", "L2P 6H9") },
+                            { "B4 Networks Inc.", ("303 Tech Ave", "Unit C", "Fonthill", "L0S 1J4") },
+                            { "Barber Hymac Hydro Inc.", ("400 Machinery Blvd", "Suite 100", "Port Colborne", "L3K 7N9") }
                         };
 
                         foreach (var entry in addressMappings)
@@ -330,7 +427,14 @@ namespace CRMProject.Data
                             { "Airbus Canada", "Local Industrial" },
                             { "Wood", "Government And Education" },
                             { "Allied Marine Inc.", "Government And Education" },
-                            { "Altra Rentals", "Government And Education" }
+                            { "Altra Rentals", "Government And Education" },
+                            {"Armstrong Strategy Group", "Local Industrial" },
+                            { "Asahi Kasei Battery Separator Canada Corporation", "Local Industrial" },
+                            { "ASW Steel Inc.", "Local Industrial" },
+                            { "Attar Metals Inc.", "Local Industrial" },
+                            { "Axzora Inc.", "Local Industrial" },
+                            { "B4 Networks Inc.", "Local Industrial" },
+                            { "Barber Hymac Hydro Inc.", "Local Industrial"}
                         };
 
                         foreach (var entry in memberMembershipTypeMappings)
@@ -454,7 +558,14 @@ namespace CRMProject.Data
                             { "Airbus Canada", new[] { "Transportation equipment manufacturing" } },
                             { "Wood", new[] { "Wood product manufacturing" } },
                             { "Allied Marine Inc.", new[] { "Fabricated metal product manufacturing" } },
-                            { "Altra Rentals", new[] { "Machinery, equipment and supplies merchant wholesalers" } }
+                            { "Altra Rentals", new[] { "Machinery, equipment and supplies merchant wholesalers" } },
+                            { "Armstrong Strategy Group", new[] { "Fabricated metal product manufacturing" } },
+                            { "Asahi Kasei Battery Separator Canada Corporation", new[] { "Plastics and rubber products manufacturing" } },
+                            { "ASW Steel Inc.", new[] { "Fabricated metal product manufacturing" } },
+                            { "Attar Metals Inc.", new[] { "Fabricated metal product manufacturing" } },
+                            {"Axzora Inc.", new[] {"Fabricated metal product manufacturing" } },
+                            { "B4 Networks Inc.", new[] {"Fabricated metal product manufacturing" } },
+                            { "Barber Hymac Hydro Inc.", new[] { "Fabricated metal product manufacturing" } }
                         };
 
                         foreach (var entry in memberIndustryMappings)
@@ -700,7 +811,7 @@ namespace CRMProject.Data
                             { new[] { "Mary Johnson", "Chris Williams" }, new[] { "Acc Payments", "Technologies co." } },
                             { new[] { "Patricia Davis" }, new[] { "Air Ca" } },
                             { new[] { "Linda Miller", "David Lopez" }, new[] { "Wood", "Chain Management" } },
-                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Allied Marine Inc.", "Altra Rentals" } }
+                            { new[] { "Linda Miller", "David Lopez" }, new[] { "Allied Marine Inc.", "Altra Rentals", "Armstrong Strategy Group", "Asahi Kasei Battery Separator Canada Corporation", "ASW Steel Inc." , "Attar Metals Inc.", "Axzora Inc.", "B4 Networks Inc.", "Barber Hymac Hydro Inc."} },
                         };
 
                         foreach (var entry in memberContactMappings)

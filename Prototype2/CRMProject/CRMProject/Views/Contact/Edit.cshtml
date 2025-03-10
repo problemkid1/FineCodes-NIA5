@@ -35,7 +35,9 @@
                     <!-- First Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="FirstName" class="control-label"></label>
+                            <label asp-for="FirstName" class="control-label">
+                                <span class="text-danger">*</span> First Name
+                            </label>
                             <input asp-for="FirstName" class="form-control" placeholder="Enter first name" />
                             <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
@@ -44,7 +46,9 @@
                     <!-- Last Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="LastName" class="control-label"></label>
+                            <label asp-for="LastName" class="control-label">
+                                <span class="text-danger">*</span> Last Name
+                            </label>
                             <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>

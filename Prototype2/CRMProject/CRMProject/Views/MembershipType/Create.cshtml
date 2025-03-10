@@ -32,7 +32,9 @@
                     <!-- Membership Type Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MembershipTypeName" class="control-label"></label>
+                            <label asp-for="MembershipTypeName" class="control-label">
+                                <span class="text-danger">*</span> Membership Type Name
+                            </label>
                             <input asp-for="MembershipTypeName" class="form-control" placeholder="Enter a Membership Type Name" />                           
                             <span asp-validation-for="MembershipTypeName" class="text-danger"></span>
                         </div>

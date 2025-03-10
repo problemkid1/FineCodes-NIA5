@@ -32,7 +32,9 @@
                     <!-- Membership Type Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="MembershipTypeName" class="control-label"></label>
+                            <label asp-for="MembershipTypeName" class="control-label">
+                                <span class="text-danger">*</span> MembershipTypeName
+                            </label>
                             <select asp-for="MembershipTypeName" class="form-control"
                                     asp-items="ViewBag.MembershipTypeNameList">
                                 <option value="">Select a Membership Type</option>

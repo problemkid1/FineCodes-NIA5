@@ -91,7 +91,9 @@
                                 </div>
                                 <!-- Accounts Payable Email -->
                                 <div class="form-group">
-                                    <label asp-for="MemberAccountsPayableEmail" class="control-label"></label>
+                                    <label asp-for="MemberAccountsPayableEmail" class="control-label">
+                                        <span class="text-danger">*</span> A/P Email
+                                    </label>
                                     <input asp-for="MemberAccountsPayableEmail" class="form-control" />
                                     <span asp-validation-for="MemberAccountsPayableEmail" class="text-danger"></span>
                                 </div>
@@ -99,7 +101,9 @@
                             <!-- Member Start Date -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="MemberStartDate" class="control-label"></label>
+                                    <label asp-for="MemberStartDate" class="control-label">
+                                        <span class="text-danger">*</span> Start Date
+                                    </label>
                                     <input asp-for="MemberStartDate" type="date" class="form-control" />
                                     <span asp-validation-for="MemberStartDate" class="text-danger"></span>
                                 </div>
