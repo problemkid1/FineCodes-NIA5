@@ -189,7 +189,8 @@ namespace CRMProject.Controllers
             }
 
             var opportunity = await _context.Opportunities
-                .FindAsync(id);
+                .Include(o => o.Contact)
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (opportunity == null)
             {
                 return NotFound();
@@ -208,12 +209,10 @@ namespace CRMProject.Controllers
             return View(opportunity);
         }
 
-        // POST: Opportunity/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions")] Opportunity opportunity)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityLastContactDate,OpportunityInteractions,Contact")] Opportunity opportunity)
         {
             if (id != opportunity.ID)
             {
@@ -224,10 +223,46 @@ namespace CRMProject.Controllers
             {
                 try
                 {
-                    _context.Update(opportunity);
+                    // Get the existing opportunity with its contact
+                    var existingOpportunity = await _context.Opportunities
+                        .Include(o => o.Contact)
+                        .FirstOrDefaultAsync(o => o.ID == id);
+
+                    if (existingOpportunity == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update opportunity fields
+                    existingOpportunity.OpportunityName = opportunity.OpportunityName;
+                    existingOpportunity.OpportunityStatus = opportunity.OpportunityStatus;
+                    existingOpportunity.OpportunityPriority = opportunity.OpportunityPriority;
+                    existingOpportunity.OpportunityAction = opportunity.OpportunityAction;
+                    existingOpportunity.OpportunityLastContactDate = opportunity.OpportunityLastContactDate;
+                    existingOpportunity.OpportunityInteractions = opportunity.OpportunityInteractions;
+
+                    // Since Contact.Summary is read-only, we can't directly update it
+                    // Instead, we need to maintain the relationship without trying to modify its properties
+
+                    // Only update the Contact reference if needed
+                    if (opportunity.Contact != null && opportunity.Contact.ID > 0)
+                    {
+                        // If the Contact ID is the same, we don't need to do anything
+                        // If different, update the reference
+                        if (existingOpportunity.Contact == null || existingOpportunity.Contact.ID != opportunity.Contact.ID)
+                        {
+                            // Attach the existing contact by ID
+                            var contact = await _context.Contacts.FindAsync(opportunity.Contact.ID);
+                            if (contact != null)
+                            {
+                                existingOpportunity.Contact = contact;
+                            }
+                        }
+                    }
+
+                    _context.Update(existingOpportunity);
                     await _context.SaveChangesAsync();
 
-                    // Set success message in TempData
                     TempData["SuccessMessage"] = "Opportunity details updated successfully!";
                     return RedirectToAction(nameof(Details), new { id = opportunity.ID });
                 }
@@ -235,38 +270,35 @@ namespace CRMProject.Controllers
                 {
                     if (!OpportunityExists(opportunity.ID))
                     {
-                        // If the Opportunity does not exist anymore, return NotFound
                         return NotFound();
                     }
                     else
                     {
-                        // Rethrow exception if there is a concurrency issue
                         throw;
                     }
                 }
                 catch (Exception)
                 {
-                    // Set error message for generic errors
                     TempData["ErrorMessage"] = "An error occurred while updating the Opportunity details.";
                 }
-
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
 
-            // Set error message in case the model is invalid
-            TempData["ErrorMessage"] = "Please check the input data and try again.";
             var breadcrumbs = new List<BreadcrumbItem>
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
-
-                };
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+            };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["Opportunity"] = opportunity.ID;
-            return View(opportunity); // Return to the edit view if there are validation errors
+            return View(opportunity);
         }
+
 
         // GET: Opportunity/Delete/5
         public async Task<IActionResult> Delete(int? id)
