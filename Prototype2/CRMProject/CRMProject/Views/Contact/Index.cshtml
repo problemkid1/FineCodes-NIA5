@@ -95,7 +95,7 @@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactEmailAddress)</th>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactWebsite)</th>
+                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactWebsite)</th> *@
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -194,7 +194,7 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        <td>
+                                        @* <td>
                                             @if (!string.IsNullOrEmpty(item.ContactWebsite))
                                             {
                                                 <a href="@item.ContactWebsite" target="_blank">@item.ContactWebsite</a>
@@ -203,7 +203,7 @@
                                             {
                                                 <span>N/A</span>
                                             }
-                                        </td>
+                                        </td> *@
                                         <td>
                                             <div class="btn-group" style="float: none; ">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
