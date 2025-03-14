@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using System.Diagnostics;
 using OfficeOpenXml;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Drawing.Printing;
 
 namespace CRMProject.Controllers
 {
@@ -27,7 +28,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact ,int? MemberSize, MemberStatus? MemberStatus, string? MembershipTypeName, DateTime StartDate, DateTime EndDate)
+        public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact ,int? MemberSize, int? page, int? pageSizeID, MemberStatus? MemberStatus, string? MembershipTypeName, DateTime StartDate, DateTime EndDate)
         {
             // Set date range if not specified
             if (EndDate == DateTime.MinValue)
@@ -152,7 +153,12 @@ namespace CRMProject.Controllers
         .OrderBy(mt => mt.Text)
         .ToList();
 
-            return View(await members.ToListAsync());
+            //Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Member>.CreateAsync(members.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 
