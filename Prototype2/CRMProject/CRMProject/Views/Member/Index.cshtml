@@ -61,10 +61,14 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-secondary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
-                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-                        Filter/Search @ViewData["numberFilters"]
-                    </button><br />
+                   <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button" 
+        data-bs-toggle="collapse" id="filterToggle"
+        data-bs-target="#collapseFilter" aria-expanded="false" 
+        aria-controls="collapseFilter">
+    Filter/Search @ViewData["numberFilters"]
+</button>
+<div class="mb-4"></div> <!-- Added spacer div -->
+
                     <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
                         <div class="card card-body bg-light">
                             <div class="row">
@@ -113,14 +117,18 @@
                                 </div><hr />
 
                                 <!-- Filter by Join Date Range -->
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Join Date:</label>
-                                    <div class="d-flex">
-                                        <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
-                                        <span class="mx-2">to</span>
-                                        <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
-                                    </div>
-                                </div>
+<div class="form-group col-md-4">
+    <label class="control-label">Filter by Join Date:</label>
+    <div class="d-flex flex-wrap align-items-center">
+        <div class="me-2 mb-2 flex-grow-1">
+            <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+        </div>
+        <span class="mx-1 mb-2">to</span>
+        <div class="ms-2 mb-2 flex-grow-1">
+            <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+        </div>
+    </div>
+</div>
 
 
                                 <!-- Filter Actions -->
@@ -136,7 +144,8 @@
                         </div>
                     </div>
                 </div>
-            </form>
+               
+           
 
             <div class="card">
                 <div class="card-body">
@@ -363,6 +372,8 @@
                     </div>
                 </div>
             </div>
+            <partial name="_PagingNavBar" />
+            </form>
             <br />
             <div class="card mb-3" style="min-width: 18rem;">
                 <h4 class="card-header" id="IndustryUpload">Upload Members</h4>
@@ -392,6 +403,7 @@
                                 </p>
                             </div>
                         </div>
+                       
                     </form>
                 </div>
             </div>
@@ -464,6 +476,13 @@
             }
         }
     </script>
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}
 }
 
 @* <script> *@
