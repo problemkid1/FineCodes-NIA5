@@ -49,13 +49,27 @@
                                     </div>
 
                                 <!-- Filter by Status -->
+                                @{
+                                    var memberStatusList = new List<SelectListItem>
+                                {
+                              //  new SelectListItem { Text = "Good Standing", Value = MemberStatus.GoodStanding.ToString() },
+                                new SelectListItem { Text = "Cancelled", Value = MemberStatus.Cancelled.ToString() }
+                                };
+                                }
+
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Member Status:</label>
                                     @Html.DropDownList("MemberStatus",
-                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
-                                            "All Statuses",
+                                             memberStatusList, // Use filtered list
                                              new { @class = "form-control" })
                                 </div>
+
+                                @* <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Member Status:</label>
+                                    @Html.DropDownList("MemberStatus",
+                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
+                                             new { @class = "form-control" })
+                                </div> *@
 
                                 @* <!-- Filter by Reason -->
                                 <div class="form-group col-md-4">
@@ -83,6 +97,8 @@
                                 </div>
 
                                 <span class="text-danger">@ViewData["NotesCount"]</span>
+                                <br />
+                                <hr />
 
                                 <!-- Filter Actions -->
                                 <div class="form-group col-md-4 align-self-end">
