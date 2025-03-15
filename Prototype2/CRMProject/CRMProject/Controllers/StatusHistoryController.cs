@@ -25,25 +25,12 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> Index(string? SearchString, DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate)
         {
 
-            //// If first time loading the page, set date range to the current date
-            //if (EndDate == DateTime.MinValue)
-            //{
-            //    StartDate = DateTime.Today;
-            //    EndDate = DateTime.Today;
-            //}
+            //If first time loading the page, set date range to the current date
 
-            //// Swap dates if out of order
-            //if (EndDate < StartDate)
-            //{
-            //    DateTime temp = EndDate;
-            //    EndDate = StartDate;
-            //    StartDate = temp;
-            //}
-            // If first time loading the page, set date range based on DB values
             if (EndDate == DateTime.MinValue)
             {
                 StartDate = _context.StatusHistories.Min(c => c.Date).Date;
-                EndDate = _context.StatusHistories.Max(c => c.Date).Date;
+                EndDate = DateTime.Today;
             }
 
             // Swap dates if out of order
@@ -53,6 +40,21 @@ namespace CRMProject.Controllers
                 EndDate = StartDate;
                 StartDate = temp;
             }
+
+            //// If first time loading the page, set date range based on DB values
+            //if (EndDate == DateTime.MinValue)
+            //{
+            //    StartDate = _context.StatusHistories.Min(c => c.Date).Date;
+            //    EndDate = _context.StatusHistories.Max(c => c.Date).Date;
+            //}
+
+            //// Swap dates if out of order
+            //if (EndDate < StartDate)
+            //{
+            //    DateTime temp = EndDate;
+            //    EndDate = StartDate;
+            //    StartDate = temp;
+            //}
 
             // Pass dates to the view
             ViewData["StartDate"] = StartDate.ToString("yyyy-MM-dd");
@@ -73,6 +75,7 @@ namespace CRMProject.Controllers
                 statusHistories = statusHistories.Where(m => m.Member.MemberName.ToLower().Contains(SearchString.ToLower()));
                 numberFilters++;
             }
+
             // Filter by StatusHistory Date
             if (Date.HasValue)
             {
