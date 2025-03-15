@@ -72,7 +72,9 @@
                     <!-- Email -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactEmailAddress" class="control-label">Email</label>
+                            <label asp-for="ContactEmailAddress" class="control-label">
+                                <span class="text-danger">*</span> Email
+                            </label>
                             <input asp-for="ContactEmailAddress" class="form-control" placeholder="Enter email address" />
                             <span asp-validation-for="ContactEmailAddress" class="text-danger"></span>
                         </div>

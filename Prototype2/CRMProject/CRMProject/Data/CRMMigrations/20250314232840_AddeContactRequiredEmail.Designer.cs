@@ -3,6 +3,7 @@ using System;
 using CRMProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMContextModelSnapshot : ModelSnapshot
+    [Migration("20250314232840_AddeContactRequiredEmail")]
+    partial class AddeContactRequiredEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -320,14 +323,16 @@ namespace CRMProject.Data.CRMMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("OpportunityAction")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OpportunityInteractions")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("OpportunityLastContactDate")
+                    b.Property<DateTime>("OpportunityLastContactDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OpportunityName")
@@ -336,6 +341,7 @@ namespace CRMProject.Data.CRMMigrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OpportunityPriority")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 

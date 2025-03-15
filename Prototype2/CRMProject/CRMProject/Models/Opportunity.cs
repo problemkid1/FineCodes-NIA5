@@ -17,25 +17,21 @@ namespace CRMProject.Models
         public OpportunityStatus OpportunityStatus { get; set; }
 
         [Display(Name = "Priority")]
-        [Required(ErrorMessage = "You cannot leave the Priority blank.")]
         [MaxLength(50, ErrorMessage = "Priority cannot be more than 50 characters long.")]
-        public string OpportunityPriority { get; set; } = "";
+        public string? OpportunityPriority { get; set; } = "";
 
         [Display(Name = "Action")]
-        [Required(ErrorMessage = "You cannot leave the action blank.")]
         [MaxLength(255, ErrorMessage = "Action cannot be more than 255 characters long.")]
-        public string OpportunityAction { get; set; } = "";
+        public string? OpportunityAction { get; set; } = "";
 
         [Display(Name = "Last Contacted")]
-        [Required(ErrorMessage = "Last contact date is required.")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime OpportunityLastContactDate { get; set; } = DateTime.Today;
+        public DateTime? OpportunityLastContactDate { get; set; } = DateTime.Today;
 
         [Display(Name = "Interaction")]
-        [Required(ErrorMessage = "You cannot leave the interaction blank.")]
         [MaxLength(255, ErrorMessage = "Interaction cannot be more than 255 characters long.")]
-        public string OpportunityInteractions { get; set; } = "";
+        public string? OpportunityInteractions { get; set; } = "";
 
         public int? ContactID { get; set; }
         public Contact? Contact { get; set; }

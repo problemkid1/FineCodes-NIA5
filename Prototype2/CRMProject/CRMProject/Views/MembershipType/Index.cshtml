@@ -93,6 +93,7 @@
                                     <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MembershipTypeName)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MembershipTypeDescription)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MembershipTypeFee)</th>
+                                    <th>Total Members</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -146,7 +147,10 @@
                                             </td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MembershipTypeFee)</td>
                                             <td>
-                                                <div class="btn-group" style="float:none; padding-left:20%; ">
+                                                @Html.DisplayFor(modelItem => item.MemberMembershipTypes.Select(m => m.Member).Where(m => m.MemberStatus.ToString() != "Cancelled").ToList().Count)
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" style="float:none; ">
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
