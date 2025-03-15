@@ -102,7 +102,7 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label asp-for="MemberStartDate" class="control-label">
-                                        <span class="text-danger">*</span> Start Date
+                                        <span class="text-danger">*</span> Join Date
                                     </label>
                                     <input asp-for="MemberStartDate" type="date" class="form-control" />
                                     <span asp-validation-for="MemberStartDate" class="text-danger"></span>
@@ -114,12 +114,12 @@
                                     <span asp-validation-for="MemberLastContactDate" class="text-danger"></span>
                                 </div>
                             </div>
-                            <!-- Member End Date -->
+                            <!-- Member Website -->
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="MemberEndDate" class="control-label"></label>
-                                    <input asp-for="MemberEndDate" type="date" class="form-control" />
-                                    <span asp-validation-for="MemberEndDate" class="text-danger"></span>
+                                    <label asp-for="MemberWebsite" class="control-label"></label>
+                                    <input asp-for="MemberWebsite" class="form-control" />
+                                    <span asp-validation-for="MemberWebsite" class="text-danger"></span>
                                 </div>
                                 <!-- Member Notes -->
                                 <div class="form-group">
@@ -161,13 +161,13 @@
                         <div class="row">
 
                             <div class="form-group col-md-6">
-                                <span class="control-label">Available Industry Types</span>
+                                <span class="control-label">Available NAICS codes</span>
                                 <button type="button" id="btnAddIndustry" class="btn btn-primary btn-sm"><strong>+</strong></button>
                                 @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
                             </div>
 
                             <div class="form-group col-md-6">
-                                <span class="control-label">Selected Industry Types</span>
+                                <span class="control-label">Selected NAICS codes</span>
                                 <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
                                 @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
                             </div>

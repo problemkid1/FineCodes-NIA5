@@ -75,7 +75,15 @@
                     <dd class="col-7">@Html.DisplayFor(model => model.MemberWebsite)</dd>
                     <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
                     <dd class="col-sm-12">
-                        <textarea class="form-control" readonly>@Model.MemberNotes</textarea>
+                        @if (Model.MemberNotes == null)
+                        {
+                            <span>No Current Notes</span>
+                        }
+                        else
+                        {
+                            <textarea class="form-control" readonly style="background-color: white;">@Model.MemberNotes</textarea>
+                        }
+
                     </dd>
                 </dl>
             </div>
@@ -92,16 +100,25 @@
                     </dd>
                     <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
                     <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberEndDate)</dt>
-                    <dd class="col-7">
-                        @if (Model.MemberEndDate == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        @Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")
-                    </dd>
-                    <dt class="col-5">Industry</dt>
-                    <dd class="col-7">
+                   @*  @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
+                    {
+                        <dt class="col-5">Cancellation Date</dt>
+                        <dd class="col-7">
+
+                            @if (Model.StatusHistories != null && Model.StatusHistories.Any())
+                            {
+                                var records = Model.StatusHistories.Select(m => m.Date).ToList();
+                                var mostRecentDate = records.Max();
+                                <span>@mostRecentDate.ToString("yyyy-MM-dd")</span>
+
+                                @* @Html.DisplayFor(model => model.StatusHistories, "{0:yyyy-MM-dd}") *@
+
+                            @* }
+                        </dd>
+                    } *@
+
+                    @* <dt class="col-5">Industry</dt>
+                    <dd class="col-7">@Html.DisplayNameFor(model => model.MemberIndustries)
                         @if (Model.MemberIndustries != null && Model.MemberIndustries.Any())
                         {
                             var primaryIndustry = Model.MemberIndustries.FirstOrDefault();
@@ -124,7 +141,7 @@
                         {
                             <span>N/A</span>
                         }
-                    </dd>
+                    </dd> *@
                     <dt class="col-5">@Html.DisplayNameFor(model => model.MemberSize)</dt>
                     <dd class="col-7">
                         @if (Model.MemberSize == null)
@@ -180,7 +197,7 @@
         else
         {
             <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
-        }        
+        }
     }
     <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
 </div>

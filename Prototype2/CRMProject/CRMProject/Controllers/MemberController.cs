@@ -389,7 +389,7 @@ namespace CRMProject.Controllers
 
             // Try updating the member with the values posted
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "",
-                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus, m => m.MemberAccountsPayableEmail,
+                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus, m => m.MemberAccountsPayableEmail, m => m.MemberWebsite,
                 m => m.MemberStartDate, m => m.MemberEndDate, m => m.MemberLastContactDate, m => m.MemberNotes))
             {
                 try

@@ -35,7 +35,7 @@
                 </a>
             </div>
 
-            <form asp-action="Index" method="get">
+            @* <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <button class="btn btn-outline-primary  @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
                             data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form> *@
 
 
             <div class="card">
@@ -194,16 +194,6 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        @* <td>
-                                            @if (!string.IsNullOrEmpty(item.ContactWebsite))
-                                            {
-                                                <a href="@item.ContactWebsite" target="_blank">@item.ContactWebsite</a>
-                                            }
-                                            else
-                                            {
-                                                <span>N/A</span>
-                                            }
-                                        </td> *@
                                         <td>
                                             <div class="btn-group" style="float: none; ">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"

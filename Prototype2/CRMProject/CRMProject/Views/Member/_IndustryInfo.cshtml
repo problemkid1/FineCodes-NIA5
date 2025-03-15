@@ -22,15 +22,15 @@
                         {
                             <thead class="table-light">
                                 <tr>
+                                    <th class="d-none d-sm-table-cell">
+                                        @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
+                                    </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.First().Industry.IndustrySector)
                                     </th>
                                     <th class="d-none d-sm-table-cell">
                                         @Html.DisplayNameFor(model => model.First().Industry.IndustrySubsector)
-                                    </th>
-                                    <th class="d-none d-sm-table-cell">
-                                        @Html.DisplayNameFor(model => model.First().Industry.IndustryNAICSCode)
-                                    </th>
+                                    </th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,16 +38,16 @@
                                 {
                                     <tr>
                                         <td>
+                                            @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
+                                        </td>
+                                        <td>
                                             <a asp-action="Details" asp-controller="Industry" asp-route-ID="@item.IndustryID">
                                                 @Html.DisplayFor(modelItem => item.Industry.IndustrySector)
                                             </a>
                                         </td>
                                         <td class="d-none d-sm-table-cell">
                                             @Html.DisplayFor(modelItem => item.Industry.IndustrySubsector)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Industry.IndustryNAICSCode)
-                                        </td>
+                                        </td>                                        
 
                                         @*  <td class="d-none d-sm-table-cell"  style="float: right; ">
                                 <div class="btn-group">

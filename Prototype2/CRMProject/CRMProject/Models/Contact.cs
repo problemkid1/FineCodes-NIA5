@@ -71,11 +71,12 @@ namespace CRMProject.Models
         [DataType(DataType.PhoneNumber)]
         public string? ContactPhone { get; set; } = "";
 
+        [Required(ErrorMessage = "You cannot leave the email blank.")]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please follow the correct email format test@email.com")]
         [StringLength(255)]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
-        public string? ContactEmailAddress { get; set; } = "";
+        public string ContactEmailAddress { get; set; } = "";
 
         [Display(Name = "Email Type")]
         public EmailType? ContactEmailType { get; set; }        
