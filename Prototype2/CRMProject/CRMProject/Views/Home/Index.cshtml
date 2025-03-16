@@ -170,6 +170,7 @@
 
         <!-- Container for charts -->
         <div id="chartsContainer" class="row">
+            <!-- Replace the existing municipality chart card with this updated version -->
             <div class="col-lg-6 mb-4">
                 <div class="widget" data-widget-id="municipality-chart">
                     <div class="widget-controls" style="display: none;">
@@ -177,16 +178,21 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Member Breakdown by Municipality</h5>
+                            <h5 class="m-0 font-weight-bold text-primary">Member Breakdown</h5>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-primary active" id="viewMunicipality">By Municipality</button>
+                                <button type="button" class="btn btn-outline-primary" id="viewIndustry">By Industry</button>
+                            </div>
                         </div>
                         <div class="card-body d-flex align-items-center">
                             <div class="chart-bar w-100">
-                                <canvas id="municipalityBarChart"></canvas>
+                                <canvas id="breakdownBarChart"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <div class="col-lg-6 mb-4">
                 <div class="widget" data-widget-id="membership-pie">
@@ -251,64 +257,140 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Municipality Bar Chart
-        var ctxBar = document.getElementById("municipalityBarChart").getContext("2d");
+        // Debug data coming from the server
+        console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>())));
+        console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>())));
+        console.log("Industry Labels:", @Html.Raw(Json.Serialize(ViewData["IndustryLabels"] ?? new List<string>())));
+        console.log("Industry Data:", @Html.Raw(Json.Serialize(ViewData["IndustryData"] ?? new List<int>())));
+
+        // Get data for both chart types
         var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
         var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
+        var industryLabels = @Html.Raw(Json.Serialize(ViewData["IndustryLabels"] ?? new List<string>()));
+        var industryData = @Html.Raw(Json.Serialize(ViewData["IndustryData"] ?? new List<int>()));
 
-        var municipalityChart = new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: municipalityLabels,
-                datasets: [{
-                    label: "Members",
-                    backgroundColor: "#4e73df",
-                    hoverBackgroundColor: "#2e59d9",
-                    borderColor: "#4e73df",
-                    data: municipalityData
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        grid: { display: false }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0,
-                            stepSize: 1,
-                            callback: function(value) {
-                                return Number(value).toLocaleString();
+        // Check if we have data to display
+        if (municipalityLabels.length === 0 || municipalityData.length === 0) {
+            console.warn("No municipality data available for chart");
+            document.getElementById("breakdownBarChart").parentNode.innerHTML =
+                '<div class="alert alert-warning">No municipality data available to display.</div>';
+        }
+
+        try {
+            // Initialize the bar chart with municipality data first
+            var ctxBar = document.getElementById("breakdownBarChart").getContext("2d");
+            var breakdownChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: municipalityLabels,
+                    datasets: [{
+                        label: "Members by Municipality",
+                        backgroundColor: "#4e73df",
+                        hoverBackgroundColor: "#2e59d9",
+                        borderColor: "#4e73df",
+                        data: municipalityData
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            grid: { display: false }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0,
+                                stepSize: 1,
+                                callback: function(value) {
+                                    return Number(value).toLocaleString();
+                                }
                             }
                         }
                     }
                 }
+            });
+
+            // Toggle between municipality and industry views
+            document.getElementById('viewMunicipality').addEventListener('click', function() {
+                updateChartView('municipality', this);
+            });
+
+            document.getElementById('viewIndustry').addEventListener('click', function() {
+                updateChartView('industry', this);
+            });
+
+            function updateChartView(viewType, buttonElement) {
+                // Update button states
+                document.querySelectorAll('#viewMunicipality, #viewIndustry').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline-primary');
+                });
+
+                buttonElement.classList.add('active');
+                buttonElement.classList.add('btn-primary');
+                buttonElement.classList.remove('btn-outline-primary');
+
+                // Update chart data based on selected view
+                if (viewType === 'municipality') {
+                    breakdownChart.data.labels = municipalityLabels;
+                    breakdownChart.data.datasets[0].data = municipalityData;
+                    breakdownChart.data.datasets[0].label = "Members by Municipality";
+                } else {
+                    breakdownChart.data.labels = industryLabels;
+                    breakdownChart.data.datasets[0].data = industryData;
+                    breakdownChart.data.datasets[0].label = "Members by Industry";
+                }
+
+                breakdownChart.update();
             }
-        });
+        } catch (error) {
+            console.error("Error initializing breakdown chart:", error);
+            document.getElementById("breakdownBarChart").parentNode.innerHTML =
+                '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
+        }
 
         // Initialize the pie chart
-        var ctxPie = document.getElementById("memberPieChart").getContext("2d");
-        var goodStanding = @ViewData["GoodStandingCount"];
-        var overduePayment = @ViewData["OverduePaymentCount"];
-        var cancellations = @ViewData["CancellationCount"];
+        try {
+            var ctxPie = document.getElementById("memberPieChart").getContext("2d");
+            var goodStanding = @ViewData["GoodStandingCount"];
+            var overduePayment = @ViewData["OverduePaymentCount"];
+            var cancellations = @ViewData["CancellationCount"];
 
-        var pieChart = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: ["Good Standing", "Overdue Payment", "Cancelled"],
-                datasets: [{
-                    data: [goodStanding, overduePayment, cancellations],
-                    backgroundColor: ['#36479B', '#933515', '#D9534F'],
-                    hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                cutout: '80%'
+            console.log("Pie Chart Data:", goodStanding, overduePayment, cancellations);
+
+            if (goodStanding === 0 && overduePayment === 0 && cancellations === 0) {
+                console.warn("No data available for pie chart");
+                document.getElementById("memberPieChart").parentNode.innerHTML =
+                    '<div class="alert alert-warning">No membership data available to display.</div>';
+                return;
             }
-        });
+
+            var pieChart = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ["Good Standing", "Overdue Payment", "Cancelled"],
+                    datasets: [{
+                        data: [goodStanding, overduePayment, cancellations],
+                        backgroundColor: ['#36479B', '#933515', '#D9534F'],
+                        hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    cutout: '80%'
+                }
+            });
+        } catch (error) {
+            console.error("Error initializing pie chart:", error);
+            document.getElementById("memberPieChart").parentNode.innerHTML =
+                '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
+        }
+
+        // Rest of your existing dashboard code...
+   
+
 
         // Dashboard Edit Functionality
         const editDashboardBtn = document.getElementById('editDashboardBtn');

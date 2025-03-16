@@ -3,18 +3,39 @@
 @{
     ViewData["Title"] = "Create";
 
+    // <!-- Display Success or Error Messages -->
+    // @if (TempData["SuccessMessage"] != null)
+    // {
+    //     <div class="alert alert-success" role="alert">
+    //         @TempData["SuccessMessage"]
+    //     </div>
+    // }
+
+    // @if (TempData["ErrorMessage"] != null)
+    // {
+    //     <div class="alert alert-danger" role="alert">
+    //         @TempData["ErrorMessage"]
+    //     </div>
+    // }
+
     <!-- Display Success or Error Messages -->
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success" role="alert">
-            @TempData["SuccessMessage"]
+        <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+            <span>@TempData["SuccessMessage"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <i class="fa-solid fa-x"></i>
+            </button>
         </div>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger" role="alert">
-            @TempData["ErrorMessage"]
+        <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+            <span>@TempData["ErrorMessage"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <i class="fa-solid fa-x"></i>
+            </button>
         </div>
     }
 }
@@ -241,5 +262,67 @@
                 event.preventDefault();
             }
         });
+    </script>
+
+    <script>
+         function toggleTextName(itemId) {
+            var moreText = document.getElementById("moreTextName" + itemId);
+            var readMore = document.getElementById("readMoreName" + itemId);
+
+            // Toggle member name text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+
+        function toggleTextCity(itemId) {
+            var moreText = document.getElementById("moreTextCity" + itemId);
+            var readMore = document.getElementById("readMoreCity" + itemId);
+
+            // Toggle member name text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+
+        function toggleTextIndustry(itemId) {
+            var moreText = document.getElementById("moreTextIndustry" + itemId);
+            var readMore = document.getElementById("readMoreIndustry" + itemId);
+
+            // Toggle industry text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
+        }
+    </script>
+    <script>
+        function toggleIndustry(id) {
+            var countSpan = document.getElementById("industryCount" + id);
+            var collapseElement = document.getElementById("collapseIndustry" + id);
+
+            if (collapseElement.classList.contains("show")) {
+                countSpan.style.display = "inline"; // Show the count when collapsed
+            } else {
+                countSpan.style.display = "none"; // Hide the count when expanded
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
     </script>
 }

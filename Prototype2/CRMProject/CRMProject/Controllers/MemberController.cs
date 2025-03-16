@@ -28,7 +28,9 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact ,int? MemberSize, int? page, int? pageSizeID, MemberStatus? MemberStatus, string? MembershipTypeName, DateTime StartDate, DateTime EndDate)
+        public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact,
+            int? MemberSize, int? page, int? pageSizeID, MemberStatus? MemberStatus,
+            string? MembershipTypeName, string? IndustryName, DateTime StartDate, DateTime EndDate)
         {
             // Set date range if not specified
             if (EndDate == DateTime.MinValue)
@@ -73,12 +75,6 @@ namespace CRMProject.Controllers
                 members = members.Where(m => m.MemberStatus == 0);
             }
 
-            //// Apply default filter for Good Standing if no MemberStatus is provided
-            //if (!MemberStatus.HasValue)
-            //{
-            //    members = members.Where(m => m.MemberStatus == 0);
-            //}
-
             // Filter by Member Name (case-insensitive)
             if (!string.IsNullOrEmpty(SearchString))
             {
@@ -93,7 +89,7 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Filter by City
+            // Filter by Contact
             if (!string.IsNullOrEmpty(Contact))
             {
                 members = members.Where(m => m.MemberContacts.Any(c => c.Contact.FirstName.ToLower().Contains(Contact.ToLower())));
@@ -107,13 +103,6 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
-            // Filter by Status (overrides default if provided)
-            //if (MemberStatus.HasValue)
-            //{
-            //    members = members.Where(m => m.MemberStatus == MemberStatus.Value);
-            //    numberFilters++;
-            //}
-
             // Filter by MembershipTypeName
             if (!string.IsNullOrEmpty(MembershipTypeName))
             {
@@ -122,6 +111,12 @@ namespace CRMProject.Controllers
                 numberFilters++;
             }
 
+            // Filter by Industry
+            if (!string.IsNullOrEmpty(IndustryName))
+            {
+                members = members.Where(m => m.MemberIndustries.Any(mi => mi.Industry.IndustrySector.ToLower() == IndustryName.ToLower()));
+                numberFilters++;
+            }
 
             // Feedback for applied filters
             if (numberFilters != 0)
@@ -134,26 +129,62 @@ namespace CRMProject.Controllers
             ViewData["NewMemberCount"] = GetNewMemberCount();
 
             var breadcrumbs = new List<BreadcrumbItem>
-                    {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = true }
-                    };
+            {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = true }
+            };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
+            // Get address city list for dropdown
             ViewBag.addressCityList = _context.Addresses
-        .Select(a => new { Value = a.AddressCity, Text = a.AddressCity })
-        .Distinct()
-        .OrderBy(mt => mt.Text)
-        .ToList();
+                .Select(a => new { Value = a.AddressCity, Text = a.AddressCity })
+                .Where(a => !string.IsNullOrEmpty(a.Value))
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
 
+            // Get membership type list for dropdown
             ViewBag.MembershipTypeNameList = _context.MembershipTypes
-        .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })
-        .Distinct()
-        .OrderBy(mt => mt.Text)
-        .ToList();
+                .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
 
-            //Handle Paging
+            // Get industry list for dropdown
+            ViewBag.IndustryList = _context.Industries
+                .Select(i => new { Value = i.Name, Text = i.Name })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
+            // Get industry statistics for dashboard
+            var industryStats = _context.MemberIndustries
+                .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
+                .GroupBy(mi => mi.Industry.Name)
+                .Select(g => new
+                {
+                    IndustryName = g.Key,
+                    MemberCount = g.Count()
+                })
+                .Where(x => !string.IsNullOrEmpty(x.IndustryName) && x.MemberCount > 0)
+                .OrderByDescending(x => x.MemberCount)
+                .Take(10)
+                .ToList();
+
+            // Handle empty results for industry data
+            if (!industryStats.Any())
+            {
+                ViewData["IndustryLabels"] = new List<string> { "No Data" };
+                ViewData["IndustryData"] = new List<int> { 0 };
+            }
+            else
+            {
+                ViewData["IndustryLabels"] = industryStats.Select(x => x.IndustryName).ToList();
+                ViewData["IndustryData"] = industryStats.Select(x => x.MemberCount).ToList();
+            }
+
+            // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
             var pagedData = await PaginatedList<Member>.CreateAsync(members.AsNoTracking(), page ?? 1, pageSize);

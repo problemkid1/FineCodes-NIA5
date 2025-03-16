@@ -454,6 +454,22 @@
         $(function () {
             var pageTitle = '@ViewData["Title"]'; // Get the current page title
 
+            function getFormattedDateTime() {
+                let now = new Date();
+                return now.getFullYear() + "-" +
+                       String(now.getMonth() + 1).padStart(2, '0') + "-" +
+                       String(now.getDate()).padStart(2, '0') + " - " +
+                       String(now.getHours()).padStart(2, '0') + ":" +
+                       String(now.getMinutes()).padStart(2, '0');
+            }
+
+            function updatePageTitle() {
+                document.title = pageTitle + " - " + getFormattedDateTime();
+            }
+
+            setInterval(updatePageTitle, 1000); // Update title every second
+            updatePageTitle(); // Set title immediately on page load
+
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -461,30 +477,30 @@
                 "buttons": [
                     {
                         extend: "copy",
-                        title: pageTitle, // Set the title dynamically
+                        title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)' // Exclude last column (Actions)
                         }
                     },
                     {
                         extend: "excel",
-                        title: pageTitle, // Set the title dynamically
+                        title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)'
                         }
                     },
                     {
                         extend: "pdf",
-                        title: pageTitle, // Set the title dynamically
+                        title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)'
                         }
                     },
                     {
                         extend: "print",
-                        title: pageTitle, // Set the title dynamically
+                        title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude the last column (Actions)
+                            columns: ':not(:last-child)'
                         }
                     }
                 ]
@@ -501,7 +517,7 @@
             });
         });
 
-                $(document).ready(function() {
+        $(document).ready(function() {
             // Scroll to top button appearance
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 100) { // Show after scrolling 100px
@@ -518,6 +534,8 @@
             });
         });
     </script>
+
+
 
 
 
