@@ -76,11 +76,14 @@
                                             <label for="ContactPhone" class="control-label">
                                                 <span class="text-danger">*</span> Phone
                                             </label>
-                                            <input name="ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter 10 digits (no spaces)" 
+
+                                            <input name="ContactPhone" type="tel"  class="form-control" placeholder="Enter phone number" required />
+                                            <!--<input name="ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter 10 digits (no spaces)" -->
                                                    data-val="true"
                                                    data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
                                                    data-val-regex-pattern="^\d{10}$" />
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
+
                                         </div>
                                     </div>
 

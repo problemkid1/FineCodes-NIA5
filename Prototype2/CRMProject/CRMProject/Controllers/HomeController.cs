@@ -60,11 +60,30 @@ namespace CRMProject.Controllers
                         Municipality = g.Key,
                         Count = g.Count()
                     })
+                    .OrderByDescending(x => x.Count) // Order by count for better visualization
+                    .Take(10) // Limit to top 10 for better readability
                     .ToList();
 
                 // Supply these as labels and data for the chart.
                 ViewData["MunicipalityLabels"] = municipalityQuery.Select(x => x.Municipality).ToList();
                 ViewData["MunicipalityData"] = municipalityQuery.Select(x => x.Count).ToList();
+
+                // Query members by industry for the industry chart
+                var industryQuery = _context.Members
+                    .Where(m => m.MemberStatus != MemberStatus.Cancelled) // Exclude cancelled members
+                    .GroupBy(m => m.MemberIndustries)
+                    .Select(g => new
+                    {
+                        Industry = g.Key,
+                        Count = g.Count()
+                    })
+                    .OrderByDescending(x => x.Count) // Order by count for better visualization
+                    .Take(10) // Limit to top 10 for better readability
+                    .ToList();
+
+                // Supply industry data for the chart toggle
+                ViewData["IndustryLabels"] = industryQuery.Select(x => x.Industry).ToList();
+                ViewData["IndustryData"] = industryQuery.Select(x => x.Count).ToList();
 
                 return View();
             }
