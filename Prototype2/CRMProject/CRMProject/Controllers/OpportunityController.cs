@@ -117,7 +117,18 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Create", Url = "/Oppurtunity/Create", IsActive = true }
                     };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;            
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            // Fetch the list of existing contacts
+            var contacts = _context.Contacts.Select(c => new SelectListItem
+            {
+                Value = c.ID.ToString(),
+                Text = c.FirstName + " " + c.LastName
+            }).ToList();
+
+            contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
+            ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
+
             return View();
         }
 
