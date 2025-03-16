@@ -192,28 +192,23 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId)
         {
-            // Check if model binding succeeded
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                                              .Select(e => e.ErrorMessage)
-                                              .ToList();
+                var errors = ModelState.Where(kvp => kvp.Value.Errors.Any())
+                                       .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray());
 
-                return Json(new { success = false, message = "Invalid model state", errors });
+                return Json(new { success = false, message = "Invalid input data", errors });
             }
 
             try
             {
-
-                // Add the contact and save to get the generated ID
+                // Add the contact and save to generate the ID
                 _context.Contacts.Add(contact);
                 await _context.SaveChangesAsync();
 
-                // Debug: Check if contact ID has been generated
                 if (contact.ID <= 0)
                 {
-                    // _logger.LogError("CreateContact: Contact ID was not generated properly.");
-                    return Json(new { success = false, message = "Contact ID not generated after save." });
+                    return Json(new { success = false, message = "Failed to create contact. Please try again." });
                 }
 
                 // Create and save the member-contact relationship
@@ -226,24 +221,15 @@ namespace CRMProject.Controllers
                 _context.MemberContacts.Add(memberContact);
                 await _context.SaveChangesAsync();
 
-               
-
-                return Json(new { success = true });
+                return Json(new { success = true, message = "Contact created successfully." });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-               
-
-                return Json(new
-                {
-                    success = false,
-                    message = ex.Message
-                   
-                });
+                return Json(new { success = false, message = "An error occurred while creating the contact. Please try again." });
             }
-
-            
         }
+
+
 
 
 
