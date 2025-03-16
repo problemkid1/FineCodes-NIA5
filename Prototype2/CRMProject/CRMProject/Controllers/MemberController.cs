@@ -598,7 +598,7 @@ namespace CRMProject.Controllers
                 {
                     MemberID = member.ID,
                     Date = input.Date,
-                    Status = "Cancelled",
+                    Status = EnumHelper.GetDisplayName(MemberStatus.Cancelled),
                     Reason = input.Reason,
                     Notes = input.Notes
                 };
@@ -656,7 +656,7 @@ namespace CRMProject.Controllers
                 {
                     MemberID = member.ID,
                     Date = input.Date,
-                    Status = "Good Standing",
+                    Status = EnumHelper.GetDisplayName(MemberStatus.GoodStanding),
                     Reason = input.Reason,
                     Notes = input.Notes
                 };
