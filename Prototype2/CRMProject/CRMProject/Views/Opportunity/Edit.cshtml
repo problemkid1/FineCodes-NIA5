@@ -59,7 +59,11 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="OpportunityPriority" class="control-label">Priority</label>
-                            <input asp-for="OpportunityPriority" class="form-control" />
+                            <select asp-for="OpportunityPriority" class="form-control">
+                                <option value="">Select Priority</option>
+                                <option value="High">High</option>
+                                <option value="Low">Low</option>
+                            </select>
                             <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
                         </div>
                     </div>
@@ -87,7 +91,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="OpportunityLastContactDate" class="form-label">Last Contact Date</label>
-                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required
+                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" 
                                    max="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
                         </div>
@@ -96,7 +100,7 @@
                     <!-- Opportunity Interactions -->
                     <div class="col-12 mb-3">
                         <label asp-for="OpportunityInteractions" class="form-label">Interactions</label>
-                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" required></textarea>
+                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" ></textarea>
                         <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
                     </div>
                 </div>

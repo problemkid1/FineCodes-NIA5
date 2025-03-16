@@ -9,7 +9,6 @@ namespace CRMProject.Models
         [Display(Name = "Name")]
         [Required(ErrorMessage = "You cannot leave the name blank.")]
         [MaxLength(255, ErrorMessage = "Name cannot be more than 255 characters long.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name must contain only letters.")]
         public string OpportunityName { get; set; } = "";
 
         [Required(ErrorMessage = "You must select the status.")]

@@ -48,36 +48,51 @@
                         <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
                     </div>
 
+                   @*  <div class="form-group col-md-4">
+                        <label class="control-label">Filter by City:</label>
+                        @Html.DropDownList("AddressCity",
+                                 new SelectList(ViewBag.AddressCityList, "Value", "Text"),
+                                 "All Cities",
+                                 new { @class = "form-control" })
+                    </div><hr /> *@
+
                     <!-- Second Row -->
                     <div class="col-12 col-md-6 mb-3">
                         <label asp-for="OpportunityPriority" class="form-label">Priority</label>
-                        <input asp-for="OpportunityPriority" class="form-control" required />
+                        <select asp-for="OpportunityPriority" class="form-control">
+                            <option value="">Select Priority</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                        </select>
+                        @* @Html.DropDownList("Priority", new SelectList(ViewBag.Priority),"Select Priority", new { @class = "form-control"}) *@
                         <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
                         <label asp-for="OpportunityAction" class="form-label">Action</label>
-                        <input asp-for="OpportunityAction" class="form-control" required />
+                        <input asp-for="OpportunityAction" class="form-control"  />
                         <span asp-validation-for="OpportunityAction" class="text-danger"></span>
                     </div>
 
                     <!-- Third Row -->
-                    <div class="col-12 col-md-6 mb-3">
-                        <label asp-for="Contact.Summary" class="form-label">Contact</label>
-                        <input asp-for="Contact.Summary" class="form-control" required />
+                    @* <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="Contact.Summary" class="form-label">
+                            <span class="text-danger">*</span> Contact
+                        </label>
+                        <input asp-for="Contact.Summary" class="form-control"  />
                         <span asp-validation-for="Contact.Summary" class="text-danger"></span>
-                    </div>
+                    </div> *@
 
                     <div class="col-12 col-md-6 mb-3">
                         <label asp-for="OpportunityLastContactDate" class="form-label">Last Contact Date</label>
-                        <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <input asp-for="OpportunityLastContactDate" type="date" class="form-control"  max="@DateTime.Today.ToString("yyyy-MM-dd")" />
                         <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
                     </div>
 
                     <!-- Fourth Row -->
-                    <div class="col-12 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label asp-for="OpportunityInteractions" class="form-label">Interactions</label>
-                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" required></textarea>
+                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" ></textarea>
                         <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
                     </div>
                 </div>
