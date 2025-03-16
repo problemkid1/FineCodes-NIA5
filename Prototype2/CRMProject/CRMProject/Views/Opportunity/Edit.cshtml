@@ -33,9 +33,8 @@
                     <!-- Opportunity Name -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityName" class="control-label">
-                                <span class="text-danger">*</span> Opportunity Name
-                            </label>
+                            <label asp-for="OpportunityName" class="control-label">Opportunity Name</label>
+                            <span class="text-danger">*</span>
                             <input asp-for="OpportunityName" class="form-control" />
                             <span asp-validation-for="OpportunityName" class="text-danger"></span>
                         </div>
@@ -44,9 +43,8 @@
                     <!-- Opportunity Status -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="OpportunityStatus" class="control-label">
-                                <span class="text-danger">*</span> Status
-                            </label>
+                            <label asp-for="OpportunityStatus" class="control-label">Status</label>
+                            <span class="text-danger">*</span>
                             <select asp-for="OpportunityStatus" class="form-control"
                                     asp-items="Html.GetEnumSelectList<OpportunityStatus>()">
                                 <option value="">Select a Opportunity Status </option>
@@ -72,6 +70,7 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="OpportunityAction" class="control-label">Action</label>
+                            <span class="text-danger">*</span>
                             <input asp-for="OpportunityAction" class="form-control" />
                             <span asp-validation-for="OpportunityAction" class="text-danger"></span>
                         </div>
@@ -80,9 +79,10 @@
                     <!-- Opportunity Contact -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                             <label asp-for="Contact.Summary" class="control-label">Contact</label>
+                            <label asp-for="Contact.Summary" class="control-label">Contact</label>
+                            <span class="text-danger">*</span>
                             <!-- Display as read-only text instead of an input -->
-                            <div class="form-control">@(Model.Contact?.Summary ?? "No contact summary available")</div>                           
+                            <div class="form-control">@(Model.Contact?.Summary ?? "No contact summary available")</div>
                             <span asp-validation-for="Contact.Summary" class="text-danger"></span>
                         </div>
                     </div>
@@ -91,7 +91,8 @@
                     <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="OpportunityLastContactDate" class="form-label">Last Contact Date</label>
-                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" 
+                            <span class="text-danger">*</span>
+                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" required
                                    max="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
                         </div>
@@ -100,7 +101,8 @@
                     <!-- Opportunity Interactions -->
                     <div class="col-12 mb-3">
                         <label asp-for="OpportunityInteractions" class="form-label">Interactions</label>
-                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" ></textarea>
+                        <span class="text-danger">*</span>
+                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" required></textarea>
                         <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
                     </div>
                 </div>
