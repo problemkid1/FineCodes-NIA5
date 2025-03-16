@@ -109,7 +109,7 @@ namespace CRMProject.Controllers
 
         // GET: Opportunity/Create
         public IActionResult Create()
-        {
+        {            
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -117,7 +117,7 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Create", Url = "/Oppurtunity/Create", IsActive = true }
                     };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewData["Breadcrumbs"] = breadcrumbs;            
             return View();
         }
 

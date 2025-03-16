@@ -585,6 +585,7 @@ namespace CRMProject.Controllers
                 if (member != null)
                 {
                     member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
+                    member.MemberEndDate = input.Date;
                 }                
                 
                 var cancellation = new StatusHistory

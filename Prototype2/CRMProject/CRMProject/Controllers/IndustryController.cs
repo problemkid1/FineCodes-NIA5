@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
 using OfficeOpenXml;
+using CRMProject.Utilities;
 
 namespace CRMProject.Controllers
 {
@@ -127,6 +128,17 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewBag.SectorList = _context.Industries
+                .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+            ViewBag.SubsectorList = _context.Industries
+                .Select(i => new { Value = i.IndustrySubsector, Text = i.IndustrySubsector })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
             return View();
         }
 
@@ -224,6 +236,22 @@ namespace CRMProject.Controllers
                 ViewData["Breadcrumbs"] = breadcrumbs;
 
                 ViewData["Industry"] = industry.ID;
+
+                ViewData["IndustrySector"] = industry.IndustrySector;
+
+                ViewData["IndustrySubsector"] = industry.IndustrySubsector;
+
+                ViewBag.SectorList = _context.Industries
+                .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
+                ViewBag.SubsectorList = _context.Industries
+                    .Select(i => new { Value = i.IndustrySubsector, Text = i.IndustrySubsector })
+                    .Distinct()
+                    .OrderBy(i => i.Text)
+                    .ToList();
                 return View(industry);
             }
             catch (Exception ex)
@@ -395,6 +423,7 @@ namespace CRMProject.Controllers
         /// <param name="theExcel"></param>
         /// <returns></returns>
 
+       
         [HttpPost]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {

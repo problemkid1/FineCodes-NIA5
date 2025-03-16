@@ -100,22 +100,22 @@
                     </dd>
                     <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
                     <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
-                   @*  @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
+                    @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
                     {
                         <dt class="col-5">Cancellation Date</dt>
-                        <dd class="col-7">
+                        <dd class="col-7">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
 
-                            @if (Model.StatusHistories != null && Model.StatusHistories.Any())
+                            @* @if (Model.StatusHistories != null && Model.StatusHistories.Any())
                             {
                                 var records = Model.StatusHistories.Select(m => m.Date).ToList();
                                 var mostRecentDate = records.Max();
                                 <span>@mostRecentDate.ToString("yyyy-MM-dd")</span>
 
-                                @* @Html.DisplayFor(model => model.StatusHistories, "{0:yyyy-MM-dd}") *@
+                                @Html.DisplayFor(model => model.StatusHistories, "{0:yyyy-MM-dd}")
 
-                            @* }
-                        </dd>
-                    } *@
+                            } *@
+                        
+                    }
 
                     @* <dt class="col-5">Industry</dt>
                     <dd class="col-7">@Html.DisplayNameFor(model => model.MemberIndustries)

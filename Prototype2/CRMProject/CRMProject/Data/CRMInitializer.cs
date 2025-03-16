@@ -867,7 +867,7 @@ namespace CRMProject.Data
                         {
                             OpportunityName = "Niagara Casinos",
                             OpportunityStatus = OpportunityStatus.Qualification,
-                            OpportunityPriority = "Medium",
+                            OpportunityPriority = "Low",
                             OpportunityAction = "Proposal Sent",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-45),
                             OpportunityInteractions = "Proposal sent to Jennifer Adams at Niagara Casinos. Waiting for feedback."
@@ -903,7 +903,7 @@ namespace CRMProject.Data
                         {
                             OpportunityName = "Canadian Niagara Power",
                             OpportunityStatus = OpportunityStatus.ClosedNotInterested,
-                            OpportunityPriority = "Medium",
+                            OpportunityPriority = "Low",
                             OpportunityAction = "Follow-up Next semester",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-25),
                             OpportunityInteractions = "Proposal sent to Sarah Mitchell at Canadian Niagara Power. Awaiting response."
@@ -930,7 +930,7 @@ namespace CRMProject.Data
                         {
                             OpportunityName = "Stanpac",
                             OpportunityStatus = OpportunityStatus.Negotiating,
-                            OpportunityPriority = "Medium",
+                            OpportunityPriority = "Low",
                             OpportunityAction = "Initial Meeting Scheduled",
                             OpportunityLastContactDate = DateTime.Today.AddDays(-15),
                             OpportunityInteractions = "Initial meeting scheduled with William Scott at Stanpac."
