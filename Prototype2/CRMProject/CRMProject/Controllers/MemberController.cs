@@ -46,9 +46,15 @@ namespace CRMProject.Controllers
                 StartDate = temp;
             }
 
-            // Save to ViewData for form persistence
-            ViewData["StartDate"] = StartDate.ToString("yyyy-MM-dd");
-            ViewData["EndDate"] = EndDate.ToString("yyyy-MM-dd");
+            if (StartDate != DateTime.MinValue)
+            {
+                ViewData["StartDate"] = StartDate.ToString("yyyy-MM-dd");
+            }
+
+            if (EndDate != DateTime.MinValue)
+            {
+                ViewData["EndDate"] = EndDate.ToString("yyyy-MM-dd");
+            }
 
             ViewData["Filtering"] = "btn-outline-secondary";
             int numberFilters = 0;
@@ -616,13 +622,14 @@ namespace CRMProject.Controllers
                 if (member != null)
                 {
                     member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
+                    member.MemberEndDate = input.Date;
                 }                
                 
                 var cancellation = new StatusHistory
                 {
                     MemberID = member.ID,
                     Date = input.Date,
-                    Status = "Cancelled",
+                    Status = EnumHelper.GetDisplayName(MemberStatus.Cancelled),
                     Reason = input.Reason,
                     Notes = input.Notes
                 };
@@ -680,7 +687,7 @@ namespace CRMProject.Controllers
                 {
                     MemberID = member.ID,
                     Date = input.Date,
-                    Status = "Good Standing",
+                    Status = EnumHelper.GetDisplayName(MemberStatus.GoodStanding),
                     Reason = input.Reason,
                     Notes = input.Notes
                 };

@@ -136,7 +136,9 @@
                     </table>
                 </div>
             </div>
-
+            <form method="post" action="@Url.Action("ConvertToMember", "Opportunity", new { opportunityId = Model.ID })">
+                <button type="submit" class="btn btn-primary">Convert to Member</button>
+            </form>
             
 
             <div class="form-group text-center mt-3">

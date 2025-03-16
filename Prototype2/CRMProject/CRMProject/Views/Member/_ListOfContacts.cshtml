@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CRMProject.Models.MemberContact>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <div class="card">
@@ -13,7 +13,6 @@
                         <strong><i class="fa-solid fa-plus"></i> Add</strong>
                     </button>
                 </div>
-
             </div>
 
             <div class="panel-body scrollable-panel">
@@ -32,7 +31,14 @@
                                             <label for="FirstName" class="control-label">
                                                 <span class="text-danger">*</span> First Name
                                             </label>
-                                            <input name="FirstName" class="form-control" placeholder="Enter first name" required />
+                                            <input name="FirstName" id="FirstName" class="form-control" placeholder="Enter first name" required 
+                                                   data-val="true" 
+                                                   data-val-required="You cannot leave the first name blank."
+                                                   data-val-maxlength="First name cannot be more than 50 characters long."
+                                                   data-val-maxlength-max="50"
+                                                   data-val-regex="First name must contain only letters."
+                                                   data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
 
@@ -41,14 +47,27 @@
                                             <label for="LastName" class="control-label">
                                                 <span class="text-danger">*</span> Last Name
                                             </label>
-                                            <input name="LastName" class="form-control" placeholder="Enter last name" required />
+                                            <input name="LastName" id="LastName" class="form-control" placeholder="Enter last name" required 
+                                                   data-val="true" 
+                                                   data-val-required="You cannot leave the last name blank."
+                                                   data-val-maxlength="Last name cannot be more than 100 characters long."
+                                                   data-val-maxlength-max="100"
+                                                   data-val-regex="Last name must contain only letters."
+                                                   data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label for="ContactTitleRole" class="control-label">Title/Role</label>
-                                            <input name="ContactTitleRole" class="form-control" placeholder="Enter title/role" />
+                                            <input name="ContactTitleRole" id="ContactTitleRole" class="form-control" placeholder="Enter title/role" 
+                                                   data-val="true"
+                                                   data-val-maxlength="Title/Role cannot be more than 100 characters long."
+                                                   data-val-maxlength-max="100"
+                                                   data-val-regex="Title/Role must contain only letters."
+                                                   data-val-regex-pattern="^[a-zA-Z\s]*$" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="ContactTitleRole" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
 
@@ -57,7 +76,14 @@
                                             <label for="ContactPhone" class="control-label">
                                                 <span class="text-danger">*</span> Phone
                                             </label>
+
                                             <input name="ContactPhone" type="tel"  class="form-control" placeholder="Enter phone number" required />
+                                            <!--<input name="ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter 10 digits (no spaces)" -->
+                                                   data-val="true"
+                                                   data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
+                                                   data-val-regex-pattern="^\d{10}$" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
+
                                         </div>
                                     </div>
 
@@ -66,37 +92,42 @@
                                             <label for="ContactEmailAddress" class="control-label">
                                                 <span class="text-danger">*</span> Email
                                             </label>
-                                            <input name="ContactEmailAddress" type="email" class="form-control" placeholder="Enter email address" required />
+                                            <input name="ContactEmailAddress" id="ContactEmailAddress" type="email" class="form-control" placeholder="example@email.com" required 
+                                                   data-val="true"
+                                                   data-val-required="You cannot leave the email blank."
+                                                   data-val-regex="Please follow the correct email format test@email.com"
+                                                   data-val-maxlength="Email cannot be more than 255 characters long."
+                                                   data-val-maxlength-max="255" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailAddress" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label for="ContactEmailType" class="control-label">Email Type</label>
-                                            <select name="ContactEmailType" class="form-control" asp-items="Html.GetEnumSelectList<EmailType>()">
+                                            <select name="ContactEmailType" id="ContactEmailType" class="form-control" asp-items="Html.GetEnumSelectList<EmailType>()">
                                                 <option value="">Select Email Type</option>
                                             </select>
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailType" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
-
-                                    @* <div class="col-12 col-md-6">
-                                        <div class="form-group">
-                                            <label for="ContactWebsite" class="control-label">Website</label>
-                                            <input name="ContactWebsite" class="form-control" placeholder="Enter website URL" />
-                                        </div>
-                                    </div> *@
 
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label for="ContactInteractions" class="control-label">Interactions</label>
-                                            <input name="ContactInteractions" class="form-control" placeholder="Enter interaction details" />
+                                            <input name="ContactInteractions" id="ContactInteractions" class="form-control" placeholder="Enter interaction details" 
+                                                   data-val="true"
+                                                   data-val-maxlength="Interactions cannot be more than 255 characters long."
+                                                   data-val-maxlength-max="255" />
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="ContactInteractions" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
 
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="ContactNotes" class="control-label">Contact Notes</label>
-                                            <textarea name="ContactNotes" class="form-control" style="min-height: 100px;" placeholder="Add notes"></textarea>
+                                            <textarea name="ContactNotes" id="ContactNotes" class="form-control" style="min-height: 100px;" placeholder="Add notes"></textarea>
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="ContactNotes" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +151,6 @@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactTitleRole)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
-                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactWebsite)</th> *@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailType)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactNotes)</th>
                                     <th></th>
@@ -137,10 +167,9 @@
                                         </td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)</td>
                                         <td>
-                                            <a href="@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
+                                            <a href="tel:@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
                                         </td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
-                                        @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactWebsite)</td> *@
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactNotes)</td>
                                         <td class="d-none d-sm-table-cell" style="float: right; ">
@@ -150,11 +179,6 @@
                                                    data-bs-toggle="tooltip" title="Edit Contact">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
-                                                @* <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                           class="btn btn-md btn-outline-primary" role="button"
-                                           data-bs-toggle="tooltip" title="Details Contact">
-                                            <i class="bi bi-search"></i>
-                                        </a> *@
                                                 <a asp-action="RemoveContact" asp-controller="Member" asp-route-contactID="@item.ContactID" asp-route-memberID="@item.MemberID"
                                                    class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                    data-bs-toggle="tooltip" title="Remove Contact">
@@ -176,7 +200,6 @@
                         }
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -189,11 +212,27 @@
         function hideContactForm() {
             $("#contactFormSection").slideUp();
             $("#createContactForm")[0].reset();
+            // Clear validation errors
+            $(".field-validation-valid").text("");
+            $(".input-validation-error").removeClass("input-validation-error");
         }
 
         $(document).ready(function () {
+            // Load jQuery validation scripts
+            $.getScript("/lib/jquery-validation/dist/jquery.validate.min.js", function() {
+                $.getScript("/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js", function() {
+                    // Initialize validation
+                    $.validator.unobtrusive.parse("#createContactForm");
+                });
+            });
+
             $("#createContactForm").submit(function (e) {
                 e.preventDefault();
+
+                // Check if the form is valid
+                if (!$(this).valid()) {
+                    return false;
+                }
 
                 $.post('@Url.Action("CreateContact", "Contact")', $(this).serialize())
                     .done(function (response) {
@@ -205,9 +244,18 @@
                             console.log("Contact successfully created. Reloading page...");
                             location.reload();
                         } else {
-                            // Alert and log any error message returned from the server
-                            console.error("Error from server:", response.message);
-                            alert("Error: " + response.message);
+                            // Handle validation errors from server
+                            if (response.errors) {
+                                // Display validation errors
+                                $.each(response.errors, function (key, value) {
+                                    $("[data-valmsg-for='" + key + "']").text(value[0]);
+                                    $("#" + key).addClass("input-validation-error");
+                                });
+                            } else {
+                                // Alert and log any error message returned from the server
+                                console.error("Error from server:", response.message);
+                                alert("Error: " + response.message);
+                            }
                         }
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {

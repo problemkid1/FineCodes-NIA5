@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using Microsoft.Data.Sqlite;
 
 namespace CRMProject.Controllers
 {
@@ -108,7 +109,7 @@ namespace CRMProject.Controllers
 
         // GET: Opportunity/Create
         public IActionResult Create()
-        {
+        {            
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -117,6 +118,17 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+
+            // Fetch the list of existing contacts
+            var contacts = _context.Contacts.Select(c => new SelectListItem
+            {
+                Value = c.ID.ToString(),
+                Text = c.FirstName + " " + c.LastName
+            }).ToList();
+
+            contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
+            ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
+
             return View();
         }
 
@@ -345,8 +357,6 @@ namespace CRMProject.Controllers
             return Json(new { success = false, message = "Failed to add contact" });
         }
 
-
-
         // POST: Opportunity/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -385,5 +395,80 @@ namespace CRMProject.Controllers
         {
             return _context.Opportunities.Any(e => e.ID == id);
         }
+
+
+        // Action to convert Opportunity to Member
+        public IActionResult ConvertToMember(int opportunityId)
+        {
+            try
+            {
+                // Step 1: Find the Opportunity by ID
+                var opportunity = _context.Opportunities.FirstOrDefault(o => o.ID == opportunityId);
+
+                if (opportunity == null)
+                {
+                    TempData["ErrorMessage"] = "The opportunity was not found.";
+                    return RedirectToAction("Index", "Opportunity");
+                }
+
+                // Step 2: Check if the Member's email already exists
+                var existingMemberEmail = _context.Members
+                    .Any(m => m.MemberAccountsPayableEmail == opportunity.OpportunityAction); // Assuming OpportunityAction holds the email
+
+                if (existingMemberEmail)
+                {
+                    TempData["ErrorMessage"] = "This email is already associated with another member.";
+                    return RedirectToAction("Index", "Opportunity");
+                }
+
+                // Step 3: Create a new Member
+                var member = new Member
+                {
+                    MemberName = opportunity.OpportunityName,
+                    MemberStatus = MemberStatus.GoodStanding, // Default status
+                    MemberSize = null, // No default size
+                    MemberStartDate = DateTime.Today,
+                    MemberLastContactDate = opportunity.OpportunityLastContactDate,
+                    MemberNotes = opportunity.OpportunityAction,  // Assuming OpportunityAction holds the note
+                    MemberAccountsPayableEmail = opportunity.OpportunityAction, // Assuming OpportunityAction holds the email
+                };
+
+                // Step 4: Optionally, copy relationships (e.g., Contact)
+                //if (opportunity.Contact != null)
+                //{
+                //    member.ContactID = opportunity.ContactID;
+                //    member.Contact = opportunity.Contact;
+                //}
+
+                // Step 5: Save the new Member to the database
+                _context.Members.Add(member);
+                _context.SaveChanges();
+
+                // Step 6: Optionally, remove the Opportunity if no longer needed
+                _context.Opportunities.Remove(opportunity);
+                _context.SaveChanges();
+
+                // Step 7: Set success message in TempData
+                TempData["SuccessMessage"] = "Opportunity successfully converted to Member!";
+
+                // Step 8: Redirect to the Member Details page
+                return RedirectToAction("Details", "Member", new { id = member.ID });
+            }
+            catch (SqliteException sqlEx)
+            {
+                // Handle SQL exception
+                TempData["ErrorMessage"] = "A database error occurred while converting the opportunity. Please try again.";
+                return RedirectToAction("Error", "Home"); // Optionally, create an error page
+            }
+            catch (Exception ex)
+            {
+                // Handle general exception
+                TempData["ErrorMessage"] = "An unexpected error occurred. Please contact support.";
+                return RedirectToAction("Error", "Home");
+            }
+        }
+
+
+
     }
 }
