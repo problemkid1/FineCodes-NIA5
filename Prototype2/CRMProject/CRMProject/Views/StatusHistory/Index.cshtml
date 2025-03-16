@@ -43,40 +43,27 @@
                         <div class="card card-body bg-light">
                             <div class="row">
                                 <!-- Filter by Member Name -->
-                                    <div class="form-group col-md-4">
-                                        <label class="control-label">Filter by Member Name:</label>
-                                        @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
-                                    </div>
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Member Name:</label>
+                                    @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                                </div>
 
                                 <!-- Filter by Status -->
                                 @{
                                     var memberStatusList = new List<SelectListItem>
                                 {
-                              //  new SelectListItem { Text = "Good Standing", Value = MemberStatus.GoodStanding.ToString() },
-                                new SelectListItem { Text = "Cancelled", Value = MemberStatus.Cancelled.ToString() }
+                                new SelectListItem { Text = "All Status", Value = "" },
+                                new SelectListItem { Text = "Good Standing", Value = EnumHelper.GetDisplayName(MemberStatus.GoodStanding) },
+                                new SelectListItem { Text = "Cancelled", Value = EnumHelper.GetDisplayName(MemberStatus.Cancelled) }
                                 };
                                 }
 
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Member Status:</label>
-                                    @Html.DropDownList("MemberStatus",
+                                    @Html.DropDownList("Status",
                                              memberStatusList, // Use filtered list
                                              new { @class = "form-control" })
                                 </div>
-
-                                @* <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Member Status:</label>
-                                    @Html.DropDownList("MemberStatus",
-                                             EnumHelper.GetEnumSelectList<CRMProject.Models.MemberStatus>(),
-                                             new { @class = "form-control" })
-                                </div> *@
-
-                                @* <!-- Filter by Reason -->
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Reason:</label>
-                                    @Html.TextBox("Reason", null, new { @class = "form-control", placeholder = "Enter reason" })
-                                    <span class="text-danger">@ViewData["ReasonCount"]</span>
-                                </div> *@
 
                                 <!-- Filter by Notes -->
                                 <div class="form-group col-md-4">
@@ -122,7 +109,7 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>                                
+                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Status)</th>
                                 <th>@Html.DisplayNameFor(model => model.Reason)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Notes)</th>
@@ -208,7 +195,7 @@
                                                 </span>
                                             }
                                         </td>
-                                    
+
 
                                         <td>@Html.DisplayFor(modelItem => item.Date)</td>
                                         <td>
