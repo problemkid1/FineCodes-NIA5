@@ -159,15 +159,15 @@ namespace CRMProject.Controllers
 
             // Get industry list for dropdown
             ViewBag.IndustryList = _context.Industries
-                .Select(i => new { Value = i.Name, Text = i.Name })
+                .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector})
                 .Distinct()
                 .OrderBy(i => i.Text)
                 .ToList();
 
             // Get industry statistics for dashboard
             var industryStats = _context.MemberIndustries
-                .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
-                .GroupBy(mi => mi.Industry.Name)
+                .Where(mi => mi.Member.MemberStatus != Models.MemberStatus.Cancelled)
+                .GroupBy(mi => mi.Industry.IndustrySector)
                 .Select(g => new
                 {
                     IndustryName = g.Key,
