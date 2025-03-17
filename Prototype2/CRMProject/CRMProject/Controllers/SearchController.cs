@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CRMProject.Controllers
 {
     public class SearchController : Controller
     {
+        [Authorize]
         public IActionResult Search(string query)
         {
             if (string.IsNullOrEmpty(query))

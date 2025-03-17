@@ -40,6 +40,9 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
+         @if (SignInManager.IsSignedIn(User))
+    {
+
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -71,95 +74,52 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")">
                 <a class="nav-link" asp-controller="Home" asp-action="Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    @* <span>Dashboard</span> *@
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "text-decoration: underline;" : "");  ">Dashboard</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "text-decoration: underline;" : "");">Dashboard</span>
                 </a>
             </li>
 
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            @* <div class="sidebar-heading"> *@
-            @*     @* Membership Pages *@
-            @* </div> *@
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            @* <li class="nav-item"> *@
-            @*     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" *@
-            @*        aria-expanded="true" aria-controls="collapseTwo"> *@
-            @*         <i class="fas fa-fw fa-users"></i> <!-- Updated to use 'users' icon for Members --> *@
-            @*         <span>Members</span> *@
-            @*     </a> *@
-            @*     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar"> *@
-            @*         <div class="bg-white py-2 collapse-inner rounded"> *@
-            @*             <h6 class="collapse-header">Custom Members:</h6> *@
-            @*             <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Members</a> *@
-            @*             <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Good Standing</a> *@
-            @*             <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Industries</a> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </li> *@
-
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Member" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Member" ? "active" : "")">
                 <a class="nav-link" asp-controller="Member" asp-action="Index">
                     <i class="fas fa-fw fa-users"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Member" ? "text-decoration: underline;" : "");  ">Members</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Member" ? "text-decoration: underline;" : "");">Members</span>
                 </a>
             </li>
 
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Contact" ? "active" : "")">
                 <a class="nav-link" asp-controller="Contact" asp-action="Index">
                     <i class="fas fa-fw fa-address-book"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Contact" ? "text-decoration: underline;" : "");">Contacts</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Contact" ? "text-decoration: underline;" : "");">Contacts</span>
                 </a>
             </li>
 
-            @*  <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "active" : "")">
-            <a class="nav-link" asp-controller="Address" asp-action="Index">
-            <i class="fas fa-fw fa-map-marker-alt"></i>
-            <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Address" ? "text-decoration: underline;" : "")  ;">Addresses</span>
-            </a>
-            </li> *@
-
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "StatusHistory" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "StatusHistory" ? "active" : "")">
                 <a class="nav-link" asp-controller="StatusHistory" asp-action="Index">
                     <i class="fas fa-calendar-times"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "StatusHistory" ? "text-decoration: underline;" : "")  ;">Member Status History</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "StatusHistory" ? "text-decoration: underline;" : "");">Member Status History</span>
                 </a>
             </li>
 
-            
-
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
                     <i class="fas fa-lightbulb"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Opportunity" ? "text-decoration: underline;" : "")  ;">Opportunities</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Opportunity" ? "text-decoration: underline;" : "");">Opportunities</span>
                 </a>
             </li>
 
-            <!-- Divider -->
-            <!-- Heading -->
-            @* <div class="sidebar-heading"> *@
-            @*     @* Addons *@
-            @* </div> *@
-            <hr class="sidebar-divider">
-
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Industry" ? "active" : "")">
                 <a class="nav-link" asp-controller="Industry" asp-action="Index">
                     <i class="fas fa-industry"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "Industry" ? "text-decoration: underline;" : "")  ;">Industries</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Industry" ? "text-decoration: underline;" : "");">Industries</span>
                 </a>
             </li>
 
-            <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "active" : "")">
+            <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MembershipType" ? "active" : "")">
                 <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
                     <i class="fas fa-id-card"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"].ToString() == "MembershipType" ? "text-decoration: underline;" : "")  ;">Membership Types</span>
+                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MembershipType" ? "text-decoration: underline;" : "");">Membership Types</span>
                 </a>
             </li>
 
@@ -197,6 +157,7 @@
             </div>
         </ul>
         <!-- End of Sidebar -->
+    }
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -322,35 +283,40 @@
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
+                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Jordan Sherlock</span>
-                                <img class="img-profile rounded-circle"
-                                     src="~/theme/img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            @* <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" *@
-                            @*      aria-labelledby="userDropdown"> *@
-                            @*     <a class="dropdown-item" href="#"> *@
-                            @*         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> *@
-                            @*         Profile *@
-                            @*     </a> *@
-                            @*     <a class="dropdown-item" href="#"> *@
-                            @*         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> *@
-                            @*         Settings *@
-                            @*     </a> *@
-                            @*     <a class="dropdown-item" href="#"> *@
-                            @*         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> *@
-                            @*         Activity Log *@
-                            @*     </a> *@
-                            @*     <div class="dropdown-divider"></div> *@
-                            @*     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"> *@
-                            @*         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> *@
-                            @*         Logout *@
-                            @*     </a> *@
-                            @* </div> *@
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
+                                    <img class="img-profile rounded-circle" src="~/theme/img/undraw_profile.svg">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">Login</span>
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </a>
+                            }
                         </li>
+
 
                     </ul>
 

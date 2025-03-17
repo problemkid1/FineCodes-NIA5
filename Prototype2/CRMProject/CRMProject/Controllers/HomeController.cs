@@ -1,5 +1,6 @@
 using CRMProject.Data;
 using CRMProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace CRMProject.Controllers
 {
+    [Authorize] // Add this attribute to require authentication for all actions in this controller
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -84,8 +86,6 @@ namespace CRMProject.Controllers
                 ViewData["IndustryLabels"] = industryQuery.Select(x => x.Industry).ToList();
                 ViewData["IndustryData"] = industryQuery.Select(x => x.Count).ToList();
 
-
-
                 return View();
             }
             catch (Exception ex)
@@ -111,11 +111,13 @@ namespace CRMProject.Controllers
             }
         }
 
+        [AllowAnonymous] 
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [AllowAnonymous] // Add this to allow access to the Error page without authentication
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -9,9 +9,11 @@ using CRMProject.Data;
 using CRMProject.Models;
 using System.Net;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize]
     public class StatusHistoryController : Controller
     {
         private readonly CRMContext _context;
