@@ -79,9 +79,9 @@
 
                                             <input name="ContactPhone" type="tel"  class="form-control" placeholder="Enter phone number" required />
                                             <!--<input name="ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter 10 digits (no spaces)" -->
-                                                   data-val="true"
+@*                                                    data-val="true"
                                                    data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
-                                                   data-val-regex-pattern="^\d{10}$" />
+                                                   data-val-regex-pattern="^\d{10}$" /> *@
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
 
                                         </div>
@@ -171,7 +171,17 @@
                                         </td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)</td>
-                                        <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactNotes)</td>
+                                        <td class="d-none d-sm-table-cell">
+                                            @if (item.Contact.ContactNotes != null)
+                                            {
+                                                @Html.DisplayFor(modelItem => item.Contact.ContactNotes)
+                                            }
+                                            else
+                                            {
+                                                <span>No Current Notes</span>
+                                            }
+
+                                        </td>
                                         <td class="d-none d-sm-table-cell" style="float: right; ">
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"

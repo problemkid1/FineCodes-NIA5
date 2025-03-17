@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CRMProject.Data;
+using CRMProject.Models;
+using CRMProject.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CRMProject.Data;
-using CRMProject.Models;
-using CRMProject.Utilities;
-using System.Numerics;
-using Humanizer;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Diagnostics;
 using OfficeOpenXml;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using System.Drawing.Printing;
+using System.Diagnostics;
 
 namespace CRMProject.Controllers
 {
@@ -157,7 +149,8 @@ namespace CRMProject.Controllers
                 .OrderBy(mt => mt.Text)
                 .ToList();
 
-            // Get industry list for dropdown
+            //Get industry list for dropdown
+
             ViewBag.IndustryList = _context.Industries
                 .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector})
                 .Distinct()
@@ -623,8 +616,8 @@ namespace CRMProject.Controllers
                 {
                     member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
                     member.MemberEndDate = input.Date;
-                }                
-                
+                }
+
                 var cancellation = new StatusHistory
                 {
                     MemberID = member.ID,
@@ -682,7 +675,7 @@ namespace CRMProject.Controllers
                 {
                     member.MemberStatus = MemberStatus.GoodStanding;  // Change status to Good Standing (Active)
                 }
-                
+
                 var activation = new StatusHistory
                 {
                     MemberID = member.ID,
@@ -692,7 +685,7 @@ namespace CRMProject.Controllers
                     Notes = input.Notes
                 };
                 _context.StatusHistories.Add(activation);
-                
+
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -724,7 +717,7 @@ namespace CRMProject.Controllers
 
             return View(member);
         }
-                
+
         private void PopulateAssignedMemberShipData(Member member)
         {
             //For this to work, you must have Included the child collection in the parent object
@@ -771,14 +764,15 @@ namespace CRMProject.Controllers
         private void UpdateMemberMembershipTypes(string[] selectedOptions, Member memberToUpdate)
         {
             // Only initialize if null, don't clear existing data
+            if (selectedOptions == null || selectedOptions.Length == 0)
+            {
+                return;
+            }
+
+            // Initialize if null (prevents null reference errors)
             if (memberToUpdate.MemberMembershipTypes == null)
             {
                 memberToUpdate.MemberMembershipTypes = new List<MemberMembershipType>();
-            }
-
-            if (selectedOptions == null || selectedOptions.Length == 0)
-            {
-                return; // Don't clear existing data
             }
 
             // Rest of the method remains the same
@@ -972,7 +966,7 @@ namespace CRMProject.Controllers
                 // Validate Header
                 if (workSheet.Cells[1, 1].Text.Trim() != "Member Name" ||
                     workSheet.Cells[1, 2].Text.Trim() != "Size" ||
-                    workSheet.Cells[1, 3].Text.Trim() != "Status"||
+                    workSheet.Cells[1, 3].Text.Trim() != "Status" ||
                     workSheet.Cells[1, 4].Text.Trim() != "Payable email" ||
                     workSheet.Cells[1, 5].Text.Trim() != "Start date")
                 {
@@ -1056,7 +1050,7 @@ namespace CRMProject.Controllers
                 // Bulk insert to improve performance
                 if (newMembers.Count > 0)
                 {
-                    _context.Members.AddRange(newMembers);  
+                    _context.Members.AddRange(newMembers);
                     await _context.SaveChangesAsync();
                     successCount = newMembers.Count;
                 }

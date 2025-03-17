@@ -67,7 +67,7 @@ namespace CRMProject.Models
         public string? ContactTitleRole { get; set; } = "";
 
         [Display(Name = "Phone")]
-        [RegularExpression(@"^\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be exactly 10 digits (e.g., 1234567890) with no spaces or special characters.")]
         [DataType(DataType.PhoneNumber)]
         public string? ContactPhone { get; set; } = "";
 
@@ -79,7 +79,7 @@ namespace CRMProject.Models
         public string ContactEmailAddress { get; set; } = "";
 
         [Display(Name = "Email Type")]
-        public EmailType? ContactEmailType { get; set; }        
+        public EmailType? ContactEmailType { get; set; }
 
         [MaxLength(255)]
         [Display(Name = "Interactions")]
