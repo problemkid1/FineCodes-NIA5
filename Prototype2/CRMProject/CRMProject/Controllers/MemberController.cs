@@ -149,38 +149,39 @@ namespace CRMProject.Controllers
                 .OrderBy(mt => mt.Text)
                 .ToList();
 
-            // Get industry list for dropdown
-            //ViewBag.IndustryList = _context.Industries
-            //    .Select(i => new { Value = i.Name, Text = i.Name })
-            //    .Distinct()
-            //    .OrderBy(i => i.Text)
-            //    .ToList();
+            //Get industry list for dropdown
 
-            //// Get industry statistics for dashboard
-            //var industryStats = _context.MemberIndustries
-            //    .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
-            //    .GroupBy(mi => mi.Industry.Name)
-            //    .Select(g => new
-            //    {
-            //        IndustryName = g.Key,
-            //        MemberCount = g.Count()
-            //    })
-            //    .Where(x => !string.IsNullOrEmpty(x.IndustryName) && x.MemberCount > 0)
-            //    .OrderByDescending(x => x.MemberCount)
-            //    .Take(10)
-            //    .ToList();
+            ViewBag.IndustryList = _context.Industries
+                .Select(i => new { Value = i.Name, Text = i.Name })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
 
-            //// Handle empty results for industry data
-            //if (!industryStats.Any())
-            //{
-            //    ViewData["IndustryLabels"] = new List<string> { "No Data" };
-            //    ViewData["IndustryData"] = new List<int> { 0 };
-            //}
-            //else
-            //{
-            //    ViewData["IndustryLabels"] = industryStats.Select(x => x.IndustryName).ToList();
-            //    ViewData["IndustryData"] = industryStats.Select(x => x.MemberCount).ToList();
-            //}
+            // Get industry statistics for dashboard
+            var industryStats = _context.MemberIndustries
+                .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
+                .GroupBy(mi => mi.Industry.Name)
+                .Select(g => new
+                {
+                    IndustryName = g.Key,
+                    MemberCount = g.Count()
+                })
+                .Where(x => !string.IsNullOrEmpty(x.IndustryName) && x.MemberCount > 0)
+                .OrderByDescending(x => x.MemberCount)
+                .Take(10)
+                .ToList();
+
+            // Handle empty results for industry data
+            if (!industryStats.Any())
+            {
+                ViewData["IndustryLabels"] = new List<string> { "No Data" };
+                ViewData["IndustryData"] = new List<int> { 0 };
+            }
+            else
+            {
+                ViewData["IndustryLabels"] = industryStats.Select(x => x.IndustryName).ToList();
+                ViewData["IndustryData"] = industryStats.Select(x => x.MemberCount).ToList();
+            }
 
             // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
