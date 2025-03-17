@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
 using CRMProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize]
     public class MembershipTypeController : Controller
     {
         private readonly CRMContext _context;

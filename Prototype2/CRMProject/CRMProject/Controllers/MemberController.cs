@@ -1,6 +1,7 @@
 ﻿using CRMProject.Data;
 using CRMProject.Models;
 using CRMProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 
 namespace CRMProject.Controllers
 {
+    [Authorize]
     public class MemberController : Controller
     {
         private readonly CRMContext _context;

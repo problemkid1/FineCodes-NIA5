@@ -9,9 +9,11 @@ using CRMProject.Data;
 using CRMProject.Models;
 using OfficeOpenXml;
 using CRMProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize]
     public class IndustryController : Controller
     {
         private readonly CRMContext _context;

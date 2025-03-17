@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
 using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize]
     public class OpportunityController : Controller
     {
         private readonly CRMContext _context;

@@ -9,9 +9,11 @@ using CRMProject.Data;
 using CRMProject.Models;
 using CRMProject.Utilities;
 using System.Numerics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize]
     public class ContactController : Controller
     {
         private readonly CRMContext _context;
