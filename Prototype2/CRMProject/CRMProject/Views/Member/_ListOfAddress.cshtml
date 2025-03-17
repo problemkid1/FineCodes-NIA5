@@ -8,11 +8,14 @@
             <div class="panel-heading">
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="panel-title"><strong>Address Information</strong></h4>
-                    <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
-                        <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
-                            <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                        </button>
-                    </a>
+                    @if (!Model.Any()) // Show button only if no addresses exist
+                    {
+                        <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                            <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
+                                <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                            </button>
+                        </a>
+                    }
                 </div>
             </div>
 

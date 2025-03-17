@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CRMProject.Data;
+using CRMProject.Models;
+using CRMProject.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CRMProject.Data;
-using CRMProject.Models;
-using CRMProject.Utilities;
-using System.Numerics;
-using Humanizer;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Diagnostics;
 using OfficeOpenXml;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
-using System.Drawing.Printing;
+using System.Diagnostics;
 
 namespace CRMProject.Controllers
 {
@@ -158,37 +150,37 @@ namespace CRMProject.Controllers
                 .ToList();
 
             // Get industry list for dropdown
-            ViewBag.IndustryList = _context.Industries
-                .Select(i => new { Value = i.Name, Text = i.Name })
-                .Distinct()
-                .OrderBy(i => i.Text)
-                .ToList();
+            //ViewBag.IndustryList = _context.Industries
+            //    .Select(i => new { Value = i.Name, Text = i.Name })
+            //    .Distinct()
+            //    .OrderBy(i => i.Text)
+            //    .ToList();
 
-            // Get industry statistics for dashboard
-            var industryStats = _context.MemberIndustries
-                .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
-                .GroupBy(mi => mi.Industry.Name)
-                .Select(g => new
-                {
-                    IndustryName = g.Key,
-                    MemberCount = g.Count()
-                })
-                .Where(x => !string.IsNullOrEmpty(x.IndustryName) && x.MemberCount > 0)
-                .OrderByDescending(x => x.MemberCount)
-                .Take(10)
-                .ToList();
+            //// Get industry statistics for dashboard
+            //var industryStats = _context.MemberIndustries
+            //    .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
+            //    .GroupBy(mi => mi.Industry.Name)
+            //    .Select(g => new
+            //    {
+            //        IndustryName = g.Key,
+            //        MemberCount = g.Count()
+            //    })
+            //    .Where(x => !string.IsNullOrEmpty(x.IndustryName) && x.MemberCount > 0)
+            //    .OrderByDescending(x => x.MemberCount)
+            //    .Take(10)
+            //    .ToList();
 
-            // Handle empty results for industry data
-            if (!industryStats.Any())
-            {
-                ViewData["IndustryLabels"] = new List<string> { "No Data" };
-                ViewData["IndustryData"] = new List<int> { 0 };
-            }
-            else
-            {
-                ViewData["IndustryLabels"] = industryStats.Select(x => x.IndustryName).ToList();
-                ViewData["IndustryData"] = industryStats.Select(x => x.MemberCount).ToList();
-            }
+            //// Handle empty results for industry data
+            //if (!industryStats.Any())
+            //{
+            //    ViewData["IndustryLabels"] = new List<string> { "No Data" };
+            //    ViewData["IndustryData"] = new List<int> { 0 };
+            //}
+            //else
+            //{
+            //    ViewData["IndustryLabels"] = industryStats.Select(x => x.IndustryName).ToList();
+            //    ViewData["IndustryData"] = industryStats.Select(x => x.MemberCount).ToList();
+            //}
 
             // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
@@ -623,8 +615,8 @@ namespace CRMProject.Controllers
                 {
                     member.MemberStatus = MemberStatus.Cancelled;  // Change status to Cancelled
                     member.MemberEndDate = input.Date;
-                }                
-                
+                }
+
                 var cancellation = new StatusHistory
                 {
                     MemberID = member.ID,
@@ -682,7 +674,7 @@ namespace CRMProject.Controllers
                 {
                     member.MemberStatus = MemberStatus.GoodStanding;  // Change status to Good Standing (Active)
                 }
-                
+
                 var activation = new StatusHistory
                 {
                     MemberID = member.ID,
@@ -692,7 +684,7 @@ namespace CRMProject.Controllers
                     Notes = input.Notes
                 };
                 _context.StatusHistories.Add(activation);
-                
+
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -724,7 +716,7 @@ namespace CRMProject.Controllers
 
             return View(member);
         }
-                
+
         private void PopulateAssignedMemberShipData(Member member)
         {
             //For this to work, you must have Included the child collection in the parent object
@@ -771,14 +763,15 @@ namespace CRMProject.Controllers
         private void UpdateMemberMembershipTypes(string[] selectedOptions, Member memberToUpdate)
         {
             // Only initialize if null, don't clear existing data
+            if (selectedOptions == null || selectedOptions.Length == 0)
+            {
+                return;
+            }
+
+            // Initialize if null (prevents null reference errors)
             if (memberToUpdate.MemberMembershipTypes == null)
             {
                 memberToUpdate.MemberMembershipTypes = new List<MemberMembershipType>();
-            }
-
-            if (selectedOptions == null || selectedOptions.Length == 0)
-            {
-                return; // Don't clear existing data
             }
 
             // Rest of the method remains the same
@@ -972,7 +965,7 @@ namespace CRMProject.Controllers
                 // Validate Header
                 if (workSheet.Cells[1, 1].Text.Trim() != "Member Name" ||
                     workSheet.Cells[1, 2].Text.Trim() != "Size" ||
-                    workSheet.Cells[1, 3].Text.Trim() != "Status"||
+                    workSheet.Cells[1, 3].Text.Trim() != "Status" ||
                     workSheet.Cells[1, 4].Text.Trim() != "Payable email" ||
                     workSheet.Cells[1, 5].Text.Trim() != "Start date")
                 {
@@ -1056,7 +1049,7 @@ namespace CRMProject.Controllers
                 // Bulk insert to improve performance
                 if (newMembers.Count > 0)
                 {
-                    _context.Members.AddRange(newMembers);  
+                    _context.Members.AddRange(newMembers);
                     await _context.SaveChangesAsync();
                     successCount = newMembers.Count;
                 }

@@ -19,12 +19,12 @@ namespace CRMProject.Models
         }
 
 
-        [Display(Name = "Address Line 1")]
+        [Display(Name = "Line 1")]
         [Required(ErrorMessage = "You cannot leave the address line 1 blank.")]
         [MaxLength(255, ErrorMessage = "Address line 1 cannot be more than 255 characters long.")]
         public string AddressLine1 { get; set; } = "";
 
-        [Display(Name = "Address Line 2")]
+        [Display(Name = "Line 2")]
         [MaxLength(255, ErrorMessage = "Address line 2 cannot be more than 255 characters long.")]
         public string? AddressLine2 { get; set; }
 
@@ -34,7 +34,7 @@ namespace CRMProject.Models
         public string? AddressCity { get; set; } = "";
 
         [Display(Name = "Province")]
-        public Province? Province { get; set; } 
+        public Province? Province { get; set; }
 
         [Display(Name = "Postal Code")]
         [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid postal code.")]

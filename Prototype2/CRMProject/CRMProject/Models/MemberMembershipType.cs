@@ -1,9 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CRMProject.Models
+﻿namespace CRMProject.Models
 {
     public class MemberMembershipType
-    {       
+    {
         public int MemberID { get; set; }
         public Member? Member { get; set; }
 

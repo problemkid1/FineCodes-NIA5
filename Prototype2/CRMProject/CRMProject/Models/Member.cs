@@ -17,9 +17,9 @@ namespace CRMProject.Models
         [Display(Name = "Name")]
         [Required(ErrorMessage = "You cannot leave the member name blank.")]
         [MaxLength(255, ErrorMessage = "Member Name cannot be more than 255 characters long.")]
-      
+
         public string MemberName { get; set; } = "";
-                
+
         [Display(Name = "Size")]
         [Range(0, int.MaxValue, ErrorMessage = "Member size must zero or greater.")]
         [RegularExpression(@"^\d+$", ErrorMessage = "Member size must zero or greater.")]
@@ -60,7 +60,7 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Limit of 255 characters for note.")]
         [DataType(DataType.MultilineText)]
         public string? MemberNotes { get; set; }
-               
+
         [Display(Name = "Address")]
         public Address? Address { get; set; }
 
@@ -68,6 +68,7 @@ namespace CRMProject.Models
         public ICollection<MemberIndustry> MemberIndustries { get; set; } = new HashSet<MemberIndustry>();
 
         [Display(Name = "Membership Types")]
+        [Required(ErrorMessage = "Select at least one membership type.")]
         public ICollection<MemberMembershipType> MemberMembershipTypes { get; set; } = new HashSet<MemberMembershipType>();
 
         [Display(Name = "StatusHistory")]
