@@ -6,15 +6,27 @@
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-<div class="container-fluid">
+
+<div class="container-fluid" id="dashboardContainer">
+    <!-- Theme Toggle -->
+    @* <div class="mb-3 text-right"> *@
+
+    @* </div> *@
+
     <!-- Page Heading with Edit Controls -->
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <div class="dashboard-controls">
+            <button id="themeToggle" class="btn btn-outline-secondary mr-2">
+                <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span>
+            </button>
             <button id="editDashboardBtn" class="btn btn-primary">
                 <i class="fas fa-edit mr-1"></i> Edit Dashboard
             </button>
+            <!-- Rest of your controls -->
             <div id="dashboardEditControls" style="display: none;">
                 <button id="saveDashboardBtn" class="btn btn-success mr-2">
                     <i class="fas fa-save mr-1"></i> Save Changes
@@ -25,6 +37,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <!-- Layout Controls - Only visible in edit mode -->
     <div id="layoutControls" class="card shadow mb-4" style="display: none;">
@@ -60,6 +75,26 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Auto-refresh option -->
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">Auto-refresh Data:</label>
+                        <div class="input-group">
+                            <select id="refreshInterval" class="form-control">
+                                <option value="0">Disabled</option>
+                                <option value="30">Every 30 seconds</option>
+                                <option value="60">Every minute</option>
+                                <option value="300">Every 5 minutes</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button id="applyRefreshBtn" class="btn btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -71,7 +106,7 @@
             <div class="col-xl-3 col-md-6 mb-4 metrics-item">
                 <div class="widget" data-widget-id="total-members">
                     <div class="widget-controls" style="display: none;">
-                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-sm btn-danger widget-remove" aria-label="Remove Total Members widget"><i class="fas fa-times"></i></button>
                     </div>
                     <a href="/Member" class="text-decoration-none flex-grow-1">
                         <div class="card border-left-primary shadow h-100">
@@ -82,9 +117,12 @@
                                             <h5>Total Members</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
-                                            @ViewData["MemberCount"]
+                                            <span class="count-up" data-value="@ViewData["MemberCount"]">@ViewData["MemberCount"]</span>
                                         </div>
                                     </div>
+                                    @* <div class="col-auto"> *@
+                                    @*     @* <i class="fas fa-users fa-2x text-gray-300"></i> *@ 
+                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -96,7 +134,7 @@
             <div class="col-xl-3 col-md-6 mb-4 metrics-item">
                 <div class="widget" data-widget-id="industries">
                     <div class="widget-controls" style="display: none;">
-                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-sm btn-danger widget-remove" aria-label="Remove Industries widget"><i class="fas fa-times"></i></button>
                     </div>
                     <a href="/Industry" class="text-decoration-none flex-grow-1">
                         <div class="card border-left-success shadow h-100">
@@ -107,9 +145,12 @@
                                             <h5>Industries</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
-                                            @ViewData["IndustryCount"]
+                                            <span class="count-up" data-value="@ViewData["IndustryCount"]">@ViewData["IndustryCount"]</span>
                                         </div>
                                     </div>
+                                    @* <div class="col-auto"> *@
+                                    @*     <i class="fas fa-industry fa-2x text-gray-300"></i> *@
+                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -121,10 +162,10 @@
             <div class="col-xl-3 col-md-6 mb-4 metrics-item">
                 <div class="widget" data-widget-id="cancellations">
                     <div class="widget-controls" style="display: none;">
-                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-sm btn-danger widget-remove" aria-label="Remove Cancellations widget"><i class="fas fa-times"></i></button>
                     </div>
                     <a href="/Member?MemberStatus=Cancelled" class="text-decoration-none flex-grow-1">
-                        <div class="card border-left-primary shadow h-100">
+                        <div class="card border-left-danger shadow h-100">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
@@ -132,9 +173,12 @@
                                             <h5>Cancellations</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
-                                            @ViewData["CancellationCount"]
+                                            <span class="count-up" data-value="@ViewData["CancellationCount"]">@ViewData["CancellationCount"]</span>
                                         </div>
                                     </div>
+                                    @* <div class="col-auto"> *@
+                                    @*     <i class="fas fa-ban fa-2x text-gray-300"></i> *@
+                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -146,7 +190,7 @@
             <div class="col-xl-3 col-md-6 mb-4 metrics-item">
                 <div class="widget" data-widget-id="new-members">
                     <div class="widget-controls" style="display: none;">
-                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-sm btn-danger widget-remove" aria-label="Remove New Members widget"><i class="fas fa-times"></i></button>
                     </div>
                     <a href="/Member" class="text-decoration-none flex-grow-1">
                         <div class="card border-left-info shadow h-100">
@@ -156,10 +200,13 @@
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
                                             <h5>New Members (@DateTime.Now.Year)</h5>
                                         </div>
-                                        <div class="h1 mb-lg-1 font-weight-bold text-gray-1200">
-                                            @newMemberCount
+                                        <div class="h1 mb-0 font-weight-bold text-gray-1200">
+                                            <span class="count-up" data-value="@newMemberCount">@newMemberCount</span>
                                         </div>
                                     </div>
+                                    @* <div class="col-auto"> *@
+                                    @*     <i class="fas fa-user-plus fa-2x text-gray-300"></i> *@
+                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -168,44 +215,67 @@
             </div>
         </div>
 
+
         <!-- Container for charts -->
         <div id="chartsContainer" class="row">
-            <!-- Replace the existing municipality chart card with this updated version -->
+            <!-- Municipality/Industry chart -->
             <div class="col-lg-6 mb-4">
                 <div class="widget" data-widget-id="municipality-chart">
                     <div class="widget-controls" style="display: none;">
-                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-sm btn-danger widget-remove" aria-label="Remove Member Breakdown chart"><i class="fas fa-times"></i></button>
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h5 class="m-0 font-weight-bold text-primary">Member Breakdown</h5>
-                            <div class="btn-group btn-group-sm" role="group">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Chart view options">
                                 <button type="button" class="btn btn-primary active" id="viewMunicipality">By Municipality</button>
                                 <button type="button" class="btn btn-outline-primary" id="viewIndustry">By Industry</button>
                             </div>
                         </div>
                         <div class="card-body d-flex align-items-center">
-                            <div class="chart-bar w-100">
+                            <div class="chart-bar w-100 chart-container">
                                 <canvas id="breakdownBarChart"></canvas>
+                                <div class="chart-loader" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-
+            <!-- Membership Pie Chart -->
             <div class="col-lg-6 mb-4">
                 <div class="widget" data-widget-id="membership-pie">
                     <div class="widget-controls" style="display: none;">
-                        <button class="btn btn-sm btn-danger widget-remove"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-sm btn-danger widget-remove" aria-label="Remove Members Status Overview chart"><i class="fas fa-times"></i></button>
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Membership Overview</h5>
+                            <h5 class="m-0 font-weight-bold text-primary">Members Status Overview</h5>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="pieChartOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="pieChartOptions">
+                                    <div class="dropdown-header">Chart Options:</div>
+                                    <a class="dropdown-item chart-type" href="#" data-type="doughnut">Doughnut Chart</a>
+                                    <a class="dropdown-item chart-type" href="#" data-type="pie">Pie Chart</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" id="downloadPieChart">Download Chart</a>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body d-flex align-items-center">
-                            <div class="chart-pie w-100">
+                            <div class="chart-pie w-100 chart-container">
                                 <canvas id="memberPieChart"></canvas>
+                                <div class="chart-loader" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -253,10 +323,105 @@
                 </div>
             </div>
         </div>
+
+        <!-- Last updated info -->
+        <div class="text-right mt-3 mb-4">
+            <small class="text-muted">
+                Last updated: <span id="lastUpdated">@DateTime.Now.ToString("MMM dd, yyyy HH:mm:ss")</span>
+                <button id="refreshDataBtn" class="btn btn-sm btn-outline-primary ml-2">
+                    <i class="fas fa-sync-alt"></i> Refresh Data
+                </button>
+            </small>
+        </div>
     </div>
 </div>
+
+
+
 <script>
+        // Add this at the beginning of your script
+    function fixWidgetStructure() {
+        document.querySelectorAll('.widget').forEach(widget => {
+            // Make sure the widget has a proper structure
+            const link = widget.querySelector('a');
+            if (link) {
+                // Ensure the link has proper styling
+                link.style.display = 'block';
+                link.style.width = '100%';
+
+                // Make sure the card is visible
+                const card = link.querySelector('.card');
+                if (card) {
+                    card.style.display = 'block';
+                    card.style.visibility = 'visible';
+                    card.style.opacity = '1';
+
+                    // Make sure the card body is visible
+                    const cardBody = card.querySelector('.card-body');
+                    if (cardBody) {
+                        cardBody.style.display = 'block';
+                        cardBody.style.visibility = 'visible';
+                        cardBody.style.opacity = '1';
+                    }
+                }
+            }
+        });
+
+        console.log("Widget structure fixed");
+    }
+
+
     document.addEventListener("DOMContentLoaded", function () {
+         // Fix widget structure
+        fixWidgetStructure();
+
+        // Fix widget structure for better compatibility with split view
+        document.querySelectorAll('.widget').forEach(widget => {
+            // Ensure widget has position relative for proper control positioning
+            widget.style.position = 'relative';
+
+            // Ensure the link takes full width
+            const link = widget.querySelector('a');
+            if (link) {
+                link.style.display = 'block';
+                link.style.width = '100%';
+            }
+        });
+
+        // Add a helper function to fix widget visibility issues
+        window.fixWidgetVisibility = function() {
+            document.querySelectorAll('.metrics-item .widget').forEach(widget => {
+                if (widget.style.display !== 'none') {
+                    // Force redraw of the widget
+                    widget.style.display = 'none';
+                    void widget.offsetHeight;
+                    widget.style.display = '';
+
+                    // Ensure all content is visible
+                    widget.querySelectorAll('a, .card, .card-body, .row, .col, h5, div').forEach(el => {
+                        el.style.visibility = 'visible';
+                        el.style.opacity = '1';
+                    });
+                }
+            });
+        };
+
+        // Add a button to manually fix visibility issues (for debugging)
+        const debugButton = document.createElement('button');
+        debugButton.textContent = 'Fix Visibility';
+        debugButton.className = 'btn btn-sm btn-outline-secondary mt-2';
+        debugButton.style.position = 'fixed';
+        debugButton.style.bottom = '10px';
+        debugButton.style.right = '10px';
+        debugButton.style.zIndex = '9999';
+        debugButton.addEventListener('click', window.fixWidgetVisibility);
+        document.body.appendChild(debugButton);
+
+        // Debug data coming from the server
+        console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>())));
+        console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>())));
+
+    // document.addEventListener("DOMContentLoaded", function () {
         // Debug data coming from the server
         console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>())));
         console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>())));
@@ -269,6 +434,101 @@
         var industryLabels = @Html.Raw(Json.Serialize(ViewData["IndustryLabels"] ?? new List<string>()));
         var industryData = @Html.Raw(Json.Serialize(ViewData["IndustryData"] ?? new List<int>()));
 
+        // Global variables
+        var pieChart = null;
+        var breakdownChart = null;
+        var refreshInterval = null;
+        var currentPieChartType = 'doughnut';
+
+        // Theme toggle functionality
+       const themeToggle = document.getElementById('themeToggle');
+        // const themeLabel = themeToggle.querySelector('.theme-label');
+        // const dashboardContainer = document.getElementById('dashboardContainer');
+
+            if (themeToggle) {
+        const themeLabel = themeToggle.querySelector('.theme-label');
+
+        // Check for saved theme preference
+        const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
+        if (darkModeEnabled) {
+            document.body.classList.add('dark-mode');
+            themeLabel.textContent = 'Light Mode';
+            themeToggle.querySelector('i').classList.remove('fa-moon');
+            themeToggle.querySelector('i').classList.add('fa-sun');
+        }
+
+            // Add this to your existing dark mode toggle event listener
+        themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkModeEnabled', isDarkMode);
+
+        if (isDarkMode) {
+            themeLabel.textContent = 'Light Mode';
+            themeToggle.querySelector('i').classList.remove('fa-moon');
+            themeToggle.querySelector('i').classList.add('fa-sun');
+        } else {
+            themeLabel.textContent = 'Dark Mode';
+            themeToggle.querySelector('i').classList.remove('fa-sun');
+            themeToggle.querySelector('i').classList.add('fa-moon');
+        }
+
+        // Update charts with new theme
+        updateChartsTheme();
+
+        // Ensure metrics remain visible after theme change
+        if (layoutSplit.checked) {
+            // Re-apply split layout to fix any visibility issues
+            applySplitLayout();
+        } else {
+            // Re-apply standard layout
+            applyStandardLayout();
+        }
+    });
+
+    }
+
+            // Function to update chart themes based on dark mode
+        function updateChartsTheme()
+        {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const textColor = isDarkMode ? '#e0e0e0' : '#666';
+
+            if (breakdownChart) {
+                breakdownChart.options.scales.x.ticks.color = textColor;
+                breakdownChart.options.scales.y.ticks.color = textColor;
+                breakdownChart.options.plugins.legend.labels.color = textColor;
+                breakdownChart.update();
+            }
+
+            if (pieChart) {
+                pieChart.options.plugins.legend.labels.color = textColor;
+                pieChart.update();
+            }
+        }
+
+        // Number animation for metric cards
+        document.querySelectorAll('.count-up').forEach(counter => {
+            const value = parseInt(counter.getAttribute('data-value'));
+            if (!isNaN(value)) {
+                animateCounter(counter, 0, value, 1000);
+            }
+        });
+
+        function animateCounter(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                element.textContent = currentValue.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
         // Check if we have data to display
         if (municipalityLabels.length === 0 || municipalityData.length === 0) {
             console.warn("No municipality data available for chart");
@@ -279,7 +539,7 @@
         try {
             // Initialize the bar chart with municipality data first
             var ctxBar = document.getElementById("breakdownBarChart").getContext("2d");
-            var breakdownChart = new Chart(ctxBar, {
+            breakdownChart = new Chart(ctxBar, {
                 type: 'bar',
                 data: {
                     labels: municipalityLabels,
@@ -293,6 +553,20 @@
                 },
                 options: {
                     maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    },
                     scales: {
                         x: {
                             grid: { display: false }
@@ -321,6 +595,11 @@
             });
 
             function updateChartView(viewType, buttonElement) {
+                // Show loading indicator
+                const chartContainer = buttonElement.closest('.card').querySelector('.chart-container');
+                const loader = chartContainer.querySelector('.chart-loader');
+                if (loader) loader.style.display = 'flex';
+
                 // Update button states
                 document.querySelectorAll('#viewMunicipality, #viewIndustry').forEach(btn => {
                     btn.classList.remove('active');
@@ -332,24 +611,31 @@
                 buttonElement.classList.add('btn-primary');
                 buttonElement.classList.remove('btn-outline-primary');
 
-                // Update chart data based on selected view
-                if (viewType === 'municipality') {
-                    breakdownChart.data.labels = municipalityLabels;
-                    breakdownChart.data.datasets[0].data = municipalityData;
-                    breakdownChart.data.datasets[0].label = "Members by Municipality";
-                } else {
-                    breakdownChart.data.labels = industryLabels;
-                    breakdownChart.data.datasets[0].data = industryData;
-                    breakdownChart.data.datasets[0].label = "Members by Industry";
-                }
+                // Simulate loading delay for better UX
+                setTimeout(() => {
+                    // Update chart data based on selected view
+                    if (viewType === 'municipality') {
+                        breakdownChart.data.labels = municipalityLabels;
+                        breakdownChart.data.datasets[0].data = municipalityData;
+                        breakdownChart.data.datasets[0].label = "Members by Municipality";
+                    } else {
+                        breakdownChart.data.labels = industryLabels;
+                        breakdownChart.data.datasets[0].data = industryData;
+                        breakdownChart.data.datasets[0].label = "Members by Industry";
+                    }
 
-                breakdownChart.update();
+                    breakdownChart.update();
+
+                    // Hide loading indicator
+                    if (loader) loader.style.display = 'none';
+                }, 500);
             }
         } catch (error) {
             console.error("Error initializing breakdown chart:", error);
             document.getElementById("breakdownBarChart").parentNode.innerHTML =
                 '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
         }
+
 
         // Initialize the pie chart
         try {
@@ -367,30 +653,87 @@
                 return;
             }
 
-            var pieChart = new Chart(ctxPie, {
-                type: 'doughnut',
+            pieChart = new Chart(ctxPie, {
+                type: currentPieChartType,
                 data: {
                     labels: ["Good Standing", "Overdue Payment", "Cancelled"],
                     datasets: [{
-                        data: [goodStanding, overduePayment, cancellations],
+                         data: [goodStanding, overduePayment, cancellations],
                         backgroundColor: ['#36479B', '#933515', '#D9534F'],
                         hoverBackgroundColor: ['#4CA5C2', '#C66210', '#C82333']
                     }]
                 },
                 options: {
                     maintainAspectRatio: false,
-                    cutout: '80%'
+                    responsive: true,
+                    cutout: '80%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const value = context.raw;
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${context.label}: ${value.toLocaleString()} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
                 }
             });
+
+            // Chart type toggle
+            document.querySelectorAll('.chart-type').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const chartType = this.getAttribute('data-type');
+                    currentPieChartType = chartType;
+
+                    // Show loading indicator
+                    const chartContainer = this.closest('.card').querySelector('.chart-container');
+                    const loader = chartContainer.querySelector('.chart-loader');
+                    if (loader) loader.style.display = 'flex';
+
+                    // Update chart with animation
+                    setTimeout(() => {
+                        pieChart.config.type = chartType;
+                        if (chartType === 'doughnut') {
+                            pieChart.options.cutout = '80%';
+                        } else {
+                            pieChart.options.cutout = 0;
+                        }
+                        pieChart.update();
+
+                        // Hide loading indicator
+                        if (loader) loader.style.display = 'none';
+                    }, 300);
+                });
+            });
+
+            // Download chart
+            document.getElementById('downloadPieChart').addEventListener('click', function(e) {
+                e.preventDefault();
+                const canvas = document.getElementById('memberPieChart');
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'membership-overview.png';
+                link.href = image;
+                link.click();
+            });
+
         } catch (error) {
             console.error("Error initializing pie chart:", error);
             document.getElementById("memberPieChart").parentNode.innerHTML =
                 '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
         }
-
-        // Rest of your existing dashboard code...
-   
-
 
         // Dashboard Edit Functionality
         const editDashboardBtn = document.getElementById('editDashboardBtn');
@@ -403,6 +746,9 @@
         const widgetControls = document.querySelectorAll('.widget-controls');
         const metricsContainer = document.getElementById('metricsContainer');
         const chartsContainer = document.getElementById('chartsContainer');
+        const refreshDataBtn = document.getElementById('refreshDataBtn');
+        const applyRefreshBtn = document.getElementById('applyRefreshBtn');
+        const refreshIntervalSelect = document.getElementById('refreshInterval');
 
         // Layout control elements
         const layoutStandard = document.getElementById('layoutStandard');
@@ -413,6 +759,110 @@
 
         // Load saved dashboard configuration
         loadDashboardConfig();
+
+        // Initialize refresh interval from saved config
+        const savedRefreshInterval = localStorage.getItem('dashboardRefreshInterval');
+        if (savedRefreshInterval) {
+            refreshIntervalSelect.value = savedRefreshInterval;
+            if (parseInt(savedRefreshInterval) > 0) {
+                startAutoRefresh(parseInt(savedRefreshInterval));
+            }
+        }
+
+        // Apply refresh interval
+        applyRefreshBtn.addEventListener('click', function() {
+            const interval = parseInt(refreshIntervalSelect.value);
+            localStorage.setItem('dashboardRefreshInterval', interval);
+
+            // Clear existing interval if any
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+            }
+
+            // Start new interval if selected
+            if (interval > 0) {
+                startAutoRefresh(interval);
+                showToast('Auto-refresh enabled. Dashboard will refresh every ' +
+                    (interval < 60 ? interval + ' seconds.' : (interval / 60) + ' minutes.'));
+            } else {
+                showToast('Auto-refresh disabled.');
+            }
+        });
+
+        // Manual refresh
+        refreshDataBtn.addEventListener('click', function() {
+            this.disabled = true;
+            this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Refreshing...';
+
+            // Show loading indicators
+            document.querySelectorAll('.chart-loader').forEach(loader => {
+                loader.style.display = 'flex';
+            });
+
+            // Simulate data refresh (in a real app, this would be an AJAX call)
+            setTimeout(function() {
+                // Update last refreshed time
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+
+                // Hide loading indicators
+                document.querySelectorAll('.chart-loader').forEach(loader => {
+                    loader.style.display = 'none';
+                });
+
+                // Re-enable refresh button
+                refreshDataBtn.disabled = false;
+                refreshDataBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Data';
+
+                showToast('Dashboard data refreshed successfully!');
+            }, 1500);
+        });
+
+        function startAutoRefresh(seconds) {
+            refreshInterval = setInterval(function() {
+                // Simulate a click on the refresh button
+                refreshDataBtn.click();
+            }, seconds * 1000);
+        }
+
+        function showToast(message) {
+            // Create toast element if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                document.body.appendChild(toastContainer);
+            }
+
+            const toastId = 'toast-' + Date.now();
+            const toastHtml = `
+                <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Dashboard</strong>
+                        <small>Just now</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                </div>
+            `;
+
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+
+            // Use Bootstrap's toast functionality if available, otherwise use a simple timeout
+            const toastElement = document.getElementById(toastId);
+            if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
+                const toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            } else {
+                toastElement.style.display = 'block';
+                setTimeout(() => {
+                    toastElement.style.display = 'none';
+                    toastElement.remove();
+                }, 3000);
+            }
+        }
 
         // Layout Type Radio Change
         layoutStandard.addEventListener('change', function() {
@@ -425,7 +875,44 @@
         layoutSplit.addEventListener('change', function() {
             if (this.checked) {
                 splitViewOptions.style.display = 'block';
-                applySplitLayout();
+
+                // Force redraw of all widgets before applying split layout
+                document.querySelectorAll('.widget').forEach(widget => {
+                    // Temporarily hide and show to force redraw
+                    const originalDisplay = widget.style.display;
+                    widget.style.display = 'block';
+                    // Force a reflow
+                    void widget.offsetHeight;
+                    // Restore original display
+                    widget.style.display = originalDisplay || '';
+                });
+
+                // Apply split layout with a slight delay to ensure DOM updates
+                setTimeout(() => {
+                    applySplitLayout();
+
+                    // Additional check to ensure metrics are visible
+                    document.querySelectorAll('.metrics-item .widget').forEach(widget => {
+                        if (widget.style.display !== 'none') {
+                            widget.style.visibility = 'visible';
+                            widget.style.opacity = '1';
+
+                            // Ensure the link and card are visible
+                            const link = widget.querySelector('a');
+                            if (link) {
+                                link.style.visibility = 'visible';
+                                link.style.opacity = '1';
+                                link.style.display = 'block';
+                            }
+
+                            const card = widget.querySelector('.card');
+                            if (card) {
+                                card.style.visibility = 'visible';
+                                card.style.opacity = '1';
+                            }
+                        }
+                    });
+                }, 50);
             }
         });
 
@@ -463,8 +950,16 @@
                 e.preventDefault();
                 e.stopPropagation();
                 const widget = this.closest('.widget');
-                widget.style.display = 'none';
-                updateLayout();
+
+                // Add fade-out animation
+                widget.style.opacity = '1';
+                widget.style.transition = 'opacity 0.3s ease';
+                widget.style.opacity = '0';
+
+                setTimeout(() => {
+                    widget.style.display = 'none';
+                    updateLayout();
+                }, 300);
             });
         });
 
@@ -474,16 +969,23 @@
                 const widgetId = this.getAttribute('data-widget-id');
                 const widget = document.querySelector(`.widget[data-widget-id="${widgetId}"]`);
                 if (widget) {
+                    // Add fade-in animation
                     widget.style.display = '';
-                    updateLayout();
+                    widget.style.opacity = '0';
+                    widget.classList.add('widget-appear');
 
-                    // Ensure charts are properly sized after showing
-                    if (widgetId === 'membership-pie' || widgetId === 'municipality-chart') {
-                        setTimeout(function() {
-                            if (pieChart && widgetId === 'membership-pie') pieChart.resize();
-                            if (municipalityChart && widgetId === 'municipality-chart') municipalityChart.resize();
-                        }, 100);
-                    }
+                    setTimeout(() => {
+                        widget.style.opacity = '1';
+                        updateLayout();
+
+                        // Ensure charts are properly sized after showing
+                        if (widgetId === 'membership-pie' || widgetId === 'municipality-chart') {
+                            setTimeout(function() {
+                                if (pieChart && widgetId === 'membership-pie') pieChart.resize();
+                                if (breakdownChart && widgetId === 'municipality-chart') breakdownChart.resize();
+                            }, 100);
+                        }
+                    }, 10);
                 }
             });
         });
@@ -504,6 +1006,11 @@
             widgets.forEach(widget => {
                 widget.classList.add('widget-edit-mode');
             });
+
+            // Disable auto-refresh during edit mode
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
         }
 
         function saveChanges() {
@@ -516,8 +1023,14 @@
             // Update layout based on current settings
             updateLayout();
 
+            // Restart auto-refresh if enabled
+            const interval = parseInt(refreshIntervalSelect.value);
+            if (interval > 0) {
+                startAutoRefresh(interval);
+            }
+
             // Show success notification
-            alert('Dashboard configuration saved successfully!');
+            showToast('Dashboard configuration saved successfully!');
         }
 
         function cancelEdit() {
@@ -526,6 +1039,12 @@
 
             // Revert to saved configuration
             loadDashboardConfig();
+
+            // Restart auto-refresh if enabled
+            const interval = parseInt(refreshIntervalSelect.value);
+            if (interval > 0) {
+                startAutoRefresh(interval);
+            }
         }
 
         function exitEditMode() {
@@ -544,23 +1063,24 @@
                 widget.classList.remove('widget-edit-mode');
             });
         }
+        function saveDashboardConfig()
+        {
+                const config = {
+                    layout: layoutSplit.checked ? 'split' : 'standard',
+                    splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
+                    widgets: {},
+                    darkMode: document.body.classList.contains('dark-mode')
+                };
 
-        function saveDashboardConfig() {
-            const config = {
-                layout: layoutSplit.checked ? 'split' : 'standard',
-                splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
-                widgets: {}
-            };
+                widgets.forEach(widget => {
+                    const id = widget.getAttribute('data-widget-id');
+                    config.widgets[id] = widget.style.display !== 'none';
+                });
 
-            widgets.forEach(widget => {
-                const id = widget.getAttribute('data-widget-id');
-                config.widgets[id] = widget.style.display !== 'none';
-            });
-
-            localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
+                localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
         }
 
-        function loadDashboardConfig() {
+         function loadDashboardConfig() {
             const savedConfig = localStorage.getItem('crmDashboardConfig');
 
             if (savedConfig) {
@@ -593,6 +1113,22 @@
                         }
                     });
                 }
+
+                // Set refresh interval
+                if (config.refreshInterval) {
+                    refreshIntervalSelect.value = config.refreshInterval;
+                }
+
+                // Apply dark mode if saved
+                if (config.darkMode) {
+                        document.body.classList.add('dark-mode');
+                        if (themeToggle) {
+                            const themeLabel = themeToggle.querySelector('.theme-label');
+                            themeLabel.textContent = 'Light Mode';
+                            themeToggle.querySelector('i').classList.remove('fa-moon');
+                            themeToggle.querySelector('i').classList.add('fa-sun');
+                        }
+                }
             } else {
                 // Default configuration - standard layout
                 layoutStandard.checked = true;
@@ -606,28 +1142,61 @@
 
             // Update layout to handle any empty containers
             updateLayout();
+
+            // Apply theme to charts
+            updateChartsTheme();
         }
 
         function applyStandardLayout() {
-            // Reset all column classes for metrics items
-            document.querySelectorAll('.metrics-item').forEach(item => {
-                item.className = 'col-xl-3 col-md-6 mb-4 metrics-item';
-            });
+                         // Remove any split layout row
+                const splitRow = document.getElementById('splitLayoutRow');
+                if (splitRow) {
+                    // Move containers back to dashboard content
+                    const dashboardContent = document.getElementById('dashboardContent');
 
-            // Reset all column classes for chart containers
-            document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                item.className = 'col-lg-6 mb-4';
-            });
+                    // Get the containers from the split row
+                    const containers = splitRow.querySelectorAll('#metricsContainer, #chartsContainer');
+                    containers.forEach(container => {
+                        dashboardContent.appendChild(container);
+                    });
 
-            // Ensure containers have row class
-            metricsContainer.className = 'row';
-            chartsContainer.className = 'row';
+                    // Remove the split row
+                    splitRow.remove();
+                }
 
-            // Resize charts if they exist
-            setTimeout(function() {
-                if (pieChart) pieChart.resize();
-                if (municipalityChart) municipalityChart.resize();
-            }, 100);
+                // Reset all column classes for metrics items
+                document.querySelectorAll('.metrics-item').forEach(item => {
+                    item.className = 'col-xl-3 col-md-6 mb-4 metrics-item';
+                });
+
+                // Reset all column classes for chart containers
+                document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                    item.className = 'col-lg-6 mb-4';
+                });
+
+                // Ensure containers have row class
+                metricsContainer.className = 'row';
+                chartsContainer.className = 'row';
+
+                // Force redraw of all widgets
+                document.querySelectorAll('.widget').forEach(widget => {
+                    // Make sure widget is visible
+                    if (widget.style.display !== 'none') {
+                        // Force a reflow
+                        const display = window.getComputedStyle(widget).display;
+                        widget.style.display = 'none';
+                        void widget.offsetHeight; // Force reflow
+                        widget.style.display = display;
+                    }
+                });
+
+                // Resize charts if they exist
+                setTimeout(function() {
+                    if (pieChart) pieChart.resize();
+                    if (breakdownChart) breakdownChart.resize();
+                }, 100);
+
+                console.log("Standard layout applied");
         }
 
         function applySplitLayout(config = null) {
@@ -636,48 +1205,87 @@
                 config = splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft';
             }
 
-            // Adjust the layout based on configuration
-            if (config === 'metricsLeft') {
-                // Metrics on left, charts on right
-                metricsContainer.className = 'col-md-6 float-left';
-                chartsContainer.className = 'col-md-6 float-right';
+            // Create a new row structure for the split view
+            const dashboardContent = document.getElementById('dashboardContent');
 
-                // Adjust metrics items to be full width in their container
-                document.querySelectorAll('.metrics-item').forEach(item => {
-                    item.className = 'col-12 mb-4 metrics-item';
-                });
+            // Remove any existing clearfix elements
+            document.querySelectorAll('#dashboardContent .clearfix').forEach(el => el.remove());
 
-                // Make charts full width in their container
-                document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                    item.className = 'col-12 mb-4';
-                });
-            } else {
-                // Charts on left, metrics on right
-                chartsContainer.className = 'col-md-6 float-left';
-                metricsContainer.className = 'col-md-6 float-right';
+            // Reset container classes
+            metricsContainer.className = '';
+            chartsContainer.className = '';
 
-                // Adjust metrics items to be full width in their container
-                document.querySelectorAll('.metrics-item').forEach(item => {
-                    item.className = 'col-12 mb-4 metrics-item';
-                });
+            // Create a new row for the split layout
+            const splitRow = document.createElement('div');
+            splitRow.className = 'row';
+            splitRow.id = 'splitLayoutRow';
 
-                // Make charts full width in their container
-                document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                    item.className = 'col-12 mb-4';
-                });
+            // Remove existing split row if any
+            const existingSplitRow = document.getElementById('splitLayoutRow');
+            if (existingSplitRow) {
+                existingSplitRow.remove();
             }
 
-            // Clear the floats
-            const clearFix = document.createElement('div');
-            clearFix.className = 'clearfix';
-            document.getElementById('dashboardContent').appendChild(clearFix);
+            // Create columns for the split layout
+            const leftCol = document.createElement('div');
+            leftCol.className = 'col-md-6';
+
+            const rightCol = document.createElement('div');
+            rightCol.className = 'col-md-6';
+
+            // Determine which content goes where
+            if (config === 'metricsLeft') {
+                // Move metrics to left column
+                leftCol.appendChild(metricsContainer);
+                // Move charts to right column
+                rightCol.appendChild(chartsContainer);
+            } else {
+                // Move charts to left column
+                leftCol.appendChild(chartsContainer);
+                // Move metrics to right column
+                rightCol.appendChild(metricsContainer);
+            }
+
+            // Add columns to the row
+            splitRow.appendChild(leftCol);
+            splitRow.appendChild(rightCol);
+
+            // Add the row to the dashboard content
+            dashboardContent.appendChild(splitRow);
+
+            // Adjust metrics items to be full width in their container
+            document.querySelectorAll('.metrics-item').forEach(item => {
+                item.className = 'col-12 mb-4 metrics-item';
+            });
+
+            // Make charts full width in their container
+            document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                item.className = 'col-12 mb-4';
+            });
+
+            // Force redraw of all widgets
+            document.querySelectorAll('.widget').forEach(widget => {
+                // Make sure widget is visible
+                if (widget.style.display !== 'none') {
+                    // Force a reflow
+                    const display = window.getComputedStyle(widget).display;
+                    widget.style.display = 'none';
+                    void widget.offsetHeight; // Force reflow
+                    widget.style.display = display;
+                }
+            });
 
             // Resize charts after layout change
             setTimeout(function() {
                 if (pieChart) pieChart.resize();
-                if (municipalityChart) municipalityChart.resize();
+                if (breakdownChart) breakdownChart.resize();
             }, 100);
+
+            console.log("Split layout applied:", config);
         }
+
+
+
 
         function updateLayout() {
             // Check if metrics section has visible widgets
@@ -698,6 +1306,9 @@
                     // No change needed, metrics are already responsive
                 } else {
                     metricsContainer.className = 'col-md-12';
+
+                    // Remove any clearfix elements
+                    document.querySelectorAll('#dashboardContent .clearfix').forEach(el => el.remove());
                 }
             } else if (!hasVisibleMetrics && hasVisibleCharts) {
                 if (layoutStandard.checked) {
@@ -706,6 +1317,9 @@
                     });
                 } else {
                     chartsContainer.className = 'col-md-12';
+
+                    // Remove any clearfix elements
+                    document.querySelectorAll('#dashboardContent .clearfix').forEach(el => el.remove());
                 }
             } else if (hasVisibleMetrics && hasVisibleCharts) {
                 // Both sections are visible, apply the selected layout
@@ -716,12 +1330,126 @@
                 }
             }
 
+            // Ensure metrics cards maintain proper styling
+            document.querySelectorAll('.metrics-item .card').forEach(card => {
+                // Reset any inline styles that might be causing issues
+                card.style.visibility = '';
+                card.style.opacity = '';
+
+                // Make sure text elements are visible
+                card.querySelectorAll('.text-gray-1200, .text-primary, h5').forEach(text => {
+                    text.style.visibility = 'visible';
+                    text.style.opacity = '1';
+                });
+            });
+
             // Resize charts after updating layout
             setTimeout(function() {
                 if (pieChart) pieChart.resize();
-                if (municipalityChart) municipalityChart.resize();
+                if (breakdownChart) breakdownChart.resize();
             }, 100);
         }
+
+
+        // Handle window resize events
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                // Resize charts when window size changes
+                if (pieChart) pieChart.resize();
+                if (breakdownChart) breakdownChart.resize();
+
+                // For mobile view, ensure the layout is optimized
+                if (window.innerWidth < 768 && layoutSplit.checked) {
+                    // Force standard layout on small screens
+                    layoutStandard.checked = true;
+                    applyStandardLayout();
+                }
+            }, 250);
+        });
+
+        // Add media query listener for responsive adjustments
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        function handleMediaQueryChange(e) {
+            if (e.matches && layoutSplit.checked) {
+                // Force standard layout on small screens
+                layoutStandard.checked = true;
+                applyStandardLayout();
+            }
+        }
+
+        // Register the listener
+        if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', handleMediaQueryChange);
+        } else {
+            // Fallback for older browsers
+            mediaQuery.addListener(handleMediaQueryChange);
+        }
+
+        // Initial check
+        handleMediaQueryChange(mediaQuery);
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+E to toggle edit mode
+            if (e.ctrlKey && e.key === 'e') {
+                e.preventDefault();
+                if (dashboardEditControls.style.display === 'none') {
+                    enterEditMode();
+                } else {
+                    cancelEdit();
+                }
+            }
+
+            // Ctrl+S to save changes when in edit mode
+            if (e.ctrlKey && e.key === 's' && dashboardEditControls.style.display !== 'none') {
+                e.preventDefault();
+                saveChanges();
+            }
+
+            // Ctrl+R to refresh data
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                refreshDataBtn.click();
+            }
+        });
+
+        // Add accessibility improvements
+        document.querySelectorAll('.widget').forEach(widget => {
+            widget.setAttribute('tabindex', '0');
+            widget.setAttribute('role', 'region');
+            const widgetId = widget.getAttribute('data-widget-id');
+            widget.setAttribute('aria-label', `${widgetId.replace(/-/g, ' ')} widget`);
+        });
+
+        // Initialize tooltips if Bootstrap is available
+        if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+
+        // Add print-friendly functionality
+        window.addEventListener('beforeprint', function() {
+            // Ensure all widgets are visible for printing
+            document.querySelectorAll('.widget').forEach(widget => {
+                widget.style.display = 'block';
+            });
+
+            // Apply standard layout for printing
+            applyStandardLayout();
+
+            // Resize charts for better print quality
+            if (pieChart) pieChart.resize();
+            if (breakdownChart) breakdownChart.resize();
+        });
+
+        // Restore layout after print
+        window.addEventListener('afterprint', function() {
+            loadDashboardConfig();
+        });
     });
 </script>
 

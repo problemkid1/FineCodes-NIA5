@@ -1,4 +1,373 @@
 ﻿/* Dashboard Layout CSS */
+/* Additional responsive styles */
+.widget {
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-edit-mode {
+    border: 2px dashed #4e73df;
+    border-radius: 5px;
+    padding: 5px;
+    position: relative;
+}
+
+.widget-controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+.dashboard-controls {
+    display: flex;
+    align-items: center;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .dashboard-controls {
+        margin-top: 10px;
+        justify-content: flex-start;
+    }
+
+    .d-sm-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .metrics-item {
+        margin-bottom: 1rem !important;
+    }
+
+    .card-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    .btn-group-sm {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+        .btn-group-sm .btn {
+            flex: 1;
+        }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .dark-mode-enabled .container-fluid {
+        background-color: #595555;
+        color: #e0e0e0;
+    }
+
+    .dark-mode-enabled .text-gray-800 {
+        color: #e0e0e0 !important;
+    }
+
+    .dark-mode-enabled .text-primary {
+        color: #7fa5ff !important;
+    }
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #595555;
+    color: #e0e0e0;
+}
+
+    body.dark-mode .container-fluid {
+        background-color: #595555;
+        border-color: #444;
+    }
+
+    body.dark-mode .card-header {
+        background-color: #3a3a3a;
+        border-color: #444;
+    }
+
+    body.dark-mode .text-gray-800 {
+        color: #e0e0e0 !important;
+    }
+
+    body.dark-mode .text-primary {
+        color: #8bb9ff !important;
+    }
+
+    body.dark-mode .bg-white {
+        background-color: #333 !important;
+    }
+
+    body.dark-mode .text-gray-1200 {
+        color: #e0e0e0 !important;
+    }
+
+    body.dark-mode .border-left-primary,
+    body.dark-mode .border-left-success,
+    body.dark-mode .border-left-info {
+        border-left-color: #555;
+    }
+
+    body.dark-mode .shadow {
+        box-shadow: 0 .15rem 1.75rem 0 rgba(0, 0, 0, .25) !important;
+    }
+
+    body.dark-mode .btn-outline-primary {
+        color: #8bb9ff;
+        border-color: #8bb9ff;
+    }
+
+    body.dark-mode .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+
+    body.dark-mode .dropdown-menu {
+        background-color: #333;
+        border-color: #444;
+    }
+
+    body.dark-mode .dropdown-item {
+        color: #e0e0e0;
+    }
+
+        body.dark-mode .dropdown-item:hover {
+            background-color: #444;
+            color: #fff;
+        }
+
+    body.dark-mode .table {
+        color: #e0e0e0;
+    }
+
+    body.dark-mode .table-bordered {
+        border-color: #444;
+    }
+
+    body.dark-mode .table th,
+    body.dark-mode .table td {
+        border-color: #444;
+    }
+
+    body.dark-mode .text-muted {
+        color: #aaa !important;
+    }
+
+    body.dark-mode .alert-warning {
+        background-color: #5d4a1a;
+        border-color: #6d5a2a;
+        color: #ffd970;
+    }
+
+    body.dark-mode .alert-danger {
+        background-color: #5a2a2a;
+        border-color: #6a3a3a;
+        color: #ff9090;
+    }
+
+
+    /* Chart Dark Mode Styling */
+    body.dark-mode .chart-container,
+    body.dark-mode .chart-bar,
+    body.dark-mode .chart-pie {
+        background-color: #333 !important;
+        color: #e0e0e0;
+    }
+
+    /* Make sure canvas elements in charts inherit the dark background */
+    body.dark-mode canvas {
+        background-color: #333 !important;
+        color: #e0e0e0;
+    }
+
+    /* Style chart legends in dark mode */
+    body.dark-mode .chartjs-legend li span,
+    body.dark-mode .chartjs-tooltip {
+        color: #e0e0e0 !important;
+    }
+
+    /* Style chart grid lines and text in dark mode */
+    body.dark-mode .chartjs-render-monitor {
+        color: #e0e0e0 !important;
+    }
+
+    /* Ensure chart containers in cards have the right background */
+    body.dark-mode .card .chart-container,
+    body.dark-mode .card .chart-bar,
+    body.dark-mode .card .chart-pie {
+        background-color: #333 !important;
+        color: #e0e0e0;
+    }
+
+/* For media query dark mode support */
+@media (prefers-color-scheme: dark) {
+    .dark-mode-enabled .chart-container,
+    .dark-mode-enabled .chart-bar,
+    .dark-mode-enabled .chart-pie {
+        background-color: #333 !important;
+        color: #e0e0e0;
+    }
+
+    .dark-mode-enabled canvas {
+        background-color: #333 !important;
+        color: #e0e0e0;
+    }
+}
+
+/* Ensure chart tooltips are visible in dark mode */
+body.dark-mode .chartjs-tooltip {
+    background-color: rgba(50, 50, 50, 0.8) !important;
+    border-color: #444 !important;
+}
+
+
+
+
+
+/* Fix for metrics visibility in split view */
+.col-md-6 .metrics-item .card {
+    background-color: inherit !important;
+    visibility: visible !important;
+}
+
+    .col-md-6 .metrics-item .card .card-body {
+        visibility: visible !important;
+    }
+
+    .col-md-6 .metrics-item .card .text-gray-1200,
+    .col-md-6 .metrics-item .card .text-primary,
+    .col-md-6 .metrics-item .card h5 {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+/* Dark mode specific fixes for split view */
+body.dark-mode .col-md-6 .metrics-item .card {
+    background-color: #333 !important;
+    color: #e0e0e0 !important;
+}
+
+    body.dark-mode .col-md-6 .metrics-item .card .text-gray-1200 {
+        color: #e0e0e0 !important;
+    }
+
+    body.dark-mode .col-md-6 .metrics-item .card .text-primary {
+        color: #8bb9ff !important;
+    }
+
+/* Light mode specific fixes for split view */
+body:not(.dark-mode) .col-md-6 .metrics-item .card {
+    background-color: #fff !important;
+    color: #5a5c69 !important;
+}
+
+    body:not(.dark-mode) .col-md-6 .metrics-item .card .text-gray-1200 {
+        color: #5a5c69 !important;
+    }
+
+    body:not(.dark-mode) .col-md-6 .metrics-item .card .text-primary {
+        color: #4e73df !important;
+    }
+
+
+/* Fix for split view widget visibility */
+.float-left .widget,
+.float-right .widget {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+    .float-left .widget a,
+    .float-right .widget a {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        flex-grow: 1;
+    }
+
+    .float-left .widget .card,
+    .float-right .widget .card {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100%;
+    }
+
+    .float-left .widget .card-body,
+    .float-right .widget .card-body,
+    .float-left .widget .row,
+    .float-right .widget .row,
+    .float-left .widget .col,
+    .float-right .widget .col,
+    .float-left .widget h5,
+    .float-right .widget h5,
+    .float-left .widget .text-gray-1200,
+    .float-right .widget .text-gray-1200 {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+/* Ensure widget controls remain visible in edit mode */
+.widget-edit-mode .widget-controls {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+
+/* Animation for widget changes */
+.widget-appear {
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improved card styling */
+.card {
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 2rem 0 rgba(58, 59, 69, 0.2) !important;
+    }
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
 .chart-bar, .chart-pie {
     height: 350px;
     position: relative;
@@ -144,17 +513,15 @@
     margin-right: -.75rem;
     /* margin-left: -.75rem;*/
 }
-   .btn-group .btn
 
-
-{
+.btn-group .btn {
     margin-right: 10px;
     padding: 10px 20px;
 }
 
-.btn-group .btn:last-child {
-    margin-right: 0;
-}
+    .btn-group .btn:last-child {
+        margin-right: 0;
+    }
 
 .table th, .table td {
     text-align: center;
@@ -165,6 +532,7 @@
     text-align: left;
     vertical-align: middle;
 }
+
 .text-primary {
     color: #384B82 !important;
 }
@@ -242,7 +610,7 @@
     content: ">";
 }*/
 
-    input [type="file"] {
+input [type="file"] {
     display: block !important;
     opacity: 1 !important;
     pointer-events: auto !important;
