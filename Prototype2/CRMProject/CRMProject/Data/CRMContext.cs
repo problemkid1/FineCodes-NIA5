@@ -24,6 +24,8 @@ namespace CRMProject.Data
         public DbSet<Opportunity> Opportunities { get; set; }
         public DbSet<MemberPhoto> MemberPhotos { get; set; }
         public DbSet<MemberThumbnail> MemberThumbnails { get; set; }
+        public DbSet<MemberLogin> MemberLogins { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
 
 
 
@@ -80,6 +82,11 @@ namespace CRMProject.Data
             modelBuilder.Entity<Member>()
                 .HasIndex(m => m.MemberName)
                 .IsUnique();
+
+            //Add a unique index to the Employee Email
+            modelBuilder.Entity<MemberLogin>()
+            .HasIndex(a => new { a.Email })
+            .IsUnique();
 
             //Unique Index for Members Member Accounts Payable Email
             modelBuilder.Entity<Member>()
