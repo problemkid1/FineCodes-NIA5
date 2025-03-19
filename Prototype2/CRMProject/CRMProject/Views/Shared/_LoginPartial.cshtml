@@ -24,3 +24,109 @@ else
     </li>
 }
 </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using Microsoft.AspNetCore.Identity @inject SignInManager<IdentityUser> SignInManager @inject UserManager<IdentityUser> UserManager <style> *@
+@* /* Override Bootstrap row styles for login page */ *@
+@* .login-page-container .row { *@
+@*     display: block !important; *@
+@*     margin-right: 0 !important; *@
+@*     margin-left: 0 !important; *@
+@* } *@
+
+@* /* Custom styles for navbar */ *@
+@* .custom-navbar { *@
+@*     background-color: #384B82 !important; *@
+@*     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); *@
+@* } *@
+
+@*     .custom-navbar .navbar-brand, *@
+@*     .custom-navbar .nav-link, *@
+@*     .custom-navbar .btn-link { *@
+@*         color: white !important; *@
+@*         font-weight: 600; *@
+@*     } *@
+
+@*         .custom-navbar .nav-link:hover, *@
+@*         .custom-navbar .btn-link:hover { *@
+@*             opacity: 0.8; *@
+@*         } *@
+
+@* /* Login form styles */ *@
+@* .login-form-container { *@
+@*     max-width: 450px; *@
+@*     margin: 80px auto; *@
+@*     padding: 30px; *@
+@*     background-color: white; *@
+@*     border-radius: 8px; *@
+@*     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); *@
+@* } *@
+
+@*     .login-form-container h3 { *@
+@*         color: #384B82; *@
+@*         margin-bottom: 25px; *@
+@*         padding-bottom: 15px; *@
+@*         border-bottom: 2px solid #384B82; *@
+@*         text-align: center; *@
+@*     } *@
+
+@*     .login-form-container .form-control { *@
+@*         border-radius: 8px; *@
+@*         padding: 12px 15px; *@
+@*         margin-bottom: 15px; *@
+@*     } *@
+
+@*     .login-form-container .btn-primary { *@
+@*         background-color: #384B82; *@
+@*         border: none; *@
+@*         padding: 12px; *@
+@*         border-radius: 8px; *@
+@*         width: 100%; *@
+@*         font-weight: 600; *@
+@*     } *@
+
+@*         .login-form-container .btn-primary:hover { *@
+@*             background-color: #2e3b6d; *@
+@*         } *@
+
+@*     .login-form-container a { *@
+@*         color: #384B82; *@
+@*     } *@
+
+@* </style > *@
+@* <!-- Navbar --> *@
+@* <nav class="navbar navbar-expand-lg navbar-dark custom-navbar" > *@
+@* <div class="container" > *@
+@* <a class="navbar-brand" href="#" > CRM System</a > *@
+@* <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" > *@
+@* <span class="navbar-toggler-icon" > </span > *@
+@* </button > *@
+@* <div class="collapse navbar-collapse" id="navbarNav" > *@
+@* <ul class="navbar-nav ml-auto" > *@
+@* @if (SignInManager.IsSignedIn(User)) { *@
+@*     <li class="nav-item"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index"> Hello, @User.Identity?.Name ! </a> </li> <li class="nav-item"> <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"> <button type="submit" class="nav-link btn btn-link">Logout</button> </form> </li> *@
+@* } *@
+
+@* else { *@
+@*     <li class="nav-item"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a> </li> <li class="nav-item"> <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a> </li> *@
+@* } *@
+
+@* </ul > *@
+@* </div > *@
+@* </div > *@
+@* </nav > *@
+@* <!-- Login Form - Only show on login page --> *@
+@* @if (!SignInManager.IsSignedIn(User) && Context.Request.Path.Value?.Contains("/Login") == true) { *@
+@*     <div class="login-page-container"> <div class="container"> <div class="login-form-container"> <h3>Account Login</h3> <form method="post"> <div class="form-group"> <label for="email">Email Address</label> <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required> </div> <div class="form-group"> <label for="password">Password</label> <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required> </div> <div class="form-group form-check"> <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe"> <label class="form-check-label" for="rememberMe">Remember me</label> </div> <div class="form-group"> <button type="submit" class="btn btn-primary">Login</button> </div> <div class="text-center mt-3"> <a href="#">Forgot your password?</a> </div> </form> </div> </div> </div> *@
+@* } *@

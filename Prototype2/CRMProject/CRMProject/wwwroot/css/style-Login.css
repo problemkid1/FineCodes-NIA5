@@ -1,0 +1,64 @@
+﻿/* Login page specific styles */
+body.login-page {
+    background-color: #f8f9fc;
+}
+
+.login-container {
+    max-width: 450px;
+    margin: 80px auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #384B82;
+}
+
+    .login-header h2 {
+        color: #384B82;
+        font-weight: 600;
+    }
+
+/* Override Bootstrap styles */
+.form-control {
+    border-radius: 8px;
+    padding: 12px 15px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #384B82 !important;
+    border: none !important;
+    padding: 12px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    width: 100% !important;
+}
+
+    .btn-primary:hover {
+        background-color: #2e3b6d !important;
+    }
+
+/* Navbar styles */
+.navbar {
+    background-color: #384B82 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .btn-link {
+    color: white !important;
+    font-weight: 600;
+}
+
+    .navbar-dark .navbar-nav .nav-link:hover,
+    .navbar-dark .navbar-nav .btn-link:hover {
+        opacity: 0.8;
+    }
