@@ -120,12 +120,20 @@
                 </a>
             </li>
 
+
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MembershipType" ? "active" : "")">
                 <a class="nav-link" asp-controller="MembershipType" asp-action="Index">
                     <i class="fas fa-id-card"></i>
-                    <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MembershipType" ? "text-decoration: underline;" : "");">Membership Types</span>
+                        <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MembershipType" ? "text-decoration: underline;" : "");">Membership Type</span>
                 </a>
             </li>
+                <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "active" : "")">
+                    <a class="nav-link" asp-controller="MemberLogin" asp-action="Index">
+                        <i class="fas fa-id-card"></i>
+                        <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "text-decoration: underline;" : "");">Maintain Members</span>
+                    </a>
+                </li>
+
 
 
 
