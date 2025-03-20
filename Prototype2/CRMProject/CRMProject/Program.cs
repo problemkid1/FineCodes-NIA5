@@ -95,7 +95,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    CRMInitializer.Initialize(serviceProvider: services, DeleteDatabase: false,
+    CRMInitializer.Initialize(serviceProvider: services, DeleteDatabase: true,
         UseMigrations: true, SeedSampleData: true);
 
     ApplicationDbInitializer.Initialize(serviceProvider: services,
