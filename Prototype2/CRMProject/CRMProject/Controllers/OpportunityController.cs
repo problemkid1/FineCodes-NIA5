@@ -111,27 +111,17 @@ namespace CRMProject.Controllers
 
         // GET: Opportunity/Create
         public IActionResult Create()
-        {            
+        {
             var breadcrumbs = new List<BreadcrumbItem>
-                    {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = "Create", Url = "/Oppurtunity/Create", IsActive = true }
-                    };
+             {
+                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                 new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                 new BreadcrumbItem { Title = "Create", Url = "/Opportunity/Create", IsActive = true }
+             };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
+                ViewData["Breadcrumbs"] = breadcrumbs;
 
-            // Fetch the list of existing contacts
-            var contacts = _context.Contacts.Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.FirstName + " " + c.LastName
-            }).ToList();
-
-            contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
-            ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
-
-            return View();
+                return View();
         }
 
         // POST: Opportunity/Create
@@ -139,20 +129,36 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions,ContactID")] Opportunity opportunity)
+        public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions,ContactID,ContactName")] Opportunity opportunity)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var existingopportunity = await _context.Opportunities
+                    var existingOpportunity = await _context.Opportunities
                         .FirstOrDefaultAsync(i => i.OpportunityName == opportunity.OpportunityName);
 
-                    if (existingopportunity != null)
+                    if (existingOpportunity != null)
                     {
-                        ModelState.AddModelError("OpportunityName", "opportunity with this OpportunityName already exists.");
+                        ModelState.AddModelError("OpportunityName", "Opportunity with this name already exists.");
                         return View(opportunity);
                     }
+
+                    // Create a new contact based on the entered contact name
+                    var newContact = new Contact
+                    {
+                        FirstName = opportunity.ContactName, // Assuming "ContactName" holds the full name
+                        LastName = "", // You may need to parse this properly
+                        ContactEmailAddress = opportunity.OpportunityAction, // Use a field if available
+                        ContactPhone = "" // Default or an actual value
+                    };
+
+                    _context.Contacts.Add(newContact);
+                    await _context.SaveChangesAsync();
+                    opportunity.ContactID = newContact.ID;
+
+                    // Associate the new contact with the opportunity
+                    opportunity.ContactID = newContact.ID;
 
                     _context.Add(opportunity);
                     await _context.SaveChangesAsync();
@@ -219,6 +225,17 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
+            // Fetch the list of existing contacts
+            var contacts = _context.Contacts.Select(c => new SelectListItem
+            {
+                Value = c.ID.ToString(),
+                Text = c.FirstName + " " + c.LastName
+            }).ToList();
+
+            contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
+            ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
+
+
             ViewData["Opportunity"] = opportunity.ID;
             return View(opportunity);
         }
@@ -226,7 +243,7 @@ namespace CRMProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityLastContactDate,OpportunityInteractions,Contact")] Opportunity opportunity)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityLastContactDate,OpportunityInteractions,Contact,ContactID")] Opportunity opportunity)
         {
             if (id != opportunity.ID)
             {
@@ -259,19 +276,17 @@ namespace CRMProject.Controllers
                     // Instead, we need to maintain the relationship without trying to modify its properties
 
                     // Only update the Contact reference if needed
-                    if (opportunity.Contact != null && opportunity.Contact.ID > 0)
+                    if (opportunity.ContactID.HasValue && opportunity.ContactID > 0)
                     {
-                        // If the Contact ID is the same, we don't need to do anything
-                        // If different, update the reference
-                        if (existingOpportunity.Contact == null || existingOpportunity.Contact.ID != opportunity.Contact.ID)
+                        var contact = await _context.Contacts.FindAsync(opportunity.ContactID);
+                        if (contact != null)
                         {
-                            // Attach the existing contact by ID
-                            var contact = await _context.Contacts.FindAsync(opportunity.Contact.ID);
-                            if (contact != null)
-                            {
-                                existingOpportunity.Contact = contact;
-                            }
+                            existingOpportunity.Contact = contact;
                         }
+                    }
+                    else
+                    {
+                        existingOpportunity.Contact = null;
                     }
 
                     _context.Update(existingOpportunity);
