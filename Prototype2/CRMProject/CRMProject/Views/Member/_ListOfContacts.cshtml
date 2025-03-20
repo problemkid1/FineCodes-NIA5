@@ -73,21 +73,11 @@
                                     @* <input name="ContactPhone" type="tel" class="form-control" placeholder="Enter phone number" required /> *@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label for="ContactPhone" class="control-label">
-                                                <span class="text-danger">*</span> Phone
-                                            </label>
-
-
-                                            
+                                            <label for="ContactPhone" class="control-label">Phone</label>                                            
                                             <input name="ContactPhone" type="tel" id="ContactPhone" class="form-control" placeholder="Enter phone number"
                                                    data-val="true"
                                                    data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
                                                    data-val-regex-pattern="^\d{10}$" />
-
-                                            @*<input name="ContactPhone" type="tel"  class="form-control" placeholder="Enter phone number" required 
-                                                   data-val="true"
-                                                   data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
-                                                   data-val-regex-pattern="^\d{10}$" />*@
 
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
                                         </div>
@@ -173,7 +163,14 @@
                                         </td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactTitleRole)</td>
                                         <td>
-                                            <a href="tel:@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
+                                            @if (item.Contact.ContactPhone != null)
+                                            {
+                                                <a href="tel:@item.Contact.PhoneFormatted" target="_blank">@item.Contact.PhoneFormatted</a>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
                                         </td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)</td>

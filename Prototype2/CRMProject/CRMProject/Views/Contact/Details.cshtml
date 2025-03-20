@@ -47,7 +47,7 @@
             <div>
                 <h2>Detail - @Html.DisplayFor(model => model.Summary)</h2>
                 <hr />
-                
+
                 <dl class="row">
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.FirstName)</dt>
                     <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.FirstName)</dd>
@@ -56,26 +56,53 @@
                     <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.LastName)</dd>
 
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactTitleRole)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactTitleRole)</dd>
+                    <dd class="col-sm-10 col-md-9">
+                        @if (Model.ContactTitleRole != null)
+                        {
+                            @Model.ContactTitleRole
+                        }
+                        <span>N/A</span>
+                    </dd>
 
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.PhoneFormatted)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.PhoneFormatted)</dd>
+                    <dd class="col-sm-10 col-md-9">
+                        @if (Model.ContactPhone != null)
+                        {
+                            <a href="tel:@Model.PhoneFormatted" target="_blank">@Model.PhoneFormatted</a>
+                        }
+                            <span>N/A</span>
+                        
+                    </dd>
 
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactEmailAddress)</dt>
                     <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactEmailAddress)</dd>
 
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactEmailType)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactEmailType)</dd>
-
-                    @* <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactWebsite)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactWebsite)</dd> *@
+                    <dd class="col-sm-10 col-md-9">
+                        @if (Model.ContactEmailType != null)
+                        {
+                            @Model.ContactEmailType
+                        }
+                        <span>N/A</span>
+                    </dd>
 
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactInteractions)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactInteractions)</dd>
+                    <dd class="col-sm-10 col-md-9">
+                        @if (Model.ContactInteractions != null)
+                        {
+                            @Model.ContactInteractions
+                        }
+                        <span>N/A</span>
+                    </dd>
 
                     <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactNotes)</dt>
                     <dd class="col-sm-10 col-md-9">
-                        <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.ContactNotes</textarea>
+                        @if (Model.ContactNotes != null)
+                        {
+                            <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.ContactNotes</textarea>
+                        }
+                        <span>N/A</span>
+                        
                     </dd>
                 </dl>
 
