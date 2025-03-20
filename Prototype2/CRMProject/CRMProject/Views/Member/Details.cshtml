@@ -93,7 +93,17 @@
                     <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
                     <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
                     <dt class="col-5">@Html.DisplayNameFor(model => model.MemberWebsite)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberWebsite)</dd>
+                    <dd class="col-7">
+                        @if(Model.MemberWebsite == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.MemberWebsite)
+                    
+                        }
+                    </dd>
                     <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
                     <dd class="col-sm-12">
                         @if (Model.MemberNotes == null)

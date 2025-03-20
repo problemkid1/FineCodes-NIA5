@@ -995,6 +995,32 @@ namespace CRMProject.Data
                         context.SaveChanges();
                     }
 
+                    //Seeding data for Member Logins
+                    if (!context.MemberLogins.Any())
+                    {
+                        context.MemberLogins.AddRange(
+                         new MemberLogin
+                         {
+                             FirstName = "Jordan",
+                             LastName = "Sherlock",
+                             Email = "admin@outlook.com"
+                         },
+                         new MemberLogin
+                         {
+                             FirstName = "Bismark",
+                             LastName = "Addae",
+                             Email = "super@outlook.com"
+                         },
+                         new MemberLogin
+                         {
+                             FirstName = "Betty",
+                             LastName = "Rubble",
+                             Email = "user@outlook.com"
+                         });
+
+                        context.SaveChanges();
+                    }
+
                 }
                 #endregion
             }

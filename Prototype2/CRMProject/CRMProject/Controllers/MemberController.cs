@@ -269,7 +269,7 @@ namespace CRMProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
+            [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
             IFormFile? thePicture,
             string[] selectedMembership,
             string[] selectedIndustry)
@@ -444,8 +444,7 @@ namespace CRMProject.Controllers
 
             // Try updating the member with the values posted
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "",
-                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus, m => m.MemberAccountsPayableEmail, m => m.MemberWebsite,
-                m => m.MemberStartDate, m => m.MemberEndDate, m => m.MemberLastContactDate, m => m.MemberNotes))
+                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus, m => m.MemberAccountsPayableEmail, m => m.MemberWebsite, m => m.MemberStartDate, m => m.MemberEndDate, m => m.MemberLastContactDate, m => m.MemberNotes))
             {
                 try
                 {
