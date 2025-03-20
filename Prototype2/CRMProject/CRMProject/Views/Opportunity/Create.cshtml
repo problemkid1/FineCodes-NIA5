@@ -89,10 +89,10 @@
 
                     <!-- Third Row -->
                     <div class="col-12 col-md-6 mb-3">
-                        <label asp-for="ContactID" class="control-label">Contact</label>
+                        <label asp-for="ContactName" class="control-label">Contact</label>
                         <span class="text-danger">*</span>
-                        <select asp-for="ContactID" class="form-control" asp-items="ViewBag.Contacts"></select>
-                        <span asp-validation-for="ContactID" class="text-danger"></span>
+                        <input asp-for="ContactName" class="form-control" placeholder="Enter new contact name" />
+                        <span asp-validation-for="ContactName" class="text-danger"></span>
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
