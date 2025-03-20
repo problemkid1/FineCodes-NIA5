@@ -101,9 +101,11 @@
                     <!-- Opportunity Contact -->
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            <label asp-for="ContactID" class="control-label">Contact</label>
-                            <select asp-for="ContactID" class="form-control" asp-items="ViewBag.Contacts"></select>
-                            <span asp-validation-for="ContactID" class="text-danger"></span>
+                            <label asp-for="Contact.Summary" class="control-label">Contact</label>
+                            <span class="text-danger">*</span>
+                            <!-- Display as read-only text instead of an input -->
+                            <div class="form-control">@(Model.Contact?.Summary ?? "No contact summary available")</div>
+                            <span asp-validation-for="Contact.Summary" class="text-danger"></span>
                         </div>
                     </div>
 
