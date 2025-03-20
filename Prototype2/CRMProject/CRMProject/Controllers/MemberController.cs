@@ -425,6 +425,29 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+            // Check if any membership types are selected
+            if (selectedMembership == null || selectedMembership.Length == 0)
+            {
+                ModelState.AddModelError("MemberMembershipTypes", "Select at least one membership type.");
+
+                // Populate the assigned data for the view
+                PopulateAssignedMemberShipData(memberToUpdate);
+                PopulateAssignedIndustryData(memberToUpdate);
+
+                var memberBreadcrumbs = new List<BreadcrumbItem>
+        {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+            new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
+        };
+                ViewData["Breadcrumbs"] = memberBreadcrumbs;
+                ViewData["MemberId"] = memberToUpdate.ID;
+
+                // Set error message
+                TempData["ErrorMessage"] = "Please select at least one membership type.";
+
+                return View(memberToUpdate);
+            }
 
             // Update membership types and industries separately
             UpdateMemberMembershipTypes(selectedMembership, memberToUpdate);
