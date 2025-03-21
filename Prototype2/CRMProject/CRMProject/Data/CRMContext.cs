@@ -21,6 +21,7 @@ namespace CRMProject.Data
         public DbSet<StatusHistory> StatusHistories { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<MemberContact> MemberContacts { get; set; }
+        public DbSet<OpportunityContact> OpportunityContacts { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
         public DbSet<MemberPhoto> MemberPhotos { get; set; }
         public DbSet<MemberThumbnail> MemberThumbnails { get; set; }
@@ -119,6 +120,10 @@ namespace CRMProject.Data
             //Many to many MemberContact
             modelBuilder.Entity<MemberContact>()
             .HasKey(mc => new { mc.MemberID, mc.ContactID });
+
+            //Many to many OpportunityContact
+            modelBuilder.Entity<OpportunityContact>()
+            .HasKey(mc => new { mc.OpportunityID, mc.ContactID });
 
             // Composite Unique Index on AddressLine1, AddressCity, AddressProvince, and AddressPostalCode
             modelBuilder.Entity<Address>()

@@ -9,6 +9,8 @@ using CRMProject.Data;
 using CRMProject.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.AspNetCore.Authorization;
+using CRMProject.Utilities;
+using CRMProject.Data.CRMMigrations;
 
 namespace CRMProject.Controllers
 {
@@ -30,7 +32,7 @@ namespace CRMProject.Controllers
             int numberFilters = 0;
 
             var opportunities = _context.Opportunities
-                .Include(o => o.Contact)
+                .Include(o => o.OpportunityContacts).ThenInclude(oc => oc.Contact)
                 .AsNoTracking();
 
             //By default, exclude closed opportunities
@@ -89,7 +91,8 @@ namespace CRMProject.Controllers
             }
 
             var opportunity = await _context.Opportunities
-                 .Include(o => o.Contact)
+                .Include(m => m.OpportunityContacts).ThenInclude(mc => mc.Contact)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (opportunity == null)
             {
@@ -111,7 +114,14 @@ namespace CRMProject.Controllers
 
         // GET: Opportunity/Create
         public IActionResult Create()
-        {            
+        {
+            Opportunity opportunity = new Opportunity
+            {
+                OpportunityStatus = OpportunityStatus.Qualification
+            };
+
+            PopulateAssignedContact(opportunity);
+
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -131,6 +141,8 @@ namespace CRMProject.Controllers
             contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
             ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
 
+            ViewData["OpportunityId"] = opportunity.ID;
+
             return View();
         }
 
@@ -139,8 +151,34 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions,ContactID")] Opportunity opportunity)
+        public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions")] Opportunity opportunity,
+            string[] selectedContact)
         {
+            // Check if any contacts are selected
+            if (selectedContact == null || selectedContact.Length == 0)
+            {
+                ModelState.AddModelError("OpportunityContacs", "Select at least one contact.");
+
+                // Populate the assigned data for the view
+                PopulateAssignedContact(opportunity);
+
+                var opportunityBreadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+            };
+                ViewData["Breadcrumbs"] = opportunityBreadcrumbs;
+                ViewData["OpportunityId"] = opportunity.ID;
+
+                // Set error message
+                TempData["ErrorMessage"] = "Please select at least one contact.";
+
+                return View(opportunity);
+            }
+
+            UpdateContact(selectedContact, opportunity);
+
             if (ModelState.IsValid)
             {
                 try
@@ -180,17 +218,19 @@ namespace CRMProject.Controllers
             {
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
+
+            PopulateAssignedContact(opportunity);
+
             var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
                     new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
-
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
-            ViewData["Opportunity"] = opportunity.ID;
+            ViewData["OpportunityId"] = opportunity.ID;
             return View(opportunity);
         }
 
@@ -203,12 +243,16 @@ namespace CRMProject.Controllers
             }
 
             var opportunity = await _context.Opportunities
-                .Include(o => o.Contact)
+                .Include(m => m.OpportunityContacts).ThenInclude(mc => mc.Contact)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (opportunity == null)
             {
                 return NotFound();
             }
+
+            PopulateAssignedContact(opportunity);
+
             var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
@@ -226,92 +270,101 @@ namespace CRMProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityLastContactDate,OpportunityInteractions,Contact")] Opportunity opportunity)
+        public async Task<IActionResult> Edit(int id, string[] selectedContact)
         {
-            if (id != opportunity.ID)
+            var opportunityToUpdate = await _context.Opportunities
+                .Include(o => o.OpportunityContacts).ThenInclude(oc => oc.Contact)
+                .FirstOrDefaultAsync(o => o.ID == id);
+
+            if (opportunityToUpdate == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            // Validate selected contacts
+            if (selectedContact == null || selectedContact.Length == 0)
+            {
+                ModelState.AddModelError("OpportunityContacts", "Please select at least one contact.");
+
+                // View-specific data
+                PopulateAssignedContact(opportunityToUpdate);
+
+                ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = "#", IsActive = true }
+                };
+
+                ViewData["Opportunity"] = opportunityToUpdate.ID;
+                TempData["ErrorMessage"] = "Please select at least one contact.";
+
+                return View(opportunityToUpdate);
+            }
+
+            // Update many-to-many relationship
+            UpdateContact(selectedContact, opportunityToUpdate);
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = string.Join(" ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+
+                PopulateAssignedContact(opportunityToUpdate);
+
+                ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = "#", IsActive = true }
+                };
+
+                ViewData["Opportunity"] = opportunityToUpdate.ID;
+                return View(opportunityToUpdate);
+            }
+
+            // Attempt update
+            if (await TryUpdateModelAsync<Opportunity>(opportunityToUpdate, "",
+                o => o.OpportunityName, o => o.OpportunityStatus,
+                o => o.OpportunityPriority, o => o.OpportunityAction,
+                o => o.OpportunityLastContactDate, o => o.OpportunityInteractions))
             {
                 try
                 {
-                    // Get the existing opportunity with its contact
-                    var existingOpportunity = await _context.Opportunities
-                        .Include(o => o.Contact)
-                        .FirstOrDefaultAsync(o => o.ID == id);
-
-                    if (existingOpportunity == null)
-                    {
-                        return NotFound();
-                    }
-
-                    // Update opportunity fields
-                    existingOpportunity.OpportunityName = opportunity.OpportunityName;
-                    existingOpportunity.OpportunityStatus = opportunity.OpportunityStatus;
-                    existingOpportunity.OpportunityPriority = opportunity.OpportunityPriority;
-                    existingOpportunity.OpportunityAction = opportunity.OpportunityAction;
-                    existingOpportunity.OpportunityLastContactDate = opportunity.OpportunityLastContactDate;
-                    existingOpportunity.OpportunityInteractions = opportunity.OpportunityInteractions;
-
-                    // Since Contact.Summary is read-only, we can't directly update it
-                    // Instead, we need to maintain the relationship without trying to modify its properties
-
-                    // Only update the Contact reference if needed
-                    if (opportunity.Contact != null && opportunity.Contact.ID > 0)
-                    {
-                        // If the Contact ID is the same, we don't need to do anything
-                        // If different, update the reference
-                        if (existingOpportunity.Contact == null || existingOpportunity.Contact.ID != opportunity.Contact.ID)
-                        {
-                            // Attach the existing contact by ID
-                            var contact = await _context.Contacts.FindAsync(opportunity.Contact.ID);
-                            if (contact != null)
-                            {
-                                existingOpportunity.Contact = contact;
-                            }
-                        }
-                    }
-
-                    _context.Update(existingOpportunity);
+                    _context.Update(opportunityToUpdate);
                     await _context.SaveChangesAsync();
 
                     TempData["SuccessMessage"] = "Opportunity details updated successfully!";
-                    return RedirectToAction(nameof(Details), new { id = opportunity.ID });
+                    return RedirectToAction(nameof(Details), new { id = opportunityToUpdate.ID });
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException dex)
                 {
-                    if (!OpportunityExists(opportunity.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists see your system administrator.");
+                    Console.WriteLine(dex.Message);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    TempData["ErrorMessage"] = "An error occurred while updating the Opportunity details.";
+                    Console.WriteLine(ex.Message);
+                    TempData["ErrorMessage"] = "An unexpected error occurred.";
                 }
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
 
-            var breadcrumbs = new List<BreadcrumbItem>
+            // Repopulate view data on failure
+            PopulateAssignedContact(opportunityToUpdate);
+
+            ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
             {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
+                new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = "#", IsActive = true }
             };
 
-            ViewData["Breadcrumbs"] = breadcrumbs;
-            ViewData["Opportunity"] = opportunity.ID;
-            return View(opportunity);
+            ViewData["Opportunity"] = opportunityToUpdate.ID;
+            return View(opportunityToUpdate);
         }
+
 
 
         // GET: Opportunity/Delete/5
@@ -347,17 +400,32 @@ namespace CRMProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var opportunity = await _context.Opportunities.FindAsync(opportunityId);
+                var opportunity = await _context.Opportunities
+                    .Include(o => o.OpportunityContacts)
+                    .FirstOrDefaultAsync(o => o.ID == opportunityId);
+
                 if (opportunity != null)
                 {
+                    // Add new contact
                     _context.Contacts.Add(contact);
-                    opportunity.Contact = contact;
+                    await _context.SaveChangesAsync(); // Save first to generate contact.ID
+
+                    // Add the relationship
+                    var opportunityContact = new Models.OpportunityContact
+                    {
+                        OpportunityID = opportunity.ID,
+                        ContactID = contact.ID
+                    };
+                    _context.OpportunityContacts.Add(opportunityContact);
+
                     await _context.SaveChangesAsync();
                     return Json(new { success = true, message = "Contact added successfully" });
                 }
             }
+
             return Json(new { success = false, message = "Failed to add contact" });
         }
+
 
         // POST: Opportunity/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -470,6 +538,80 @@ namespace CRMProject.Controllers
             }
         }
 
+        private void PopulateAssignedContact(Opportunity opportunity)
+        {
+            //For this to work, you must have Included the child collection in the parent object
+            var allOptions = _context.Contacts;
+            var currentOptionsHS = new HashSet<int>(opportunity.OpportunityContacts.Select(b => b.ContactID));
+            //Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.Summary
+
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.Summary
+                    });
+                }
+            }
+
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+        private void UpdateContact(string[] selectedOptions, Opportunity opportunityToUpdate)
+        {
+            // Only initialize if null, don't clear existing data
+            if (opportunityToUpdate.OpportunityContacts == null)
+            {
+                opportunityToUpdate.OpportunityContacts = new List<Models.OpportunityContact>();
+            }
+
+            if (selectedOptions == null || selectedOptions.Length == 0)
+            {
+                return; // Don't clear existing data
+            }
+
+            // Rest of the method remains the same
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(opportunityToUpdate.OpportunityContacts.Select(b => b.ContactID));
+            foreach (var s in _context.Contacts)
+            {
+                if (selectedOptionsHS.Contains(s.ID.ToString()))
+                {
+                    if (!currentOptionsHS.Contains(s.ID))
+                    {
+                        opportunityToUpdate.OpportunityContacts.Add(new Models.OpportunityContact
+                        {
+                            ContactID  = s.ID,
+                            OpportunityID  = opportunityToUpdate.ID
+                        });
+                    }
+                }
+                else
+                {
+                    if (currentOptionsHS.Contains(s.ID))
+                    {
+                        Models.OpportunityContact? specToRemove = opportunityToUpdate.OpportunityContacts.FirstOrDefault(d => d.ContactID == s.ID);
+                        if (specToRemove != null)
+                        {
+                            _context.Remove(specToRemove);
+                        }
+                    }
+                }
+            }
+        }
 
 
     }

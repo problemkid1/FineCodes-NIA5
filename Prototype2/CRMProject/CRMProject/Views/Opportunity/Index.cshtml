@@ -168,9 +168,8 @@
                                     <th>@Html.DisplayNameFor(model => model.OpportunityName)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityStatus)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityPriority)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Contact)</th>
+                                    <th>@Html.DisplayNameFor(model => model.First().OpportunityContacts)</th>
                                     <th>@Html.DisplayNameFor(model => model.OpportunityLastContactDate)</th>
-                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.OpportunityInteractions)</th> *@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -199,10 +198,86 @@
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityStatus)</td>
                                        
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td>
-                                        @* <td>@Html.DisplayFor(modelItem => item.OpportunityAction)</td> *@
-                                        <td>@Html.DisplayFor(modelItem => item.Contact.Summary)</td>
+                                        @* <td class="d-none d-sm-table-cell">
+                                            @if (item.OpportunityContacts != null && item.OpportunityContacts.Any())
+                                                {
+                                                var primaryContact = item.OpportunityContacts.FirstOrDefault();
+                                                    if (primaryContact != null)
+                                                    {
+                                                        var contactSummary = primaryContact.Contact.Summary;
+                                                        var words = contactSummary?.Split(' ');
+                                                        var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : contactSummary;
+                                                        var fullSummary = contactSummary;
+
+                                                        <span>
+                                                            @shortSummary
+                                                            @if (words?.Length > 3)
+                                                            {
+                                                                <span id="moreTextContact@(item.ID) style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
+                                                                <a href="javascript:void(0);" id="readMoreContact@(item.ID)" onclick="toggleTextContact(@item.ID)">...Read More </a>
+                                                            }
+                                                        </span>
+                                                    var contactCount = item.OpportunityContacts.Count;
+                                                        if (contactCount > 1)
+                                                        {
+                                                            string contactList = "";
+                                                        var contacts = item.OpportunityContacts.Skip(1).ToList();
+                                                            foreach (var contact in contacts)
+                                                            {
+                                                                contactList += contact.Contact.Summary + "<br />";
+                                                            }
+
+                                                            // Create the collapsible link and content for additional contacts
+                                                            <a data-bs-toggle="collapse" href="#collapseContact@(item.ID)" aria-expanded="false" aria-controls="collapseContact@(item.ID)">
+                                                                <span class="badge bg-info">@contactCount</span>
+                                                            </a>
+                                                            <div class="collapse" id="collapseContact@(item.ID)">
+                                                                @Html.Raw(contactList)
+                                                            </div>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                }                                                
+                                            </td> *@
+                                        <td>
+                                            @if (item.OpportunityContacts != null && item.OpportunityContacts.Any())
+                                            {
+                                                var contacts = item.OpportunityContacts.Select(oc => oc.Contact.Summary).ToList();
+                                                var contactCount = contacts.Count;
+                                                var collapseId = $"collapseContact{item.ID}";
+                                                var fullContactSummaries = string.Join(", ", contacts); // Full contact summaries for export
+
+                                                <!-- Hidden span to store full contact summaries for export -->
+                                                <span class="export-contact-data" style="display:none;">@fullContactSummaries</span>
+
+                                                <span>
+                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
+                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                        Contacts (@contactCount)
+                                                        <i class="bi bi-chevron-down" id="arrowContact@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                    </a>
+                                                    <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
+                                                        <ul class="list-unstyled">
+                                                            @foreach (var contact in contacts)
+                                                            {
+                                                                <li>@contact</li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+
+
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityLastContactDate)</td>
-                                        @* <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.OpportunityInteractions)</td> *@
+                                        
                                         <td>
                                             <div class="btn-group" style="float: none; ">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
@@ -253,6 +328,21 @@
                 moreText.style.display = "none";
                 readMore.innerHTML = "... ";
             }
-        }       
+        }
+
+        <script>
+             function toggleTextContact(itemId) {
+                var moreText = document.getElementById("moreTextContact" + itemId);
+                var readMore = document.getElementById("readMoreContact" + itemId);
+
+                // Toggle contact name text
+                if (moreText.style.display === "none") {
+                    moreText.style.display = "inline";
+                    readMore.innerHTML = " Read less";
+                } else {
+                    moreText.style.display = "none";
+                    readMore.innerHTML = "... ";
+                }
+            }
     </script>
     }

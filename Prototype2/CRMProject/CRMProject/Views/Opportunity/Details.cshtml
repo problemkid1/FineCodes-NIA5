@@ -56,8 +56,23 @@
                 <dt class="col-sm-2">@Html.DisplayNameFor(model => model.OpportunityAction)</dt>
                 <dd class="col-sm-10">@Html.DisplayFor(model => model.OpportunityAction)</dd>
 
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Contact.Summary)</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.Contact.Summary)</dd>
+                @* <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Contact.Summary)</dt>
+                <dd class="col-sm-10">@Html.DisplayFor(model => model.Contact.Summary)</dd> *@
+                <dt class="col-sm-2" ">Contact</dt>
+                <dd class="col-sm-10">
+                @if (Model.OpportunityContacts != null && Model.OpportunityContacts.Any())
+                {
+                    var primaryContact = Model.OpportunityContacts.FirstOrDefault();
+                    if (primaryContact != null)
+                    {
+                            <span>@primaryContact.Contact.ContactType</span>
+                    }
+                }
+                else
+                {
+                        <span>No contacts available</span>
+                }
+                </dd>
 
                 <dt class="col-sm-2">@Html.DisplayNameFor(model => model.OpportunityLastContactDate)</dt>
                 <dd class="col-sm-10">@Html.DisplayFor(model => model.OpportunityLastContactDate, "{0:yyyy-MM-dd}")</dd>
@@ -72,13 +87,17 @@
                 <div class="row">
                     <dt class="col-5">Primary Contact</dt>
                     <dd class="col-7">
-                        @if (Model.Contact != null)
+                        @if (Model.OpportunityContacts != null && Model.OpportunityContacts.Any())
                         {
-                            <span>@Model.Contact.Summary</span>
+                            var primaryContact = Model.OpportunityContacts.FirstOrDefault();
+                            if (primaryContact != null)
+                            {
+                                        <span>@primaryContact.Contact.ContactType</span>
+                            }
                         }
                         else
                         {
-                            <span>No contact assigned</span>
+                                    <span>No contacts assigned</span>
                         }
                     </dd>
                 </div>
@@ -103,35 +122,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.Contact != null)
-                            {
+                @if (Model.OpportunityContacts != null && Model.OpportunityContacts.Any())
+                {
+                    @foreach (var opportunityContact in Model.OpportunityContacts)
+                    {
+                        var contact = opportunityContact.Contact;
                                 <tr>
-                                    <td>@Model.Contact.Summary</td>
-                                    <td>@Model.Contact.ContactTitleRole</td>
-                                    <td>@Model.Contact.ContactPhone</td>
-                                    <td>@Model.Contact.ContactEmailAddress</td>
+                                    <td>@contact.Summary</td>
+                                    <td>@contact.ContactTitleRole</td>
+                                    <td>@contact.ContactPhone</td>
+                                    <td>@contact.ContactEmailAddress</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@Model.ContactID"
-                                           class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                           data-bs-toggle="tooltip" title="Edit Contact">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </a>
-                                            <a asp-action="Details" asp-controller="Contact" asp-route-ID="@Model.ContactID"
-                                           class="btn btn-md btn-outline-primary" role="button"
-                                           data-bs-toggle="tooltip" title="Details Contact">
-                                            <i class="bi bi-search"></i>
-                                        </a>
+                                            <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@contact.ID"
+                                               class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
+                                               data-bs-toggle="tooltip" title="Edit Contact">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a asp-action="Details" asp-controller="Contact" asp-route-ID="@contact.ID"
+                                               class="btn btn-md btn-outline-primary" role="button"
+                                               data-bs-toggle="tooltip" title="Details Contact">
+                                                <i class="bi bi-search"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
-                            }
-                            else
-                            {
+                                }
+                }
+                else
+                {
                                 <tr>
                                     <td colspan="5" class="text-center">No contacts available</td>
                                 </tr>
-                            }
+                }
                         </tbody>
                     </table>
                 </div>
@@ -139,7 +162,7 @@
             <form method="post" action="@Url.Action("ConvertToMember", "Opportunity", new { opportunityId = Model.ID })">
                 <button type="submit" class="btn btn-primary">Convert to Member</button>
             </form>
-            
+
 
             <div class="form-group text-center mt-3">
                 @if (Model?.ID != null)

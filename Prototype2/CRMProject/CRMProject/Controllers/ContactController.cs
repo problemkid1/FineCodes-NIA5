@@ -28,7 +28,7 @@ namespace CRMProject.Controllers
         {
             // Initialize the queryable contacts dataset
             var contacts = _context.Contacts
-                .Include(o => o.Opportunities)
+                .Include(c => c.OpportunityContacts).ThenInclude(o => o.Opportunity)
                 .Include(c => c.MemberContacts)                
                 .ThenInclude(mc => mc.Member)
                 .AsNoTracking();
@@ -386,7 +386,8 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contact = await _context.Contacts
-                .Include(c => c.Opportunities)
+                .Include(c => c.OpportunityContacts)
+                .ThenInclude(c => c.Opportunity)
                 .Include(c => c.MemberContacts)
                 .ThenInclude(c => c.Member)
                 .FirstOrDefaultAsync(c => c.ID == id);
