@@ -28,9 +28,16 @@
     document.getElementById("btnRemoveIndustry").addEventListener("click", (event) =>
         switchOptions(event, document.getElementById("selectedIndustry"), document.getElementById("availableIndustry")));
 
+    // Contact Buttons
+    document.getElementById("btnAddContact").addEventListener("click", (event) =>
+        switchOptions(event, document.getElementById("availableContact"), document.getElementById("selectedContact")));
+
+    document.getElementById("btnRemoveContact").addEventListener("click", (event) =>
+        switchOptions(event, document.getElementById("selectedContact"), document.getElementById("availableContact")));
+
     // Form Submission
     document.getElementById("btnSubmit").addEventListener("click", function () {
-        ["selectedMembership", "selectedIndustry"].forEach(id => {
+        ["selectedMembership", "selectedIndustry", "selectedContact"].forEach(id => {
             Array.from(document.getElementById(id).options).forEach(opt => opt.selected = true);
         });
     });

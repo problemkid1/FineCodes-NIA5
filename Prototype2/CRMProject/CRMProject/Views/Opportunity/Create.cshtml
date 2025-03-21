@@ -47,7 +47,7 @@
             <h2>Create Opportunity</h2>
         </div>
         <div class="card-body">
-            <form asp-action="Create">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="row">
@@ -88,11 +88,25 @@
                     </div>
 
                     <!-- Third Row -->
-                    <div class="col-12 col-md-6 mb-3">
-                        <label asp-for="ContactID" class="control-label">Contact</label>
-                        <span class="text-danger">*</span>
-                        <select asp-for="ContactID" class="form-control" asp-items="ViewBag.Contacts"></select>
-                        <span asp-validation-for="ContactID" class="text-danger"></span>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <strong>Select Contacts</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <span class="control-label">Available Contacts</span>
+                                    <button type="button" id="btnAddContact" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                                    @Html.ListBox("availableContact", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <span class="control-label">Selected Contacts</span>
+                                    <button type="button" id="btnRemoveContact" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                                    @Html.ListBox("selectedContact", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-12 col-md-6 mb-3">
@@ -122,7 +136,14 @@
         </div>
     </div>
 </div>
-
+<script src="~/js/multiselect.js"></script>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    
+    <script type="text/javascript">
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 }

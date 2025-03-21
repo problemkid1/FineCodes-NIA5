@@ -111,7 +111,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MemberContacts)</th>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Opportunities)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().OpportunityContacts)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
@@ -162,9 +162,9 @@
                                         </td>
 
                                         <td>
-                                            @if (item.Opportunities != null && item.Opportunities.Any())
+                                            @if (item.OpportunityContacts != null && item.OpportunityContacts.Any())
                                             {
-                                                var opportunities = item.Opportunities.Select(o => o.OpportunityName).Distinct().ToList(); // Remove duplicates
+                                                var opportunities = item.OpportunityContacts.Select(o => o.Opportunity.OpportunityName).Distinct().ToList(); // Remove duplicates
                                                 var opportunityCount = opportunities.Count;
                                                 var collapseId = $"collapseOpportunity{item.ID}";
                                                 var fullOpportunityNames = string.Join(", ", opportunities); // Full opportunity names for export

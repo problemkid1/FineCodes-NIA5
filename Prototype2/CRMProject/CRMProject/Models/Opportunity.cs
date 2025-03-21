@@ -32,8 +32,7 @@ namespace CRMProject.Models
         [MaxLength(255, ErrorMessage = "Interaction cannot be more than 255 characters long.")]
         public string? OpportunityInteractions { get; set; } = "";
 
-        public int? ContactID { get; set; }
-        public Contact? Contact { get; set; }
-
+        [Display(Name = "Contacts")]
+        public ICollection<OpportunityContact>? OpportunityContacts { get; set; } = new HashSet<OpportunityContact>();
     }
 }
