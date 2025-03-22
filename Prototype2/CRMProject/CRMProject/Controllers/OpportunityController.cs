@@ -108,7 +108,7 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
-            ViewData["Opportunity"] = opportunity.ID;
+            ViewData["OpportunityId"] = opportunity.ID;
             return View(opportunity);
         }
 
@@ -131,15 +131,15 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
-            // Fetch the list of existing contacts
-            var contacts = _context.Contacts.Select(c => new SelectListItem
-            {
-                Value = c.ID.ToString(),
-                Text = c.FirstName + " " + c.LastName
-            }).ToList();
+            //// Fetch the list of existing contacts
+            //var contacts = _context.Contacts.Select(c => new SelectListItem
+            //{
+            //    Value = c.ID.ToString(),
+            //    Text = c.FirstName + " " + c.LastName
+            //}).ToList();
 
-            contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
-            ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
+            //contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
+            //ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
 
             ViewData["OpportunityId"] = opportunity.ID;
 
