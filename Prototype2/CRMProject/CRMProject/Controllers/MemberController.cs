@@ -232,13 +232,18 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/Create
-        public IActionResult Create()
+        // GET: Member/Create
+        public IActionResult Create(string MemberName, DateTime? MemberStartDate, DateTime? MemberLastContactDate, string MemberNotes)
         {
             Member member = new Member
             {
+                MemberName = MemberName ?? "", // Ensures it's not null
+                MemberStartDate = MemberStartDate ?? DateTime.Today,
+                MemberLastContactDate = MemberLastContactDate,
+                MemberNotes = MemberNotes,
                 MemberStatus = MemberStatus.GoodStanding,
-                MemberStartDate = DateTime.Today
             };
+
             PopulateAssignedIndustryData(member);
             PopulateAssignedMemberShipData(member);
             PopulateAssignedContactData(member);

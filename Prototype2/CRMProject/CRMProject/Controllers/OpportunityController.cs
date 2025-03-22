@@ -472,8 +472,10 @@ namespace CRMProject.Controllers
         {
             try
             {
-                // Step 1: Find the Opportunity by ID
-                var opportunity = _context.Opportunities.FirstOrDefault(o => o.ID == opportunityId);
+                // Step 1: Find the Opportunity by ID, including related Contact
+                var opportunity = _context.Opportunities
+                    .Include(o => o.OpportunityContacts) // Ensure Contact is loaded
+                    .FirstOrDefault(o => o.ID == opportunityId);
 
                 if (opportunity == null)
                 {
@@ -481,62 +483,26 @@ namespace CRMProject.Controllers
                     return RedirectToAction("Index", "Opportunity");
                 }
 
-                // Step 2: Check if the Member's email already exists
-                var existingMemberEmail = _context.Members
-                    .Any(m => m.MemberAccountsPayableEmail == opportunity.OpportunityAction); // Assuming OpportunityAction holds the email
+                // Set success message and redirect to Create action, passing necessary data
+                TempData["SuccessMessage"] = "Edit and save the new member!";
 
-                if (existingMemberEmail)
-                {
-                    TempData["ErrorMessage"] = "This email is already associated with another member.";
-                    return RedirectToAction("Index", "Opportunity");
-                }
-
-                // Step 3: Create a new Member
-                var member = new Member
+                // Pass data via query parameters (or use TempData for more complex data)
+                return RedirectToAction("Create", "Member", new
                 {
                     MemberName = opportunity.OpportunityName,
-                    MemberStatus = MemberStatus.GoodStanding, // Default status
-                    MemberSize = null, // No default size
+                    MemberStatus = MemberStatus.GoodStanding,
                     MemberStartDate = DateTime.Today,
                     MemberLastContactDate = opportunity.OpportunityLastContactDate,
-                    MemberNotes = opportunity.OpportunityAction,  // Assuming OpportunityAction holds the note
-                    MemberAccountsPayableEmail = opportunity.OpportunityAction, // Assuming OpportunityAction holds the email
-                };
-
-                // Step 4: Optionally, copy relationships (e.g., Contact)
-                //if (opportunity.Contact != null)
-                //{
-                //    member.ContactID = opportunity.ContactID;
-                //    member.Contact = opportunity.Contact;
-                //}
-
-                // Step 5: Save the new Member to the database
-                _context.Members.Add(member);
-                _context.SaveChanges();
-
-                // Step 6: Optionally, remove the Opportunity if no longer needed
-                _context.Opportunities.Remove(opportunity);
-                _context.SaveChanges();
-
-                // Step 7: Set success message in TempData
-                TempData["SuccessMessage"] = "Opportunity successfully converted to Member!";
-
-                // Step 8: Redirect to the Member Details page
-                return RedirectToAction("Details", "Member", new { id = member.ID });
-            }
-            catch (SqliteException sqlEx)
-            {
-                // Handle SQL exception
-                TempData["ErrorMessage"] = "A database error occurred while converting the opportunity. Please try again.";
-                return RedirectToAction("Error", "Home"); // Optionally, create an error page
+                    MemberNotes = opportunity.OpportunityAction,
+                });
             }
             catch (Exception ex)
             {
-                // Handle general exception
-                TempData["ErrorMessage"] = "An unexpected error occurred. Please contact support.";
+                TempData["ErrorMessage"] = "An unexpected error occurred.";
                 return RedirectToAction("Error", "Home");
             }
         }
+
 
         private void PopulateAssignedContact(Opportunity opportunity)
         {

@@ -31,7 +31,7 @@ namespace CRMProject.Controllers
 
             if (EndDate == DateTime.MinValue)
             {
-                StartDate = _context.StatusHistories.Min(c => c.Date).Date;
+                StartDate = DateTime.Today;
                 EndDate = DateTime.Today;
             }
 
