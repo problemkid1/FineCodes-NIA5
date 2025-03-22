@@ -195,6 +195,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="control-label">Available Contacts</span>
+                            <button type="button" id="btnAddMemberContact" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                        </div>
+                        @Html.ListBox("availableContacts", (MultiSelectList)ViewData["availOptsContacts"], new { @size = 10, @class = "form-control" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="control-label">Selected Contacts</span>
+                            <button type="button" id="btnRemoveMemberContact" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                        </div>
+                        @Html.ListBox("selectedContacts", (MultiSelectList)ViewData["selOptsContacts"], new { @size = 10, @class = "form-control" })
+                    </div>
+                </div>
+
                 <!-- Picture Upload -->
                 <div class="col-12 col-md-6">
                     <div class="form-group">

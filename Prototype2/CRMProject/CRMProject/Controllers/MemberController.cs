@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System.Diagnostics;
 
 namespace CRMProject.Controllers
@@ -240,6 +241,7 @@ namespace CRMProject.Controllers
             };
             PopulateAssignedIndustryData(member);
             PopulateAssignedMemberShipData(member);
+            PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
                     {
@@ -269,10 +271,11 @@ namespace CRMProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
-            IFormFile? thePicture,
-            string[] selectedMembership,
-            string[] selectedIndustry)
+    [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
+    IFormFile? thePicture,
+    string[] selectedMembership,
+    string[] selectedIndustry,
+    string[] selectedContacts)
         {
             // Check if any membership types are selected
             if (selectedMembership == null || selectedMembership.Length == 0)
@@ -282,13 +285,14 @@ namespace CRMProject.Controllers
                 // Populate the assigned data for the view
                 PopulateAssignedMemberShipData(member);
                 PopulateAssignedIndustryData(member);
+                PopulateAssignedContactData(member);
 
                 var memberBreadcrumbs = new List<BreadcrumbItem>
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-            };
+        {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+            new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+        };
                 ViewData["Breadcrumbs"] = memberBreadcrumbs;
                 ViewData["MemberId"] = member.ID;
 
@@ -297,9 +301,16 @@ namespace CRMProject.Controllers
 
                 return View(member);
             }
+
             // Update membership types and industries
             UpdateMemberMembershipTypes(selectedMembership, member);
             UpdateIndustry(selectedIndustry, member);
+
+            // Initialize MemberContacts if it's null
+            if (member.MemberContacts == null)
+            {
+                member.MemberContacts = new List<MemberContact>();
+            }
 
             if (ModelState.IsValid)
             {
@@ -311,6 +322,13 @@ namespace CRMProject.Controllers
                     // Add the new member to the context and save changes
                     _context.Add(member);
                     await _context.SaveChangesAsync();
+
+                    // Now that we have a member ID, update the contacts
+                    if (selectedContacts != null && selectedContacts.Length > 0)
+                    {
+                        UpdateMemberContacts(selectedContacts, member);
+                        await _context.SaveChangesAsync();
+                    }
 
                     // Update the new member count for the current year
                     TempData["NewMemberCount"] = GetNewMemberCount();
@@ -356,21 +374,22 @@ namespace CRMProject.Controllers
             // Populate the assigned data for the view
             PopulateAssignedMemberShipData(member);
             PopulateAssignedIndustryData(member);
+            PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
-             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-             };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+        new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["MemberId"] = member.ID;
 
             // Return to the Create view in case of failure or validation errors
             return View(member);
         }
+
 
         // GET: Member/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -379,12 +398,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
             var member = await _context.Members
-               .Include(p => p.MemberPhoto)
+                .Include(p => p.MemberPhoto)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
-               .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
-               .AsNoTracking()
-               .FirstOrDefaultAsync(m => m.ID == id);
+                .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
+                // Include member contacts
+                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (member == null)
             {
                 return NotFound();
@@ -392,66 +415,51 @@ namespace CRMProject.Controllers
 
             PopulateAssignedMemberShipData(member);
             PopulateAssignedIndustryData(member);
+           PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
-             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-             };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+        new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["MemberId"] = member.ID;
 
             return View(member);
         }
 
-        // POST: Member/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //POST: Member/Edit
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture,
-    string[] selectedMembership, string[] selectedIndustry)
+    string[] selectedMembership, string[] selectedIndustry, string[] selectedContacts)
         {
+            // Log the arrays for debugging
+    System.Diagnostics.Debug.WriteLine($"selectedMembership: {string.Join(", ", selectedMembership ?? Array.Empty<string>())}");
+    System.Diagnostics.Debug.WriteLine($"selectedIndustry: {string.Join(", ", selectedIndustry ?? Array.Empty<string>())}");
+            System.Diagnostics.Debug.WriteLine($"selectedContacts: {string.Join(", ", selectedContacts ?? Array.Empty<string>())}");
+
             var memberToUpdate = await _context.Members
                 .Include(p => p.MemberPhoto)
                 .Include(m => m.MemberIndustries).ThenInclude(mi => mi.Industry)
                 .Include(d => d.MemberMembershipTypes).ThenInclude(d => d.MembershipType)
+                .Include(m => m.MemberContacts).ThenInclude(mc => mc.Contact)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (memberToUpdate == null)
             {
                 return NotFound();
             }
-            // Check if any membership types are selected
-            if (selectedMembership == null || selectedMembership.Length == 0)
-            {
-                ModelState.AddModelError("MemberMembershipTypes", "Select at least one membership type.");
-
-                // Populate the assigned data for the view
-                PopulateAssignedMemberShipData(memberToUpdate);
-                PopulateAssignedIndustryData(memberToUpdate);
-
-                var memberBreadcrumbs = new List<BreadcrumbItem>
-        {
-            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-            new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
-        };
-                ViewData["Breadcrumbs"] = memberBreadcrumbs;
-                ViewData["MemberId"] = memberToUpdate.ID;
-
-                // Set error message
-                TempData["ErrorMessage"] = "Please select at least one membership type.";
-
-                return View(memberToUpdate);
-            }
 
             // Update membership types and industries separately
             UpdateMemberMembershipTypes(selectedMembership, memberToUpdate);
             UpdateIndustry(selectedIndustry, memberToUpdate);
+
+            // Update member contacts using selectedContacts instead of selectedOptions
+            UpdateMemberContacts(selectedContacts, memberToUpdate);
 
             // Check the model state before updating the member
             if (!ModelState.IsValid)
@@ -462,12 +470,21 @@ namespace CRMProject.Controllers
                     .ToList();
 
                 TempData["ErrorMessage"] = string.Join(" ", errorMessages);
+
+                // Repopulate data for the view
+                PopulateAssignedMemberShipData(memberToUpdate);
+                PopulateAssignedIndustryData(memberToUpdate);
+                PopulateAssignedContactData(memberToUpdate);
+
                 return View(memberToUpdate);
             }
 
             // Try updating the member with the values posted
             if (await TryUpdateModelAsync<Member>(memberToUpdate, "",
-                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus, m => m.MemberAccountsPayableEmail, m => m.MemberWebsite, m => m.MemberStartDate, m => m.MemberEndDate, m => m.MemberLastContactDate, m => m.MemberNotes))
+                m => m.MemberName, m => m.MemberSize, m => m.MemberStatus,
+                m => m.MemberAccountsPayableEmail, m => m.MemberWebsite,
+                m => m.MemberStartDate, m => m.MemberEndDate,
+                m => m.MemberLastContactDate, m => m.MemberNotes))
             {
                 try
                 {
@@ -496,12 +513,12 @@ namespace CRMProject.Controllers
                     if (message.Contains("UNIQUE") && message.Contains("MemberName"))
                     {
                         ModelState.AddModelError("MemberName", "Unable to save changes. Remember, " +
-                            "you cannot have duplicate Member Name .");
+                            "you cannot have duplicate Member Name.");
                     }
                     else if (message.Contains("UNIQUE") && message.Contains("MemberAccountsPayableEmail"))
                     {
                         ModelState.AddModelError("MemberAccountsPayableEmail", "Unable to save changes. Remember, " +
-                            "you cannot have duplicate MemberAccountsPayableEmail .");
+                            "you cannot have duplicate MemberAccountsPayableEmail.");
                     }
                     else
                     {
@@ -520,20 +537,22 @@ namespace CRMProject.Controllers
             // Populate the assigned data for the view
             PopulateAssignedMemberShipData(memberToUpdate);
             PopulateAssignedIndustryData(memberToUpdate);
+            PopulateAssignedContactData(memberToUpdate);
 
             var breadcrumbs = new List<BreadcrumbItem>
-             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
-             };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+        new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["MemberId"] = memberToUpdate.ID;
 
             return View(memberToUpdate);
         }
+
+
 
 
         // GET: Member/CancelMember/5
@@ -810,6 +829,8 @@ namespace CRMProject.Controllers
 
         private void UpdateMemberMembershipTypes(string[] selectedOptions, Member memberToUpdate)
         {
+            System.Diagnostics.Debug.WriteLine("=== UpdateMemberMembershipTypes ===");
+            System.Diagnostics.Debug.WriteLine($"Selected memberships: {string.Join(", ", selectedOptions ?? new string[0])}");
             // Only initialize if null, don't clear existing data
             if (selectedOptions == null || selectedOptions.Length == 0)
             {
@@ -850,6 +871,7 @@ namespace CRMProject.Controllers
                     }
                 }
             }
+            System.Diagnostics.Debug.WriteLine("=== End UpdateMemberMembershipTypes ===");
         }
 
         private void PopulateAssignedIndustryData(Member member)
@@ -886,6 +908,8 @@ namespace CRMProject.Controllers
         }
         private void UpdateIndustry(string[] selectedOptions, Member memberToUpdate)
         {
+            System.Diagnostics.Debug.WriteLine("=== UpdateIndustry ===");
+            System.Diagnostics.Debug.WriteLine($"Selected industries: {string.Join(", ", selectedOptions ?? new string[0])}");
             // Only initialize if null, don't clear existing data
             if (memberToUpdate.MemberIndustries == null)
             {
@@ -925,7 +949,103 @@ namespace CRMProject.Controllers
                     }
                 }
             }
+            System.Diagnostics.Debug.WriteLine("=== End UpdateIndustry ===");
         }
+
+        private void PopulateAssignedContactData(Member member)
+        {
+            System.Diagnostics.Debug.WriteLine("=== PopulateAssignedContactData ===");
+
+            var allOptions = _context.Contacts
+                .Select(c => new {
+                    c.ID,
+                    DisplayName = $"{c.FirstName} {c.LastName}" + (string.IsNullOrEmpty(c.ContactTitleRole) ? "" : $" - {c.ContactTitleRole}")
+                })
+                .ToList();
+
+            var currentOptionsHS = new HashSet<int>();
+
+            // Only try to get current contacts if the member has MemberContacts collection
+            if (member.MemberContacts != null)
+            {
+                currentOptionsHS = new HashSet<int>(member.MemberContacts.Select(mc => mc.ContactID));
+            }
+
+            // Instead of one list with a boolean, we will make two lists
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.DisplayName
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.DisplayName
+                    });
+                }
+            }
+
+            // Use the correct ViewData keys that match your view
+            ViewData["selOptsContacts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsContacts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
+
+        private void UpdateMemberContacts(string[] selectedContacts, Member memberToUpdate)
+        {
+            // Your existing implementation, but with selectedContacts parameter
+            System.Diagnostics.Debug.WriteLine("=== UpdateMemberContacts ===");
+            System.Diagnostics.Debug.WriteLine($"Selected contacts count: {selectedContacts?.Length ?? 0}");
+
+            if (memberToUpdate.MemberContacts == null)
+            {
+                memberToUpdate.MemberContacts = new List<MemberContact>();
+                System.Diagnostics.Debug.WriteLine("Created new MemberContacts collection");
+            }
+
+            // Convert selectedContacts to a HashSet for efficient lookups
+            var selectedContactsHS = new HashSet<string>(selectedContacts ?? Array.Empty<string>());
+
+            // Remove contacts that are no longer selected
+            var contactsToRemove = memberToUpdate.MemberContacts
+                .Where(mc => !selectedContactsHS.Contains(mc.ContactID.ToString()))
+                .ToList();
+
+            foreach (var contactToRemove in contactsToRemove)
+            {
+                System.Diagnostics.Debug.WriteLine($"Removing contact: {contactToRemove.ContactID}");
+                memberToUpdate.MemberContacts.Remove(contactToRemove);
+            }
+
+            // Add newly selected contacts
+            if (selectedContacts != null)
+            {
+                var currentContactsHS = new HashSet<int>(memberToUpdate.MemberContacts.Select(mc => mc.ContactID));
+
+                foreach (var contactId in selectedContacts)
+                {
+                    if (int.TryParse(contactId, out int id) && !currentContactsHS.Contains(id))
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Adding contact: {id}");
+                        memberToUpdate.MemberContacts.Add(new MemberContact { MemberID = memberToUpdate.ID, ContactID = id });
+                    }
+                }
+            }
+
+            System.Diagnostics.Debug.WriteLine($"Final member contacts count: {memberToUpdate.MemberContacts.Count}");
+            System.Diagnostics.Debug.WriteLine("=== End UpdateMemberContacts ===");
+        }
+
         private async Task AddPicture(Member member, IFormFile thePicture)
         {
             if (thePicture != null && thePicture.Length > 0 && thePicture.ContentType.StartsWith("image/"))
