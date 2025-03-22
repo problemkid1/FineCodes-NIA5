@@ -1,0 +1,11 @@
+﻿.members-table th.members-table-startDate {
+    min-width: 80px;
+}
+
+.members-table th.members-table-industries {
+    min-width: 100px;
+}
+
+.members-table th.members-table-mtypes {
+    min-width: 140px;
+}

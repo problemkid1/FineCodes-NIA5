@@ -48,6 +48,7 @@
 
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
+<link href="~/customs/css/members-table.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -262,7 +263,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped members-table" >
                             <thead class="table-light">
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
@@ -270,9 +271,9 @@
                                     @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
+                                    <th class="d-none d-sm-table-cell members-table-mtypes">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
+                                    <th class="d-none d-sm-table-cell members-table-industries">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
+                                    <th class="d-none d-sm-table-cell members-table-startDate">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th class="d-none d-sm-table-cell">Actions</th>
                                 </tr>
                             </thead>
@@ -289,22 +290,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                @if (!string.IsNullOrEmpty(item.MemberName))
-                                                {
-                                                    var memberName = item.MemberName;
-                                                    var words = memberName.Split(' ');
-                                                    var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : memberName;
-                                                    var fullName = memberName;
-
-                                                    <span>
-                                                        @shortName
-                                                        @if (words.Length > 3)
-                                                        {
-                                                            <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
-                                                            <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">...Read More </a>
-                                                        }
-                                                    </span>
-                                                }
+                                                @item.MemberName
                                             </td>
                                             @* <td class="d-none d-sm-table-cell">
                                                 @if (item.MemberContacts != null && item.MemberContacts.Any())
@@ -544,19 +530,7 @@
             });
         </script>
         <script>
-             function toggleTextName(itemId) {
-                var moreText = document.getElementById("moreTextName" + itemId);
-                var readMore = document.getElementById("readMoreName" + itemId);
-
-                // Toggle member name text
-                if (moreText.style.display === "none") {
-                    moreText.style.display = "inline";
-                    readMore.innerHTML = " Read less";
-                } else {
-                    moreText.style.display = "none";
-                    readMore.innerHTML = "... ";
-                }
-            }
+             
 
             function toggleTextCity(itemId) {
                 var moreText = document.getElementById("moreTextCity" + itemId);

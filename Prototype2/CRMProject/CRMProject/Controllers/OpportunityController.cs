@@ -461,6 +461,46 @@ namespace CRMProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Opportunity/RemoveContact/5
+        public async Task<IActionResult> RemoveContact(int contactID, int opportunityID)
+        {
+            var opportunityContact = await _context.OpportunityContacts
+                .Include(mc => mc.Opportunity)
+                .Include(mc => mc.Contact)
+                .FirstOrDefaultAsync(mc => mc.ContactID == contactID && mc.OpportunityID == opportunityID);
+
+            if (opportunityContact == null)
+            {
+                TempData["ErrorMessage"] = "Contact relationship not found!";
+                return RedirectToAction("Details", new { id = opportunityID });
+            }
+
+            return View(opportunityContact); // Show confirmation view
+        }
+
+        // POST: Opportunity/RemoveContact/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveContactConfirmed(int contactID, int opportunityID)
+        {
+            var opportunityContact = await _context.OpportunityContacts
+                .FirstOrDefaultAsync(mc => mc.ContactID == contactID && mc.OpportunityID == opportunityID);
+
+            if (opportunityContact != null)
+            {
+                _context.OpportunityContacts.Remove(opportunityContact);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Contact removed from the opportunity successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Contact relationship not found!";
+            }
+
+            return RedirectToAction("Details", new { id = opportunityID });
+        }
+
+
         private bool OpportunityExists(int id)
         {
             return _context.Opportunities.Any(e => e.ID == id);

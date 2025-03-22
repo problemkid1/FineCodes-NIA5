@@ -107,7 +107,7 @@
     }
 
 
-    /* Yoo G.. Forgot Passwork Stylings*/
+/* Yoo G.. Forgot Passwork Stylings*/
 .form-container {
     max-width: 450px;
     margin: 80px auto;
@@ -182,7 +182,7 @@
 
 .btn-identity {
     background-color: #384B82;
-    color:white;
+    color: white;
     border: none;
     padding: 12px;
     border-radius: 8px;
@@ -193,7 +193,6 @@
     .btn-identity:hover {
         background-color: #2e3b6d;
     }
-
 
 /*:root {
     --primary: #384B82;

@@ -33,6 +33,6 @@ namespace CRMProject.Models
         public string? OpportunityInteractions { get; set; } = "";
 
         [Display(Name = "Contacts")]
-        public ICollection<OpportunityContact>? OpportunityContacts { get; set; } = new HashSet<OpportunityContact>();
+        public ICollection<OpportunityContact> OpportunityContacts { get; set; } = new HashSet<OpportunityContact>();
     }
 }

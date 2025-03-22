@@ -192,7 +192,7 @@ namespace CRMProject.Controllers
         // Add this new action to your existing ContactController
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId)
+        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId, int opportunityId)
         {
             if (!ModelState.IsValid)
             {
@@ -221,6 +221,16 @@ namespace CRMProject.Controllers
                 };
 
                 _context.MemberContacts.Add(memberContact);
+                await _context.SaveChangesAsync();
+
+                // Create and save the opportunity-contact relationship
+                var opportunityContact = new OpportunityContact
+                {
+                    OpportunityID = opportunityId,
+                    ContactID = contact.ID
+                };
+
+                _context.OpportunityContacts.Add(opportunityContact);
                 await _context.SaveChangesAsync();
 
                 return Json(new { success = true, message = "Contact created successfully." });

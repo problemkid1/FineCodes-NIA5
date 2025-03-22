@@ -83,7 +83,7 @@
                 </dd>
             </dl>
 
-            <div class="col-md-3">
+            @* <div class="col-md-3">
                 <div class="row">
                     <dt class="col-5">Primary Contact</dt>
                     <dd class="col-7">
@@ -101,7 +101,7 @@
                 }
                     </dd>
                 </div>
-            </div>
+            </div> *@
             <div id="contactForm" class="mt-3" style="display: none;">
                 @await Html.PartialAsync("_OpportunityContacts", new CRMProject.Models.Contact())
             </div>
@@ -139,11 +139,16 @@
                                                    data-bs-toggle="tooltip" title="Edit Contact">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
-                                                <a asp-action="Details" asp-controller="Contact" asp-route-ID="@contact.ID"
+                                                <a asp-action="RemoveContact" asp-controller="Opportunity" asp-route-contactID="@opportunityContact.ContactID" asp-route-opportunityID="@opportunityContact.OpportunityID"
+                                                   class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
+                                                   data-bs-toggle="tooltip" title="Remove Contact">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                                @* <a asp-action="Details" asp-controller="Contact" asp-route-ID="@contact.ID"
                                                    class="btn btn-md btn-outline-primary" role="button"
                                                    data-bs-toggle="tooltip" title="Details Contact">
                                                     <i class="bi bi-search"></i>
-                                                </a>
+                                                </a> *@
                                             </div>
                                         </td>
                                     </tr>
