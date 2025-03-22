@@ -1,0 +1,264 @@
+﻿@model List<CRMProject.Models.Contact>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>Select Contacts</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-md-6">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="control-label">Available Contacts</span>
+                    <button type="button" id="btnAddMemberContact" class="btn btn-primary btn-sm"><strong>+</strong></button>
+                </div>
+                @Html.ListBox("availableContacts", (MultiSelectList)ViewData["availOptsContacts"], new { @size = 10, @class = "form-control" })
+            </div>
+            <div class="form-group col-md-6">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="control-label">Selected Contacts</span>
+                    <button type="button" id="btnRemoveMemberContact" class="btn btn-danger btn-sm"><strong>-</strong></button>
+                </div>
+                @Html.ListBox("selectedContacts", (MultiSelectList)ViewData["selOptsContacts"], new { @size = 10, @class = "form-control" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <button type="button" class="btn btn-primary" id="toggleContactFormBtn">
+                    <i class="fa-solid fa-plus"></i> Create New Contact
+                </button>
+            </div>
+        </div>
+
+        <!-- Slide-up/down Contact Form -->
+        <div id="contactFormSection" style="display:none" class="mt-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Create New Contact</h5>
+                        <button type="button" class="btn-close btn-close-white" id="closeContactForm" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="card-body">
+                  @*   <form > *@
+
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="FirstName" class="control-label">
+                                        <span class="text-danger">*</span> First Name
+                                    </label>
+                                    <input name="FirstName" id="FirstName" class="form-control" placeholder="Enter first name" required
+                                           data-val="true"
+                                           data-val-required="First name is required."
+                                           data-val-maxlength="First name cannot be more than 50 characters long."
+                                           data-val-maxlength-max="50"
+                                           data-val-regex="First name must contain only letters."
+                                           data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="LastName" class="control-label">
+                                        <span class="text-danger">*</span> Last Name
+                                    </label>
+                                    <input name="LastName" id="LastName" class="form-control" placeholder="Enter last name" required
+                                           data-val="true"
+                                           data-val-required="Last name is required."
+                                           data-val-maxlength="Last name cannot be more than 100 characters long."
+                                           data-val-maxlength-max="100"
+                                           data-val-regex="Last name must contain only letters."
+                                           data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="ContactTitleRole" class="control-label">Title/Role</label>
+                                    <input name="ContactTitleRole" id="ContactTitleRole" class="form-control" placeholder="Enter title/role"
+                                           data-val="true"
+                                           data-val-maxlength="Title/Role cannot be more than 100 characters long."
+                                           data-val-maxlength-max="100"
+                                           data-val-regex="Title/Role must contain only letters."
+                                           data-val-regex-pattern="^[a-zA-Z\s]*$" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactTitleRole" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="ContactPhone" class="control-label">Phone</label>
+                                    <input name="ContactPhone" type="tel" id="ContactPhone" class="form-control" placeholder="Enter phone number (10 digits, no spaces)"
+                                           data-val="true"
+                                           data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
+                                           data-val-regex-pattern="^\d{10}$" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="ContactEmailAddress" class="control-label">
+                                        <span class="text-danger">*</span> Email
+                                    </label>
+                                    <input name="ContactEmailAddress" id="ContactEmailAddress" type="email" class="form-control" placeholder="example@email.com" required
+                                           data-val="true"
+                                           data-val-required="Email is required."
+                                           data-val-email="Please enter a valid email address."
+                                           data-val-maxlength="Email cannot be more than 255 characters long."
+                                           data-val-maxlength-max="255" />
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailAddress" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group mb-3">
+                                    <label for="ContactEmailType" class="control-label">Email Type</label>
+                                    <select name="ContactEmailType" id="ContactEmailType" class="form-control" asp-items="Html.GetEnumSelectList<EmailType>()">
+                                        <option value="">Select Email Type</option>
+                                    </select>
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailType" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label for="ContactNotes" class="control-label">Contact Notes</label>
+                                    <textarea name="ContactNotes" id="ContactNotes" class="form-control" style="min-height: 100px;" placeholder="Add notes"></textarea>
+                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactNotes" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-center mt-3">
+                            <button type="button" class="btn btn-primary" id="submitContactBtn">Create Contact</button>
+                            <button type="button" class="btn btn-secondary ml-2" id="cancelContactBtn">Cancel</button>
+                        </div>
+                    @* </form> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Prevent form submission in multiple ways
+        $("#createContactForm").attr("action", "javascript:void(0);");
+        $("#createContactForm").attr("onsubmit", "return false;");
+
+        // Disable the default submit behavior
+        $("#createContactForm").on("submit", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Default form submission prevented");
+            return false;
+        });
+
+        // Toggle contact form visibility
+        $("#toggleContactFormBtn").click(function () {
+            $("#contactFormSection").slideDown();
+            $(this).hide();
+        });
+
+        $("#closeContactForm, #cancelContactBtn").click(function () {
+            hideContactForm();
+        });
+
+        function hideContactForm() {
+            $("#contactFormSection").slideUp();
+            $("#toggleContactFormBtn").show();
+            $("#createContactForm")[0].reset();
+            // Clear validation errors
+            $(".field-validation-valid").text("");
+            $(".input-validation-error").removeClass("input-validation-error");
+        }
+
+        // // Load jQuery validation scripts if not already loaded
+        // if (typeof $.validator === 'undefined') {
+        //     $.getScript("/lib/jquery-validation/dist/jquery.validate.min.js", function () {
+        //         $.getScript("/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js", function () {
+        //             // Initialize validation
+        //             $.validator.unobtrusive.parse("#createContactForm");
+        //         });
+        //     });
+        // } else {
+        //     // Initialize validation if jQuery validator is already loaded
+        //     $.validator.unobtrusive.parse("#createContactForm");
+        // }
+
+        // // Handle the submit button click directly instead of form submission
+        // $("button[type='submit']", "#createContactForm").on("click", function (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+
+        //     console.log("Submit button clicked");
+
+        //     // Check if the form is valid
+        //     var form = $("#createContactForm");
+        //     if (form.valid && !form.valid()) {
+        //         console.log("Form validation failed");
+        //         return false;
+        //     }
+
+        //     // Collect form data
+        //     var formData = {
+        //         FirstName: $("#FirstName").val(),
+        //         LastName: $("#LastName").val(),
+        //         ContactTitleRole: $("#ContactTitleRole").val() || "",
+        //         ContactPhone: $("#ContactPhone").val() || "",
+        //         ContactEmailAddress: $("#ContactEmailAddress").val(),
+        //         ContactEmailType: $("#ContactEmailType").val() || "",
+        //         ContactNotes: $("#ContactNotes").val() || ""
+        //     };
+
+        //     console.log("Sending contact data:", formData);
+
+        //     // Send AJAX request
+        //     $.ajax({
+        //         url: '/Contact/CreateContactAjax',
+        //         type: 'POST',
+        //         contentType: 'application/json',
+        //         data: JSON.stringify(formData),
+        //         success: function (response) {
+        //             console.log("Server response:", response);
+
+        //             if (response.success) {
+        //                 // Add the new contact to the selected contacts list
+        //                 var option = new Option(response.contactName, response.contactId, true, true);
+        //                 $("#selectedContacts").append(option);
+
+        //                 // Hide the form
+        //                 hideContactForm();
+
+        //                 // Show success message
+        //                 alert('Contact created successfully');
+        //             } else {
+        //                 // Handle validation errors from server
+        //                 if (response.errors) {
+        //                     // Display validation errors
+        //                     $.each(response.errors, function (key, value) {
+        //                         $("[data-valmsg-for='" + key + "']").text(Array.isArray(value) ? value[0] : value);
+        //                         $("#" + key).addClass("input-validation-error");
+        //                     });
+        //                 } else {
+        //                     // Alert and log any error message returned from the server
+        //                     console.error("Error from server:", response.message);
+        //                     alert("Error: " + response.message);
+        //                 }
+        //             }
+        //         },
+        //         error: function (xhr, status, error) {
+        //             // Debug: Log detailed AJAX error information
+        //             console.error("AJAX error:", status, error);
+        //             console.error("Response text:", xhr.responseText);
+        //             alert("AJAX request failed: " + status);
+        //         }
+        //     });
+
+        //     return false;
+        // });
+    });
+</script>
+

@@ -42,7 +42,7 @@
             switchOptions(event, document.getElementById("selectedIndustry"), document.getElementById("availableIndustry")));
     }
 
-    // Contact Buttons
+    // Contact Buttons (existing functionality for a different page)
     const btnAddContact = document.getElementById("btnAddContact");
     const btnRemoveContact = document.getElementById("btnRemoveContact");
 
@@ -56,12 +56,27 @@
             switchOptions(event, document.getElementById("selectedContact"), document.getElementById("availableContact")));
     }
 
+    // NEW: Member Contacts Buttons (for the new functionality)
+    const btnAddMemberContact = document.getElementById("btnAddMemberContact");
+    const btnRemoveMemberContact = document.getElementById("btnRemoveMemberContact");
+
+    if (btnAddMemberContact && document.getElementById("availableContacts") && document.getElementById("selectedContacts")) {
+        btnAddMemberContact.addEventListener("click", (event) =>
+            switchOptions(event, document.getElementById("availableContacts"), document.getElementById("selectedContacts")));
+    }
+
+    if (btnRemoveMemberContact && document.getElementById("selectedContacts") && document.getElementById("availableContacts")) {
+        btnRemoveMemberContact.addEventListener("click", (event) =>
+            switchOptions(event, document.getElementById("selectedContacts"), document.getElementById("availableContacts")));
+    }
+
+
     // Form Submission
     const form = document.querySelector("form");
     if (form) {
         form.addEventListener("submit", function () {
             // Select all options in the relevant select boxes before submitting
-            ["selectedMembership", "selectedIndustry", "selectedContact"].forEach(id => {
+            ["selectedMembership", "selectedIndustry", "selectedContact", "selectedContacts"].forEach(id => {
                 const selectElement = document.getElementById(id);
                 if (selectElement) {
                     Array.from(selectElement.options).forEach(opt => opt.selected = true);

@@ -232,6 +232,61 @@ namespace CRMProject.Controllers
         }
 
 
+        //Partial Contact for creating member
+        //[HttpPost]
+        //public async Task<IActionResult> CreateContactAjax([FromBody] Contact contact)
+        //{
+        //    Console.WriteLine($"Received contact data: {contact?.FirstName} {contact?.LastName}");
+
+        //    if (contact == null)
+        //    {
+        //        return Json(new { success = false, message = "No contact data received" });
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            // Ensure no null values for non-required fields
+        //            contact.ContactTitleRole = contact.ContactTitleRole ?? string.Empty;
+        //            contact.ContactPhone = contact.ContactPhone ?? string.Empty;
+        //            contact.ContactNotes = contact.ContactNotes ?? string.Empty;
+
+        //            _context.Add(contact);
+        //            await _context.SaveChangesAsync();
+
+        //            return Json(new
+        //            {
+        //                success = true,
+        //                contactId = contact.ID,
+        //                contactName = $"{contact.FirstName} {contact.LastName}" +
+        //                    (string.IsNullOrEmpty(contact.ContactTitleRole) ? "" : $" - {contact.ContactTitleRole}")
+        //            });
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine($"Error creating contact: {ex.Message}");
+        //            return Json(new
+        //            {
+        //                success = false,
+        //                message = "Error creating contact: " + ex.Message
+        //            });
+        //        }
+        //    }
+
+        //    var errors = ModelState.ToDictionary(
+        //        kvp => kvp.Key,
+        //        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+        //    );
+
+        //    return Json(new
+        //    {
+        //        success = false,
+        //        errors = errors
+        //    });
+        //}
+
+
 
 
 
