@@ -48,7 +48,13 @@
 
 <div class="card">
     <div class="card-body">
-        <h2><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
+        <div class="d-flex align-items-center justify-content-between mb-3">            
+            <h2 class="mb-0"><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
+            <button class="btn btn-primary no-print me-3" onclick="window.print()" title="Print">
+                <i class="fa-solid fa-print"></i> Print
+            </button>
+        </div>
+
         <hr />
         <!-- Two-Column Layout -->
 
@@ -94,14 +100,14 @@
                     <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
                     <dt class="col-5">@Html.DisplayNameFor(model => model.MemberWebsite)</dt>
                     <dd class="col-7">
-                        @if(Model.MemberWebsite == null)
+                        @if (Model.MemberWebsite == null)
                         {
                             <span>N/A</span>
                         }
                         else
                         {
                             @Html.DisplayFor(model => model.MemberWebsite)
-                    
+
                         }
                     </dd>
                     <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
@@ -136,7 +142,7 @@
                         <dt class="col-5">Cancellation Date</dt>
                         <dd class="col-7">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
 
-                            @* @if (Model.StatusHistories != null && Model.StatusHistories.Any())
+                        @* @if (Model.StatusHistories != null && Model.StatusHistories.Any())
                             {
                                 var records = Model.StatusHistories.Select(m => m.Date).ToList();
                                 var mostRecentDate = records.Max();
@@ -145,7 +151,7 @@
                                 @Html.DisplayFor(model => model.StatusHistories, "{0:yyyy-MM-dd}")
 
                             } *@
-                        
+
                     }
 
                     @* <dt class="col-5">Industry</dt>
@@ -227,10 +233,10 @@
         }
         else
         {
-            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+            <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
         }
     }
-    <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
+    <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>
 </div>
 
 @section Scripts {
@@ -249,7 +255,7 @@
             }
         }
     </script>
-    
+
     <script>
          function toggleTextName(itemId) {
             var moreText = document.getElementById("moreTextName" + itemId);
