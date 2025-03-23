@@ -431,8 +431,17 @@ namespace CRMProject.Controllers
                 }
             }
 
-            return Json(new { success = false, message = "Failed to add contact" });
+            // Return validation errors in the format expected by the client
+            var errors = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                );
+
+            return Json(new { success = false, message = "Failed to add contact", errors = errors });
         }
+
 
 
         // POST: Opportunity/Delete/5
