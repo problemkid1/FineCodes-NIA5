@@ -189,6 +189,9 @@
                                 {
                                     <tr>
                                         <td>
+                                            @item.OpportunityName
+                                        </td>
+                                       @*  <td>
                                             @if (!string.IsNullOrEmpty(item.OpportunityName))
                                             {
                                                 var memberName = item.OpportunityName;
@@ -197,15 +200,14 @@
                                                 var fullName = memberName;
 
                                                 <span>
-                                                    @shortName
-                                                    @if (words.Length > 3)
+                                                    @shortName@if (words.Length > 3)
                                                     {
-                                                        <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
+                                                        <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length).TrimStart() </span>
                                                         <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">Read More</a>
                                                     }
                                                 </span>
                                             }
-                                        </td>
+                                        </td> *@
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityStatus)</td>
 
                                         <td>@Html.DisplayFor(modelItem => item.OpportunityPriority)</td>

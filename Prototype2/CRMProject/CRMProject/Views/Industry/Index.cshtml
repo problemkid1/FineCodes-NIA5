@@ -188,7 +188,8 @@
                                         <td>@Html.DisplayFor(modelItem => item.IndustryNAICSCode)</td>
 
                                         <td>
-                                            @if (!string.IsNullOrEmpty(item.IndustrySector))
+                                            @item.IndustrySector
+                                            @* @if (!string.IsNullOrEmpty(item.IndustrySector))
                                             {
                                                 var sector = item.IndustrySector;
                                                 var words = sector.Split(' ');
@@ -203,10 +204,11 @@
                                                         <a href="javascript:void(0);" id="readMoreSector@(item.ID)" onclick="toggleTextSector(@item.ID)">... </a>
                                                     }
                                                 </span>
-                                            }
+                                            } *@
                                         </td>
                                         <td class="d-none d-sm-table-cell">
-                                            @if (!string.IsNullOrEmpty(item.IndustrySubsector))
+                                            @item.IndustrySubsector
+                                            @* @if (!string.IsNullOrEmpty(item.IndustrySubsector))
                                             {
                                                 var subsector = item.IndustrySubsector;
                                                 var words = subsector.Split(' ');
@@ -221,7 +223,7 @@
                                                         <a href="javascript:void(0);" id="readMoreSubsector@(item.ID)" onclick="toggleTextSubsector(@item.ID)"> Read More</a>
                                                     }
                                                 </span>
-                                            }
+                                            } *@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.MemberIndustries.Select(m => m.Member).Where(m =>m.MemberStatus.ToString() != "Cancelled").ToList().Count)                                            
