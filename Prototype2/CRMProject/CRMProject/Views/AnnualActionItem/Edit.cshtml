@@ -1,0 +1,87 @@
+﻿@model CRMProject.Models.AnnualActionItem
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit Annual Action Item";
+}
+
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+<div class="col-12">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h2>Edit Annual Action Item</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="ID" />
+                <div class="row">
+                    <!-- Action Item -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="ActionItem" class="form-label">Action Item</label>
+                        <input asp-for="ActionItem" class="form-control" placeholder="Enter action item" />
+                        <span asp-validation-for="ActionItem" class="text-danger"></span>
+                    </div>
+
+                    <!-- Assignee -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="Assignee" class="form-label">Assignee</label>
+                        <input asp-for="Assignee" class="form-control" placeholder="Enter assignee" />
+                        <span asp-validation-for="Assignee" class="text-danger"></span>
+                    </div>
+
+                    <!-- Due Date -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="DueDate" class="form-label">Due Date</label>
+                        <input asp-for="DueDate" type="date" class="form-control" />
+                        <span asp-validation-for="DueDate" class="text-danger"></span>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-12 col-md-6 mb-3">
+                        <label asp-for="Status" class="form-label">Status</label>
+                        <input asp-for="Status" class="form-control" placeholder="Enter status" />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="col-12 mb-3">
+                        <label asp-for="Notes" class="form-label">Notes</label>
+                        <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Enter notes"></textarea>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="form-group text-center mt-3">
+                    <input type="submit" value="Save Changes" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Back to Action Items</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

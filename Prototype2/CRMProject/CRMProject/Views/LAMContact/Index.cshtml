@@ -1,0 +1,96 @@
+﻿@model IEnumerable<CRMProject.Models.LAMContact>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "LAM Contacts";
+}
+
+<!-- Success/Error Alerts -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Page Content -->
+<div class="col-12">
+    <div class="card shadow">
+        <div class="card-body">
+
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h2 class="h2 mb-0 text-gray-1400">LAM Contacts</h2>
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus"></i> Add LAM Contact
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Municipality)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Position)</th>
+                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Notes)</th>
+                                <th>Contact Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">No LAM contacts available.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Municipality</td>
+                                        <td>@item.Position</td>
+                                        <td>@item.Notes</td>
+                                        <td>
+                                            @if (item.Contact != null)
+                                            {
+                                                @item.Contact.FirstName @item.Contact.LastName
+                                            }
+                                            else
+                                            {
+                                                <span>N/A</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Details">
+                                                    <i class="bi bi-search"></i>
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Delete">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
