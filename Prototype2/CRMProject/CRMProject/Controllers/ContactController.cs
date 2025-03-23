@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class ContactController : Controller
     {
         private readonly CRMContext _context;
@@ -24,6 +24,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole)
         {
             // Initialize the queryable contacts dataset
@@ -99,6 +100,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Contact/Details/5
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -126,6 +128,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             Contact contact = new Contact();
@@ -146,6 +149,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactEmailAddress,ContactWebsite,ContactInteractions,ContactNotes")] Contact contact,
             string[] selectedMember)
         {
@@ -192,7 +196,8 @@ namespace CRMProject.Controllers
         // Add this new action to your existing ContactController
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId, int opportunityId)
         {
             if (!ModelState.IsValid)
             {
@@ -221,6 +226,16 @@ namespace CRMProject.Controllers
                 };
 
                 _context.MemberContacts.Add(memberContact);
+                await _context.SaveChangesAsync();
+
+                // Create and save the opportunity-contact relationship
+                var opportunityContact = new OpportunityContact
+                {
+                    OpportunityID = opportunityId,
+                    ContactID = contact.ID
+                };
+
+                _context.OpportunityContacts.Add(opportunityContact);
                 await _context.SaveChangesAsync();
 
                 return Json(new { success = true, message = "Contact created successfully." });
@@ -290,7 +305,7 @@ namespace CRMProject.Controllers
 
 
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -331,6 +346,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ContactTitleRole,ContactPhone,ContactWebsite,ContactEmailAddress,ContactInteractions,ContactNotes")] Contact contact, string[] selectedOptions)
         {
             var contactToUpdate = await _context.Contacts
@@ -403,6 +419,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Contact/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             var contact = await _context.Contacts
@@ -438,6 +455,7 @@ namespace CRMProject.Controllers
         // POST: Contact/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var contact = await _context.Contacts

@@ -25,6 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Opportunity
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Index(string? OpportunityName, OpportunityStatus? OpportunityStatus, string? OpportunityPriority)
         {
             // Count the number of filters applied - start by assuming no filters
@@ -83,6 +84,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Opportunity/Details/5
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -113,6 +115,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Opportunity/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             Opportunity opportunity = new Opportunity
@@ -151,6 +154,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ID,OpportunityName,OpportunityStatus,OpportunityPriority,OpportunityAction,OpportunityContact,OpportunityAccount,OpportunityLastContactDate,OpportunityInteractions")] Opportunity opportunity,
             string[] selectedContact)
         {
@@ -235,6 +239,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Opportunity/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -270,6 +275,7 @@ namespace CRMProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, string[] selectedContact)
         {
             var opportunityToUpdate = await _context.Opportunities
@@ -368,6 +374,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Opportunity/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -396,6 +403,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddContact(Contact contact, int opportunityId)
         {
             if (ModelState.IsValid)
@@ -423,13 +431,23 @@ namespace CRMProject.Controllers
                 }
             }
 
-            return Json(new { success = false, message = "Failed to add contact" });
+            // Return validation errors in the format expected by the client
+            var errors = ModelState
+                .Where(x => x.Value.Errors.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                );
+
+            return Json(new { success = false, message = "Failed to add contact", errors = errors });
         }
+
 
 
         // POST: Opportunity/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var opportunity = await _context.Opportunities.FindAsync(id);
@@ -461,6 +479,48 @@ namespace CRMProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Opportunity/RemoveContact/5
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveContact(int contactID, int opportunityID)
+        {
+            var opportunityContact = await _context.OpportunityContacts
+                .Include(mc => mc.Opportunity)
+                .Include(mc => mc.Contact)
+                .FirstOrDefaultAsync(mc => mc.ContactID == contactID && mc.OpportunityID == opportunityID);
+
+            if (opportunityContact == null)
+            {
+                TempData["ErrorMessage"] = "Contact relationship not found!";
+                return RedirectToAction("Details", new { id = opportunityID });
+            }
+
+            return View(opportunityContact); // Show confirmation view
+        }
+
+        // POST: Opportunity/RemoveContact/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveContactConfirmed(int contactID, int opportunityID)
+        {
+            var opportunityContact = await _context.OpportunityContacts
+                .FirstOrDefaultAsync(mc => mc.ContactID == contactID && mc.OpportunityID == opportunityID);
+
+            if (opportunityContact != null)
+            {
+                _context.OpportunityContacts.Remove(opportunityContact);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Contact removed from the opportunity successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Contact relationship not found!";
+            }
+
+            return RedirectToAction("Details", new { id = opportunityID });
+        }
+
+
         private bool OpportunityExists(int id)
         {
             return _context.Opportunities.Any(e => e.ID == id);
@@ -468,6 +528,7 @@ namespace CRMProject.Controllers
 
 
         // Action to convert Opportunity to Member
+        [Authorize(Roles = "Admin")]
         public IActionResult ConvertToMember(int opportunityId)
         {
             try

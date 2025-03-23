@@ -1,72 +1,90 @@
 ﻿@model CRMProject.Models.Contact
-
 <div class="card shadow">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Add Contact</h6>
     </div>
     <div class="card-body">
         <form id="createContactForm" method="post">
-            <input type="hidden" name="OpportunityId" value="@ViewContext.RouteData.Values["id"]" />
-
+            <input type="hidden" name="opportunityId" value="@ViewContext.RouteData.Values["id"]" />
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label asp-for="FirstName" class="control-label">
+                        <label for="FirstName" class="control-label">
                             <span class="text-danger">*</span> First Name
                         </label>
-                        <input asp-for="FirstName" class="form-control" placeholder="Enter first name" required />
+                        <input name="contact.FirstName" id="FirstName" class="form-control" placeholder="Enter first name" required
+                               data-val="true"
+                               data-val-required="You cannot leave the first name blank."
+                               data-val-maxlength="First name cannot be more than 50 characters long."
+                               data-val-maxlength-max="50"
+                               data-val-regex="First name must contain only letters."
+                               data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="contact.FirstName" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label asp-for="LastName" class="control-label">
+                        <label for="LastName" class="control-label">
                             <span class="text-danger">*</span> Last Name
                         </label>
-                        <input asp-for="LastName" class="form-control" placeholder="Enter last name" required />
+                        <input name="contact.LastName" id="LastName" class="form-control" placeholder="Enter last name" required
+                               data-val="true"
+                               data-val-required="You cannot leave the last name blank."
+                               data-val-maxlength="Last name cannot be more than 100 characters long."
+                               data-val-maxlength-max="100"
+                               data-val-regex="Last name must contain only letters."
+                               data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="contact.LastName" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label asp-for="ContactTitleRole" class="control-label">Title/Role</label>
-                        <input asp-for="ContactTitleRole" class="form-control" placeholder="Enter title/role" />
+                        <label for="ContactTitleRole" class="control-label">Title/Role</label>
+                        <input name="contact.ContactTitleRole" id="ContactTitleRole" class="form-control" placeholder="Enter title/role"
+                               data-val="true"
+                               data-val-maxlength="Title/Role cannot be more than 100 characters long."
+                               data-val-maxlength-max="100"
+                               data-val-regex="Title/Role must contain only letters."
+                               data-val-regex-pattern="^[a-zA-Z\s]*$" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="contact.ContactTitleRole" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label asp-for="ContactPhone" class="control-label">
+                        <label for="ContactPhone" class="control-label">
                             <span class="text-danger">*</span> Phone
                         </label>
-                        <input asp-for="ContactPhone" class="form-control" placeholder="Enter phone number" required />
+                        <input name="contact.ContactPhone" id="ContactPhone" class="form-control" placeholder="Enter phone number (10 digits)" required
+                               data-val="true"
+                               data-val-required="You cannot leave the phone number blank."
+                               data-val-regex="Phone number must be exactly 10 digits (e.g., 1234567890) with no spaces or special characters."
+                               data-val-regex-pattern="^\d{10}$" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="contact.ContactPhone" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-
                 <div class="col-12 col-md-6">
                     <div class="form-group">
-                        <label asp-for="ContactEmailAddress" class="control-label">
+                        <label for="ContactEmailAddress" class="control-label">
                             <span class="text-danger">*</span> Email
                         </label>
-                        <input asp-for="ContactEmailAddress" type="email" class="form-control" placeholder="Enter email address" required />
+                        <input name="contact.ContactEmailAddress" id="ContactEmailAddress" type="email" class="form-control" placeholder="example@email.com" required
+                               data-val="true"
+                               data-val-required="You cannot leave the email blank."
+                               data-val-regex="Please follow the correct email format test@email.com"
+                              
+                               data-val-maxlength="Email cannot be more than 255 characters long."
+                               data-val-maxlength-max="255" />
+                        <span class="text-danger field-validation-valid" data-valmsg-for="contact.ContactEmailAddress" data-valmsg-replace="true"></span>
                     </div>
                 </div>
-
-                @* <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        <label asp-for="ContactWebsite" class="control-label">Website</label>
-                        <input asp-for="ContactWebsite" class="form-control" placeholder="Enter website URL" />
-                    </div>
-                </div> *@
-
                 <div class="col-12">
                     <div class="form-group">
-                        <label asp-for="ContactNotes" class="control-label">Notes</label>
-                        <textarea asp-for="ContactNotes" class="form-control" rows="3" placeholder="Add notes"></textarea>
+                        <label for="ContactNotes" class="control-label">Notes</label>
+                        <textarea name="contact.ContactNotes" id="ContactNotes" class="form-control" rows="3" placeholder="Add notes"></textarea>
+                        <span class="text-danger field-validation-valid" data-valmsg-for="contact.ContactNotes" data-valmsg-replace="true"></span>
                     </div>
                 </div>
             </div>
-
             <div class="form-group text-center mt-3">
                 <button type="submit" class="btn btn-primary">Save Contact</button>
                 <button type="button" class="btn btn-secondary ml-2" onclick="hideContactForm()">Cancel</button>
@@ -79,26 +97,62 @@
     function hideContactForm() {
         document.getElementById('contactForm').style.display = 'none';
         document.getElementById('createContactForm').reset();
+        // Clear validation errors
+        $(".field-validation-valid").text("");
+        $(".input-validation-error").removeClass("input-validation-error");
     }
 
     $(document).ready(function () {
+        // Load jQuery validation scripts
+        $.getScript("/lib/jquery-validation/dist/jquery.validate.min.js", function() {
+            $.getScript("/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js", function() {
+                // Initialize validation
+                $.validator.unobtrusive.parse("#createContactForm");
+            });
+        });
+
         $("#createContactForm").submit(function (e) {
             e.preventDefault();
+
+            // Check if the form is valid
+            if (!$(this).valid()) {
+                return false;
+            }
+
             $.ajax({
                 url: '@Url.Action("AddContact", "Opportunity")',
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
+                    // Debug: Log the server's JSON response
+                    console.log("Server response:", response);
+
                     if (response.success) {
+                        // Optionally log success before reloading
+                        console.log("Contact successfully created. Reloading page...");
                         location.reload();
                     } else {
-                        alert(response.message);
+                        // Handle validation errors from server
+                        if (response.errors) {
+                            // Display validation errors
+                            $.each(response.errors, function (key, value) {
+                                $("[data-valmsg-for='" + key + "']").text(value[0]);
+                                $("#" + key.split('.').pop()).addClass("input-validation-error");
+                            });
+                        } else {
+                            // Alert and log any error message returned from the server
+                            console.error("Error from server:", response.message);
+                            alert("Error: " + response.message);
+                        }
                     }
                 },
-                error: function () {
-                    alert('Error occurred while adding contact');
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // Debug: Log detailed AJAX error information
+                    console.error("AJAX error:", textStatus, errorThrown);
+                    alert("AJAX request failed: " + textStatus);
                 }
             });
         });
     });
 </script>
+

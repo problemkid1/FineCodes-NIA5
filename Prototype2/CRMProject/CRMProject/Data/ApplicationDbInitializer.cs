@@ -36,7 +36,7 @@ namespace CRMProject.Data
                 {
                     try
                     {
-                        string[] roleNames = { "Admin", "Supervisor" };
+                        string[] roleNames = { "Admin", "User" };
 
                         IdentityResult roleResult;
                         foreach (var roleName in roleNames)
@@ -90,7 +90,7 @@ namespace CRMProject.Data
 
                             if (result.Succeeded)
                             {
-                                userManager.AddToRoleAsync(user, "Supervisor").Wait();
+                                userManager.AddToRoleAsync(user, "User").Wait();
                             }
                         }
                         if (userManager.FindByEmailAsync("user@outlook.com").Result == null)

@@ -67,7 +67,9 @@
 
                 <dt class="col-sm-2">Contact</dt>
                 <dd class="col-sm-10">
-                    @if (Model.OpportunityContacts?.Any() == true)
+
+                    @if (Model.OpportunityContacts?.Any() == true && Model.OpportunityContacts.Any())
+
                     {
                         var primaryContact = Model.OpportunityContacts.FirstOrDefault();
                         if (primaryContact != null)
@@ -90,10 +92,16 @@
                 </dd>
             </dl>
 
-            <div class="mt-4">
-                <h5>Primary Contact</h5>
-                <div class="bg-light p-2 rounded">
-                    @if (Model.OpportunityContacts?.Any() == true)
+
+            @* <div class="col-md-3">
+                <div class="row">
+                    <dt class="col-5">Primary Contact</dt>
+                    <dd class="col-7">
+                @if (Model.OpportunityContacts != null && Model.OpportunityContacts.Any())
+                {
+                    var primaryContact = Model.OpportunityContacts.FirstOrDefault();
+                    if (primaryContact != null)
+
                     {
                         var primaryContact = Model.OpportunityContacts.FirstOrDefault();
                         if (primaryContact != null)
@@ -106,17 +114,19 @@
                         <span>No contacts assigned</span>
                     }
                 </div>
-            </div>
 
-            <div id="contactForm" class="mt-4" style="display: none;">
+            </div> *@
+            <div id="contactForm" class="mt-3" style="display: none;">
                 @await Html.PartialAsync("_OpportunityContacts", new CRMProject.Models.Contact())
             </div>
-
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="mt-4">
+                    <button class="btn btn-primary" onclick="showContactForm()">Add Contact</button>
+                </div>
+            }
             <div class="mt-4">
-                <button class="btn btn-primary" onclick="showContactForm()">Add Contact</button>
-            </div>
 
-            <div class="mt-5">
                 <h4>Associated Contacts</h4>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -126,11 +136,16 @@
                                 <th>Title/Role</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Actions</th>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <th>Actions</th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.OpportunityContacts?.Any() == true)
+
+                            @if (Model.OpportunityContacts != null && Model.OpportunityContacts.Any())
+
                             {
                                 @foreach (var opportunityContact in Model.OpportunityContacts)
                                 {
@@ -140,18 +155,30 @@
                                         <td>@contact.ContactTitleRole</td>
                                         <td>@contact.ContactPhone</td>
                                         <td>@contact.ContactEmailAddress</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@contact.ID"
-                                                   class="btn btn-sm btn-outline-primary" data-bs-toggle="tooltip" title="Edit Contact">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-                                                <a asp-action="Details" asp-controller="Contact" asp-route-ID="@contact.ID"
-                                                   class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="View Details">
+
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@contact.ID"
+                                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
+                                                       data-bs-toggle="tooltip" title="Edit Contact">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                    <a asp-action="RemoveContact" asp-controller="Opportunity" asp-route-contactID="@opportunityContact.ContactID" asp-route-opportunityID="@opportunityContact.OpportunityID"
+                                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
+                                                       data-bs-toggle="tooltip" title="Remove Contact">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                    @* <a asp-action="Details" asp-controller="Contact" asp-route-ID="@contact.ID"
+                                                   class="btn btn-md btn-outline-primary" role="button"
+                                                   data-bs-toggle="tooltip" title="Details Contact">
+
                                                     <i class="bi bi-search"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                                                </a> *@
+                                                </div>
+                                            </td>
+                                        }
                                     </tr>
                                 }
                             }
@@ -166,12 +193,16 @@
                 </div>
             </div>
 
-            <form method="post" action="@Url.Action("ConvertToMember", "Opportunity", new { opportunityId = Model.ID })" class="mt-4">
-                <button type="submit" class="btn btn-success">Convert to Member</button>
-            </form>
+            @if (User.IsInRole("Admin"))
+            {
+                <form method="post" action="@Url.Action("ConvertToMember", "Opportunity", new { opportunityId = Model.ID })">
+                    <button type="submit" class="btn btn-primary">Convert to Member</button>
+                </form>
+            }
 
-            <div class="form-group text-center mt-4">
-                @if (Model?.ID != null)
+            <div class="form-group text-center mt-3">
+                @if (Model?.ID != null && User.IsInRole("Admin"))
+
                 {
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Opportunity</a>
                 }
@@ -180,6 +211,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

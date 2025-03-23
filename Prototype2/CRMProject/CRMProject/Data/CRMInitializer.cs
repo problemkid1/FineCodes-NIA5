@@ -852,98 +852,98 @@ namespace CRMProject.Data
                     {
                         // Define fixed opportunities
                         var opportunities = new List<Opportunity>
-    {
-        new Opportunity
-        {
-            OpportunityName = "Walker Industries",
-            OpportunityStatus = OpportunityStatus.Negotiating,
-            OpportunityPriority = "High",
-            OpportunityAction = "Initial Meeting Scheduled",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-30),
-            OpportunityInteractions = "Discussed potential collaboration with Michael Carter from Walker Industries. Next steps include scheduling a meeting."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Niagara Casinos",
-            OpportunityStatus = OpportunityStatus.Qualification,
-            OpportunityPriority = "Low",
-            OpportunityAction = "Proposal Sent",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-45),
-            OpportunityInteractions = "Proposal sent to Jennifer Adams at Niagara Casinos. Waiting for feedback."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Brock University",
-            OpportunityStatus = OpportunityStatus.ClosedNotInterested,
-            OpportunityPriority = "High",
-            OpportunityAction = "Follow-up Next semester",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-20),
-            OpportunityInteractions = "Negotiating contract terms with Robert Dawson from Brock University."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Niagara College",
-            OpportunityStatus = OpportunityStatus.Negotiating,
-            OpportunityPriority = "Low",
-            OpportunityAction = "Contract Signed",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-10),
-            OpportunityInteractions = "Contract successfully signed with Emily Robinson from Niagara College."
-        },
-        new Opportunity
-        {
-            OpportunityName = "General Motors St. Catharines",
-            OpportunityStatus = OpportunityStatus.Qualification,
-            OpportunityPriority = "Low",
-            OpportunityAction = "Follow-up Required",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-60),
-            OpportunityInteractions = "Lost contract with General Motors St. Catharines. Follow-up required."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Canadian Niagara Power",
-            OpportunityStatus = OpportunityStatus.ClosedNotInterested,
-            OpportunityPriority = "Low",
-            OpportunityAction = "Follow-up Next semester",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-25),
-            OpportunityInteractions = "Proposal sent to Sarah Mitchell at Canadian Niagara Power. Awaiting response."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Niagara Falls Tourism",
-            OpportunityStatus = OpportunityStatus.Negotiating,
-            OpportunityPriority = "High",
-            OpportunityAction = "Negotiation Ongoing",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-35),
-            OpportunityInteractions = "Ongoing discussions with James Thompson at Niagara Falls Tourism."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Silicon Knights",
-            OpportunityStatus = OpportunityStatus.Qualification,
-            OpportunityPriority = "Low",
-            OpportunityAction = "Follow-up Required",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-80),
-            OpportunityInteractions = "Lost deal with Silicon Knights. Follow-up scheduled."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Stanpac",
-            OpportunityStatus = OpportunityStatus.Negotiating,
-            OpportunityPriority = "Low",
-            OpportunityAction = "Initial Meeting Scheduled",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-15),
-            OpportunityInteractions = "Initial meeting scheduled with William Scott at Stanpac."
-        },
-        new Opportunity
-        {
-            OpportunityName = "Rankin Construction",
-            OpportunityStatus = OpportunityStatus.Qualification,
-            OpportunityPriority = "High",
-            OpportunityAction = "Contract Signed",
-            OpportunityLastContactDate = DateTime.Today.AddDays(-5),
-            OpportunityInteractions = "Contract signed successfully with Rankin Construction."
-        }
-    };
+                        {
+                            new Opportunity
+                            {
+                                OpportunityName = "Walker Industries",
+                                OpportunityStatus = OpportunityStatus.Negotiating,
+                                OpportunityPriority = "High",
+                                OpportunityAction = "Initial Meeting Scheduled",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-30),
+                                OpportunityInteractions = "Discussed potential collaboration with Michael Carter from Walker Industries. Next steps include scheduling a meeting."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Niagara Casinos",
+                                OpportunityStatus = OpportunityStatus.Qualification,
+                                OpportunityPriority = "Low",
+                                OpportunityAction = "Proposal Sent",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-45),
+                                OpportunityInteractions = "Proposal sent to Jennifer Adams at Niagara Casinos. Waiting for feedback."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Brock University",
+                                OpportunityStatus = OpportunityStatus.ClosedNotInterested,
+                                OpportunityPriority = "High",
+                                OpportunityAction = "Follow-up Next semester",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-20),
+                                OpportunityInteractions = "Negotiating contract terms with Robert Dawson from Brock University."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Niagara College",
+                                OpportunityStatus = OpportunityStatus.Negotiating,
+                                OpportunityPriority = "Low",
+                                OpportunityAction = "Contract Signed",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-10),
+                                OpportunityInteractions = "Contract successfully signed with Emily Robinson from Niagara College."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "General Motors St. Catharines",
+                                OpportunityStatus = OpportunityStatus.Qualification,
+                                OpportunityPriority = "Low",
+                                OpportunityAction = "Follow-up Required",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-60),
+                                OpportunityInteractions = "Lost contract with General Motors St. Catharines. Follow-up required."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Canadian Niagara Power",
+                                OpportunityStatus = OpportunityStatus.ClosedNotInterested,
+                                OpportunityPriority = "Low",
+                                OpportunityAction = "Follow-up Next semester",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-25),
+                                OpportunityInteractions = "Proposal sent to Sarah Mitchell at Canadian Niagara Power. Awaiting response."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Niagara Falls Tourism",
+                                OpportunityStatus = OpportunityStatus.Negotiating,
+                                OpportunityPriority = "High",
+                                OpportunityAction = "Negotiation Ongoing",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-35),
+                                OpportunityInteractions = "Ongoing discussions with James Thompson at Niagara Falls Tourism."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Silicon Knights",
+                                OpportunityStatus = OpportunityStatus.Qualification,
+                                OpportunityPriority = "Low",
+                                OpportunityAction = "Follow-up Required",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-80),
+                                OpportunityInteractions = "Lost deal with Silicon Knights. Follow-up scheduled."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Stanpac",
+                                OpportunityStatus = OpportunityStatus.Negotiating,
+                                OpportunityPriority = "Low",
+                                OpportunityAction = "Initial Meeting Scheduled",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-15),
+                                OpportunityInteractions = "Initial meeting scheduled with William Scott at Stanpac."
+                            },
+                            new Opportunity
+                            {
+                                OpportunityName = "Rankin Construction",
+                                OpportunityStatus = OpportunityStatus.Qualification,
+                                OpportunityPriority = "High",
+                                OpportunityAction = "Contract Signed",
+                                OpportunityLastContactDate = DateTime.Today.AddDays(-5),
+                                OpportunityInteractions = "Contract signed successfully with Rankin Construction."
+                            }
+                        };
 
                         foreach (var opportunity in opportunities)
                         {
@@ -962,13 +962,13 @@ namespace CRMProject.Data
                     if (!context.OpportunityContacts.Any())
                     {
                         var opportunityContactMappings = new Dictionary<string[], string[]>
-    {
-        { new[] { "Alice Thompson", "Mark Evans" }, new[] { "Walker Industries", "Niagara Casinos" } },
-        { new[] { "Laura Scott" }, new[] { "Stanpac" } },
-        { new[] { "Tom Baker" }, new[] { "Niagara Falls Tourism" } },
-        { new[] { "Jane Smith", "James Brown" }, new[] { "General Motors St. Catharines", "Rankin Construction" } },
-        { new[] { "Michael Garcia" }, new[] { "Canadian Niagara Power" } }
-    };
+                        {
+                            { new[] { "Alice Thompson", "Mark Evans" }, new[] { "Walker Industries", "Niagara Casinos" } },
+                            { new[] { "Laura Scott" }, new[] { "Stanpac" } },
+                            { new[] { "Tom Baker" }, new[] { "Niagara Falls Tourism" } },
+                            { new[] { "Jane Smith", "James Brown" }, new[] { "General Motors St. Catharines", "Rankin Construction" } },
+                            { new[] { "Michael Garcia" }, new[] { "Canadian Niagara Power" } }
+                        };
 
                         foreach (var entry in opportunityContactMappings)
                         {
@@ -1018,12 +1018,6 @@ namespace CRMProject.Data
                          {
                              FirstName = "Bismark",
                              LastName = "Addae",
-                             Email = "super@outlook.com"
-                         },
-                         new MemberLogin
-                         {
-                             FirstName = "Betty",
-                             LastName = "Rubble",
                              Email = "user@outlook.com"
                          });
 

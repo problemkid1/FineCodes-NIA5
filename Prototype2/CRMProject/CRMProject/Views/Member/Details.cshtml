@@ -43,23 +43,35 @@
         </span>
     </div>
     <div class="card-body">
-        <!-- Main Information Section -->
-        <div class="row g-4">
-            <!-- Profile Image Column -->
-            <div class="col-md-3">
-                <div class="d-flex flex-column align-items-center justify-content-center h-100">
-                    <div class="position-relative mb-3 mt-2">
-                        <div class="profile-image-container">
-                            @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
-                            {
-                                string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                                string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
-                                <img src="@imageSrc" alt="Profile Picture" class="img-thumbnail rounded-3 shadow-sm profile-image" />
-                            }
-                            else
-                            {
-                                <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-thumbnail rounded-3 shadow-sm profile-image" />
-                            }
+
+        <div class="d-flex align-items-center justify-content-between mb-3">            
+            <h2 class="mb-0"><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
+            <button class="btn btn-primary no-print me-3" onclick="window.print()" title="Print">
+                <i class="fa-solid fa-print"></i> Print
+            </button>
+        </div>
+
+        <hr />
+        <!-- Two-Column Layout -->
+
+        <div class="row">
+            <div class="col-xl-1">
+                <!-- Member Image -->
+                <div class="photo">
+                    @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
+                    {
+                        string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
+                        string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
+                        <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                    }
+                    else
+                    {
+                        <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
+                    }
+                </div>
+            </div>
+
+
 
                             @if (Model?.ID != null && Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
                             {
@@ -72,8 +84,41 @@
                                            data-member-id="@Model.ID" />
                                 </div>
                             }
-                        </div>
-                    </div>
+
+                        }
+                        else
+                        {
+                            <span>No contacts available</span>
+                        }
+                    </dd>
+
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
+                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
+                    <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberWebsite)</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberWebsite == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.MemberWebsite)
+
+                        }
+                    </dd>
+                    <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
+                    <dd class="col-sm-12">
+                        @if (Model.MemberNotes == null)
+                        {
+                            <span>No Current Notes</span>
+                        }
+                        else
+                        {
+                            <textarea class="form-control" readonly style="background-color: white;">@Model.MemberNotes</textarea>
+                        }
+
 
                     <div class="member-id-badge bg-light text-center py-1 px-3 rounded-pill mb-2">
                         <small class="text-muted">ID: @Model?.ID</small>
@@ -82,34 +127,36 @@
             </div>
 
 
+            <div class="col-xl-5">
+                <dl class="summ-view">
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
+                    <dd class="col-7">
+                        @if (Model.MemberLastContactDate == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        @Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")
+                    </dd>
+                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
+                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
+                    @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
+                    {
+                        <dt class="col-5">Cancellation Date</dt>
+                        <dd class="col-7">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
 
-            <!-- Member Information Column -->
-            <div class="col-md-9">
-                <div class="row g-3">
-                    <!-- Contact Information Card -->
-                    <div class="col-md-6">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-header bg-white">
-                                <h5 class="mb-0">Contact Information</h5>
-                                @* <i class="fa-solid fa-address-card me-2"></i> *@
-                            </div>
-                            <div class="card-body">
-                                <dl class="row mb-0">
-                                    <dt class="col-sm-5 text-muted">Primary Contact:</dt>
-                                    <dd class="col-sm-7">
-                                        @if (Model.MemberContacts != null && Model.MemberContacts.Any())
-                                        {
-                                            var primaryContact = Model.MemberContacts.FirstOrDefault();
-                                            if (primaryContact != null)
-                                            {
-                                                <span>@primaryContact.Contact.ContactType</span>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted fst-italic">No contacts available</span>
-                                        }
-                                    </dd>
+                        @* @if (Model.StatusHistories != null && Model.StatusHistories.Any())
+                            {
+                                var records = Model.StatusHistories.Select(m => m.Date).ToList();
+                                var mostRecentDate = records.Max();
+                                <span>@mostRecentDate.ToString("yyyy-MM-dd")</span>
+
+
+
+
+                            } *@
+
+                    }
+
 
                                     <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail):</dt>
                                     <dd class="col-sm-7">
@@ -246,13 +293,19 @@
     <div class="form-group text-center mt-3">
         @if (Model?.ID != null)
         {
-            @if (Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
+
+
+        }
+        else
+        {
+            @if (User.IsInRole("Admin"))
             {
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+                <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
             }
         }
-        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
-    </div>
+    }
+    <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>
+
 </div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
@@ -359,8 +412,11 @@
             }
         }
 
-        // Toggle text for member name with specific item ID
-        function toggleTextName(itemId) {
+    </script>
+
+    <script>
+         function toggleTextName(itemId) {
+
             var moreText = document.getElementById("moreTextName" + itemId);
             var readMore = document.getElementById("readMoreName" + itemId);
 

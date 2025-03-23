@@ -9,9 +9,12 @@
             <div class="panel-heading">
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="panel-title mb-0"><strong>Contact Information</strong></h4>
-                    <button class="btn btn-primary" onclick="showContactForm()" title="Add Contact">
-                        <strong><i class="fa-solid fa-plus"></i> Add</strong>
-                    </button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button class="btn btn-primary no-print" onclick="showContactForm()" title="Add Contact">
+                            <strong><i class="fa-solid fa-plus"></i> Add</strong>
+                        </button>
+                    }
                 </div>
             </div>
 
@@ -31,13 +34,13 @@
                                             <label for="FirstName" class="control-label">
                                                 <span class="text-danger">*</span> First Name
                                             </label>
-                                            <input name="FirstName" id="FirstName" class="form-control" placeholder="Enter first name" required 
-                                                   data-val="true" 
-                                                   data-val-required="You cannot leave the first name blank."
-                                                   data-val-maxlength="First name cannot be more than 50 characters long."
-                                                   data-val-maxlength-max="50"
-                                                   data-val-regex="First name must contain only letters."
-                                                   data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                                            <input name="FirstName" id="FirstName" class="form-control" placeholder="Enter first name" required
+                                            data-val="true"
+                                            data-val-required="You cannot leave the first name blank."
+                                            data-val-maxlength="First name cannot be more than 50 characters long."
+                                            data-val-maxlength-max="50"
+                                            data-val-regex="First name must contain only letters."
+                                            data-val-regex-pattern="^[a-zA-Z\s]+$" />
                                             <span class="text-danger field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -47,13 +50,13 @@
                                             <label for="LastName" class="control-label">
                                                 <span class="text-danger">*</span> Last Name
                                             </label>
-                                            <input name="LastName" id="LastName" class="form-control" placeholder="Enter last name" required 
-                                                   data-val="true" 
-                                                   data-val-required="You cannot leave the last name blank."
-                                                   data-val-maxlength="Last name cannot be more than 100 characters long."
-                                                   data-val-maxlength-max="100"
-                                                   data-val-regex="Last name must contain only letters."
-                                                   data-val-regex-pattern="^[a-zA-Z\s]+$" />
+                                            <input name="LastName" id="LastName" class="form-control" placeholder="Enter last name" required
+                                            data-val="true"
+                                            data-val-required="You cannot leave the last name blank."
+                                            data-val-maxlength="Last name cannot be more than 100 characters long."
+                                            data-val-maxlength-max="100"
+                                            data-val-regex="Last name must contain only letters."
+                                            data-val-regex-pattern="^[a-zA-Z\s]+$" />
                                             <span class="text-danger field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -61,23 +64,23 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label for="ContactTitleRole" class="control-label">Title/Role</label>
-                                            <input name="ContactTitleRole" id="ContactTitleRole" class="form-control" placeholder="Enter title/role" 
-                                                   data-val="true"
-                                                   data-val-maxlength="Title/Role cannot be more than 100 characters long."
-                                                   data-val-maxlength-max="100"
-                                                   data-val-regex="Title/Role must contain only letters."
-                                                   data-val-regex-pattern="^[a-zA-Z\s]*$" />
+                                            <input name="ContactTitleRole" id="ContactTitleRole" class="form-control" placeholder="Enter title/role"
+                                            data-val="true"
+                                            data-val-maxlength="Title/Role cannot be more than 100 characters long."
+                                            data-val-maxlength-max="100"
+                                            data-val-regex="Title/Role must contain only letters."
+                                            data-val-regex-pattern="^[a-zA-Z\s]*$" />
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactTitleRole" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
                                     @* <input name="ContactPhone" type="tel" class="form-control" placeholder="Enter phone number" required /> *@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label for="ContactPhone" class="control-label">Phone</label>                                            
+                                            <label for="ContactPhone" class="control-label">Phone</label>
                                             <input name="ContactPhone" type="tel" id="ContactPhone" class="form-control" placeholder="Enter phone number"
-                                                   data-val="true"
-                                                   data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
-                                                   data-val-regex-pattern="^\d{10}$" />
+                                            data-val="true"
+                                            data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
+                                            data-val-regex-pattern="^\d{10}$" />
 
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
                                         </div>
@@ -88,12 +91,12 @@
                                             <label for="ContactEmailAddress" class="control-label">
                                                 <span class="text-danger">*</span> Email
                                             </label>
-                                            <input name="ContactEmailAddress" id="ContactEmailAddress" type="email" class="form-control" placeholder="example@email.com" required 
-                                                   data-val="true"
-                                                   data-val-required="You cannot leave the email blank."
-                                                   data-val-regex="Please follow the correct email format test@email.com"
-                                                   data-val-maxlength="Email cannot be more than 255 characters long."
-                                                   data-val-maxlength-max="255" />
+                                            <input name="ContactEmailAddress" id="ContactEmailAddress" type="email" class="form-control" placeholder="example@email.com" required
+                                            data-val="true"
+                                            data-val-required="You cannot leave the email blank."
+                                            data-val-regex="Please follow the correct email format test@email.com"
+                                            data-val-maxlength="Email cannot be more than 255 characters long."
+                                            data-val-maxlength-max="255" />
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailAddress" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -111,10 +114,10 @@
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
                                             <label for="ContactInteractions" class="control-label">Interactions</label>
-                                            <input name="ContactInteractions" id="ContactInteractions" class="form-control" placeholder="Enter interaction details" 
-                                                   data-val="true"
-                                                   data-val-maxlength="Interactions cannot be more than 255 characters long."
-                                                   data-val-maxlength-max="255" />
+                                            <input name="ContactInteractions" id="ContactInteractions" class="form-control" placeholder="Enter interaction details"
+                                            data-val="true"
+                                            data-val-maxlength="Interactions cannot be more than 255 characters long."
+                                            data-val-maxlength-max="255" />
                                             <span class="text-danger field-validation-valid" data-valmsg-for="ContactInteractions" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
@@ -185,20 +188,23 @@
                                             }
 
                                         </td>
-                                        <td class="d-none d-sm-table-cell" style="float: right; ">
-                                            <div class="btn-group">
-                                                <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                                   class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                                   data-bs-toggle="tooltip" title="Edit Contact">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-                                                <a asp-action="RemoveContact" asp-controller="Member" asp-route-contactID="@item.ContactID" asp-route-memberID="@item.MemberID"
-                                                   class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                                   data-bs-toggle="tooltip" title="Remove Contact">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <td class="d-none d-sm-table-cell" style="float: right; ">
+                                                <div class="btn-group">
+                                                    <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
+                                                    class="btn btn-md btn-outline-primary no-print" role="button" aria-disabled="false"
+                                                    data-bs-toggle="tooltip" title="Edit Contact">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                    <a asp-action="RemoveContact" asp-controller="Member" asp-route-contactID="@item.ContactID" asp-route-memberID="@item.MemberID"
+                                                    class="btn btn-md btn-outline-primary no-print" role="button" aria-disabled="false"
+                                                    data-bs-toggle="tooltip" title="Remove Contact">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        }
                                     </tr>
                                 }
                             </tbody>

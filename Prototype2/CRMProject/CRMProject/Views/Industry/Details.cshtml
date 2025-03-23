@@ -89,8 +89,10 @@
                 </dd>
             </dl>
 
+
             <div class="form-group text-center mt-3">
-                @if (Model?.ID != null)
+                @if (Model?.ID != null && User.IsInRole("Admin"))
+
                 {
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Industry</a>
                 }
