@@ -283,7 +283,7 @@ namespace CRMProject.Controllers
     string[] selectedContacts)
         {
             // Check if any membership types are selected
-            if (selectedMembership == null || selectedMembership.Length == 0)
+            if (selectedMembership == null || !selectedMembership.Any())
             {
                 ModelState.AddModelError("MemberMembershipTypes", "Select at least one membership type.");
 
@@ -293,16 +293,40 @@ namespace CRMProject.Controllers
                 PopulateAssignedContactData(member);
 
                 var memberBreadcrumbs = new List<BreadcrumbItem>
-        {
-            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-            new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-        };
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                    new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+                };
                 ViewData["Breadcrumbs"] = memberBreadcrumbs;
                 ViewData["MemberId"] = member.ID;
 
                 // Set error message
                 TempData["ErrorMessage"] = "Please select at least one membership type.";
+
+                return View(member);
+            }
+            // Check if any membership types are selected
+            if (selectedIndustry == null || !selectedIndustry.Any())
+            {
+                ModelState.AddModelError("MemberIndustries", "Select at least one industry.");
+
+                // Populate the assigned data for the view
+                PopulateAssignedMemberShipData(member);
+                PopulateAssignedIndustryData(member);
+                PopulateAssignedContactData(member);
+
+                var memberBreadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                    new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+                };
+                ViewData["Breadcrumbs"] = memberBreadcrumbs;
+                ViewData["MemberId"] = member.ID;
+
+                // Set error message
+                TempData["ErrorMessage"] = "Please select at least one industry.";
 
                 return View(member);
             }
@@ -420,14 +444,14 @@ namespace CRMProject.Controllers
 
             PopulateAssignedMemberShipData(member);
             PopulateAssignedIndustryData(member);
-           PopulateAssignedContactData(member);
+            PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-        new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-    };
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+            };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberId"] = member.ID;
@@ -457,6 +481,55 @@ namespace CRMProject.Controllers
             if (memberToUpdate == null)
             {
                 return NotFound();
+            }
+
+            // Check if any membership types are selected
+            if (selectedMembership == null || !selectedMembership.Any())
+            {
+                ModelState.AddModelError("MemberMembershipTypes", "Select at least one membership type.");
+
+                // Populate the assigned data for the view
+                PopulateAssignedMemberShipData(memberToUpdate);
+                PopulateAssignedIndustryData(memberToUpdate);
+
+                var memberBreadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                    new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
+                };
+                ViewData["Breadcrumbs"] = memberBreadcrumbs;
+                ViewData["MemberId"] = memberToUpdate.ID;
+
+                // Set error message
+                TempData["ErrorMessage"] = "Please select at least one membership type.";
+
+                return View(memberToUpdate);
+            }
+                
+            // Check if any industries are selected
+            if (selectedIndustry == null || !selectedIndustry.Any())
+            {
+                ModelState.AddModelError("MemberIndustries", "Select at least one industry.");
+
+                // Populate the assigned data for the view
+                PopulateAssignedMemberShipData(memberToUpdate);
+                PopulateAssignedIndustryData(memberToUpdate);
+                PopulateAssignedContactData(memberToUpdate);
+
+                var memberBreadcrumbs = new List<BreadcrumbItem>
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                    new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
+                };
+                ViewData["Breadcrumbs"] = memberBreadcrumbs;
+                ViewData["MemberId"] = memberToUpdate.ID;
+
+                // Set error message
+                TempData["ErrorMessage"] = "Please select at least one industry.";
+
+                return View(memberToUpdate);
             }
 
             // Update membership types and industries separately
@@ -545,11 +618,11 @@ namespace CRMProject.Controllers
             PopulateAssignedContactData(memberToUpdate);
 
             var breadcrumbs = new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-        new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
-    };
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+                new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
+            };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberId"] = memberToUpdate.ID;
@@ -1158,7 +1231,7 @@ namespace CRMProject.Controllers
                     {
                         string name = workSheet.Cells[row, 1].Text?.Trim();
                         string sizeText = workSheet.Cells[row, 2].Text?.Trim();
-                        string statusText = workSheet.Cells[row, 3].Text?.Trim();
+                        string statusText = workSheet.Cells[row, 3].Text?.Trim().Replace(" ", "") ?? "";
                         string payableEmail = workSheet.Cells[row, 4].Text?.Trim();
                         string startDateText = workSheet.Cells[row, 5].Text?.Trim();
 
