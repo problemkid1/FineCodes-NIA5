@@ -3,6 +3,7 @@ using System;
 using CRMProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMContextModelSnapshot : ModelSnapshot
+    [Migration("20250323205250_AnnuaAndLamC")]
+    partial class AnnuaAndLamC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -55,7 +58,7 @@ namespace CRMProject.Data.CRMMigrations
 
                     b.ToTable("Addresses");
                 });
-                
+
             modelBuilder.Entity("CRMProject.Models.AnnualActionItem", b =>
                 {
                     b.Property<int>("ID")
@@ -88,37 +91,6 @@ namespace CRMProject.Data.CRMMigrations
                     b.HasKey("ID");
 
                     b.ToTable("AnnualActionItems");
-                });
-
-            modelBuilder.Entity("CRMProject.Models.BrainDump", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Activity")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Assignee")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("BrainDumpNotes")
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("BrainDumpStatus")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("BrainDumpTerm")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("BrainDumps");
                 });
 
             modelBuilder.Entity("CRMProject.Models.Contact", b =>
@@ -169,26 +141,6 @@ namespace CRMProject.Data.CRMMigrations
                         .IsUnique();
 
                     b.ToTable("Contacts");
-                });
-
-            modelBuilder.Entity("CRMProject.Models.InboundInitiative", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("InboundInitiativeNotes")
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Initiative")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("InboundInitiatives");
                 });
 
             modelBuilder.Entity("CRMProject.Models.Industry", b =>

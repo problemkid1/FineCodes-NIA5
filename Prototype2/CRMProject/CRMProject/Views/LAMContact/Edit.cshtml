@@ -1,0 +1,93 @@
+﻿@model CRMProject.Models.LAMContact
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edit LAM Contact";
+}
+
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+<div class="col-12">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h2>Edit LAM Contact</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="ID" />
+                <div class="row">
+                    <!-- Municipality -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Municipality" class="control-label">
+                                <span class="text-danger">*</span> Municipality
+                            </label>
+                            <input asp-for="Municipality" class="form-control" placeholder="Enter municipality" />
+                            <span asp-validation-for="Municipality" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Position -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Position" class="control-label">
+                                <span class="text-danger">*</span> Position
+                            </label>
+                            <input asp-for="Position" class="form-control" placeholder="Enter position" />
+                            <span asp-validation-for="Position" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="Notes" class="control-label">Notes</label>
+                            <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Add notes"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label asp-for="ContactID" class="control-label">Select Contact</label>
+                            <select asp-for="ContactID" class="form-control" asp-items="ViewBag.ContactID">
+                                <option value="">-- Select a Contact --</option>
+                            </select>
+                            <span asp-validation-for="ContactID" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center mt-4">
+                    <input type="submit" value="Save LAM Contact" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to LAM Contacts</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

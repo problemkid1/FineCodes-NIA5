@@ -2,24 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Cancel";
+    ViewData["Title"] = "Cancel - Member";
 }
 
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
+<!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
@@ -40,126 +26,96 @@
     </div>
 }
 
-<form asp-action="Cancel" method="post" class="d-inline">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div>
-                    <h2>Cancel - @Html.DisplayFor(model => model.MemberName)</h2>
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-                    <hr />
-                    <dl class="row">
+<!-- Custom Styling -->
+<link href="~/customs/css/style.css" rel="stylesheet">
 
-                        <div class="col-xl-4">
-                            <div class="row">
-                                <dt class="col-5">@Html.DisplayNameFor(model => model.MemberName)</dt>
-                                <dd class="col-7">@Html.DisplayFor(model => model.MemberName)</dd>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <h2>Cancel - @Html.DisplayFor(model => model.MemberName)</h2>
+                <p class="text-danger mb-3">Are you sure you want to cancel this membership?</p>
+                <hr />
 
-                                <dt class="col-5">@Html.DisplayNameFor(model => model.MemberSize)</dt>
-                                <dd class="col-7">@Html.DisplayFor(model => model.MemberSize)</dd>
-                            </div>
-                        </div>
+                <!-- Compact spacing style for definition list -->
+                <style>
+                    .compact-dl dt, .compact-dl dd {
+                        margin-bottom: 0.5rem;
+                    }
 
+                    .compact-dl dt {
+                        padding-top: 0.5rem;
+                    }
+                </style>
 
-                        <div class="col-xl-4">
-                            <div class="row">
-                                <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
-                                <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>
+                <dl class="row compact-dl">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberName)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.MemberName)</dd>
 
-                                <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
-                                <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
-                            </div>
-                        </div>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberSize)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.MemberSize)</dd>
 
-                        <div class="col-xl-4">
-                            <div class="row">
-                                <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                                <dd class="col-7">@Model.MemberStartDate.ToString("yyyy-MM-dd")</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.MemberStatus)</dd>
 
-                                <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                                <dd class="col-7">@Model.MemberLastContactDate?.ToString("yyyy-MM-dd")</dd>
-                            </div>
-                        </div>
-                      
-                        <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
-                        <dd class="col-sm-10 col-md-9">
-                            <textarea class="form-control" rows="4" readonly>@Model.MemberNotes</textarea>
-                        </dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @if (!string.IsNullOrWhiteSpace(Model.MemberAccountsPayableEmail))
+                        {
+                            <a href="mailto:@Model.MemberAccountsPayableEmail">@Model.MemberAccountsPayableEmail</a>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
 
-                        @Html.Partial("_DetailStatusHistory", new StatusHistory())
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Model.MemberStartDate.ToString("yyyy-MM-dd")</dd>
 
-                    </dl>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @(Model.MemberLastContactDate?.ToString("yyyy-MM-dd") ?? "N/A")
+                    </dd>
 
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
+                    <dd class="col-sm-10 col-md-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.MemberNotes))
+                        {
+                            <textarea class="form-control bg-light p-2 rounded" rows="4" readonly>@Model.MemberNotes</textarea>
+                        }
+                        else
+                        {
+                            <span class="bg-light p-2 d-block rounded">N/A</span>
+                        }
+                    </dd>
 
-                    <div class="form-group text-center">
-                        <h3>Are you sure you want to cancel this membership?</h3>
+                    @Html.Partial("_DetailStatusHistory", new StatusHistory())
+                </dl>
+
+                <div class="form-group text-center mt-4">
+                    <form asp-action="Cancel" method="post">
                         <input type="hidden" asp-for="ID" />
-                        <button type="submit" class="btn btn-danger">Cancel Member</button>
-                        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
-                    </div>
+                        <button type="submit" class="btn btn-danger me-2">
+                            <i class="fa-solid fa-ban me-1"></i>Cancel Member
+                        </button>
+                        <a class="btn btn-secondary" asp-action="Index">
+                            <i class="fa-solid fa-arrow-left me-1"></i>Back to Members
+                        </a>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-         function toggleTextName(itemId) {
-            var moreText = document.getElementById("moreTextName" + itemId);
-            var readMore = document.getElementById("readMoreName" + itemId);
 
-            // Toggle member name text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
-
-        function toggleTextCity(itemId) {
-            var moreText = document.getElementById("moreTextCity" + itemId);
-            var readMore = document.getElementById("readMoreCity" + itemId);
-
-            // Toggle member name text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
-
-        function toggleTextIndustry(itemId) {
-            var moreText = document.getElementById("moreTextIndustry" + itemId);
-            var readMore = document.getElementById("readMoreIndustry" + itemId);
-
-            // Toggle industry text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
-    </script>
-    <script>
-        function toggleIndustry(id) {
-            var countSpan = document.getElementById("industryCount" + id);
-            var collapseElement = document.getElementById("collapseIndustry" + id);
-
-            if (collapseElement.classList.contains("show")) {
-                countSpan.style.display = "inline"; // Show the count when collapsed
-            } else {
-                countSpan.style.display = "none"; // Hide the count when expanded
-            }
-        }
-    </script>
+    <!-- Tooltips -->
     <script type="text/javascript">
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

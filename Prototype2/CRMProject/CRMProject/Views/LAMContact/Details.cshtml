@@ -1,0 +1,91 @@
+﻿@model CRMProject.Models.LAMContact
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Details - LAM Contact";
+}
+
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h2>Details - LAM Contact</h2>
+            <hr />
+
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Municipality)</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Municipality))
+                    {
+                        @Model.Municipality
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Position)</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Position))
+                    {
+                        @Model.Position
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Notes)</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                    {
+                        <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.Notes</textarea>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Contact)</dt>
+                <dd class="col-sm-9">
+                    @if (Model.Contact != null)
+                    {
+                        @Model.Contact.FirstName @Model.Contact.LastName
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+            </dl>
+
+            <div class="form-group text-center">
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit LAM Contact</a>
+                <a class="btn btn-secondary ms-2" asp-action="Index">Back to LAM Contacts</a>
+            </div>
+        </div>
+    </div>
+</div>

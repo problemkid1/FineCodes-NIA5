@@ -1003,6 +1003,88 @@ namespace CRMProject.Data
                         context.SaveChanges();
                     }
 
+                    if (SeedSampleData)
+                    {
+                        try
+                        {
+                            // Seed LAMContacts if there aren't any.
+                            if (!context.LAMContacts.Any())
+                            {
+                                context.LAMContacts.AddRange(
+                                    new LAMContact
+                                    {
+                                        Municipality = "Toronto",
+                                        Position = "Municipal Coordinator",
+                                        Notes = "Handles city-wide coordination for public projects.",
+                                        ContactID = 1 // Assuming a Contact with ID 1 already exists in Contacts table
+                                    },
+                                    new LAMContact
+                                    {
+                                        Municipality = "Ottawa",
+                                        Position = "Waste Management Specialist",
+                                        Notes = "Focuses on recycling initiatives and waste disposal programs.",
+                                        ContactID = 2 // Assuming a Contact with ID 2 already exists
+                                    },
+                                    new LAMContact
+                                    {
+                                        Municipality = "Hamilton",
+                                        Position = "Infrastructure Planner",
+                                        Notes = "Works on planning and implementation of new infrastructure.",
+                                        ContactID = 3 // Assuming a Contact with ID 3 already exists
+                                    }
+                                );
+
+                                context.SaveChanges();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.GetBaseException().Message);
+                        }
+                    }
+
+                    if (SeedSampleData)
+                    {
+                        try
+                        {
+                            // Seed AnnualActionItems if there aren't any.
+                            if (!context.AnnualActionItems.Any())
+                            {
+                                context.AnnualActionItems.AddRange(
+                                    new AnnualActionItem
+                                    {
+                                        ActionItem = "Review company policies",
+                                        Assignee = "Jane Doe",
+                                        DueDate = DateTime.Parse("2025-04-15"),
+                                        Status = "Pending",
+                                        Notes = "Policies need to align with new government regulations."
+                                    },
+                                    new AnnualActionItem
+                                    {
+                                        ActionItem = "Prepare annual budget report",
+                                        Assignee = "John Smith",
+                                        DueDate = DateTime.Parse("2025-05-01"),
+                                        Status = "In Progress",
+                                        Notes = "Focus on streamlining department budgets."
+                                    },
+                                    new AnnualActionItem
+                                    {
+                                        ActionItem = "Organize team-building event",
+                                        Assignee = "Emily Taylor",
+                                        DueDate = DateTime.Parse("2025-06-20"),
+                                        Status = "Completed",
+                                        Notes = "Event successfully held at the local community center."
+                                    }
+                                );
+
+                                context.SaveChanges();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.GetBaseException().Message);
+                        }
+                    }
 
                     //Seeding data for Member Logins
                     if (!context.MemberLogins.Any())

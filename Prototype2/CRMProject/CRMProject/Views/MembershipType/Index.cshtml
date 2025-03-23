@@ -218,7 +218,8 @@
                                                 }
                                             </td>
                                             <td class="d-none d-sm-table-cell">
-                                                @if (!string.IsNullOrEmpty(item.MembershipTypeDescription))
+                                                @item.MembershipTypeDescription
+                                                @* @if (!string.IsNullOrEmpty(item.MembershipTypeDescription))
                                                 {
                                                     var description = item.MembershipTypeDescription;
                                                     var words = description.Split(' ');
@@ -233,7 +234,7 @@
                                                             <a href="javascript:void(0);" id="readMoreDescription@(item.ID)" onclick="toggleTextDescription(@item.ID)"> Read More</a>
                                                         }
                                                     </span>
-                                                }
+                                                } *@
                                             </td>
                                             <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MembershipTypeFee)</td>
                                             <td>
