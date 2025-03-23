@@ -1,0 +1,76 @@
+﻿@model CRMProject.Models.LAMContact
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Delete - LAM Contact";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h2>Delete - LAM Contact</h2>
+            <hr />
+
+            <dl class="row">
+                <dt class="col-sm-3">Municipality</dt>
+                <dd class="col-sm-9">@Model.Municipality</dd>
+
+                <dt class="col-sm-3">Position</dt>
+                <dd class="col-sm-9">@Model.Position</dd>
+
+                <dt class="col-sm-3">Notes</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                    {
+                        <textarea class="form-control" rows="4" readonly>@Model.Notes</textarea>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">Connected Contact</dt>
+                <dd class="col-sm-9">
+                    @if (Model.Contact != null)
+                    {
+                        @Model.Contact.FirstName @Model.Contact.LastName
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+            </dl>
+
+            <div class="form-group text-center">
+                <h4 class="text-danger">Are you sure you want to delete this LAM Contact?</h4>
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="ID" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

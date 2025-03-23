@@ -1,0 +1,87 @@
+﻿@model CRMProject.Models.AnnualActionItem
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Details - Action Item";
+}
+
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <h2>Details - @Html.DisplayFor(model => model.ActionItem)</h2>
+                <hr />
+
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ActionItem)</dt>
+                    <dd class="col-sm-9">@Model.ActionItem</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignee)</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Assignee))
+                        {
+                            @Model.Assignee
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DueDate)</dt>
+                    <dd class="col-sm-9">@Model.DueDate.ToString("yyyy-MM-dd")</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Status)</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Status))
+                        {
+                            @Model.Status
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Notes)</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                        {
+                            <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.Notes</textarea>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
+                </dl>
+
+                <div class="form-group text-center">
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Action Item</a>
+                    <a class="btn btn-secondary ms-2" asp-action="Index">Back to Action Items</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
