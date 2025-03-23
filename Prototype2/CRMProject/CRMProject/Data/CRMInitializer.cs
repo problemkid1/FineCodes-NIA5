@@ -1023,6 +1023,72 @@ namespace CRMProject.Data
 
                         context.SaveChanges();
                     }
+                    //Seeding data for Brain Dumps
+                    if (!context.BrainDumps.Any())
+                    {
+                        context.BrainDumps.AddRange(
+                         new BrainDump
+                         {
+                             Activity = "Build Monthly Sponsorship",
+                             Assignee = "Jordan",
+                             BrainDumpStatus = BrainDumpStatus.Done,
+                             BrainDumpTerm = BrainDumpTerm.ShortTerm,
+                             BrainDumpNotes = ""
+                         },
+                         new BrainDump
+                         {
+                             Activity = "Industry Research & Analysis",
+                             Assignee = "",
+                             BrainDumpStatus = BrainDumpStatus.ToDo,
+                             BrainDumpTerm = BrainDumpTerm.LongTerm,
+                             BrainDumpNotes = "Research history and plan for future industries."
+                         },
+                         new BrainDump
+                         {
+                             Activity = "Member Engagement & Support",
+                             Assignee = "Jordan",
+                             BrainDumpStatus = BrainDumpStatus.InProgress,
+                             BrainDumpTerm = BrainDumpTerm.ShortTerm,
+                             BrainDumpNotes = "Increase member engagement and support members."
+                         },
+                         new BrainDump
+                         {
+                             Activity = "Training & Workforce Development",
+                             Assignee = "",
+                             BrainDumpStatus = BrainDumpStatus.ToDo,
+                             BrainDumpTerm = BrainDumpTerm.LongTerm,
+                             BrainDumpNotes = ""
+                         });
+
+                        context.SaveChanges();
+                    }
+                    //Seeding data for Brain Dumps
+                    if (!context.InboundInitiatives.Any())
+                    {
+                        context.InboundInitiatives.AddRange(
+                         new InboundInitiative
+                         {
+                             Initiative = "Industry Insights Blog",
+                             InboundInitiativeNotes = ""
+                         },
+                         new InboundInitiative
+                         {
+                             Initiative = "Social Media Engagement Campaigns",
+                             InboundInitiativeNotes = "Create industry-focused LinkedIn groups, share success stories, and encourage discussions."
+                         },
+                         new InboundInitiative
+                         {
+                             Initiative = "Podcast Series on Industry Topics",
+                             InboundInitiativeNotes = "Launch a podcast featuring interviews with industry leaders, innovators, and policymakers."
+                         },
+                         new InboundInitiative
+                         {
+                             Initiative = "Member-Generated Content & Case Studies",
+                             InboundInitiativeNotes = "Encourage members to share their experiences, case studies, and best practices to foster engagement."
+                         });
+
+                        context.SaveChanges();
+                    }
 
                 }
                 #endregion

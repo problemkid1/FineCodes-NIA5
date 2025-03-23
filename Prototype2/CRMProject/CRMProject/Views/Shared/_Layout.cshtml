@@ -134,6 +134,18 @@
                         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "text-decoration: underline;" : "");">Maintain Users</span>
                     </a>
                 </li>
+                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "active" : "")">
+                        <a class="nav-link" asp-controller="BrainDump" asp-action="Index">
+                            <i class="fas fa-lightbulb"></i>
+                            <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "text-decoration: underline;" : "");">Brain Dump</span>
+                        </a>
+                    </li>
+                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "active" : "")">
+                        <a class="nav-link" asp-controller="InboundInitiative" asp-action="Index">
+                            <i class="fas fa-lightbulb"></i>
+                            <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "text-decoration: underline;" : "");">Inbound Initiative</span>
+                        </a>
+                    </li>
                 }
 
 

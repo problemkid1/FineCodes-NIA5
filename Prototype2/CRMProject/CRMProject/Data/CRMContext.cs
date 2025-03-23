@@ -27,7 +27,8 @@ namespace CRMProject.Data
         public DbSet<MemberThumbnail> MemberThumbnails { get; set; }
         public DbSet<MemberLogin> MemberLogins { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
-
+        public DbSet<BrainDump> BrainDumps { get; set; }
+        public DbSet<InboundInitiative> InboundInitiatives { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
