@@ -40,7 +40,8 @@
         <h2 class="mb-0 fs-4"><strong> @Html.DisplayFor(model => model.MemberName)</strong></h2>
 
         <div class="d-flex align-items-center">
-            <span class="badge @(Model.MemberStatus == CRMProject.Models.MemberStatus.Cancelled ? "bg-danger" : "bg-success") me-2">
+            <span class="badge @(Model.MemberStatus == CRMProject.Models.MemberStatus.Cancelled ) me-2">
+                @* "bg-danger" : "bg-success" *@
                 @Html.DisplayFor(model => model.MemberStatus)
             </span>
             <button class="btn btn-primary no-print" onclick="window.print()" title="Print">

@@ -6,6 +6,7 @@ Update-Database -Context CRMContext
 
 
 
-
+admin@outlook.com
+Pa55w@rd
 
 

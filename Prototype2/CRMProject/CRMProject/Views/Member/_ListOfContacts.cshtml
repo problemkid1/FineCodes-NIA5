@@ -151,7 +151,7 @@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.PhoneFormatted)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailAddress)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactEmailType)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactNotes)</th>
+                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Contact.ContactNotes)</th> *@
                                     <th></th>
                                 </tr>
                             </thead>
@@ -177,17 +177,17 @@
                                         </td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailAddress)</td>
                                         <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.Contact.ContactEmailType)</td>
-                                        <td class="d-none d-sm-table-cell">
-                                            @if (item.Contact.ContactNotes != null)
-                                            {
-                                                @Html.DisplayFor(modelItem => item.Contact.ContactNotes)
-                                            }
-                                            else
-                                            {
-                                                <span>No Current Notes</span>
-                                            }
+                                        @* <td class="d-none d-sm-table-cell"> *@
+                                        @*     @if (item.Contact.ContactNotes != null) *@
+                                        @*     { *@
+                                        @*         @Html.DisplayFor(modelItem => item.Contact.ContactNotes) *@
+                                        @*     } *@
+                                        @*     else *@
+                                        @*     { *@
+                                        @*         <span>No Current Notes</span> *@
+                                        @*     } *@
 
-                                        </td>
+                                        @* </td> *@
                                         @if (User.IsInRole("Admin"))
                                         {
                                             <td class="d-none d-sm-table-cell" style="float: right; ">
