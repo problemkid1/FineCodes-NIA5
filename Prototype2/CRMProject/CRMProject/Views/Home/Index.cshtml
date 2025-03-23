@@ -230,6 +230,7 @@
                             <div class="btn-group btn-group-sm" role="group" aria-label="Chart view options">
                                 <button type="button" class="btn btn-primary active" id="viewMunicipality">By Municipality</button>
                                 <button type="button" class="btn btn-outline-primary" id="viewIndustry">By Industry</button>
+                                <button type="button" class="btn btn-outline-primary" id="viewMembershipType">By Membership Type</button>
                             </div>
                         </div>
                         <div class="card-body d-flex align-items-center">
@@ -339,7 +340,7 @@
 
 
 <script>
-        // Add this at the beginning of your script
+    // Add this at the beginning of your script
     function fixWidgetStructure() {
         document.querySelectorAll('.widget').forEach(widget => {
             // Make sure the widget has a proper structure
@@ -421,18 +422,21 @@
         console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>())));
         console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>())));
 
-    // document.addEventListener("DOMContentLoaded", function () {
         // Debug data coming from the server
         console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>())));
         console.log("Municipality Data:", @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>())));
         console.log("Industry Labels:", @Html.Raw(Json.Serialize(ViewData["IndustryLabels"] ?? new List<string>())));
         console.log("Industry Data:", @Html.Raw(Json.Serialize(ViewData["IndustryData"] ?? new List<int>())));
+        console.log("Membership Type Labels:", @Html.Raw(Json.Serialize(ViewData["MembershipTypeLabels"] ?? new List<string>())));
+        console.log("Membership Type Data:", @Html.Raw(Json.Serialize(ViewData["MembershipTypeData"] ?? new List<int>())));
 
-        // Get data for both chart types
+        // Get data for all chart types
         var municipalityLabels = @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>()));
         var municipalityData = @Html.Raw(Json.Serialize(ViewData["MunicipalityData"] ?? new List<int>()));
         var industryLabels = @Html.Raw(Json.Serialize(ViewData["IndustryLabels"] ?? new List<string>()));
         var industryData = @Html.Raw(Json.Serialize(ViewData["IndustryData"] ?? new List<int>()));
+        var membershipTypeLabels = @Html.Raw(Json.Serialize(ViewData["MembershipTypeLabels"] ?? new List<string>()));
+        var membershipTypeData = @Html.Raw(Json.Serialize(ViewData["MembershipTypeData"] ?? new List<int>()));
 
         // Global variables
         var pieChart = null;
@@ -585,13 +589,18 @@
                 }
             });
 
-            // Toggle between municipality and industry views
+            // Toggle between municipality, industry, and membership type views
             document.getElementById('viewMunicipality').addEventListener('click', function() {
                 updateChartView('municipality', this);
             });
 
             document.getElementById('viewIndustry').addEventListener('click', function() {
                 updateChartView('industry', this);
+            });
+
+            // Add event listener for the new membership type button
+            document.getElementById('viewMembershipType').addEventListener('click', function() {
+                updateChartView('membershipType', this);
             });
 
             function updateChartView(viewType, buttonElement) {
@@ -601,7 +610,7 @@
                 if (loader) loader.style.display = 'flex';
 
                 // Update button states
-                document.querySelectorAll('#viewMunicipality, #viewIndustry').forEach(btn => {
+                document.querySelectorAll('#viewMunicipality, #viewIndustry, #viewMembershipType').forEach(btn => {
                     btn.classList.remove('active');
                     btn.classList.remove('btn-primary');
                     btn.classList.add('btn-outline-primary');
@@ -618,10 +627,14 @@
                         breakdownChart.data.labels = municipalityLabels;
                         breakdownChart.data.datasets[0].data = municipalityData;
                         breakdownChart.data.datasets[0].label = "Members by Municipality";
-                    } else {
+                    } else if (viewType === 'industry') {
                         breakdownChart.data.labels = industryLabels;
                         breakdownChart.data.datasets[0].data = industryData;
                         breakdownChart.data.datasets[0].label = "Members by Industry";
+                    } else if (viewType === 'membershipType') {
+                        breakdownChart.data.labels = membershipTypeLabels;
+                        breakdownChart.data.datasets[0].data = membershipTypeData;
+                        breakdownChart.data.datasets[0].label = "Members by Membership Type";
                     }
 
                     breakdownChart.update();
@@ -689,6 +702,12 @@
                     }
                 }
             });
+
+
+
+
+
+
 
             // Chart type toggle
             document.querySelectorAll('.chart-type').forEach(link => {
@@ -1119,7 +1138,7 @@
                     refreshIntervalSelect.value = config.refreshInterval;
                 }
 
-                // Apply dark mode if saved
+                 // Apply dark mode if saved
                 if (config.darkMode) {
                         document.body.classList.add('dark-mode');
                         if (themeToggle) {
@@ -1284,9 +1303,6 @@
             console.log("Split layout applied:", config);
         }
 
-
-
-
         function updateLayout() {
             // Check if metrics section has visible widgets
             const hasVisibleMetrics = Array.from(document.querySelectorAll('.metrics-item .widget'))
@@ -1349,7 +1365,6 @@
                 if (breakdownChart) breakdownChart.resize();
             }, 100);
         }
-
 
         // Handle window resize events
         let resizeTimer;
@@ -1452,6 +1467,7 @@
         });
     });
 </script>
+
 
 
 

@@ -43,7 +43,11 @@
 }
 
 <!-- Custom styles for this template-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
+<link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -132,6 +136,7 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
+                                        <!-- For Member Contacts cell -->
                                         <td>
                                             @if (item.MemberContacts != null && item.MemberContacts.Any())
                                             {
@@ -144,10 +149,10 @@
                                                 <span class="export-member-data" style="display:none;">@fullMemberNames</span>
 
                                                 <span>
-                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
-                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                    <a href="javascript:void(0);" class="role-button"
+                                                       data-bs-target="#@collapseId">
                                                         Members (@specCount)
-                                                        <i class="bi bi-chevron-down" id="arrowSpec@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                        <i class="bi bi-chevron-down" id="arrowSpec@(item.ID)"></i>
                                                     </a>
                                                     <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
                                                         <ul class="list-unstyled">
@@ -161,6 +166,7 @@
                                             }
                                         </td>
 
+                                        <!-- For Opportunity Contacts cell -->
                                         <td>
                                             @if (item.OpportunityContacts != null && item.OpportunityContacts.Any())
                                             {
@@ -173,10 +179,10 @@
                                                 <span class="export-opportunity-data" style="display:none;">@fullOpportunityNames</span>
 
                                                 <span>
-                                                    <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
-                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                    <a href="javascript:void(0);" class="role-button"
+                                                       data-bs-target="#@collapseId">
                                                         Opportunities (@opportunityCount)
-                                                        <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>  <!-- Down arrow icon -->
+                                                        <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>
                                                     </a>
                                                     <div class="collapse mt-2" id="@collapseId" data-item-id="@item.ID">
                                                         <ul class="list-unstyled">
@@ -189,6 +195,7 @@
                                                 </span>
                                             }
                                         </td>
+
 
 
 
@@ -244,4 +251,9 @@
     </div>
 </div>
 
+@section Scripts {
+    <script src="~/js/site.js"></script>
+
+
+}
 

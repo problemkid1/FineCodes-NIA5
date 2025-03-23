@@ -57,10 +57,13 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-secondary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
-                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                    <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
+                            id="filterToggle"
+                            aria-expanded="false"
+                            aria-controls="collapseFilter">
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
+                    <div class="mb-4"></div> <!-- Added spacer div -->
                     <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
                         <div class="card card-body bg-light">
                             <div class="row">
@@ -210,7 +213,7 @@
                                                     @if (words.Length > 3)
                                                     {
                                                         <span id="moreTextSubsector@(item.ID)" style="display: none;"> @fullSubsector.Substring(shortSubsector.Length) </span>
-                                                        <a href="javascript:void(0);" id="readMoreSubsector@(item.ID)" onclick="toggleTextSubsector(@item.ID)">... </a>
+                                                        <a href="javascript:void(0);" id="readMoreSubsector@(item.ID)" onclick="toggleTextSubsector(@item.ID)"> Read More</a>
                                                     }
                                                 </span>
                                             }
@@ -338,42 +341,42 @@
         }
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $("#filterToggle").click(function() {
-                $("#collapseFilter").collapse('toggle');
-            });
-        });
-    </script>
-    <script>
-         function toggleTextSubsector(itemId) {
-            var moreText = document.getElementById("moreTextSubsector" + itemId);
-            var readMore = document.getElementById("readMoreSubsector" + itemId);
+    @* <script> *@
+    @*     $(document).ready(function() { *@
+    @*         $("#filterToggle").click(function() { *@
+    @*             $("#collapseFilter").collapse('toggle'); *@
+    @*         }); *@
+    @*     }); *@
+    @* </script> *@
+    @* <script> *@
+    @*      function toggleTextSubsector(itemId) { *@
+    @*         var moreText = document.getElementById("moreTextSubsector" + itemId); *@
+    @*         var readMore = document.getElementById("readMoreSubsector" + itemId); *@
 
-            // Toggle Subsector text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
+    @*         // Toggle Subsector text *@
+    @*         if (moreText.style.display === "none") { *@
+    @*             moreText.style.display = "inline"; *@
+    @*             readMore.innerHTML = " Read less"; *@
+    @*         } else { *@
+    @*             moreText.style.display = "none"; *@
+    @*             readMore.innerHTML = "... "; *@
+    @*         } *@
+    @*     } *@
 
-        function toggleTextSector(itemId) {
-            var moreText = document.getElementById("moreTextSector" + itemId);
-            var readMore = document.getElementById("readMoreSector" + itemId);
+    @*     function toggleTextSector(itemId) { *@
+    @*         var moreText = document.getElementById("moreTextSector" + itemId); *@
+    @*         var readMore = document.getElementById("readMoreSector" + itemId); *@
 
-            // Toggle Sector text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
-    </script>
+    @*         // Toggle Sector text *@
+    @*         if (moreText.style.display === "none") { *@
+    @*             moreText.style.display = "inline"; *@
+    @*             readMore.innerHTML = " Read less"; *@
+    @*         } else { *@
+    @*             moreText.style.display = "none"; *@
+    @*             readMore.innerHTML = "... "; *@
+    @*         } *@
+    @*     } *@
+    @* </script> *@
 
    
 }

@@ -383,6 +383,26 @@ namespace CRMProject.Controllers
         //}
 
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus([FromBody] ToggleStatusViewModel model)
+        {
+            if (model == null) return BadRequest();
+
+            var member = await _context.MemberLogins.FindAsync(model.Id);
+            if (member == null) return NotFound();
+
+            member.Active = !member.Active;
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, newStatus = member.Active });
+        }
+
+
+        public class ToggleStatusViewModel
+        {
+            public int Id { get; set; }
+        }
+
         private bool EmployeeExists(int id)
         {
             return _context.MemberLogins.Any(e => e.ID == id);

@@ -195,6 +195,61 @@
     }
 
 
+
+.create-container {
+    max-width: 500px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-header h2 {
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.createform-group {
+    margin-bottom: 15px;
+}
+
+.createform-control {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+    .createform-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    }
+
+.createbtn-identity {
+    background: #2c3e50;
+    color: white;
+    border-radius: 6px;
+    padding: 10px 15px;
+    width: 100%;
+    transition: 0.3s;
+}
+
+    .createbtn-identity:hover {
+        background: #1a252f;
+    }
+
+.createform-check-input {
+    transform: scale(1.2);
+    margin-right: 8px;
+}
+
+
 /*:root {
     --primary: #384B82;
     --blue: #384B82;

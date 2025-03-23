@@ -6,21 +6,6 @@
     ViewData["Title"] = "Details - " + Model?.MemberName;
 }
 
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData.ContainsKey("ErrorMessage")) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
@@ -42,200 +27,325 @@
     </div>
 }
 
+
+<!-- Custom styles for this template-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
 
-
-<div class="card">
+<div class="card shadow-sm">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
+        <h2 class="mb-0 fs-4">@Html.DisplayFor(model => model.MemberName)</h2>
+        <span class="badge @(Model.MemberStatus == CRMProject.Models.MemberStatus.Cancelled ? "bg-danger" : "bg-success")">
+            @Html.DisplayFor(model => model.MemberStatus)
+        </span>
+    </div>
     <div class="card-body">
-        <h2><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
-        <hr />
-        <!-- Two-Column Layout -->
+        <!-- Main Information Section -->
+        <div class="row g-4">
+            <!-- Profile Image Column -->
+            <div class="col-md-3">
+                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                    <div class="position-relative mb-3 mt-2">
+                        <div class="profile-image-container">
+                            @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
+                            {
+                                string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
+                                string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
+                                <img src="@imageSrc" alt="Profile Picture" class="img-thumbnail rounded-3 shadow-sm profile-image" />
+                            }
+                            else
+                            {
+                                <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-thumbnail rounded-3 shadow-sm profile-image" />
+                            }
 
-        <div class="row">
-            <div class="col-xl-1">
-                <!-- Member Image -->
-                <div class="photo">
-                    @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
-                    {
-                        string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                        string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
-                        <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
-                    }
-                    else
-                    {
-                        <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
-                    }
+                            @if (Model?.ID != null && Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
+                            {
+                                <div class="profile-image-overlay">
+                                    <label for="photoUpload" class="upload-label">
+                                        <i class="fa-solid fa-camera fa-2x"></i>
+                                        <span>Change Photo</span>
+                                    </label>
+                                    <input type="file" id="photoUpload" class="d-none" accept="image/*"
+                                           data-member-id="@Model.ID" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="member-id-badge bg-light text-center py-1 px-3 rounded-pill mb-2">
+                        <small class="text-muted">ID: @Model?.ID</small>
+                    </div>
                 </div>
             </div>
 
 
-            <div class="col-xl-5">
-                <dl class="summ-view">
-                    <dt class="col-5">Contact</dt>
-                    <dd class="col-7">
-                        @if (Model.MemberContacts != null && Model.MemberContacts.Any())
-                        {
-                            var primaryContact = Model.MemberContacts.FirstOrDefault();
-                            if (primaryContact != null)
-                            {
-                                <span>@primaryContact.Contact.ContactType</span>
-                            }
-                        }
-                        else
-                        {
-                            <span>No contacts available</span>
-                        }
-                    </dd>
 
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberWebsite)</dt>
-                    <dd class="col-7">
-                        @if(Model.MemberWebsite == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(model => model.MemberWebsite)
-                    
-                        }
-                    </dd>
-                    <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
-                    <dd class="col-sm-12">
-                        @if (Model.MemberNotes == null)
-                        {
-                            <span>No Current Notes</span>
-                        }
-                        else
-                        {
-                            <textarea class="form-control" readonly style="background-color: white;">@Model.MemberNotes</textarea>
-                        }
+            <!-- Member Information Column -->
+            <div class="col-md-9">
+                <div class="row g-3">
+                    <!-- Contact Information Card -->
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Contact Information</h5>
+                                @* <i class="fa-solid fa-address-card me-2"></i> *@
+                            </div>
+                            <div class="card-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-5 text-muted">Primary Contact:</dt>
+                                    <dd class="col-sm-7">
+                                        @if (Model.MemberContacts != null && Model.MemberContacts.Any())
+                                        {
+                                            var primaryContact = Model.MemberContacts.FirstOrDefault();
+                                            if (primaryContact != null)
+                                            {
+                                                <span>@primaryContact.Contact.ContactType</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">No contacts available</span>
+                                        }
+                                    </dd>
 
-                    </dd>
-                </dl>
-            </div>
+                                    <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail):</dt>
+                                    <dd class="col-sm-7">
+                                        @if (string.IsNullOrEmpty(Model.MemberAccountsPayableEmail))
+                                        {
+                                            <span class="text-muted fst-italic">N/A</span>
+                                        }
+                                        else
+                                        {
+                                            <a href="mailto:@Model.MemberAccountsPayableEmail">@Model.MemberAccountsPayableEmail</a>
+                                        }
+                                    </dd>
 
-            <div class="col-xl-5">
-                <dl class="summ-view">
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                    <dd class="col-7">
-                        @if (Model.MemberLastContactDate == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        @Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")
-                    </dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
-                    @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
-                    {
-                        <dt class="col-5">Cancellation Date</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
+                                    <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberWebsite):</dt>
+                                    <dd class="col-sm-7">
+                                        @if (string.IsNullOrEmpty(Model.MemberWebsite))
+                                        {
+                                            <span class="text-muted fst-italic">N/A</span>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Model.MemberWebsite" target="_blank">@Model.MemberWebsite</a>
+                                        }
+                                    </dd>
 
-                            @* @if (Model.StatusHistories != null && Model.StatusHistories.Any())
-                            {
-                                var records = Model.StatusHistories.Select(m => m.Date).ToList();
-                                var mostRecentDate = records.Max();
-                                <span>@mostRecentDate.ToString("yyyy-MM-dd")</span>
+                                    <dt class="col-sm-5 text-muted">City:</dt>
+                                    <dd class="col-sm-7">
+                                        @if (Model.Address != null)
+                                        {
+                                            <span>@Model.Address.AddressCity</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">N/A</span>
+                                        }
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
 
-                                @Html.DisplayFor(model => model.StatusHistories, "{0:yyyy-MM-dd}")
+                    <!-- Member Details Card with Notes -->
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Other Details</h5>
+                                @* <i class="fa-solid fa-info-circle me-2"></i> *@
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <div class="flex-grow-0">
+                                    <dl class="row mb-3">
+                                        <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberStartDate):</dt>
+                                        <dd class="col-sm-7">
+                                            <span class="badge bg-light text-dark">@Html.DisplayFor(model => model.MemberStartDate, "{0:MMM dd, yyyy}")</span>
+                                        </dd>
 
-                            } *@
-                        
-                    }
+                                        <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberLastContactDate):</dt>
+                                        <dd class="col-sm-7">
+                                            @if (Model.MemberLastContactDate == null)
+                                            {
+                                                <span class="text-muted fst-italic">N/A</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@Html.DisplayFor(model => model.MemberLastContactDate, "{0:MMM dd, yyyy}")</span>
+                                            }
+                                        </dd>
 
-                    @* <dt class="col-5">Industry</dt>
-                    <dd class="col-7">@Html.DisplayNameFor(model => model.MemberIndustries)
-                        @if (Model.MemberIndustries != null && Model.MemberIndustries.Any())
-                        {
-                            var primaryIndustry = Model.MemberIndustries.FirstOrDefault();
-                            if (primaryIndustry != null)
-                            {
-                                var words = primaryIndustry.Industry.Summary?.Split(' ');
-                                var shortSummary = words?.Length > 3 ? string.Join(" ", words.Take(3)) : primaryIndustry.Industry.Summary;
-                                var fullSummary = primaryIndustry.Industry.Summary;
-                                <span>
-                                    @shortSummary
-                                    @if (words?.Length > 3)
-                                    {
-                                        <span id="moreText" style="display: none;"> @fullSummary.Substring(shortSummary.Length) </span>
-                                        <a href="javascript:void(0);" id="readMore" onclick="toggleText()">... </a>
-                                    }
-                                </span>
-                            }
-                        }
-                        else
-                        {
-                            <span>N/A</span>
-                        }
-                    </dd> *@
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberSize)</dt>
-                    <dd class="col-7">
-                        @if (Model.MemberSize == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        @Html.DisplayFor(model => model.MemberSize)
-                    </dd>
-                    <dt class="col-5">City</dt>
-                    <dd class="col-7">
-                        @if (Model.Address != null)
-                        {
-                            <span>@Model.Address.AddressCity</span>
-                        }
-                        else
-                        {
-                            <span>N/A</span>
-                        }
-                    </dd>
-                </dl>
+                                        <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberSize):</dt>
+                                        <dd class="col-sm-7">
+                                            @if (Model.MemberSize == null)
+                                            {
+                                                <span class="text-muted fst-italic">N/A</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@Html.DisplayFor(model => model.MemberSize)</span>
+                                            }
+                                        </dd>
+
+                                        @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
+                                        {
+                                            <dt class="col-sm-5 text-muted">Cancellation Date:</dt>
+                                            <dd class="col-sm-7">
+                                                <span class="badge bg-danger text-white">@Html.DisplayFor(model => model.MemberEndDate, "{0:MMM dd, yyyy}")</span>
+                                            </dd>
+                                        }
+                                    </dl>
+                                </div>
+
+                                <!-- Notes Section integrated into Member Details -->
+                                <div class="flex-grow-1 mt-2">
+                                    <h6 class="border-top pt-3 text-muted">
+                                        <i class="fa-solid fa-sticky-note me-2"></i>Notes
+                                    </h6>
+                                    <div class="notes-container" style="max-height: 150px; overflow-y: auto;">
+                                        @if (string.IsNullOrEmpty(Model.MemberNotes))
+                                        {
+                                            <p class="text-muted fst-italic mb-0">No notes available</p>
+                                        }
+                                        else
+                                        {
+                                            <div class="bg-light p-2 rounded small" style="word-wrap: break-word;">@Model.MemberNotes</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row-md-4 mt-4">
+
+    <!-- Keep the existing partial views -->
+    <div class="mt-4">
         @await Html.PartialAsync("_ListOfContacts", Model.MemberContacts)
     </div>
-    <br />
-    <div class="row-md-4">
-        <!-- Added margin-top -->
+
+    <div class="mt-4">
         @await Html.PartialAsync("_ListOfAddress", Model.Address != null ? new List<Address> { Model.Address } : new List<Address>())
     </div>
-    <br />
-    <div class="row-md-4">
-        <!-- Added margin-top -->
+
+    <div class="mt-4">
         @Html.Partial("_IndustryInfo", Model.MemberIndustries)
     </div>
-    <br />
-    <div class="row-md-4">
-        <!-- Ensures consistent spacing -->
+
+    <div class="mt-4">
         @Html.Partial("_MembershipTypeInfo", Model.MemberMembershipTypes)
     </div>
-</div>
-<br />
 
-<div class="form-group text-center">
-    @if (Model?.ID != null)
-    {
-        @if (Model.MemberStatus == MemberStatus.Cancelled)
+    <!-- Original position for action buttons -->
+    <div class="form-group text-center mt-3">
+        @if (Model?.ID != null)
         {
-
+            @if (Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
+            {
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+            }
         }
-        else
-        {
-            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
-        }
-    }
-    <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
+        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
+    </div>
 </div>
-
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <style>
+        .edit-photo-icon {
+            z-index: 10;
+        }
+
+        .upload-btn-overlay {
+            display: none;
+            position: absolute;
+            top: -40px;
+            right: 0;
+            z-index: 20;
+        }
+
+        .edit-photo-icon:hover .upload-btn-overlay {
+            display: block;
+        }
+
+        /* Custom scrollbar for notes */
+        .notes-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notes-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .notes-container::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+            .notes-container::-webkit-scrollbar-thumb:hover {
+                background: #a8a8a8;
+            }
+
+        /* Profile image overlay styles */
+        .profile-image-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 0.3rem;
+        }
+
+            .profile-image-overlay:hover {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+            }
+
+        .upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+        }
+
+            .upload-label span {
+                margin-top: 10px;
+                font-size: 14px;
+            }
+    </style>
+
     <script>
+        // Toggle text for read more/less functionality
         function toggleText() {
             var moreText = document.getElementById("moreText");
             var readMore = document.getElementById("readMore");
@@ -248,14 +358,12 @@
                 readMore.innerHTML = "... ";
             }
         }
-    </script>
-    
-    <script>
-         function toggleTextName(itemId) {
+
+        // Toggle text for member name with specific item ID
+        function toggleTextName(itemId) {
             var moreText = document.getElementById("moreTextName" + itemId);
             var readMore = document.getElementById("readMoreName" + itemId);
 
-            // Toggle member name text
             if (moreText.style.display === "none") {
                 moreText.style.display = "inline";
                 readMore.innerHTML = " Read less";
@@ -265,11 +373,11 @@
             }
         }
 
+        // Toggle text for city with specific item ID
         function toggleTextCity(itemId) {
             var moreText = document.getElementById("moreTextCity" + itemId);
             var readMore = document.getElementById("readMoreCity" + itemId);
 
-            // Toggle member name text
             if (moreText.style.display === "none") {
                 moreText.style.display = "inline";
                 readMore.innerHTML = " Read less";
@@ -279,11 +387,11 @@
             }
         }
 
+        // Toggle text for industry with specific item ID
         function toggleTextIndustry(itemId) {
             var moreText = document.getElementById("moreTextIndustry" + itemId);
             var readMore = document.getElementById("readMoreIndustry" + itemId);
 
-            // Toggle industry text
             if (moreText.style.display === "none") {
                 moreText.style.display = "inline";
                 readMore.innerHTML = " Read less";
@@ -292,8 +400,8 @@
                 readMore.innerHTML = "... ";
             }
         }
-    </script>
-    <script>
+
+        // Toggle industry display and count
         function toggleIndustry(id) {
             var countSpan = document.getElementById("industryCount" + id);
             var collapseElement = document.getElementById("collapseIndustry" + id);
@@ -304,11 +412,89 @@
                 countSpan.style.display = "none"; // Hide the count when expanded
             }
         }
-    </script>
-    <script type="text/javascript">
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+
+        // Handle profile photo upload
+        function uploadProfilePhoto(memberId) {
+            const fileInput = document.getElementById('photoUpload');
+            if (fileInput.files && fileInput.files[0]) {
+                // Show loading indicator
+                const overlay = document.querySelector('.profile-image-overlay');
+                const originalContent = overlay.innerHTML;
+                overlay.innerHTML = '<div class="spinner-border text-light" role="status"><span class="visually-hidden">Loading...</span></div>';
+
+                const formData = new FormData();
+                formData.append('photo', fileInput.files[0]);
+                formData.append('memberId', memberId);
+
+                fetch('/Member/UpdateProfilePhoto', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok');
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show the new image
+                        window.location.reload();
+                    } else {
+                        // Restore original content and show error
+                        overlay.innerHTML = originalContent;
+                        alert('Error uploading photo: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    // Restore original content and show error
+                    overlay.innerHTML = originalContent;
+                    console.error('Error:', error);
+                    alert('Error uploading photo. Please try again.');
+                });
+            }
+        }
+
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
+            // Add event listener for file input change
+            const photoUpload = document.getElementById('photoUpload');
+            if (photoUpload) {
+                photoUpload.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        // Preview image (optional)
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const profileImage = document.querySelector('.profile-image');
+                            if (profileImage) {
+                                profileImage.src = e.target.result;
+                            }
+                        }
+                        reader.readAsDataURL(this.files[0]);
+
+                        // Auto upload
+                        const memberId = this.getAttribute('data-member-id');
+                        if (memberId) {
+                            uploadProfilePhoto(memberId);
+                        }
+                    }
+                });
+            }
+
+            // Dismiss alerts automatically after 5 seconds
+            setTimeout(function() {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        });
     </script>
 }
+

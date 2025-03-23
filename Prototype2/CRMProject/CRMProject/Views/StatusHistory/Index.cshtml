@@ -22,7 +22,11 @@
 }
 
 <!-- Custom styles for this template-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Custom styles for this template-->
 @* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
 <div class="col-12">
@@ -35,10 +39,13 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-primary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
-                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                    <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
+                            id="filterToggle"
+                            aria-expanded="false"
+                            aria-controls="collapseFilter">
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
+                    <div class="mb-4"></div> <!-- Added spacer div -->
                     <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
                         <div class="card card-body bg-light">
                             <div class="row">
@@ -295,6 +302,15 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script src="~/js/site.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+
 <script>
     // Toggle for Member Name
     function toggleTextName(itemId) {
@@ -341,4 +357,4 @@
         }
     }
 </script>
-
+}
