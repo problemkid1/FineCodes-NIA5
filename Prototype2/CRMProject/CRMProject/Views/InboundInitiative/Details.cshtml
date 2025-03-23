@@ -1,0 +1,83 @@
+﻿@model CRMProject.Models.InboundInitiative
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!-- Display Success or Error Messages -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["SuccessMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
+        <span>@TempData["ErrorMessage"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fa-solid fa-x"></i>
+        </button>
+    </div>
+}
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<!-- Compact Definition List Styling -->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
+@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h2>Details - @Html.DisplayFor(model => model.Initiative)</h2>
+            <hr />
+
+            <!-- Compact Definition List Styling -->
+            <style>
+                .compact-dl dt, .compact-dl dd {
+                    margin-bottom: 0.5rem;
+                }
+
+                .compact-dl dt {
+                    padding-top: 0.5rem;
+                }
+            </style>
+
+            <dl class="row compact-dl">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Initiative)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.Initiative)</dd>
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.InboundInitiativeNotes)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.InboundInitiativeNotes))
+                    {
+                        @Html.DisplayFor(model => model.InboundInitiativeNotes)
+                    }
+                    else
+                    {
+                        <span>No Current Notes</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="form-group text-center mt-4">
+        @if (Model?.ID != null && User.IsInRole("Admin"))
+        {
+            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Initiative</a>
+        }
+        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Initiatives</a>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

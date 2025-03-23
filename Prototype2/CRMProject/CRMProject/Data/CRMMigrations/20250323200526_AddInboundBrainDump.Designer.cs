@@ -3,6 +3,7 @@ using System;
 using CRMProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMProject.Data.CRMMigrations
 {
     [DbContext(typeof(CRMContext))]
-    partial class CRMContextModelSnapshot : ModelSnapshot
+    [Migration("20250323200526_AddInboundBrainDump")]
+    partial class AddInboundBrainDump
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -54,40 +57,6 @@ namespace CRMProject.Data.CRMMigrations
                         .IsUnique();
 
                     b.ToTable("Addresses");
-                });
-                
-            modelBuilder.Entity("CRMProject.Models.AnnualActionItem", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ActionItem")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Assignee")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("AnnualActionItems");
                 });
 
             modelBuilder.Entity("CRMProject.Models.BrainDump", b =>
@@ -216,36 +185,6 @@ namespace CRMProject.Data.CRMMigrations
                         .IsUnique();
 
                     b.ToTable("Industries");
-                });
-
-            modelBuilder.Entity("CRMProject.Models.LAMContact", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ContactID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Municipality")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Position")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ContactID");
-
-                    b.ToTable("LAMContacts");
                 });
 
             modelBuilder.Entity("CRMProject.Models.Member", b =>
@@ -577,17 +516,6 @@ namespace CRMProject.Data.CRMMigrations
                         .IsRequired();
 
                     b.Navigation("Member");
-                });
-
-            modelBuilder.Entity("CRMProject.Models.LAMContact", b =>
-                {
-                    b.HasOne("CRMProject.Models.Contact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("CRMProject.Models.MemberContact", b =>
