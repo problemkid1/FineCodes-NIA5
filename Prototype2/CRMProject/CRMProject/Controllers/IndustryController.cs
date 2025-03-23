@@ -24,6 +24,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Industry
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode )
         {
             // Count the number of filters applied - start by assuming no filters
@@ -81,6 +82,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Industry/Details/5
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -120,6 +122,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Industry/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var breadcrumbs = new List<BreadcrumbItem>
@@ -149,6 +152,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ID,IndustrySector,IndustrySubsector,IndustryNAICSCode")] Industry industry)
         {
             if (ModelState.IsValid)
@@ -213,6 +217,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Industry/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -268,6 +273,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,IndustrySector,IndustrySubsector,IndustryNAICSCode")] Industry industry)
         {
             if (id != industry.ID)
@@ -341,6 +347,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Industry/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -381,6 +388,7 @@ namespace CRMProject.Controllers
         // POST: Industry/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var industry = await _context.Industries
@@ -427,6 +435,7 @@ namespace CRMProject.Controllers
 
        
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {
             string feedBack = string.Empty;

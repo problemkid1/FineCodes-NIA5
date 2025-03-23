@@ -23,6 +23,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact,
             int? MemberSize, int? page, int? pageSizeID, MemberStatus? MemberStatus,
             string? MembershipTypeName, string? IndustryName, DateTime StartDate, DateTime EndDate)
@@ -155,7 +156,7 @@ namespace CRMProject.Controllers
             //Get industry list for dropdown
 
             ViewBag.IndustryList = _context.Industries
-                .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector})
+                .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector })
                 .Distinct()
                 .OrderBy(i => i.Text)
                 .ToList();
@@ -195,7 +196,7 @@ namespace CRMProject.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -233,6 +234,7 @@ namespace CRMProject.Controllers
 
         // GET: Member/Create
         // GET: Member/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(string MemberName, DateTime? MemberStartDate, DateTime? MemberLastContactDate, string MemberNotes)
         {
             Member member = new Member
@@ -275,6 +277,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(
     [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
     IFormFile? thePicture,
@@ -397,6 +400,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -420,7 +424,7 @@ namespace CRMProject.Controllers
 
             PopulateAssignedMemberShipData(member);
             PopulateAssignedIndustryData(member);
-           PopulateAssignedContactData(member);
+            PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
     {
@@ -439,12 +443,13 @@ namespace CRMProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture,
     string[] selectedMembership, string[] selectedIndustry, string[] selectedContacts)
         {
             // Log the arrays for debugging
-    System.Diagnostics.Debug.WriteLine($"selectedMembership: {string.Join(", ", selectedMembership ?? Array.Empty<string>())}");
-    System.Diagnostics.Debug.WriteLine($"selectedIndustry: {string.Join(", ", selectedIndustry ?? Array.Empty<string>())}");
+            System.Diagnostics.Debug.WriteLine($"selectedMembership: {string.Join(", ", selectedMembership ?? Array.Empty<string>())}");
+            System.Diagnostics.Debug.WriteLine($"selectedIndustry: {string.Join(", ", selectedIndustry ?? Array.Empty<string>())}");
             System.Diagnostics.Debug.WriteLine($"selectedContacts: {string.Join(", ", selectedContacts ?? Array.Empty<string>())}");
 
             var memberToUpdate = await _context.Members
@@ -561,6 +566,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/CancelMember/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Cancel(int? id)
         {
 
@@ -593,6 +599,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member/RemoveContact/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveContact(int contactID, int memberID)
         {
             var memberContact = await _context.MemberContacts
@@ -612,6 +619,7 @@ namespace CRMProject.Controllers
         // POST: Member/RemoveContact/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveContactConfirmed(int contactID, int memberID)
         {
             var memberContact = await _context.MemberContacts
@@ -631,6 +639,7 @@ namespace CRMProject.Controllers
             return RedirectToAction("Details", new { id = memberID });
         }
 
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> GetMemberContacts(int id)
         {
             var memberContacts = await _context.MemberContacts
@@ -643,6 +652,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/ActivateMember/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Activate(int? id)
         {
 
@@ -675,6 +685,7 @@ namespace CRMProject.Controllers
         // POST: Member/CancelMember/5
         [HttpPost, ActionName("Cancel")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CancelConfirmed([Bind("ID,Date,Status,Reason,Notes")] StatusHistory input)
         {
             var member = await _context.Members
@@ -734,6 +745,7 @@ namespace CRMProject.Controllers
         // POST: Member/ActivateMember/5
         [HttpPost, ActionName("Activate")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActivateConfirmed([Bind("ID,Date,Status,Reason,Notes")] StatusHistory input)
         {
             var member = await _context.Members
@@ -962,7 +974,8 @@ namespace CRMProject.Controllers
             System.Diagnostics.Debug.WriteLine("=== PopulateAssignedContactData ===");
 
             var allOptions = _context.Contacts
-                .Select(c => new {
+                .Select(c => new
+                {
                     c.ID,
                     DisplayName = $"{c.FirstName} {c.LastName}" + (string.IsNullOrEmpty(c.ContactTitleRole) ? "" : $" - {c.ContactTitleRole}")
                 })
@@ -1089,6 +1102,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {
             string feedBack = string.Empty;
