@@ -51,9 +51,12 @@
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h2 class="h2 mb-0 text-gray-1400">Contacts</h2>
-                <a asp-action="Create" class="btn btn-primary btn-lg ">
-                    <i class="fas fa-plus"></i>Add Contact
-                </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Create" class="btn btn-primary btn-lg ">
+                        <i class="fas fa-plus"></i>Add Contact
+                    </a>
+                }
             </div>
 
             @* <form asp-action="Index" method="get">
@@ -145,7 +148,7 @@
 
                                                 <span>
                                                     <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
-                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                    data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
                                                         Members (@specCount)
                                                         <i class="bi bi-chevron-down" id="arrowSpec@(item.ID)"></i>  <!-- Down arrow icon -->
                                                     </a>
@@ -174,7 +177,7 @@
 
                                                 <span>
                                                     <a href="javascript:void(0);" class="role-button" data-bs-toggle="collapse"
-                                                       data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                                    data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
                                                         Opportunities (@opportunityCount)
                                                         <i class="bi bi-chevron-down" id="arrowOpportunity@(item.ID)"></i>  <!-- Down arrow icon -->
                                                     </a>
@@ -217,20 +220,28 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" style="float: none; ">
-                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                   data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-search"></i>
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                    data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
                                                 <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                    role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-search"></i>
                                                 </a>
-
-                                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                   data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
+                                                }
                                             </div>
                                         </td>
                                     </tr>

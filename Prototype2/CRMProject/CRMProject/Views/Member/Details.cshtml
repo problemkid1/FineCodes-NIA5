@@ -233,7 +233,10 @@
         }
         else
         {
-            <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+            }
         }
     }
     <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>

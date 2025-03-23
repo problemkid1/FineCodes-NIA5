@@ -1018,12 +1018,6 @@ namespace CRMProject.Data
                          {
                              FirstName = "Bismark",
                              LastName = "Addae",
-                             Email = "super@outlook.com"
-                         },
-                         new MemberLogin
-                         {
-                             FirstName = "Betty",
-                             LastName = "Rubble",
                              Email = "user@outlook.com"
                          });
 
