@@ -496,7 +496,45 @@
             });
         });
 
-        $(document).ready(function() {
+        // $(document).ready(function() {
+        //     Scroll to top button appearance
+        //     $(window).scroll(function() {
+        //         if ($(this).scrollTop() > 100) { Show after scrolling 100px
+        //             $('.scroll-to-top').fadeIn('slow');
+        //         } else {
+        //             $('.scroll-to-top').fadeOut('slow');
+        //         }
+        //     });
+
+        //     Scroll to top animation
+        //     $('.scroll-to-top').click(function() {
+        //         $('html, body').animate({scrollTop : 0}, 800); Animation speed in ms
+        //         return false;
+        //     });
+        // });
+
+                $(document).ready(function() {
+            // Check if we're on a mobile device (based on screen width)
+            function isMobile() {
+                return $(window).width() < 768; // Bootstrap's md breakpoint
+            }
+
+            // Function to collapse sidebar on mobile
+            function collapseSidebarOnMobile() {
+                if (isMobile()) {
+                    $("body").addClass("sidebar-toggled");
+                    $(".sidebar").addClass("toggled");
+                }
+            }
+
+            // Run on page load
+            collapseSidebarOnMobile();
+
+            // Also run when window is resized
+            $(window).resize(function() {
+                collapseSidebarOnMobile();
+            });
+
             // Scroll to top button appearance
             $(window).scroll(function() {
                 if ($(this).scrollTop() > 100) { // Show after scrolling 100px
@@ -512,6 +550,7 @@
                 return false;
             });
         });
+
     </script>
 
 

@@ -2,24 +2,8 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Address";
 }
-
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
 
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
@@ -42,50 +26,65 @@
     </div>
 }
 
-<!-- Custom styles for this template-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-<!-- Custom styles for this template-->
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+<!-- Compact Definition List Styling -->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
+<style>
+    .compact-dl dt, .compact-dl dd {
+        margin-bottom: 0.5rem;
+    }
+
+    .compact-dl dt {
+        padding-top: 0.5rem;
+    }
+
+    .bg-block {
+        background-color: #f8f9fa;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+    }
+</style>
 
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <div>
-               
-                <h2>Are you sure you want to delete this address?</h2>
+            <h2 class="mb-3">Delete Address</h2>
+            <p class="text-danger">Are you sure you want to delete this address?</p>
+            <hr />
 
+            <dl class="row compact-dl">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AddressLine1)</dt>
+                <dd class="col-sm-9 bg-block">@Model.AddressLine1 ?? "N/A"</dd>
 
-                <hr />
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AddressLine2)</dt>
+                <dd class="col-sm-9 bg-block">@(!string.IsNullOrWhiteSpace(Model.AddressLine2) ? Model.AddressLine2 : "N/A")</dd>
 
-                <dl class="row">
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.AddressLine1)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.AddressLine1)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AddressCity)</dt>
+                <dd class="col-sm-9 bg-block">@Model.AddressCity ?? "N/A"</dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.AddressLine2)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.AddressLine2)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Province)</dt>
+                <dd class="col-sm-9 bg-block">@Model.Province ?? "N/A"</dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.AddressCity)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.AddressCity)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PostalCode)</dt>
+                <dd class="col-sm-9 bg-block">@Model.PostalCode ?? "N/A"</dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.Province)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.Province)</dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Member)</dt>
+                <dd class="col-sm-9 bg-block">@Model.Member?.MemberName ?? "N/A"</dd>
+            </dl>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.PostalCode)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.PostalCode)</dd>
-
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.Member)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.Member.MemberName)</dd>
-                </dl>
-
-                <div class="form-group text-center">
-                    <form asp-action="Delete" method="post">
-                        <input type="hidden" asp-for="ID" />
-                        <button type="submit" class="btn btn-danger">Delete Address</button>
-                        <a class="btn btn-secondary ml-2" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">Back to @Model.Member.MemberName</a>
-                    </form>
-                </div>
+            <div class="form-group text-center mt-4">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="ID" />
+                    <button type="submit" class="btn btn-danger me-2">
+                        <i class="fa-solid fa-trash me-1"></i>Delete Address
+                    </button>
+                    <a class="btn btn-secondary" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">
+                        <i class="fa-solid fa-arrow-left me-1"></i>Back to @Model.Member?.MemberName
+                    </a>
+                </form>
             </div>
         </div>
     </div>

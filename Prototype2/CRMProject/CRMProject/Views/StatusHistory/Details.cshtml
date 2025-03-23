@@ -26,58 +26,78 @@
     </div>
 }
 
-<!-- Custom styles for this template-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+<!-- Custom Definition List Styling -->
+<link href="~/customs/css/style.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h2>Status History Details</h2>
-            <hr />
+            <div>
+                <h2><i class="fa fa-clock-rotate-left"></i> Status History - @Html.DisplayFor(model => model.Reason)</h2>
+                <hr />
 
-            <!-- Custom DL styling -->
-            <style>
-                .compact-dl dt, .compact-dl dd {
-                    margin-bottom: 0.5rem;
-                }
+                <!-- Optional: Move this CSS to style.css -->
+                <style>
+                    .compact-dl dt, .compact-dl dd {
+                        margin-bottom: 0.5rem;
+                    }
 
-                .compact-dl dd {
-                    background-color: #f8f9fa;
-                    padding: 0.5rem;
-                    border-radius: 0.25rem;
-                }
-            </style>
+                    .compact-dl dt {
+                        padding-top: 0.5rem;
+                    }
+                </style>
 
-            <dl class="row compact-dl">
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Member)</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.Member.MemberName)</dd>
+                <dl class="row compact-dl">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Member)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @Model.Member?.MemberName ?? "N/A"
+                    </dd>
 
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.Status)</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Status)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @Model.Status ?? "N/A"
+                    </dd>
 
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Reason)</dt>
-                <dd class="col-sm-10">
-                    <textarea class="form-control bg-light" readonly>@Model.Reason</textarea>
-                </dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Reason)</dt>
+                    <dd class="col-sm-10 col-md-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Reason))
+                        {
+                            <textarea class="form-control bg-light" rows="3" readonly aria-label="Reason">@Model.Reason</textarea>
+                        }
+                        else
+                        {
+                            <span class="bg-light p-2 d-block rounded">N/A</span>
+                        }
+                    </dd>
 
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Notes)</dt>
-                <dd class="col-sm-10">
-                    <textarea class="form-control bg-light" readonly>@Model.Notes</textarea>
-                </dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Notes)</dt>
+                    <dd class="col-sm-10 col-md-9">
+                        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                        {
+                            <textarea class="form-control bg-light" rows="4" readonly aria-label="Notes">@Model.Notes</textarea>
+                        }
+                        else
+                        {
+                            <span class="bg-light p-2 d-block rounded">N/A</span>
+                        }
+                    </dd>
 
-                <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Date)</dt>
-                <dd class="col-sm-10">@Html.DisplayFor(model => model.Date, "{0:yyyy-MM-dd}")</dd>
-            </dl>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Date)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @Model.Date.ToString("yyyy-MM-dd")
+                    </dd>
+                </dl>
 
-            <div class="form-group text-center mt-4">
-                @if (Model?.ID != null)
-                {
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Status History</a>
-                }
-                <a class="btn btn-secondary ml-2" asp-action="Index">Back to Status Histories</a>
+                <div class="form-group text-center mt-4">
+                    @if (Model?.ID != null)
+                    {
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Status History</a>
+                    }
+                    <a class="btn btn-secondary ml-2" asp-action="Index">Back to Status Histories</a>
+                </div>
             </div>
         </div>
     </div>

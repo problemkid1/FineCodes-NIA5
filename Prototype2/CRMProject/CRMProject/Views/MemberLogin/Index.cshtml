@@ -77,11 +77,18 @@
                                             }
                                         </td>
                                         <td class="text-center">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input toggle-status" type="checkbox"
-                                                       data-id="@item.ID" @(item.Active ? "checked" : "")>
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input toggle-status"
+                                                       id="statusSwitch_@item.ID"
+                                                       data-id="@item.ID"
+                                                @(Html.Raw(item.Active ? "checked=\"checked\"" : "")) />
+                                                <label class="custom-control-label" for="statusSwitch_@item.ID">
+                                                    @(item.Active ? "Active" : "Inactive")
+                                                </label>
                                             </div>
                                         </td>
+
+
 
                                         <td class="text-center">
                                             <div class="btn-group">
@@ -107,11 +114,16 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".toggle-status").forEach(function (toggle) {
             toggle.addEventListener("change", function () {
                 let memberId = this.dataset.id;
                 let isActive = this.checked;
+                let statusText = this.parentElement.querySelector('.status-text');
+
+                if (statusText) {
+                    statusText.textContent = isActive ? "Active" : "Inactive";
+                }
 
                 fetch('/Member/ToggleStatus', {
                     method: 'POST',
@@ -124,14 +136,19 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert("Status updated successfully!");
+                        // Success notification
                     } else {
+                        // Revert toggle and text if update fails
+                        this.checked = !isActive;
+                        if (statusText) {
+                            statusText.textContent = !isActive ? "Active" : "Inactive";
+                        }
                         alert("Failed to update status.");
-                        this.checked = !isActive; // Revert toggle if update fails
                     }
                 })
                 .catch(error => console.error("Error:", error));
             });
         });
     });
+
 </script>
