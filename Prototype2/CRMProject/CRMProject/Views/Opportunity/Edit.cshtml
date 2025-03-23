@@ -3,21 +3,6 @@
 @{
     ViewData["Title"] = "Edit";
 }
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
 
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
@@ -40,118 +25,109 @@
     </div>
 }
 
-<!-- Custom styles for this template-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<!-- Custom styles for this template-->
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
 <div class="col-12">
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h2>Edit - @Html.DisplayFor(model => model.OpportunityName)</h2>
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-header bg-white border-bottom py-3">
+            <h5 class="mb-0 fw-bold text-primary">Edit Opportunity - @Html.DisplayFor(model => model.OpportunityName)</h5>
         </div>
         <div class="card-body">
             <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <input type="hidden" asp-for="ID" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="row">
-                    <!-- Opportunity Name -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityName" class="control-label">Opportunity Name</label>
-                            <span class="text-danger">*</span>
-                            <input asp-for="OpportunityName" class="form-control" />
-                            <span asp-validation-for="OpportunityName" class="text-danger"></span>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="OpportunityName" class="form-label">Opportunity Name <span class="text-danger">*</span></label>
+                        <input asp-for="OpportunityName" class="form-control" />
+                        <span asp-validation-for="OpportunityName" class="text-danger small"></span>
                     </div>
 
-                    <!-- Opportunity Status -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityStatus" class="control-label">Status</label>
-                            <span class="text-danger">*</span>
-                            <select asp-for="OpportunityStatus" class="form-control"
-                                    asp-items="Html.GetEnumSelectList<OpportunityStatus>()">
-                                <option value="">Select a Opportunity Status </option>
-                            </select>
-                            <span asp-validation-for="OpportunityStatus" class="text-danger"></span>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="OpportunityStatus" class="form-label">Status <span class="text-danger">*</span></label>
+                        <select asp-for="OpportunityStatus" class="form-control" asp-items="Html.GetEnumSelectList<OpportunityStatus>()">
+                            <option value="">Select Status</option>
+                        </select>
+                        <span asp-validation-for="OpportunityStatus" class="text-danger small"></span>
                     </div>
 
-                    <!-- Opportunity Priority -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityPriority" class="control-label">Priority</label>
-                            <select asp-for="OpportunityPriority" class="form-control">
-                                <option value="">Select Priority</option>
-                                <option value="High">High</option>
-                                <option value="Low">Low</option>
-                            </select>
-                            <span asp-validation-for="OpportunityPriority" class="text-danger"></span>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="OpportunityPriority" class="form-label">Priority</label>
+                        <select asp-for="OpportunityPriority" class="form-control">
+                            <option value="">Select Priority</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                        </select>
+                        <span asp-validation-for="OpportunityPriority" class="text-danger small"></span>
                     </div>
 
-                    <!-- Opportunity Action -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityAction" class="control-label">Action</label>
-                            <input asp-for="OpportunityAction" class="form-control" />
-                            <span asp-validation-for="OpportunityAction" class="text-danger"></span>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="OpportunityAction" class="form-label">Action</label>
+                        <input asp-for="OpportunityAction" class="form-control" />
+                        <span asp-validation-for="OpportunityAction" class="text-danger small"></span>
                     </div>
 
-                    <!-- Opportunity Contact -->
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <strong>Select Contacts</strong>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <span class="control-label">Available Contacts</span>
-                                    <button type="button" id="btnAddContact" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                                    @Html.ListBox("availableContact", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
-                                </div>
+                    <div class="col-12 mb-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light py-2">
+                                <strong class="text-dark">Select Contacts</strong>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="d-flex mb-2">
+                                            <label class="form-label">Available Contacts</label>
+                                            <button type="button" id="btnAddContact" class="btn btn-sm btn-outline-success">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        @Html.ListBox("availableContact", (MultiSelectList)ViewBag.availOpts, new { @size = 8, @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="d-flex mb-2">
+                                            <label class="form-label">Selected Contacts</label>
+                                            <button type="button" id="btnRemoveContact" class="btn btn-sm btn-outline-danger">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        @Html.ListBox("selectedContact", (MultiSelectList)ViewBag.selOpts, new { @size = 8, @class = "form-control" })
+                                    </div>
 
-                                <div class="form-group col-md-6">
-                                    <span class="control-label">Selected Contacts</span>
-                                    <button type="button" id="btnRemoveContact" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                                    @Html.ListBox("selectedContact", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+
+
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Opportunity Last Contact Date -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="OpportunityLastContactDate" class="form-label">Last Contact Date</label>
-                            <input asp-for="OpportunityLastContactDate" type="date" class="form-control" 
-                                   max="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                            <span asp-validation-for="OpportunityLastContactDate" class="text-danger"></span>
-                        </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="OpportunityLastContactDate" class="form-label">Last Contact Date</label>
+                        <input asp-for="OpportunityLastContactDate" type="date" class="form-control" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="OpportunityLastContactDate" class="text-danger small"></span>
                     </div>
 
-                    <!-- Opportunity Interactions -->
                     <div class="col-12 mb-3">
                         <label asp-for="OpportunityInteractions" class="form-label">Interactions</label>
-                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3" ></textarea>
-                        <span asp-validation-for="OpportunityInteractions" class="text-danger"></span>
+                        <textarea asp-for="OpportunityInteractions" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="OpportunityInteractions" class="text-danger small"></span>
                     </div>
                 </div>
 
-                <div class="form-group text-center">
-                    <input type="submit" value="Save Opportunity" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Opportunities</a>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary px-4 me-2">
+                        <i class="fas fa-save me-1"></i> Save Opportunity
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Back To Opportunity
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <script src="~/js/multiselect.js"></script>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

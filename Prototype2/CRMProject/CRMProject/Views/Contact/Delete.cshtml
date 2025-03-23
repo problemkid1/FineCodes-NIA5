@@ -2,24 +2,8 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete - Contact";
 }
-
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
 
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
@@ -41,59 +25,121 @@
         </button>
     </div>
 }
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-<!-- Custom styles for this template-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<!-- Custom styles for this template-->
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+<!-- Compact Definition List Styling -->
+<link href="~/customs/css/style.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
         <div class="card-body">
             <div>
                 <h2>Delete - @Html.DisplayFor(model => model.Summary)</h2>
-
+                <p class="text-danger mb-3">Are you sure you want to delete this contact?</p>
                 <hr />
 
-                <dl class="row">
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.FirstName)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.FirstName)</dd>
+                <!-- Compact spacing style for definition list -->
+                <style>
+                    .compact-dl dt, .compact-dl dd {
+                        margin-bottom: 0.5rem;
+                    }
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.LastName)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.LastName)</dd>
+                    .compact-dl dt {
+                        padding-top: 0.5rem;
+                    }
+                </style>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactTitleRole)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactTitleRole)</dd>
+                <dl class="row compact-dl">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.FirstName)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.FirstName)</dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactPhone)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactPhone)</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.LastName)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.LastName)</dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactEmailAddress)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactEmailAddress)</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactTitleRole)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @if (Model.ContactTitleRole != null)
+                        {
+                            @Model.ContactTitleRole
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactEmailType)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactEmailType)</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.PhoneFormatted)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @if (Model.PhoneFormatted != null)
+                        {
+                            <a href="tel:@Model.PhoneFormatted">@Model.PhoneFormatted</a>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
 
-                    @* <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactWebsite)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactWebsite)</dd> *@
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactEmailAddress)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @if (!string.IsNullOrEmpty(Model.ContactEmailAddress))
+                        {
+                            <a href="mailto:@Model.ContactEmailAddress">@Model.ContactEmailAddress</a>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactInteractions)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactInteractions)</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactEmailType)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @if (Model.ContactEmailType != null)
+                        {
+                            @Model.ContactEmailType.ToString()
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactNotes)</dt>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactInteractions)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                        @if (Model.ContactInteractions != null)
+                        {
+                            @Model.ContactInteractions
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactNotes)</dt>
                     <dd class="col-sm-10 col-md-9">
-                        <textarea class="form-control" rows="4" readonly>@Model.ContactNotes</textarea>
+                        @if (!string.IsNullOrWhiteSpace(Model.ContactNotes))
+                        {
+                            <textarea class="form-control bg-light" rows="4" readonly>@Model.ContactNotes</textarea>
+                        }
+                        else
+                        {
+                            <span class="bg-light p-2 d-block rounded">N/A</span>
+                        }
                     </dd>
                 </dl>
 
-                <div class="form-group text-center">
-                    <h3>Are you sure you want to delete this contact?</h3>
+                <div class="form-group text-center mt-4">
+                    
                     <form asp-action="Delete" method="post">
                         <input type="hidden" asp-for="ID" />
-                        <button type="submit" class="btn btn-danger">Delete Contact</button>
-                        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Contacts</a>
+                        <button type="submit" class="btn btn-danger me-2">
+                            <i class="fa-solid fa-trash me-1"></i>Delete Contact
+                        </button>
+                        <a class="btn btn-secondary" asp-action="Index">
+                            <i class="fa-solid fa-arrow-left me-1"></i>Back to Contacts
+                        </a>
                     </form>
                 </div>
             </div>

@@ -37,88 +37,51 @@
 
 <div class="card shadow-sm">
     <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
-        <h2 class="mb-0 fs-4">@Html.DisplayFor(model => model.MemberName)</h2>
-        <span class="badge @(Model.MemberStatus == CRMProject.Models.MemberStatus.Cancelled ? "bg-danger" : "bg-success")">
-            @Html.DisplayFor(model => model.MemberStatus)
-        </span>
-    </div>
-    <div class="card-body">
+        <h2 class="mb-0 fs-4"><strong> @Html.DisplayFor(model => model.MemberName)</strong></h2>
 
-        <div class="d-flex align-items-center justify-content-between mb-3">            
-            <h2 class="mb-0"><strong>Details - @Html.DisplayFor(model => model.MemberName)</strong></h2>
-            <button class="btn btn-primary no-print me-3" onclick="window.print()" title="Print">
+        <div class="d-flex align-items-center">
+            <span class="badge @(Model.MemberStatus == CRMProject.Models.MemberStatus.Cancelled ? "bg-danger" : "bg-success") me-2">
+                @Html.DisplayFor(model => model.MemberStatus)
+            </span>
+            <button class="btn btn-primary no-print" onclick="window.print()" title="Print">
                 <i class="fa-solid fa-print"></i> Print
             </button>
         </div>
+    </div>
 
-        <hr />
-        <!-- Two-Column Layout -->
-
-        <div class="row">
-            <div class="col-xl-1">
-                <!-- Member Image -->
-                <div class="photo">
-                    @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
-                    {
-                        string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
-                        string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
-                        <img src="@imageSrc" alt="Profile Picture" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
-                    }
-                    else
-                    {
-                        <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-fluid rounded" style="max-height: 300px; width: auto;" />
-                    }
-                </div>
-            </div>
-
-
+    <div class="card-body">
+        <!-- Main Information Section -->
+        <div class="row g-4">
+            <!-- Profile Image Column -->
+            <div class="col-md-3">
+                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                    <div class="position-relative mb-3 mt-2">
+                        <div class="profile-image-container">
+                            @if (Model?.MemberPhoto?.Content != null && Model?.MemberPhoto?.MimeType != null)
+                            {
+                                string imageBase64 = Convert.ToBase64String(Model.MemberPhoto.Content);
+                                string imageSrc = string.Format("data:{0};base64,{1}", Model.MemberPhoto.MimeType, imageBase64);
+                                <img src="@imageSrc" alt="Profile Picture" class="img-thumbnail rounded-3 shadow-sm profile-image" />
+                            }
+                            else
+                            {
+                                <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-thumbnail rounded-3 shadow-sm profile-image" />
+                            }
 
                             @if (Model?.ID != null && Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
                             {
                                 <div class="profile-image-overlay">
                                     <label for="photoUpload" class="upload-label">
                                         <i class="fa-solid fa-camera fa-2x"></i>
-                                        <span>Change Photo</span>
+                                        <span>Edit Photo</span>
                                     </label>
                                     <input type="file" id="photoUpload" class="d-none" accept="image/*"
                                            data-member-id="@Model.ID" />
                                 </div>
                             }
+                        </div>
 
-                        }
-                        else
-                        {
-                            <span>No contacts available</span>
-                        }
-                    </dd>
-
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStatus)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStatus)</dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberAccountsPayableEmail)</dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberWebsite)</dt>
-                    <dd class="col-7">
-                        @if (Model.MemberWebsite == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(model => model.MemberWebsite)
-
-                        }
-                    </dd>
-                    <dt class="col-md-12">@Html.DisplayNameFor(model => model.MemberNotes)</dt>
-                    <dd class="col-sm-12">
-                        @if (Model.MemberNotes == null)
-                        {
-                            <span>No Current Notes</span>
-                        }
-                        else
-                        {
-                            <textarea class="form-control" readonly style="background-color: white;">@Model.MemberNotes</textarea>
-                        }
-
+                    </div>
 
                     <div class="member-id-badge bg-light text-center py-1 px-3 rounded-pill mb-2">
                         <small class="text-muted">ID: @Model?.ID</small>
@@ -127,36 +90,34 @@
             </div>
 
 
-            <div class="col-xl-5">
-                <dl class="summ-view">
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberLastContactDate)</dt>
-                    <dd class="col-7">
-                        @if (Model.MemberLastContactDate == null)
-                        {
-                            <span>N/A</span>
-                        }
-                        @Html.DisplayFor(model => model.MemberLastContactDate, "{0:yyyy-MM-dd}")
-                    </dd>
-                    <dt class="col-5">@Html.DisplayNameFor(model => model.MemberStartDate)</dt>
-                    <dd class="col-7">@Html.DisplayFor(model => model.MemberStartDate, "{0:yyyy-MM-dd}")</dd>
-                    @if (Model.MemberStatus == @CRMProject.Models.MemberStatus.Cancelled)
-                    {
-                        <dt class="col-5">Cancellation Date</dt>
-                        <dd class="col-7">@Html.DisplayFor(model => model.MemberEndDate, "{0:yyyy-MM-dd}")</dd>
 
-                        @* @if (Model.StatusHistories != null && Model.StatusHistories.Any())
-                            {
-                                var records = Model.StatusHistories.Select(m => m.Date).ToList();
-                                var mostRecentDate = records.Max();
-                                <span>@mostRecentDate.ToString("yyyy-MM-dd")</span>
-
-
-
-
-                            } *@
-
-                    }
-
+            <!-- Member Information Column -->
+            <div class="col-md-9">
+                <div class="row g-3">
+                    <!-- Contact Information Card -->
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Contact Information</h5>
+                                @* <i class="fa-solid fa-address-card me-2"></i> *@
+                            </div>
+                            <div class="card-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-5 text-muted">Primary Contact:</dt>
+                                    <dd class="col-sm-7">
+                                        @if (Model.MemberContacts != null && Model.MemberContacts.Any())
+                                        {
+                                            var primaryContact = Model.MemberContacts.FirstOrDefault();
+                                            if (primaryContact != null)
+                                            {
+                                                <span>@primaryContact.Contact.ContactType</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted fst-italic">No contacts available</span>
+                                        }
+                                    </dd>
 
                                     <dt class="col-sm-5 text-muted">@Html.DisplayNameFor(model => model.MemberAccountsPayableEmail):</dt>
                                     <dd class="col-sm-7">
@@ -293,264 +254,278 @@
     <div class="form-group text-center mt-3">
         @if (Model?.ID != null)
         {
-
-
-        }
-        else
-        {
-            @if (User.IsInRole("Admin"))
+            @if (Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
             {
-                <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+            }
+            else
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+                }
             }
         }
-    }
-    <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>
-
+        <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>
+    </div>
 </div>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-    <style>
-        .edit-photo-icon {
-            z-index: 10;
-        }
 
-        .upload-btn-overlay {
-            display: none;
-            position: absolute;
-            top: -40px;
-            right: 0;
-            z-index: 20;
-        }
+    <script src="~/js/mDetails.js"></script>
+    @* <style> *@
+    @*     .edit-photo-icon { *@
+    @*         z-index: 10; *@
+    @*     } *@
 
-        .edit-photo-icon:hover .upload-btn-overlay {
-            display: block;
-        }
+    @*     .upload-btn-overlay { *@
+    @*         display: none; *@
+    @*         position: absolute; *@
+    @*         top: -40px; *@
+    @*         right: 0; *@
+    @*         z-index: 20; *@
+    @*     } *@
 
-        /* Custom scrollbar for notes */
-        .notes-container::-webkit-scrollbar {
-            width: 6px;
-        }
+    @*     .edit-photo-icon:hover .upload-btn-overlay { *@
+    @*         display: block; *@
+    @*     } *@
 
-        .notes-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
+    @*     /* Custom scrollbar for notes */ *@
+    @*     .notes-container::-webkit-scrollbar { *@
+    @*         width: 6px; *@
+    @*     } *@
 
-        .notes-container::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 10px;
-        }
+    @*     .notes-container::-webkit-scrollbar-track { *@
+    @*         background: #f1f1f1; *@
+    @*         border-radius: 10px; *@
+    @*     } *@
 
-            .notes-container::-webkit-scrollbar-thumb:hover {
-                background: #a8a8a8;
-            }
+    @*     .notes-container::-webkit-scrollbar-thumb { *@
+    @*         background: #c1c1c1; *@
+    @*         border-radius: 10px; *@
+    @*     } *@
 
-        /* Profile image overlay styles */
-        .profile-image-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-        }
+    @*         .notes-container::-webkit-scrollbar-thumb:hover { *@
+    @*             background: #a8a8a8; *@
+    @*         } *@
 
-        .profile-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    @*     /* Enhanced profile image styles */ *@
+    @*     .profile-image-container { *@
+    @*         position: relative; *@
+    @*         width: 200px; *@
+    @*         height: 200px; *@
+    @*         margin: 0 auto; *@
+    @*         border-radius: 0.3rem; *@
+    @*         overflow: hidden; *@
+    @*     } *@
 
-        .profile-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            color: transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-radius: 0.3rem;
-        }
+    @*     .profile-image { *@
+    @*         width: 100%; *@
+    @*         height: 100%; *@
+    @*         object-fit: cover; *@
+    @*         transition: filter 0.3s ease; *@
+    @*     } *@
 
-            .profile-image-overlay:hover {
-                background-color: rgba(0, 0, 0, 0.5);
-                color: white;
-            }
+    @*     .profile-image-overlay { *@
+    @*         position: absolute; *@
+    @*         top: 0; *@
+    @*         left: 0; *@
+    @*         width: 100%; *@
+    @*         height: 100%; *@
+    @*         background-color: rgba(0, 0, 0, 0); *@
+    @*         display: flex; *@
+    @*         justify-content: center; *@
+    @*         align-items: center; *@
+    @*         flex-direction: column; *@
+    @*         opacity: 0; *@
+    @*         transition: all 0.3s ease; *@
+    @*         cursor: pointer; *@
+    @*     } *@
 
-        .upload-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            width: 100%;
-            height: 100%;
-            justify-content: center;
-        }
+    @*     .profile-image-container:hover .profile-image { *@
+    @*         filter: brightness(70%); *@
+    @*     } *@
 
-            .upload-label span {
-                margin-top: 10px;
-                font-size: 14px;
-            }
-    </style>
+    @*     .profile-image-container:hover .profile-image-overlay { *@
+    @*         background-color: rgba(0, 0, 0, 0.5); *@
+    @*         opacity: 1; *@
+    @*     } *@
 
-    <script>
-        // Toggle text for read more/less functionality
-        function toggleText() {
-            var moreText = document.getElementById("moreText");
-            var readMore = document.getElementById("readMore");
+    @*     .upload-label { *@
+    @*         display: flex; *@
+    @*         flex-direction: column; *@
+    @*         align-items: center; *@
+    @*         justify-content: center; *@
+    @*         width: 100%; *@
+    @*         height: 100%; *@
+    @*         color: white; *@
+    @*         cursor: pointer; *@
+    @*     } *@
 
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
+    @*         .upload-label i { *@
+    @*             margin-bottom: 8px; *@
+    @*             filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5)); *@
+    @*         } *@
 
-    </script>
+    @*         .upload-label span { *@
+    @*             font-size: 16px; *@
+    @*             font-weight: 500; *@
+    @*             text-shadow: 0 0 3px rgba(0, 0, 0, 0.7); *@
+    @*         } *@
 
-    <script>
-         function toggleTextName(itemId) {
+    @* </style> *@
 
-            var moreText = document.getElementById("moreTextName" + itemId);
-            var readMore = document.getElementById("readMoreName" + itemId);
+    @* <script> *@
+    @*     // Toggle text for read more/less functionality *@
+    @*     function toggleText() { *@
+    @*         var moreText = document.getElementById("moreText"); *@
+    @*         var readMore = document.getElementById("readMore"); *@
 
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
+    @*         if (moreText.style.display === "none") { *@
+    @*             moreText.style.display = "inline"; *@
+    @*             readMore.innerHTML = " Read less"; *@
+    @*         } else { *@
+    @*             moreText.style.display = "none"; *@
+    @*             readMore.innerHTML = " Read More"; *@
+    @*         } *@
+    @*     } *@
 
-        // Toggle text for city with specific item ID
-        function toggleTextCity(itemId) {
-            var moreText = document.getElementById("moreTextCity" + itemId);
-            var readMore = document.getElementById("readMoreCity" + itemId);
+    @*     // Toggle text for member name with specific item ID *@
+    @*     function toggleTextName(itemId) { *@
+    @*         var moreText = document.getElementById("moreTextName" + itemId); *@
+    @*         var readMore = document.getElementById("readMoreName" + itemId); *@
 
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
+    @*         if (moreText.style.display === "none") { *@
+    @*             moreText.style.display = "inline"; *@
+    @*             readMore.innerHTML = " Read less"; *@
+    @*         } else { *@
+    @*             moreText.style.display = "none"; *@
+    @*             readMore.innerHTML = " Read More"; *@
+    @*         } *@
+    @*     } *@
 
-        // Toggle text for industry with specific item ID
-        function toggleTextIndustry(itemId) {
-            var moreText = document.getElementById("moreTextIndustry" + itemId);
-            var readMore = document.getElementById("readMoreIndustry" + itemId);
+    @*     // Toggle text for city with specific item ID *@
+    @*     function toggleTextCity(itemId) { *@
+    @*         var moreText = document.getElementById("moreTextCity" + itemId); *@
+    @*         var readMore = document.getElementById("readMoreCity" + itemId); *@
 
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
+    @*         if (moreText.style.display === "none") { *@
+    @*             moreText.style.display = "inline"; *@
+    @*             readMore.innerHTML = " Read less"; *@
+    @*         } else { *@
+    @*             moreText.style.display = "none"; *@
+    @*             readMore.innerHTML = " Read More"; *@
+    @*         } *@
+    @*     } *@
 
-        // Toggle industry display and count
-        function toggleIndustry(id) {
-            var countSpan = document.getElementById("industryCount" + id);
-            var collapseElement = document.getElementById("collapseIndustry" + id);
+    @*     // Toggle text for industry with specific item ID *@
+    @*     function toggleTextIndustry(itemId) { *@
+    @*         var moreText = document.getElementById("moreTextIndustry" + itemId); *@
+    @*         var readMore = document.getElementById("readMoreIndustry" + itemId); *@
 
-            if (collapseElement.classList.contains("show")) {
-                countSpan.style.display = "inline"; // Show the count when collapsed
-            } else {
-                countSpan.style.display = "none"; // Hide the count when expanded
-            }
-        }
+    @*         if (moreText.style.display === "none") { *@
+    @*             moreText.style.display = "inline"; *@
+    @*             readMore.innerHTML = " Read less"; *@
+    @*         } else { *@
+    @*             moreText.style.display = "none"; *@
+    @*             readMore.innerHTML = " Read More"; *@
+    @*         } *@
+    @*     } *@
 
-        // Handle profile photo upload
-        function uploadProfilePhoto(memberId) {
-            const fileInput = document.getElementById('photoUpload');
-            if (fileInput.files && fileInput.files[0]) {
-                // Show loading indicator
-                const overlay = document.querySelector('.profile-image-overlay');
-                const originalContent = overlay.innerHTML;
-                overlay.innerHTML = '<div class="spinner-border text-light" role="status"><span class="visually-hidden">Loading...</span></div>';
+    @*     // Toggle industry display and count *@
+    @*     function toggleIndustry(id) { *@
+    @*         var countSpan = document.getElementById("industryCount" + id); *@
+    @*         var collapseElement = document.getElementById("collapseIndustry" + id); *@
 
-                const formData = new FormData();
-                formData.append('photo', fileInput.files[0]);
-                formData.append('memberId', memberId);
+    @*         if (collapseElement.classList.contains("show")) { *@
+    @*             countSpan.style.display = "inline"; // Show the count when collapsed *@
+    @*         } else { *@
+    @*             countSpan.style.display = "none"; // Hide the count when expanded *@
+    @*         } *@
+    @*     } *@
 
-                fetch('/Member/UpdateProfilePhoto', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Network response was not ok');
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Reload the page to show the new image
-                        window.location.reload();
-                    } else {
-                        // Restore original content and show error
-                        overlay.innerHTML = originalContent;
-                        alert('Error uploading photo: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    // Restore original content and show error
-                    overlay.innerHTML = originalContent;
-                    console.error('Error:', error);
-                    alert('Error uploading photo. Please try again.');
-                });
-            }
-        }
+    @*     // Handle profile photo upload *@
+    @*     function uploadProfilePhoto(memberId) { *@
+    @*         const fileInput = document.getElementById('photoUpload'); *@
+    @*         if (fileInput.files && fileInput.files[0]) { *@
+    @*             // Show loading indicator *@
+    @*             const overlay = document.querySelector('.profile-image-overlay'); *@
+    @*             const originalContent = overlay.innerHTML; *@
+    @*             overlay.innerHTML = '<div class="spinner-border text-light" role="status"><span class="visually-hidden">Loading...</span></div>'; *@
 
-        // Initialize tooltips
-        document.addEventListener('DOMContentLoaded', function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+    @*             const formData = new FormData(); *@
+    @*             formData.append('photo', fileInput.files[0]); *@
+    @*             formData.append('memberId', memberId); *@
 
-            // Add event listener for file input change
-            const photoUpload = document.getElementById('photoUpload');
-            if (photoUpload) {
-                photoUpload.addEventListener('change', function() {
-                    if (this.files && this.files[0]) {
-                        // Preview image (optional)
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const profileImage = document.querySelector('.profile-image');
-                            if (profileImage) {
-                                profileImage.src = e.target.result;
-                            }
-                        }
-                        reader.readAsDataURL(this.files[0]);
+    @*             fetch('/Member/UpdateProfilePhoto', { *@
+    @*                 method: 'POST', *@
+    @*                 body: formData *@
+    @*             }) *@
+    @*             .then(response => { *@
+    @*                 if (response.ok) { *@
+    @*                     return response.json(); *@
+    @*                 } *@
+    @*                 throw new Error('Network response was not ok'); *@
+    @*             }) *@
+    @*             .then(data => { *@
+    @*                 if (data.success) { *@
+    @*                     // Reload the page to show the new image *@
+    @*                     window.location.reload(); *@
+    @*                 } else { *@
+    @*                     // Restore original content and show error *@
+    @*                     overlay.innerHTML = originalContent; *@
+    @*                     alert('Error uploading photo: ' + data.message); *@
+    @*                 } *@
+    @*             }) *@
+    @*             .catch(error => { *@
+    @*                 // Restore original content and show error *@
+    @*                 overlay.innerHTML = originalContent; *@
+    @*                 console.error('Error:', error); *@
+    @*                 alert('Error uploading photo. Please try again.'); *@
+    @*             }); *@
+    @*         } *@
+    @*     } *@
 
-                        // Auto upload
-                        const memberId = this.getAttribute('data-member-id');
-                        if (memberId) {
-                            uploadProfilePhoto(memberId);
-                        }
-                    }
-                });
-            }
+    @*     // Initialize tooltips *@
+    @*     document.addEventListener('DOMContentLoaded', function() { *@
+    @*         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')); *@
+    @*         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) { *@
+    @*             return new bootstrap.Tooltip(tooltipTriggerEl); *@
+    @*         }); *@
 
-            // Dismiss alerts automatically after 5 seconds
-            setTimeout(function() {
-                const alerts = document.querySelectorAll('.alert');
-                alerts.forEach(function(alert) {
-                    const bsAlert = new bootstrap.Alert(alert);
-                    bsAlert.close();
-                });
-            }, 5000);
-        });
-    </script>
+    @*         // Add event listener for file input change *@
+    @*         const photoUpload = document.getElementById('photoUpload'); *@
+    @*         if (photoUpload) { *@
+    @*             photoUpload.addEventListener('change', function() { *@
+    @*                 if (this.files && this.files[0]) { *@
+    @*                     // Preview image (optional) *@
+    @*                     const reader = new FileReader(); *@
+    @*                     reader.onload = function(e) { *@
+    @*                         const profileImage = document.querySelector('.profile-image'); *@
+    @*                         if (profileImage) { *@
+    @*                             profileImage.src = e.target.result; *@
+    @*                         } *@
+    @*                     } *@
+    @*                     reader.readAsDataURL(this.files[0]); *@
+
+    @*                     // Auto upload *@
+    @*                     const memberId = this.getAttribute('data-member-id'); *@
+    @*                     if (memberId) { *@
+    @*                         uploadProfilePhoto(memberId); *@
+    @*                     } *@
+    @*                 } *@
+    @*             }); *@
+    @*         } *@
+
+    @*         // Dismiss alerts automatically after 5 seconds *@
+    @*         setTimeout(function() { *@
+    @*             const alerts = document.querySelectorAll('.alert'); *@
+    @*             alerts.forEach(function(alert) { *@
+    @*                 const bsAlert = new bootstrap.Alert(alert); *@
+    @*                 bsAlert.close(); *@
+    @*             }); *@
+    @*         }, 5000); *@
+    @*     }); *@
+    @* </script> *@
 }
 

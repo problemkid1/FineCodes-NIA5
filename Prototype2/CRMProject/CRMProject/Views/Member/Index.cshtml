@@ -39,7 +39,7 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
 
 
 
@@ -48,7 +48,7 @@
 
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
-<link href="~/customs/css/members-table.css" rel="stylesheet">
+@* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 
 <div class="col-12">
     <div class="card">
@@ -263,24 +263,22 @@
 
 
 
-
-
-
             <div class="card">
+                <!-- Table Section -->
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example1" class="table table-bordered table-striped members-table">
+                        <table id="example1" class="table table-bordered table-striped ">
                             <thead class="table-light">
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
                                     @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th> *@
                                     @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
-                                    <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
-                                    <th class="d-none d-sm-table-cell members-table-mtypes">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
-                                    <th class="d-none d-sm-table-cell members-table-industries">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
-                                    <th class="d-none d-sm-table-cell members-table-startDate">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
-                                    <th class="d-none d-sm-table-cell">Actions</th>
+                                    <th >@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
+                                    <th >@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
+                                    <th >@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
+                                    <th >@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
+                                    <th >@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
+                                    <th >Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -343,7 +341,7 @@
                                                 }                                                
                                             </td> *@
 
-                                            <td class="d-none d-sm-table-cell">
+                                            <td >
                                                 @if (item.Address != null && !string.IsNullOrEmpty(item.Address.AddressCity))
                                                 {
                                                     var cityName = item.Address.AddressCity;
@@ -368,7 +366,7 @@
                                                 }
                                             </td>
 
-                                            <td class="d-none d-sm-table-cell">
+                                            <td >
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
                                             </td>
                                             <!-- For Memberships cell -->
@@ -434,8 +432,8 @@
                                             </td>
 
 
-                                            <td class="d-none d-sm-table-cell">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
-                                            <td class="d-none d-sm-table-cell">
+                                            <td >@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
+                                            <td >
                                                 <div class="btn-group" style="align-content: center;">
                                                     @if (@item.MemberStatus == MemberStatus.Cancelled)
                                                     {
