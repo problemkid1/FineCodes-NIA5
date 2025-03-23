@@ -344,7 +344,8 @@
                                             <td >
                                                 @if (item.Address != null && !string.IsNullOrEmpty(item.Address.AddressCity))
                                                 {
-                                                    var cityName = item.Address.AddressCity;
+                                                    @item.Address.AddressCity
+                                                    @* var cityName = item.Address.AddressCity;
                                                     var words = cityName.Split(' ');
                                                     var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : cityName;
                                                     var fullName = cityName;
@@ -356,7 +357,7 @@
                                                             <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
                                                             <a href="javascript:void(0);" id="readMoreCity@(item.ID)" onclick="toggleTextCity(@item.ID)">...Read More </a>
                                                         }
-                                                    </span>
+                                                    </span> *@
                                                 }
                                                 else
                                                 {
