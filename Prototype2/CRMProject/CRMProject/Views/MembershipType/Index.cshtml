@@ -46,9 +46,13 @@
     </div>
 }
 
+<!-- Custom styles for this template-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <!-- Custom styles for this template-->
 @* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
 <div class="col-12">
@@ -67,10 +71,15 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-secondary @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
-                    data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+
+                    <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
+                            id="filterToggle"
+                            aria-expanded="false"
+                            aria-controls="collapseFilter">
+
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
+                    <div class="mb-4"></div> <!-- Added spacer div -->
                     <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
                         <div class="card card-body bg-light">
                             <div class="row">
@@ -221,7 +230,7 @@
                                                         @if (words.Length > 3)
                                                         {
                                                             <span id="moreTextDescription@(item.ID)" style="display: none;"> @fullDescription.Substring(shortDescription.Length) </span>
-                                                            <a href="javascript:void(0);" id="readMoreDescription@(item.ID)" onclick="toggleTextDescription(@item.ID)">... </a>
+                                                            <a href="javascript:void(0);" id="readMoreDescription@(item.ID)" onclick="toggleTextDescription(@item.ID)"> Read More</a>
                                                         }
                                                     </span>
                                                 }
@@ -275,33 +284,5 @@
             $('[data-bs-toggle="tooltip"]').tooltip();
         });
     </script>
-    <script>
-         function toggleTextType(itemId) {
-            var moreText = document.getElementById("moreTextType" + itemId);
-            var readMore = document.getElementById("readMoreType" + itemId);
 
-            // Toggle membership type text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
-
-        function toggleTextDescription(itemId) {
-            var moreText = document.getElementById("moreTextDescription" + itemId);
-            var readMore = document.getElementById("readMoreDescription" + itemId);
-
-            // Toggle Description text
-            if (moreText.style.display === "none") {
-                moreText.style.display = "inline";
-                readMore.innerHTML = " Read less";
-            } else {
-                moreText.style.display = "none";
-                readMore.innerHTML = "... ";
-            }
-        }
-    </script>
 }

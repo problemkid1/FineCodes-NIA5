@@ -28,10 +28,10 @@ namespace CRMProject.Controllers
             try
             {
                 var breadcrumbs = new List<BreadcrumbItem>
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Dashboard", Url = "/Home/Index", IsActive = true }
-                };
+        {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "Dashboard", Url = "/Home/Index", IsActive = true }
+        };
 
                 ViewData["Breadcrumbs"] = breadcrumbs;
 
@@ -72,19 +72,36 @@ namespace CRMProject.Controllers
 
                 // Query members by industry for the industry chart
                 var industryQuery = _context.MemberIndustries
-                 .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
-                 .GroupBy(mi => mi.Industry.IndustrySector)
-                 .Select(g => new
-                 {
-                     Industry = g.Key,
-                     Count = g.Count()
-                 })
-                 .OrderByDescending(x => x.Count)
-                 .Take(10)
-                 .ToList();
+                    .Where(mi => mi.Member.MemberStatus != MemberStatus.Cancelled)
+                    .GroupBy(mi => mi.Industry.IndustrySector)
+                    .Select(g => new
+                    {
+                        Industry = g.Key,
+                        Count = g.Count()
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .Take(10)
+                    .ToList();
 
                 ViewData["IndustryLabels"] = industryQuery.Select(x => x.Industry).ToList();
                 ViewData["IndustryData"] = industryQuery.Select(x => x.Count).ToList();
+
+                // Add membership type data
+                // Assuming MembershipType is a property on Member or there's a MembershipTypes table with a relationship
+                var membershipTypeQuery = _context.MemberMembershipTypes
+                    .Where(mmt => mmt.Member.MemberStatus != MemberStatus.Cancelled)
+                    .GroupBy(mmt => mmt.MembershipType.MembershipTypeName) // Assuming MembershipType is a navigation property with a Name field
+                    .Select(g => new
+                    {
+                        MembershipType = g.Key,
+                        Count = g.Count()
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .Take(10)
+                    .ToList();
+
+                ViewData["MembershipTypeLabels"] = membershipTypeQuery.Select(x => x.MembershipType).ToList();
+                ViewData["MembershipTypeData"] = membershipTypeQuery.Select(x => x.Count).ToList();
 
                 return View();
             }
@@ -95,6 +112,7 @@ namespace CRMProject.Controllers
                 return View();
             }
         }
+
 
         // Helper method to get the count of new members for the current year
         private int GetNewMemberCount()

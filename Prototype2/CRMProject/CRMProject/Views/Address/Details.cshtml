@@ -5,22 +5,6 @@
     ViewData["Title"] = "Details - Address";
 }
 
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
-
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
@@ -43,64 +27,75 @@
 }
 
 
+<!-- Custom styles for this template-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h2>Address Information</h2>
+            <h2>Address Details</h2>
             <hr />
 
-            <dl class="row">
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.AddressLine1)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.AddressLine1)
+            <!-- Compact Definition List Styling -->
+            <style>
+                .compact-dl dt, .compact-dl dd {
+                    margin-bottom: 0.5rem;
+                }
+
+                .compact-dl dt {
+                    padding-top: 0.5rem;
+                }
+            </style>
+
+            <dl class="row compact-dl">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.AddressLine1)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.AddressLine1)</dd>
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.AddressLine2)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.AddressLine2))
+                    {
+                        @Html.DisplayFor(model => model.AddressLine2)
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
                 </dd>
 
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.AddressLine2)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.AddressLine2)
-                </dd>
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.AddressCity)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.AddressCity)</dd>
 
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.AddressCity)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.AddressCity)
-                </dd>
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Province)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.Province)</dd>
 
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Province)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Province)
-                </dd>
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.PostalCode)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.PostalCode)</dd>
 
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.PostalCode)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.PostalCode)
-                </dd>
-
-                <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Member)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Member.MemberName)
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Member)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (Model.Member != null)
+                    {
+                        @Html.DisplayFor(model => model.Member.MemberName)
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
                 </dd>
             </dl>
 
-            <div class="form-group text-center">
+            <div class="form-group text-center mt-3">
                 @if (Model?.ID != null)
                 {
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.ID">Edit Address</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Address</a>
                 }
-                <a class="btn btn-secondary ml-2" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">Back to @Model.Member.MemberName</a>
-
-
+                <a class="btn btn-secondary ml-2" asp-controller="Member" asp-action="Details" asp-route-id="@Model.MemberID">
+                    Back to @Model.Member?.MemberName ?? "Member"
+                </a>
             </div>
         </div>
     </div>

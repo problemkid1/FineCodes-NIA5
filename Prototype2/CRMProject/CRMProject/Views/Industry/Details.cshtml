@@ -5,21 +5,6 @@
     ViewData["Title"] = "Details - " + Model?.IndustrySector;
 }
 
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
@@ -44,34 +29,70 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <div>
-                <h2>Details - @Html.DisplayFor(model => model.Summary)</h2>
-                <hr />
+            <h2>Details - @Html.DisplayFor(model => model.Summary)</h2>
+            <hr />
 
-                <dl class="row">
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustrySector)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustrySector)</dd>
+            <!-- Compact Definition List Styling -->
+            <style>
+                .compact-dl dt, .compact-dl dd {
+                    margin-bottom: 0.5rem;
+                }
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustrySubsector)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustrySubsector)</dd>
+                .compact-dl dt {
+                    padding-top: 0.5rem;
+                }
+            </style>
 
-                    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.IndustryNAICSCode)</dt>
-                    <dd class="col-sm-10">@Html.DisplayFor(model => model.IndustryNAICSCode)</dd>
-                    
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.MemberIndustries)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @foreach (var c in Model.MemberIndustries)
-                        {
-                            @c.Member.MemberName <br />
-                        }
-                    </dd>
-                </dl>
-            </div>
+            <dl class="row compact-dl">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.IndustrySector)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.IndustrySector)</dd>
 
-            <div class="form-group text-center">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.IndustrySubsector)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.IndustrySubsector))
+                    {
+                        @Html.DisplayFor(model => model.IndustrySubsector)
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.IndustryNAICSCode)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.IndustryNAICSCode))
+                    {
+                        @Html.DisplayFor(model => model.IndustryNAICSCode)
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.MemberIndustries)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (Model.MemberIndustries != null && Model.MemberIndustries.Any())
+                    {
+                        <ul class="mb-0 ps-3">
+                            @foreach (var c in Model.MemberIndustries)
+                            {
+                                <li>@c.Member.MemberName</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+            </dl>
+
+
+            <div class="form-group text-center mt-3">
                 @if (Model?.ID != null && User.IsInRole("Admin"))
+
                 {
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Industry</a>
                 }

@@ -1,94 +1,128 @@
 ﻿@model CRMProject.ViewModels.MemberAdminVm
 
-<hr />
-
-<form asp-action="Edit">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-4">
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control"  autofocus />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-
+<div class="col-12">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h2>Edit User</h2>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-                <div>
-                    Note:  Changing Email will reset the password for the new Login and the user will need to use Forgot Password with the new Email.
-                </div>
-            </div>
-            <div class="form-group form-switch">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-                @{
-                    if (Model.Active == true)
-                    {
-                        <div>
-                                            <strong>
-                                                Warning! If you make this user inactive, their login to the system will also be removed.
-                                                If you ever want to allow them to login again, make them Active and let them know they must use Forgot Password to set a new one for this email address.
-                                            </strong>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="ID" />
+
+                <div class="row">
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="control-label">
+                                <span class="text-danger">*</span> First Name
+                            </label>
+                            <input asp-for="FirstName" class="form-control" autofocus placeholder="Enter first name" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
                         </div>
-                    }
-                    else
-                    {
-                        <div><strong>If you make this user active, let them know to use Forgot Password to set a new one for this email address.</strong></div>
-                    }
-                }
-            </div>
-            <div class="form-group">
-                <label asp-for="UserRoles" class="control-label"></label>
-                <table>
-                    <tr>
-                        @{
-                            int cnt = 0;
-                            List<CRMProject.ViewModels.RoleVM> roles = ViewBag.Roles;
-                            foreach (var role in roles)
-                            {
-                                if (cnt++ % 3 == 0)
-                                {
-                                @:</tr><tr>
-                                }
-                                @:<td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox"
-                                               id="@role.RoleName-CheckBox"
-                                               name="selectedRoles"
-                                               value="@role.RoleName"
-                                               @(Html.Raw(role.Assigned ? "checked=\"checked\"" : "")) />
-                                        <label class="form-check-label" "@role.RoleName-CheckBox">@role.RoleName  &nbsp;&nbsp;</label>
-                                    </div>
-                                @:</td>
-                            }
-                        @:</tr>
-                        }
-                    </table>
-                </div>
-            </div>
-        </div>
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-</form>
+                    </div>
 
+                    <!-- Last Name -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="LastName" class="control-label">
+                                <span class="text-danger">*</span> Last Name
+                            </label>
+                            <input asp-for="LastName" class="form-control" placeholder="Enter last name" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Phone" class="control-label">Phone</label>
+                            <input asp-for="Phone" class="form-control" placeholder="Enter phone number" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">
+                                <span class="text-danger">*</span> Email
+                            </label>
+                            <input asp-for="Email" class="form-control" placeholder="Enter email address" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <div class="alert alert-warning mt-2 p-2">
+                                <small>
+                                    <strong>Note:</strong> Changing the email will reset the password. The user must use Forgot Password with the new email.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Status -->
+                <div class="col-12">
+                    <div class="form-group form-switch d-flex align-items-center">
+                        <input class="form-check-input me-2" type="checkbox" asp-for="Active" id="activeCheckbox" />
+                        <label class="form-check-label" for="activeCheckbox">
+                            @Html.DisplayNameFor(model => model.Active)
+                        </label>
+                    </div>
+    
+                    <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
+                        <strong>
+                            @(Model.Active
+                                ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
+                                : "If you make this user active, inform them to use Forgot Password to set a new one.")
+                        </strong>
+                    </div>
+                </div>
+
+
+                    <!-- Assign Roles -->
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="control-label fw-bold">Assign Roles</label>
+                            <div class="border rounded p-3">
+                                <div class="row">
+                                    @{
+                                        int cnt = 0;
+                                        List<CRMProject.ViewModels.RoleVM> roles = ViewBag.Roles;
+                                        foreach (var role in roles)
+                                        {
+                                            if (cnt % 3 == 0 && cnt != 0)
+                                            {
+                                                @:</div><div class="row mt-2">
+                                            }
+                                            cnt++;
+                                            <div class="col-md-4">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox"
+                                                           id="@role.RoleName-CheckBox"
+                                                           name="selectedRoles"
+                                                           value="@role.RoleName"
+                                                           @(role.Assigned ? "checked" : "") />
+                                                    <label class="form-check-label" for="@role.RoleName-CheckBox">
+                                                        @role.RoleName
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="form-group text-center mt-3">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a asp-action="Index" class="btn btn-secondary ml-2">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

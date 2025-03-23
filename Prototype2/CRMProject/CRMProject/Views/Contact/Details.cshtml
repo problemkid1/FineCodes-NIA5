@@ -5,21 +5,6 @@
     ViewData["Title"] = "Details - Contact";
 }
 
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
@@ -48,73 +33,98 @@
                 <h2>Detail - @Html.DisplayFor(model => model.Summary)</h2>
                 <hr />
 
-                <dl class="row">
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.FirstName)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.FirstName)</dd>
+                <!-- Custom styles to reduce spacing in definition list -->
+                <style>
+                    .compact-dl dt, .compact-dl dd {
+                        margin-bottom: 0.5rem;
+                    }
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.LastName)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.LastName)</dd>
+                    .compact-dl dt {
+                        padding-top: 0.5rem;
+                    }
+                </style>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactTitleRole)</dt>
-                    <dd class="col-sm-10 col-md-9">
+                <dl class="row compact-dl">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.FirstName)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.FirstName)</dd>
+
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.LastName)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.LastName)</dd>
+
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactTitleRole)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                         @if (Model.ContactTitleRole != null)
                         {
                             @Model.ContactTitleRole
                         }
-                        <span>N/A</span>
+                        else
+                        {
+                            <span>N/A</span>
+                        }
                     </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.PhoneFormatted)</dt>
-                    <dd class="col-sm-10 col-md-9">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.PhoneFormatted)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                         @if (Model.ContactPhone != null)
                         {
                             <a href="tel:@Model.PhoneFormatted" target="_blank">@Model.PhoneFormatted</a>
                         }
+                        else
+                        {
                             <span>N/A</span>
-                        
+                        }
                     </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactEmailAddress)</dt>
-                    <dd class="col-sm-10 col-md-9">@Html.DisplayFor(model => model.ContactEmailAddress)</dd>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactEmailAddress)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">@Html.DisplayFor(model => model.ContactEmailAddress)</dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactEmailType)</dt>
-                    <dd class="col-sm-10 col-md-9">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactEmailType)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                         @if (Model.ContactEmailType != null)
                         {
-                            @Model.ContactEmailType
+                            @Model.ContactEmailType.ToString()
                         }
-                        <span>N/A</span>
+                        else
+                        {
+                            <span>N/A</span>
+                        }
                     </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactInteractions)</dt>
-                    <dd class="col-sm-10 col-md-9">
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactInteractions)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                         @if (Model.ContactInteractions != null)
                         {
                             @Model.ContactInteractions
                         }
-                        <span>N/A</span>
+                        else
+                        {
+                            <span>N/A</span>
+                        }
                     </dd>
 
-                    <dt class="col-sm-2 col-md-3">@Html.DisplayNameFor(model => model.ContactNotes)</dt>
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ContactNotes)</dt>
                     <dd class="col-sm-10 col-md-9">
                         @if (Model.ContactNotes != null)
                         {
-                            <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.ContactNotes</textarea>
+                            <textarea class="form-control bg-light" rows="4" readonly>@Model.ContactNotes</textarea>
                         }
-                        <span>N/A</span>
-                        
+                        else
+                        {
+                            <span class="bg-light p-2 d-block rounded">N/A</span>
+                        }
                     </dd>
                 </dl>
 
-                <div class="form-group text-center">
+
+                <div class="form-group text-center mt-3">
                     @if (Model?.ID != null && User.IsInRole("Admin"))                           
+
                     {
 
                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Contact</a>
                     }
                     <a class="btn btn-secondary ml-2" asp-action="Index">Back to Contacts</a>
                 </div>
-
             </div>
         </div>
     </div>

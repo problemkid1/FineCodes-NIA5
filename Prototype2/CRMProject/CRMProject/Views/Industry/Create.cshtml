@@ -1,26 +1,10 @@
 ﻿@model CRMProject.Models.Industry
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Industry";
 }
 
-@* <!-- Display Success or Error Messages --> *@
-@* @if (TempData["SuccessMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-success" role="alert"> *@
-@*         @TempData["SuccessMessage"] *@
-@*     </div> *@
-@* } *@
-
-@* @if (TempData["ErrorMessage"] != null) *@
-@* { *@
-@*     <div class="alert alert-danger" role="alert"> *@
-@*         @TempData["ErrorMessage"] *@
-@*     </div> *@
-@* } *@
-
-
-<!-- Display Success or Error Messages -->
+<!-- Success & Error Alerts -->
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
@@ -41,70 +25,74 @@
     </div>
 }
 
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Card Container -->
 <div class="col-12">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h2>Create Industry</h2>
+            <h2 class="mb-0">Create Industry</h2>
         </div>
         <div class="card-body">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                <div class="columns">
-                    <!-- Industry NAICS Code -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="IndustryNAICSCode" class="control-label">
-                                <span class="text-danger">*</span>Industry NAICS Code
-                            </label>
-                            <input asp-for="IndustryNAICSCode" class="form-control" placeholder="Enter new NAICS Code" required />
-                            <span asp-validation-for="IndustryNAICSCode" class="text-danger"></span>
+
+                <div class="row">
+                   
+
+                    <!-- Industry Sector -->
+                    <div class="col-12 col-md-6 mb-4">
+                        <label asp-for="IndustrySector" class="form-label">
+                            Industry Sector <span class="text-danger">*</span>
+                        </label>
+                        <select id="IndustrySector" name="IndustrySector" class="form-control" required>
+                            <option value="">Select Sector</option>
+                            @foreach (var item in ViewBag.SectorList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IndustrySector" class="text-danger"></span>
+                        <div class="input-group mt-2">
+                            <input type="text" id="NewIndustrySector" class="form-control" placeholder="Enter new sector">
+                            <button type="button" id="AddIndustrySector" class="btn btn-outline-primary">Add</button>
                         </div>
                     </div>
-                
-                
-                    <!-- Industry Sector -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="IndustrySector" class="control-label">
-                                <span class="text-danger">*</span> Industry Sector
-                            </label>
-                            <select id="IndustrySector" name="IndustrySector" class="form-control" required>
-                                <option value="">All Sectors</option>
-                                @foreach (var item in ViewBag.SectorList)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span asp-validation-for="IndustrySector" class="text-danger"></span>
-                            <input type="text" id="NewIndustrySector" class="form-control mt-2" placeholder="Enter new Sector">
-                            <button type="button" id="AddIndustrySector" class="btn btn-primary mt-2">Add New Sector</button>
-                        </div>
-                    </div>                    
 
                     <!-- Industry Subsector -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="IndustrySubsector" class="control-label">
-                                <span class="text-danger">*</span> Industry Subsector
-                            </label>
-                            <select id="IndustrySubsector" name="IndustrySubsector" class="form-control" required>
-                                <option value="">All Subsectors</option>
-                                @foreach (var item in ViewBag.SubsectorList)
-                                {
-                                    <option value="@item.Value">@item.Text</option>
-                                }
-                            </select>
-                            <span asp-validation-for="IndustrySubsector" class="text-danger"></span>
-                            <input type="text" id="NewIndustrySubsector" class="form-control mt-2" placeholder="Enter new Subsector">
-                            <button type="button" id="AddIndustrySubsector" class="btn btn-primary mt-2">Add New Subsector</button>
+                    <div class="col-12 col-md-6 mb-4">
+                        <label asp-for="IndustrySubsector" class="form-label">
+                            Industry Subsector <span class="text-danger">*</span>
+                        </label>
+                        <select id="IndustrySubsector" name="IndustrySubsector" class="form-control" required>
+                            <option value="">Select Subsector</option>
+                            @foreach (var item in ViewBag.SubsectorList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IndustrySubsector" class="text-danger"></span>
+                        <div class="input-group mt-2">
+                            <input type="text" id="NewIndustrySubsector" class="form-control" placeholder="Enter new subsector">
+                            <button type="button" id="AddIndustrySubsector" class="btn btn-outline-primary">Add</button>
                         </div>
                     </div>
-                </div>
-                
 
-                <div class="form-group text-center">
-                    <input type="submit" value="Create Industry" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Industries</a>
+                    <!-- NAICS Code -->
+                    <div class="col-12 col-md-6 mb-4">
+                        <label asp-for="IndustryNAICSCode" class="form-label">
+                            Industry NAICS Code <span class="text-danger">*</span>
+                        </label>
+                        <input asp-for="IndustryNAICSCode" class="form-control" placeholder="Enter NAICS Code" required />
+                        <span asp-validation-for="IndustryNAICSCode" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Create Industry</button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2">Back to Industries</a>
                 </div>
             </form>
         </div>
@@ -116,47 +104,34 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            function addNewOption(inputId, selectId, label) {
+                const input = document.getElementById(inputId);
+                const value = input.value.trim();
+                const select = document.getElementById(selectId);
 
-            // Function to handle adding new options
-            function addNewOption(inputId, selectId, alertMessage) {
-                var newValue = document.getElementById(inputId).value.trim();
-                var selectBox = document.getElementById(selectId);
-
-                if (newValue === "") {
-                    alert("Please enter " + alertMessage + " before adding.");
+                if (!value) {
+                    alert("Please enter a new " + label);
                     return;
                 }
 
-                // Check if it already exists in the dropdown
-                for (var i = 0; i < selectBox.options.length; i++) {
-                    if (selectBox.options[i].value === newValue) {
-                        alert(alertMessage + " already exists in the list.");
-                        return;
-                    }
+                const exists = [...select.options].some(opt => opt.value === value);
+                if (exists) {
+                    alert(label + " already exists.");
+                    return;
                 }
 
-                // Create a new option and add it to the select list
-                var newOption = document.createElement("option");
-                newOption.value = newValue;
-                newOption.text = newValue;
-                newOption.selected = true; // Select it automatically
-                selectBox.appendChild(newOption);
-
-                // Clear the input field
-                document.getElementById(inputId).value = "";
+                const option = new Option(value, value, true, true);
+                select.add(option);
+                input.value = "";
             }
 
-            // Attach event listeners to the buttons
-            document.getElementById("AddIndustrySector").addEventListener("click", function () {
+            document.getElementById("AddIndustrySector").addEventListener("click", () => {
                 addNewOption("NewIndustrySector", "IndustrySector", "Industry Sector");
             });
 
-            document.getElementById("AddIndustrySubsector").addEventListener("click", function () {
+            document.getElementById("AddIndustrySubsector").addEventListener("click", () => {
                 addNewOption("NewIndustrySubsector", "IndustrySubsector", "Industry Subsector");
             });
-
         });
     </script>
-
-
 }
