@@ -1329,5 +1329,60 @@ namespace CRMProject.Controllers
         {
             return _context.Members.Any(e => e.ID == id);
         }
+
+
+
+
+
+
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdatePhoto(int id, IFormFile thePicture)
+        {
+            if (thePicture == null || thePicture.Length == 0)
+            {
+                return Json(new { success = false, message = "No file was uploaded." });
+            }
+
+            try
+            {
+                var member = await _context.Members
+                    .Include(m => m.MemberPhoto)
+                    .Include(m => m.MemberThumbnail)
+                    .FirstOrDefaultAsync(m => m.ID == id);
+
+                if (member == null)
+                {
+                    return Json(new { success = false, message = "Member not found." });
+                }
+
+                // Validate file type
+                if (!thePicture.ContentType.StartsWith("image/"))
+                {
+                    return Json(new { success = false, message = "Only image files are allowed." });
+                }
+
+                // Validate file size (max 5MB)
+                if (thePicture.Length > 5 * 1024 * 1024)
+                {
+                    return Json(new { success = false, message = "File size must be less than 5MB." });
+                }
+
+                await AddPicture(member, thePicture);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true, message = "Photo updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error updating photo: {ex.Message}");
+                return Json(new { success = false, message = "An error occurred while updating the photo." });
+            }
+        }
+
+
+
     }
 }
