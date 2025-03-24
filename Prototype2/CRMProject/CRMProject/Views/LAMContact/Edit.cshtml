@@ -58,17 +58,8 @@
                         </div>
                     </div>
 
-                    <!-- Notes -->
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label asp-for="Notes" class="control-label">Notes</label>
-                            <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Add notes"></textarea>
-                            <span asp-validation-for="Notes" class="text-danger"></span>
-                        </div>
-                    </div>
-
                     <!-- Contact -->
-                    <div class="col-12">
+                    <div class="col-12 col-md-6">
                         <div class="form-group">
                             <label asp-for="ContactID" class="control-label">Select Contact</label>
                             <select asp-for="ContactID" class="form-control" asp-items="ViewBag.ContactID">
@@ -77,6 +68,18 @@
                             <span asp-validation-for="ContactID" class="text-danger"></span>
                         </div>
                     </div>
+
+                    <!-- Notes -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Notes" class="control-label">Notes</label>
+                            <textarea asp-for="Notes" class="form-control" rows="1" placeholder="Add notes"></textarea>
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                   
                 </div>
 
                 <div class="form-group text-center mt-4">

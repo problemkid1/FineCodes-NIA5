@@ -5,6 +5,12 @@
     ViewData["Title"] = "Details - Action Item";
 }
 
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<!-- Optional custom style -->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
@@ -29,59 +35,83 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <div>
-                <h2>Details - @Html.DisplayFor(model => model.ActionItem)</h2>
-                <hr />
+            <h2>Details - @Html.DisplayFor(model => model.ActionItem)</h2>
+            <hr />
 
-                <dl class="row">
-                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.ActionItem)</dt>
-                    <dd class="col-sm-9">@Model.ActionItem</dd>
+            <!-- Compact Definition List Styling -->
+            <style>
+                .compact-dl dt, .compact-dl dd {
+                    margin-bottom: 0.5rem;
+                }
 
-                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignee)</dt>
-                    <dd class="col-sm-9">
-                        @if (!string.IsNullOrWhiteSpace(Model.Assignee))
-                        {
-                            @Model.Assignee
-                        }
-                        else
-                        {
-                            <span>N/A</span>
-                        }
-                    </dd>
+                .compact-dl dt {
+                    padding-top: 0.5rem;
+                }
+            </style>
 
-                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DueDate)</dt>
-                    <dd class="col-sm-9">@Model.DueDate.ToString("yyyy-MM-dd")</dd>
+            <dl class="row compact-dl">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.ActionItem)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.ActionItem))
+                    {
+                        @Model.ActionItem
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
 
-                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Status)</dt>
-                    <dd class="col-sm-9">
-                        @if (!string.IsNullOrWhiteSpace(Model.Status))
-                        {
-                            @Model.Status
-                        }
-                        else
-                        {
-                            <span>N/A</span>
-                        }
-                    </dd>
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Assignee)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.Assignee))
+                    {
+                        @Model.Assignee
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
 
-                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Notes)</dt>
-                    <dd class="col-sm-9">
-                        @if (!string.IsNullOrWhiteSpace(Model.Notes))
-                        {
-                            <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.Notes</textarea>
-                        }
-                        else
-                        {
-                            <span>N/A</span>
-                        }
-                    </dd>
-                </dl>
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.DueDate)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @Model.DueDate.ToString("yyyy-MM-dd")
+                </dd>
 
-                <div class="form-group text-center">
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Action Item</a>
-                    <a class="btn btn-secondary ms-2" asp-action="Index">Back to Action Items</a>
-                </div>
-            </div>
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Status)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.Status))
+                    {
+                        @Model.Status
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Notes)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (!string.IsNullOrWhiteSpace(Model.Notes))
+                    {
+                        <textarea class="form-control" rows="2" readonly style="background-color: white;">@Model.Notes</textarea>
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+            </dl>
         </div>
     </div>
+
+    <div class="form-group text-center mt-4">
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Action Item</a>
+        <a class="btn btn-secondary ms-2" asp-action="Index">Back to Action Items</a>
+    </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -5,11 +5,13 @@
     ViewData["Title"] = "Delete - Annual Action Item";
 }
 
+<!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
         <span>@TempData["SuccessMessage"]</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span class="visually-hidden">Close alert</span>
             <i class="fa-solid fa-x"></i>
         </button>
     </div>
@@ -20,35 +22,41 @@
     <div class="alert alert-danger alert-dismissible fade show mt-3 d-flex justify-content-between align-items-center" role="alert">
         <span>@TempData["ErrorMessage"]</span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <span class="visually-hidden">Close alert</span>
             <i class="fa-solid fa-x"></i>
         </button>
     </div>
 }
 
+<!-- FontAwesome & Custom CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link href="~/customs/css/style.css" rel="stylesheet">
+
 <div class="col-12">
-    <div class="card">
+    <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <h2>Delete - Annual Action Item</h2>
+            <h2 class="text-muted">Delete - Annual Action Item</h2>
+            <p class="text-danger mt-3">Are you sure you want to delete this Annual Action Item?</p>
             <hr />
 
-            <dl class="row">
-                <dt class="col-sm-3">Action Item</dt>
-                <dd class="col-sm-9">@Model.ActionItem</dd>
+            <dl class="row compact-dl">
+                <dt class="col-sm-2">Action Item</dt>
+                <dd class="col-sm-9 bg-block">@Model.ActionItem</dd>
 
-                <dt class="col-sm-3">Assignee</dt>
-                <dd class="col-sm-9">@Model.Assignee</dd>
+                <dt class="col-sm-2">Assignee</dt>
+                <dd class="col-sm-9 bg-block">@Model.Assignee</dd>
 
-                <dt class="col-sm-3">Due Date</dt>
-                <dd class="col-sm-9">@Model.DueDate.ToString("yyyy-MM-dd")</dd>
+                <dt class="col-sm-2">Due Date</dt>
+                <dd class="col-sm-9 bg-block">@Model.DueDate.ToString("yyyy-MM-dd")</dd>
 
-                <dt class="col-sm-3">Status</dt>
-                <dd class="col-sm-9">@Model.Status</dd>
+                <dt class="col-sm-2">Status</dt>
+                <dd class="col-sm-9 bg-block">@Model.Status</dd>
 
-                <dt class="col-sm-3">Notes</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-2">Notes</dt>
+                <dd class="col-sm-9 bg-block">
                     @if (!string.IsNullOrWhiteSpace(Model.Notes))
                     {
-                        <textarea class="form-control" rows="4" readonly>@Model.Notes</textarea>
+                        <textarea class="form-control" rows="2" readonly>@Model.Notes</textarea>
                     }
                     else
                     {
@@ -57,14 +65,22 @@
                 </dd>
             </dl>
 
-            <div class="form-group text-center">
-                <h4 class="text-danger">Are you sure you want to delete this Annual Action Item?</h4>
+            <div class="form-group text-center mt-4">
                 <form asp-action="Delete" method="post">
                     <input type="hidden" asp-for="ID" />
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+                    <button type="submit" class="btn btn-danger me-2"
+                            onclick="return confirm('Are you sure you want to delete this Annual Action Item?');">
+                        <i class="fa-solid fa-trash me-1"></i>Delete
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i>Back to List
+                    </a>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
