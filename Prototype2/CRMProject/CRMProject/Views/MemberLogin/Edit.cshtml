@@ -58,24 +58,28 @@
                         </div>
                     </div>
 
-                    <!-- Active Status -->
-                <div class="col-12">
-                    <div class="form-group form-switch d-flex align-items-center">
-                        <input class="form-check-input me-2" type="checkbox" asp-for="Active" id="activeCheckbox" />
-                        <label class="form-check-label" for="activeCheckbox">
-                            @Html.DisplayNameFor(model => model.Active)
-                        </label>
+                    <!-- Active Toggle -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label d-block">Status</label>
+                            <div class="custom-control custom-switch">
+                                <input asp-for="Active"
+                                       type="checkbox"
+                                       class="custom-control-input"
+                                       id="statusSwitchEdit" />
+                                <label class="custom-control-label" for="statusSwitchEdit">
+                                    @(Model.Active ? "Active" : "Inactive")
+                                </label>
+                            </div>
+                            <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
+                                <strong>
+                                    @(Model.Active
+                                        ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
+                                        : "If you make this user active, inform them to use Forgot Password to set a new one.")
+                                </strong>
+                            </div>
+                        </div>
                     </div>
-    
-                    <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
-                        <strong>
-                            @(Model.Active
-                                ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
-                                : "If you make this user active, inform them to use Forgot Password to set a new one.")
-                        </strong>
-                    </div>
-                </div>
-
 
                     <!-- Assign Roles -->
                     <div class="col-12">
@@ -125,4 +129,16 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script>
+        // Optional: Dynamically update label text for the Active toggle
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggle = document.getElementById("statusSwitchEdit");
+            const label = document.querySelector("label[for='statusSwitchEdit']");
+
+            toggle.addEventListener("change", function () {
+                label.textContent = this.checked ? "Active" : "Inactive";
+            });
+        });
+    </script>
 }

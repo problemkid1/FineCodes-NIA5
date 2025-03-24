@@ -5,6 +5,12 @@
     ViewData["Title"] = "Details - LAM Contact";
 }
 
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<!-- Optional custom style -->
+<link href="~/customs/css/style.css" rel="stylesheet">
+
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
 {
@@ -32,9 +38,20 @@
             <h2>Details - LAM Contact</h2>
             <hr />
 
-            <dl class="row">
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Municipality)</dt>
-                <dd class="col-sm-9">
+            <!-- Compact Definition List Styling -->
+            <style>
+                .compact-dl dt, .compact-dl dd {
+                    margin-bottom: 0.5rem;
+                }
+
+                .compact-dl dt {
+                    padding-top: 0.5rem;
+                }
+            </style>
+
+            <dl class="row compact-dl">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Municipality)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                     @if (!string.IsNullOrWhiteSpace(Model.Municipality))
                     {
                         @Model.Municipality
@@ -45,8 +62,20 @@
                     }
                 </dd>
 
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Position)</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Contact)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                    @if (Model.Contact != null)
+                    {
+                        @Model.Contact.FirstName @Model.Contact.LastName
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Position)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                     @if (!string.IsNullOrWhiteSpace(Model.Position))
                     {
                         @Model.Position
@@ -57,11 +86,13 @@
                     }
                 </dd>
 
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Notes)</dt>
-                <dd class="col-sm-9">
+                
+
+                <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Notes)</dt>
+                <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                     @if (!string.IsNullOrWhiteSpace(Model.Notes))
                     {
-                        <textarea class="form-control" rows="4" readonly style="background-color: white;">@Model.Notes</textarea>
+                        <textarea class="form-control" rows="2" readonly style="background-color: white;">@Model.Notes</textarea>
                     }
                     else
                     {
@@ -69,23 +100,17 @@
                     }
                 </dd>
 
-                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Contact)</dt>
-                <dd class="col-sm-9">
-                    @if (Model.Contact != null)
-                    {
-                        @Model.Contact.FirstName @Model.Contact.LastName
-                    }
-                    else
-                    {
-                        <span>N/A</span>
-                    }
-                </dd>
+                
             </dl>
-
-            <div class="form-group text-center">
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit LAM Contact</a>
-                <a class="btn btn-secondary ms-2" asp-action="Index">Back to LAM Contacts</a>
-            </div>
         </div>
     </div>
+
+    <div class="form-group text-center mt-4">
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit LAM Contact</a>
+        <a class="btn btn-secondary ms-2" asp-action="Index">Back to LAM Contacts</a>
+    </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
