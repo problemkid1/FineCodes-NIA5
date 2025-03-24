@@ -202,6 +202,11 @@
                                                     data-bs-toggle="tooltip" title="Remove Contact">
                                                         <i class="bi bi-trash"></i>
                                                     </a>
+                                                    <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
+                                                       class="btn btn-md btn-outline-primary no-print" role="button" aria-disabled="false"
+                                                       data-bs-toggle="tooltip" title="Detail">
+                                                        <i class="bi bi-search"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         }
