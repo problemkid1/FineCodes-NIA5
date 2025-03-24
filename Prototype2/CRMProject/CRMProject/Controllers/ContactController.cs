@@ -197,7 +197,7 @@ namespace CRMProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId, int opportunityId)
+        public async Task<IActionResult> CreateContact([FromForm] Contact contact, int memberId)
         {
             if (!ModelState.IsValid)
             {
@@ -226,16 +226,6 @@ namespace CRMProject.Controllers
                 };
 
                 _context.MemberContacts.Add(memberContact);
-                await _context.SaveChangesAsync();
-
-                // Create and save the opportunity-contact relationship
-                var opportunityContact = new OpportunityContact
-                {
-                    OpportunityID = opportunityId,
-                    ContactID = contact.ID
-                };
-
-                _context.OpportunityContacts.Add(opportunityContact);
                 await _context.SaveChangesAsync();
 
                 return Json(new { success = true, message = "Contact created successfully." });
