@@ -101,7 +101,7 @@
 
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Opportunity" ? "active" : "")">
                 <a class="nav-link" asp-controller="Opportunity" asp-action="Index">
-                    <i class="fas fa-lightbulb"></i>
+                        <i class="bi bi-flag-fill"></i>
                     <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Opportunity" ? "text-decoration: underline;" : "");">Opportunities</span>
                 </a>
             </li>
@@ -130,7 +130,7 @@
                     <!-- Nav Item - LAM Contacts -->
                     <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "active" : "")">
                         <a class="nav-link" asp-controller="LAMContact" asp-action="Index">
-                            <i class="fas fa-fw fa-address-card"></i>
+                            <i class="bi bi-person-rolodex"></i>
                             <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "text-decoration: underline;" : "");">LAM Contacts</span>
                         </a>
                     </li>
@@ -151,13 +151,13 @@
                     </li>
                     <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "active" : "")">
                         <a class="nav-link" asp-controller="InboundInitiative" asp-action="Index">
-                            <i class="fas fa-lightbulb"></i>
+                            <i class="bi bi-bar-chart-steps"></i>
                             <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "text-decoration: underline;" : "");">Inbound Initiative</span>
                         </a>
                     </li>
                      <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "active" : "")">
                     <a class="nav-link" asp-controller="MemberLogin" asp-action="Index">
-                        <i class="fas fa-id-card"></i>
+                            <i class="bi bi-person-fill-gear"></i>
                         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "text-decoration: underline;" : "");">Maintain Users</span>
                     </a>
                 </li>
