@@ -23,13 +23,13 @@ namespace CRMProject.Controllers
 
         // GET: Address
         public async Task<IActionResult> Index(
-    string? AddressCity,
-    Province? Province,
-    string? PostalCode,
-    MemberStatus? memberStatus,
-    string? memberSize,
-    string? searchString,
-    string? membershipTypeName)
+            string? AddressCity,
+            Province? Province,
+            string? PostalCode,
+            MemberStatus? memberStatus,
+            string? memberSize,
+            string? searchString,
+            string? membershipTypeName)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -255,7 +255,9 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
-                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = address.Summary, Url = $"/Address/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -316,7 +318,10 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
-                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = address.Summary, Url = $"/Address/Details/{id}", IsActive = true },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+
+               
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -345,7 +350,9 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
-                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = address.Summary, Url = $"/Address/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+             
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -392,7 +399,9 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Address", Url = "/Address/Index", IsActive = false },
-                new BreadcrumbItem { Title = address.Summary, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = address.Summary, Url = $"/Address/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;

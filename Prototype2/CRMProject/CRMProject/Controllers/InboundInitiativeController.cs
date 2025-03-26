@@ -22,6 +22,14 @@ namespace CRMProject.Controllers
         // GET: InboundInitiative
         public async Task<IActionResult> Index()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(await _context.InboundInitiatives.ToListAsync());
         }
 
@@ -40,12 +48,31 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = false },
+                new BreadcrumbItem { Title = inboundInitiative.Initiative, Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewData["InboundInitiativeId"] = inboundInitiative.ID;
+
             return View(inboundInitiative);
         }
 
         // GET: InboundInitiative/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View();
         }
 
@@ -62,6 +89,16 @@ namespace CRMProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(inboundInitiative);
         }
 
@@ -78,6 +115,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = false },
+                new BreadcrumbItem { Title = inboundInitiative.Initiative, Url = $"/InboundInitiative/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(inboundInitiative);
         }
 
@@ -113,6 +161,17 @@ namespace CRMProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = false },
+                new BreadcrumbItem { Title = inboundInitiative.Initiative, Url = $"/InboundInitiative/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(inboundInitiative);
         }
 
@@ -130,6 +189,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = false },
+                new BreadcrumbItem { Title = inboundInitiative.Initiative, Url = $"/InboundInitiative/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             return View(inboundInitiative);
         }

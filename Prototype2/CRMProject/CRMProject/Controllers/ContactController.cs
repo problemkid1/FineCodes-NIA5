@@ -181,7 +181,8 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -314,14 +315,16 @@ namespace CRMProject.Controllers
                 ViewData["MemberContactID"] = memberContact.MemberID; // Pass MemberContactID to the view
             }
 
-                var breadcrumbs = new List<BreadcrumbItem>
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                    new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
-                };
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = $"/Contact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
 
-                    ViewData["Breadcrumbs"] = breadcrumbs;
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
                     ViewData["ContactId"] = contact.ID;
             PopulateAssignedMemberData(contact);
             return View(contact);
@@ -387,11 +390,13 @@ namespace CRMProject.Controllers
             }
 
             var breadcrumbs = new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-        new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-        new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
-    };
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact.FirstName, Url = $"/Contact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                
+            };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["ContactId"] = contact.ID;
@@ -542,7 +547,9 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = contact.FirstName, Url = $"/Contact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+                
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -605,7 +612,9 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Contact", Url = "/Contact/Index", IsActive = false },
-                new BreadcrumbItem { Title = contact.FirstName, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = contact.FirstName, Url = $"/Contact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;

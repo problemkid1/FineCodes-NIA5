@@ -23,7 +23,18 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> Index()
         {
             var cRMContext = _context.LAMContacts.Include(l => l.Contact);
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(await cRMContext.ToListAsync());
+
+
         }
 
         // GET: LAMContact/Details/5
@@ -42,12 +53,32 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+             {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = false },
+                new BreadcrumbItem { Title = lAMContact.Contact.FirstName, Url = "#", IsActive = true }
+             };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewData["LAMContactsId"] = lAMContact.ID;
+
             return View(lAMContact);
         }
 
         // GET: LAMContact/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             ViewData["ContactID"] = new SelectList(
                 _context.Contacts
                     .OrderBy(c => c.FirstName)
@@ -76,6 +107,15 @@ namespace CRMProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             ViewData["ContactID"] = new SelectList(
                 _context.Contacts
                     .OrderBy(c => c.FirstName)
@@ -101,11 +141,24 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            var lAMContact = await _context.LAMContacts.FindAsync(id);
+            var lAMContact = await _context.LAMContacts
+                .Include(l => l.Contact)
+                .FirstOrDefaultAsync(m => m.ID == id);
+
             if (lAMContact == null)
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = false },
+                new BreadcrumbItem { Title = lAMContact.Contact.FirstName, Url = $"/LAMContact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             ViewData["ContactID"] = new SelectList(
                 _context.Contacts
@@ -155,6 +208,19 @@ namespace CRMProject.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            // Get contact information for breadcrumbs
+            var contact = await _context.Contacts.FindAsync(lAMContact.ContactID);
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = false },
+                new BreadcrumbItem { Title = contact?.FirstName ?? "Contact", Url = $"/LAMContact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             ViewData["ContactID"] = new SelectList(
                 _context.Contacts
                     .OrderBy(c => c.FirstName)
@@ -183,10 +249,21 @@ namespace CRMProject.Controllers
             var lAMContact = await _context.LAMContacts
                 .Include(l => l.Contact)
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (lAMContact == null)
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "LAMContacts", Url = "/LAMContact/Index", IsActive = false },
+                new BreadcrumbItem { Title = lAMContact.Contact.FirstName, Url = $"/LAMContact/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             return View(lAMContact);
         }

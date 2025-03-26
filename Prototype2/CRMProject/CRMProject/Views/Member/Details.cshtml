@@ -253,7 +253,7 @@
 
     <!-- Original position for action buttons -->
     <div class="form-group text-center mt-3">
-        @if (Model?.ID != null)
+        @if (Model?.ID != null && User.IsInRole("Admin"))
         {
             @if (Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
             {
@@ -261,10 +261,7 @@
             }
             else
             {
-                @if (User.IsInRole("Admin"))
-                {
-                    <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
-                }
+                <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
             }
         }
         <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>

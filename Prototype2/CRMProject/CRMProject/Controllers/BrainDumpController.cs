@@ -25,6 +25,15 @@ namespace CRMProject.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Index()
         {
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             // Populate BrainDumpStatus list
             ViewData["BrainDumpStatusList"] = new SelectList(Enum.GetValues(typeof(BrainDumpStatus))
                 .Cast<BrainDumpStatus>()
@@ -55,12 +64,33 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = false },
+                new BreadcrumbItem { Title = brainDump.Activity, Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewData["BrainDumpId"] = brainDump.ID;
+
             return View(brainDump);
         }
 
         // GET: BrainDump/Create
         public IActionResult Create()
         {
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             // Populate BrainDumpStatus list for the dropdown
             ViewData["BrainDumpStatusList"] = new SelectList(Enum.GetValues(typeof(BrainDumpStatus))
                 .Cast<BrainDumpStatus>()
@@ -89,6 +119,28 @@ namespace CRMProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            // Repopulate dropdowns on validation error
+            ViewData["BrainDumpStatusList"] = new SelectList(Enum.GetValues(typeof(BrainDumpStatus))
+                .Cast<BrainDumpStatus>()
+                .Select(s => new { Value = s, Text = GetEnumDisplayName(s) }),
+                "Value", "Text", brainDump.BrainDumpStatus);
+
+            ViewData["BrainDumpTermList"] = new SelectList(Enum.GetValues(typeof(BrainDumpTerm))
+                .Cast<BrainDumpTerm>()
+                .Select(t => new { Value = t, Text = GetEnumDisplayName(t) }),
+                "Value", "Text", brainDump.BrainDumpTerm);
+
             return View(brainDump);
         }
 
@@ -105,6 +157,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = false },
+                new BreadcrumbItem { Title = brainDump.Activity, Url = $"/BrainDump/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             // Populate BrainDumpStatus list for the dropdown
             ViewData["BrainDumpStatusList"] = new SelectList(Enum.GetValues(typeof(BrainDumpStatus))
@@ -153,6 +216,29 @@ namespace CRMProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = false },
+                new BreadcrumbItem { Title = brainDump.Activity, Url = $"/BrainDump/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            // Repopulate dropdowns on validation error
+            ViewData["BrainDumpStatusList"] = new SelectList(Enum.GetValues(typeof(BrainDumpStatus))
+                .Cast<BrainDumpStatus>()
+                .Select(s => new { Value = s, Text = GetEnumDisplayName(s) }),
+                "Value", "Text", brainDump.BrainDumpStatus);
+
+            ViewData["BrainDumpTermList"] = new SelectList(Enum.GetValues(typeof(BrainDumpTerm))
+                .Cast<BrainDumpTerm>()
+                .Select(t => new { Value = t, Text = GetEnumDisplayName(t) }),
+                "Value", "Text", brainDump.BrainDumpTerm);
+
             return View(brainDump);
         }
 
@@ -170,6 +256,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            // Add breadcrumbs
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = false },
+                new BreadcrumbItem { Title = brainDump.Activity, Url = $"/BrainDump/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             return View(brainDump);
         }
