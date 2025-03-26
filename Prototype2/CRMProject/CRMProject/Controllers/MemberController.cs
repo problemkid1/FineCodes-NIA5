@@ -280,11 +280,11 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(
-        [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
-        IFormFile? thePicture,
-        string[] selectedMembership,
-        string[] selectedIndustry,
-        string[] selectedContacts)
+    [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
+    IFormFile? thePicture,
+    string[] selectedMembership,
+    string[] selectedIndustry,
+    string[] selectedContacts)
         {
             // Debug information
             System.Diagnostics.Debug.WriteLine("=== Create Member Action ===");
@@ -306,12 +306,11 @@ namespace CRMProject.Controllers
                 PopulateAssignedContactData(member);
 
                 var memberBreadcrumbs = new List<BreadcrumbItem>
-
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                    new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-                };
+        {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+            new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+        };
 
                 ViewData["Breadcrumbs"] = memberBreadcrumbs;
                 ViewData["MemberId"] = member.ID;
@@ -333,12 +332,11 @@ namespace CRMProject.Controllers
                 PopulateAssignedContactData(member);
 
                 var memberBreadcrumbs = new List<BreadcrumbItem>
-
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                    new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-                };
+        {
+            new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+            new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+            new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+        };
 
                 ViewData["Breadcrumbs"] = memberBreadcrumbs;
                 ViewData["MemberId"] = member.ID;
@@ -479,13 +477,11 @@ namespace CRMProject.Controllers
             PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
-
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
-            };
-
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+        new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberId"] = member.ID;
@@ -524,14 +520,11 @@ namespace CRMProject.Controllers
             PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url =  $"/Member/Details/{id}", IsActive = false },
-                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
-                                
-                        
-            };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+        new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberId"] = member.ID;
@@ -545,7 +538,7 @@ namespace CRMProject.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture,
-        string[] selectedMembership, string[] selectedIndustry, string[] selectedContacts)
+    string[] selectedMembership, string[] selectedIndustry, string[] selectedContacts)
         {
             System.Diagnostics.Debug.WriteLine($"Selected Memberships: {string.Join(", ", selectedMembership ?? Array.Empty<string>())}");
             System.Diagnostics.Debug.WriteLine($"Selected Industries: {string.Join(", ", selectedIndustry ?? Array.Empty<string>())}");
@@ -563,28 +556,6 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            // Check if any membership types are selected
-            if (selectedMembership == null || !selectedMembership.Any() && !memberToUpdate.MemberMembershipTypes.Any())
-            {
-                ModelState.AddModelError("MemberMembershipTypes", "Select at least one membership type.");
-
-                // Populate the assigned data for the view
-                PopulateAssignedMemberShipData(memberToUpdate);
-                PopulateAssignedIndustryData(memberToUpdate);
-                PopulateAssignedContactData(memberToUpdate);
-
-                var memberBreadcrumbs = new List<BreadcrumbItem>
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                    new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
-                };
-                ViewData["Breadcrumbs"] = memberBreadcrumbs;
-                ViewData["MemberId"] = memberToUpdate.ID;
-
-                // Set error message
-                TempData["ErrorMessage"] = "Please select at least one membership type.";
-
             // Validate selections - check if selectedMembership is null or empty
             if (selectedMembership == null || selectedMembership.Length == 0)
             {
@@ -595,32 +566,9 @@ namespace CRMProject.Controllers
 
             if (selectedIndustry == null || selectedIndustry.Length == 0)
             {
-
                 System.Diagnostics.Debug.WriteLine("No industries selected");
                 SetModelError("MemberIndustry", "Select at least one industry.");
                 return ReturnToViewWithErrors(memberToUpdate);
-
-                ModelState.AddModelError("MemberIndustry", "Select at least one industry.");
-
-                // Populate the assigned data for the view
-                PopulateAssignedMemberShipData(memberToUpdate);
-                PopulateAssignedIndustryData(memberToUpdate);
-                PopulateAssignedContactData(memberToUpdate);
-
-                var memberBreadcrumbs = new List<BreadcrumbItem>
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                    new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
-                };
-                ViewData["Breadcrumbs"] = memberBreadcrumbs;
-                ViewData["MemberId"] = memberToUpdate.ID;
-
-                // Set error message
-                TempData["ErrorMessage"] = "Please select at least one industry.";
-
-                return View(memberToUpdate);
-
             }
 
             // Update related data
@@ -712,13 +660,11 @@ namespace CRMProject.Controllers
             PopulateAssignedContactData(member);
 
             var breadcrumbs = new List<BreadcrumbItem>
-
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = memberToUpdate.MemberName, Url = "#", IsActive = true }
-            };
-
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
+        new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberId"] = member.ID;
@@ -751,11 +697,7 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url =  $"/Member/Details/{id}", IsActive = false },
-                new BreadcrumbItem { Title = "Cancel", Url = "#", IsActive = true }
-                 
-                
-
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -840,8 +782,7 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url =  $"/Member/Details/{id}", IsActive = false },
-                new BreadcrumbItem { Title = "Activate", Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -901,8 +842,7 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url =  $"/Member/Details", IsActive = false },
-                new BreadcrumbItem { Title = "Cancel", Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -961,8 +901,7 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Members", Url = "/Member/Index", IsActive = false },
-                new BreadcrumbItem { Title = member.MemberName, Url =  $"/Member/Details", IsActive = false },
-                new BreadcrumbItem { Title = "Activate", Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = member.MemberName, Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
