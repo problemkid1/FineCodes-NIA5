@@ -457,7 +457,7 @@
     <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script>
-        $(function () {
+                $(function () {
             var pageTitle = '@ViewData["Title"]'; // Get the current page title
 
             function getFormattedDateTime() {
@@ -476,41 +476,90 @@
             setInterval(updatePageTitle, 1000); // Update title every second
             updatePageTitle(); // Set title immediately on page load
 
-            $("#example1").DataTable({
+            // Initialize DataTable with enhanced export options
+            var table = $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
+                "dom": 'Bfrtip', // Positions the buttons at the top
                 "buttons": [
+                    // Add Column Visibility button first
+                    {
+                        extend: 'colvis',
+                        text: 'Select Columns',
+                        className: 'btn-primary',
+                        postfixButtons: ['colvisRestore'],
+                        collectionLayout: 'fixed two-column'
+                    },
+                    // Export buttons that respect column visibility
                     {
                         extend: "copy",
+                        text: 'Copy Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)' // Exclude last column (Actions)
+                            columns: function(idx, data, node) {
+                                // Include all visible columns except the last one (typically Actions)
+                                return $(node).is(':visible') &&
+                                       table.column(idx).index() !== table.columns().nodes().length - 1;
+                            },
+                            orthogonal: 'export'
                         }
                     },
                     {
                         extend: "excel",
+                        text: 'Excel Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)'
+                            columns: function(idx, data, node) {
+                                return $(node).is(':visible') &&
+                                       table.column(idx).index() !== table.columns().nodes().length - 1;
+                            },
+                            orthogonal: 'export'
                         }
                     },
                     {
                         extend: "pdf",
+                        text: 'PDF Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)'
+                            columns: function(idx, data, node) {
+                                return $(node).is(':visible') &&
+                                       table.column(idx).index() !== table.columns().nodes().length - 1;
+                            },
+                            orthogonal: 'export'
                         }
                     },
                     {
                         extend: "print",
+                        text: 'Print Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: ':not(:last-child)'
+                            columns: function(idx, data, node) {
+                                return $(node).is(':visible') &&
+                                       table.column(idx).index() !== table.columns().nodes().length - 1;
+                            },
+                            orthogonal: 'export'
+                        }
+                    }
+                ],
+                // Add this to ensure proper column data is used for export
+                "columnDefs": [
+                    {
+                        "targets": "_all",
+                        "render": function(data, type, row, meta) {
+                            // For export, use the raw data
+                            if (type === 'export') {
+                                return data;
+                            }
+                            // Otherwise use the default rendering
+                            return data;
                         }
                     }
                 ]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            });
+
+            // Move buttons to the proper container
+            table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             $('#example2').DataTable({
                 "paging": true,
@@ -522,6 +571,8 @@
                 "responsive": true,
             });
         });
+
+
 
         // $(document).ready(function() {
         //     Scroll to top button appearance
