@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace CRMProject.Controllers
 {
@@ -27,11 +28,19 @@ namespace CRMProject.Controllers
             _userManager = userManager;
         }
 
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             var memberslogin = await _context.MemberLogins
                 .Include(e => e.Subscriptions)
- 
+
              .Select(e => new MemberAdminVm
              {
                  Email = e.Email,
@@ -48,13 +57,23 @@ namespace CRMProject.Controllers
                 {
                     e.UserRoles = (List<string>)await _userManager.GetRolesAsync(user);
                 }
-            };
+            }
+            ;
             return View(memberslogin);
         }
 
         // GET: MemberLogin/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             MemberAdminVm memberAdmin = new MemberAdminVm();
             PopulateAssignedRoleData(memberAdmin);
             return View(memberAdmin);
@@ -68,6 +87,14 @@ namespace CRMProject.Controllers
         public async Task<IActionResult> Create([Bind("FirstName,LastName,Phone," +
             "Email")] MemberLogin memberlogin, string[] selectedRoles)
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             try
             {
@@ -103,7 +130,7 @@ namespace CRMProject.Controllers
                 ID = memberlogin.ID,
                 FirstName = memberlogin.FirstName,
                 LastName = memberlogin.LastName,
-                Phone = memberlogin.Phone 
+                Phone = memberlogin.Phone
             };
             foreach (var role in selectedRoles)
             {
@@ -113,7 +140,7 @@ namespace CRMProject.Controllers
             return View(memberAdminVm);
         }
 
-         // GET: Employees/Edit/5
+        // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -137,6 +164,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = $"{memberLogin.FirstName} {memberLogin.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             //Get the user from the Identity system
             var user = await _userManager.FindByEmailAsync(memberLogin.Email);
@@ -165,13 +202,23 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             //Note the current Email and Active Status
             bool ActiveStatus = memberLoginToUpdate.Active;
             string databaseEmail = memberLoginToUpdate.Email;
 
 
             if (await TryUpdateModelAsync<MemberLogin>(memberLoginToUpdate, "",
-                e => e.FirstName, e => e.LastName, e => e.Phone, e => e.Email, 
+                e => e.FirstName, e => e.LastName, e => e.Phone, e => e.Email,
                  e => e.Active))
             {
                 try
@@ -256,6 +303,77 @@ namespace CRMProject.Controllers
             return View(memberAdminVm);
         }
 
+        // GET: MemberLogin/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var memberLogin = await _context.MemberLogins
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (memberLogin == null)
+            {
+                return NotFound();
+            }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = $"{memberLogin.FirstName} {memberLogin.LastName}", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            return View(memberLogin);
+        }
+
+        // GET: MemberLogin/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var memberLogin = await _context.MemberLogins
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (memberLogin == null)
+            {
+                return NotFound();
+            }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = $"{memberLogin.FirstName} {memberLogin.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
+            return View(memberLogin);
+        }
+
+        // POST: MemberLogin/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var memberLogin = await _context.MemberLogins.FindAsync(id);
+            if (memberLogin != null)
+            {
+                _context.MemberLogins.Remove(memberLogin);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
         private void PopulateAssignedRoleData(MemberAdminVm memberAdmin)
         {//Prepare checkboxes for all Roles
@@ -273,6 +391,7 @@ namespace CRMProject.Controllers
             }
             ViewBag.Roles = viewModel;
         }
+
 
         private async Task UpdateUserRoles(string[] selectedRoles, string Email)
         {
@@ -378,10 +497,7 @@ namespace CRMProject.Controllers
         //    {
         //        TempData["message"] = "Could not send Invitation email to " + employee.Summary + " at " + employee.Email;
         //    }
-
-
         //}
-
 
         [HttpPost]
         public async Task<IActionResult> UpdateStatus([FromBody] ToggleStatusViewModel model)
@@ -397,7 +513,6 @@ namespace CRMProject.Controllers
             return Json(new { success = true, newStatus = member.Active });
         }
 
-
         public class ToggleStatusViewModel
         {
             public int Id { get; set; }
@@ -408,5 +523,6 @@ namespace CRMProject.Controllers
             return _context.MemberLogins.Any(e => e.ID == id);
         }
     }
-}
 
+    
+}

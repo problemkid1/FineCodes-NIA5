@@ -22,6 +22,14 @@ namespace CRMProject.Controllers
         // GET: AnnualActionItem
         public async Task<IActionResult> Index()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(await _context.AnnualActionItems.ToListAsync());
         }
 
@@ -40,12 +48,31 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = false },
+                new BreadcrumbItem { Title = annualActionItem.ActionItem, Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewData["AnnualActionItemId"] = annualActionItem.ID;
+
             return View(annualActionItem);
         }
 
         // GET: AnnualActionItem/Create
         public IActionResult Create()
         {
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View();
         }
 
@@ -62,6 +89,16 @@ namespace CRMProject.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = false },
+                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(annualActionItem);
         }
 
@@ -78,6 +115,17 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = false },
+                new BreadcrumbItem { Title = annualActionItem.ActionItem, Url = $"/AnnualActionItem/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(annualActionItem);
         }
 
@@ -113,6 +161,17 @@ namespace CRMProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = false },
+                new BreadcrumbItem { Title = annualActionItem.ActionItem, Url = $"/AnnualActionItem/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
+
             return View(annualActionItem);
         }
 
@@ -130,6 +189,16 @@ namespace CRMProject.Controllers
             {
                 return NotFound();
             }
+
+            var breadcrumbs = new List<BreadcrumbItem>
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = false },
+                new BreadcrumbItem { Title = annualActionItem.ActionItem, Url = $"/AnnualActionItem/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+            };
+
+            ViewData["Breadcrumbs"] = breadcrumbs;
 
             return View(annualActionItem);
         }

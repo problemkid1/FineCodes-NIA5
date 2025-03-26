@@ -58,17 +58,8 @@
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <input type="hidden" asp-for="ID" />
-                <div class="columns">
-                    <!-- Industry NAICS Code -->
-                    <div class="col-12 col-md-6">
-                        <div class="form-group">
-                            <label asp-for="IndustryNAICSCode" class="control-label">
-                                Industry NAICS Code <span class="text-danger">*</span>
-                            </label>
-                            <input asp-for="IndustryNAICSCode" class="form-control" />
-                            <span asp-validation-for="IndustryNAICSCode" class="text-danger"></span>
-                        </div>
-                    </div>
+                <div class="row">
+                    
 
                     <!-- Industry Sector -->
                     <div class="col-12 col-md-6">
@@ -88,9 +79,10 @@
                                 }
                             </select>
                             <span asp-validation-for="IndustrySector" class="text-danger"></span>
-                            <!-- Optional input for new Industry Sector -->
-                            <input type="text" id="NewIndustrySector" class="form-control mt-2" placeholder="Enter new Sector">
-                            <button type="button" id="AddIndustrySector" class="btn btn-primary mt-2">Add New Sector</button>                            
+                            <div class="input-group mt-2">
+                                <input type="text" id="NewIndustrySector" class="form-control" placeholder="Enter new sector">
+                                <button type="button" id="AddIndustrySector" class="btn btn-outline-primary">Add</button>
+                            </div>
                         </div>
                     </div>                    
 
@@ -112,8 +104,21 @@
                                 }
                             </select>
                             <span asp-validation-for="IndustrySubsector" class="text-danger"></span>
-                            <input type="text" id="NewIndustrySubsector" class="form-control mt-2" placeholder="Enter new Subsector">
-                            <button type="button" id="AddIndustrySubsector" class="btn btn-primary mt-2">Add New Subsector</button>                            
+                            <div class="input-group mt-2">
+                                <input type="text" id="NewIndustrySubsector" class="form-control" placeholder="Enter new subsector">
+                                <button type="button" id="AddIndustrySubsector" class="btn btn-outline-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Industry NAICS Code -->
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            <label asp-for="IndustryNAICSCode" class="control-label">
+                                Industry NAICS Code <span class="text-danger">*</span>
+                            </label>
+                            <input asp-for="IndustryNAICSCode" class="form-control" />
+                            <span asp-validation-for="IndustryNAICSCode" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

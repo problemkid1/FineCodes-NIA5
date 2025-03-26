@@ -262,7 +262,10 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                     
+                
 
                 };
 
@@ -299,7 +302,8 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
                 };
 
                 ViewData["Opportunity"] = opportunityToUpdate.ID;
@@ -323,7 +327,8 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
                 };
 
                 ViewData["Opportunity"] = opportunityToUpdate.ID;
@@ -362,9 +367,10 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
             {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
-                new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = "#", IsActive = true }
+                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
             };
 
             ViewData["Opportunity"] = opportunityToUpdate.ID;
@@ -392,7 +398,10 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+                    
+                
 
                 };
 
@@ -468,7 +477,8 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
 
                 };
 
