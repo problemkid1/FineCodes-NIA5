@@ -39,12 +39,15 @@
         </button>
     </div>
 }
-
-<!-- Custom styles for this template-->
+<!-- CSS files -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="~/css/contactstyle.css" rel="stylesheet">
+
+<!-- JavaScript files -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
 <!-- Custom styles for this template-->
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
+@* <link href="~/css/contactstyle.css" rel="stylesheet"> *@
 @* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
 
 <div class="col-12">
@@ -159,63 +162,36 @@
                         </div>
                     </div>
                 </div>
-                <!-- Membership Types -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <strong>Select Membership Types</strong>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <span class="control-label">Available Membership Types</span>
-                                <button type="button" id="btnAddMembership" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                                @Html.ListBox("availableMembership", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
+                <div class="row mb-3 mt-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Membership Types</h5>
                             </div>
-
-                            <div class="form-group col-md-6">
-                                <span class="control-label">Selected Membership Types</span>
-                                <button type="button" id="btnRemoveMembership" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                                @Html.ListBox("selectedMembership", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
+                            <div class="card-body">
+                                @await Html.PartialAsync("_MembershipTypeSelection", (MultiSelectList)ViewData["selOptsMembership"])
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Industries -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <strong>Select Industries</strong>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-
-                            <div class="form-group col-md-6">
-                                <span class="control-label">Available NAICS codes</span>
-                                <button type="button" id="btnAddIndustry" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                                @Html.ListBox("availableIndustry", (MultiSelectList)ViewBag.availOptsIndus, new { @size = 10, @class = "form-control" })
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Industries</h5>
                             </div>
-
-                            <div class="form-group col-md-6">
-                                <span class="control-label">Selected NAICS codes</span>
-                                <button type="button" id="btnRemoveIndustry" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                                @Html.ListBox("selectedIndustry", (MultiSelectList)ViewBag.selOptsIndus, new { @size = 10, @class = "form-control" })
+                            <div class="card-body">
+                                @await Html.PartialAsync("_IndustrySelection", (MultiSelectList)ViewData["selOptsIndus"])
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="control-label">Available Contacts</span>
-                            <button type="button" id="btnAddMemberContact" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                        </div>
-                        @Html.ListBox("availableContacts", (MultiSelectList)ViewData["availOptsContacts"], new { @size = 10, @class = "form-control" })
+
+                <!-- Contacts Selection (if needed) -->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Contacts</h5>
                     </div>
-                    <div class="form-group col-md-6">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="control-label">Selected Contacts</span>
-                            <button type="button" id="btnRemoveMemberContact" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                        </div>
-                        @Html.ListBox("selectedContacts", (MultiSelectList)ViewData["selOptsContacts"], new { @size = 10, @class = "form-control" })
+                    <div class="card-body">
+                        @Html.Partial("_ContactSelection", ViewData["selOptsContacts"])
                     </div>
                 </div>
 
@@ -238,21 +214,55 @@
     </div>
 </div>
 
-<script src="~/js/multiselect.js"></script>
+@* <script src="~/js/multiselect.js"></script> *@
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
     <script>
-        // Disable the negative sign "-" from being typed
-        document.querySelector('input[name="MemberSize"]').addEventListener('keydown', function(event) {
-            if (event.key === "-" || event.keyCode === 189) {
-                event.preventDefault();
-            }
+                $(document).ready(function() {
+            // Add form validation for membership types and industries
+            $('#memberForm').submit(function(e) {
+                console.log("Form submission attempted");
+                
+                // Check if any membership types are selected
+                var membershipTypeFields = $('input.membership-type-id-field');
+                console.log("Found membership type fields:", membershipTypeFields.length);
+                
+                // Check if any industries are selected
+                var industryFields = $('input.industry-id-field');
+                console.log("Found industry fields:", industryFields.length);
+                
+                var errors = [];
+                
+                if (membershipTypeFields.length === 0) {
+                    errors.push("Please select at least one membership type.");
+                }
+                
+                if (industryFields.length === 0) {
+                    errors.push("Please select at least one industry.");
+                }
+                
+                if (errors.length > 0) {
+                    // If there are validation errors, prevent form submission
+                    e.preventDefault();
+                    alert(errors.join("\n"));
+                    return false;
+                }
+                
+                // Continue with form submission
+                return true;
+            });
+
+            // Disable the negative sign "-" from being typed
+            document.querySelector('input[name="MemberSize"]').addEventListener('keydown', function (event) {
+                if (event.key === "-" || event.keyCode === 189) {
+                    event.preventDefault();
+                }
+            });
         });
     </script>
-
     <script>
-         function toggleTextName(itemId) {
+        function toggleTextName(itemId) {
             var moreText = document.getElementById("moreTextName" + itemId);
             var readMore = document.getElementById("readMoreName" + itemId);
 
@@ -294,6 +304,7 @@
             }
         }
     </script>
+
     <script>
         function toggleIndustry(id) {
             var countSpan = document.getElementById("industryCount" + id);
@@ -306,6 +317,7 @@
             }
         }
     </script>
+
     <script type="text/javascript">
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

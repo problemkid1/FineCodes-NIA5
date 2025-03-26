@@ -444,7 +444,70 @@ namespace CRMProject.Controllers
             TempData["SuccessMessage"] = "Membership Type deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
-        
+
+        // GET: MembershipType/GetAllMembershipTypes
+        [HttpGet]
+        public IActionResult GetAllMembershipTypes()
+        {
+            try
+            {
+                // Retrieve the basic data from the database
+                var membershipTypesData = _context.MembershipTypes
+                    .Select(mt => new {
+                        mt.ID,
+                        mt.MembershipTypeName
+                    })
+                    .OrderBy(mt => mt.MembershipTypeName)
+                    .Take(100) // Limit to 100 membership types for performance
+                    .ToList(); // Execute the query and bring data to memory
+
+                // Format the data on the client side
+                var formattedMembershipTypes = membershipTypesData.Select(mt => new {
+                    id = mt.ID,
+                    label = mt.MembershipTypeName
+                }).ToList();
+
+                System.Diagnostics.Debug.WriteLine($"Returning all {formattedMembershipTypes.Count} membership types");
+                return Json(formattedMembershipTypes);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetAllMembershipTypes: {ex.Message}");
+                return Json(new { error = ex.Message });
+            }
+        }
+
+        // GET: MembershipType/SearchMembershipTypes
+        [HttpGet]
+        public IActionResult SearchMembershipTypes(string term)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(term))
+                {
+                    return GetAllMembershipTypes();
+                }
+
+                var membershipTypes = _context.MembershipTypes
+                    .Where(mt => mt.MembershipTypeName.Contains(term))
+                    .Select(mt => new {
+                        id = mt.ID,
+                        label = mt.MembershipTypeName
+                    })
+                    .OrderBy(mt => mt.label)
+                    .Take(10)
+                    .ToList();
+
+                return Json(membershipTypes);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in SearchMembershipTypes: {ex.Message}");
+                return Json(new { error = ex.Message });
+            }
+        }
+
+
         private bool MembershipTypeExists(int id)
         {
             return _context.MembershipTypes.Any(e => e.ID == id);

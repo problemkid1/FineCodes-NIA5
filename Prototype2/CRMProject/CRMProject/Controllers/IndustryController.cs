@@ -439,13 +439,47 @@ namespace CRMProject.Controllers
             TempData["SuccessMessage"] = "Industry deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
+
+        // Add these methods to your IndustryController class
+
+        [HttpGet]
+        public JsonResult SearchIndustries(string term)
+        {
+            var industries = _context.Industries
+                .Where(i => i.IndustrySector.Contains(term) ||
+                            i.IndustrySubsector.Contains(term) ||
+                            i.IndustryNAICSCode.Contains(term))
+                .Select(i => new {
+                    id = i.ID,
+                    label = i.IndustrySector + " - " + i.IndustrySubsector + " (" + i.IndustryNAICSCode + ")"
+                })
+                .Take(10)
+                .ToList();
+
+            return Json(industries);
+        }
+
+
+        [HttpGet]
+        public JsonResult GetAllIndustries()
+        {
+            var industries = _context.Industries
+                .ToList() // Execute the query and bring data into memory
+                .Select(i => new { id = i.ID, label = i.Summary }) // Now use Summary in memory
+                .OrderBy(i => i.label)
+                .ToList();
+
+            return Json(industries);
+        }
+
+
+
+
         /// <summary>
         /// Planted the base code
         /// </summary>
         /// <param name="theExcel"></param>
         /// <returns></returns>
-
-       
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
