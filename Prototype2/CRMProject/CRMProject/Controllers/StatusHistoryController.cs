@@ -245,9 +245,10 @@ namespace CRMProject.Controllers
 
             var breadcrumbs = new List<BreadcrumbItem>
              {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
-                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = statusHistory.Status, Url = $"/StatusHistory/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -319,7 +320,11 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
-                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = statusHistory.Status, Url = $"/StatusHistory/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+               
+                
+            
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -360,7 +365,8 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
-                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = statusHistory.Status, Url = $"/StatusHistory/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -393,7 +399,10 @@ namespace CRMProject.Controllers
              {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Status History", Url = "/StatusHistory/Index", IsActive = false },
-                new BreadcrumbItem { Title = statusHistory.Status, Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = statusHistory.Status, Url = $"/StatusHistory/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+                
+                
              };
 
             ViewData["Breadcrumbs"] = breadcrumbs;

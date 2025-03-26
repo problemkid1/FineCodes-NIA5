@@ -249,7 +249,10 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = $"/MembershipType/Details/{id}", IsActive = false },
+                     new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+
+
                 };
 
                 ViewData["Breadcrumbs"] = breadcrumbs;
@@ -340,7 +343,9 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = $"/MembershipType/Details/{id}", IsActive = false },
+                     new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                   
 
                 };
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -380,7 +385,11 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = $"/MembershipType/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+
+
+
                 };
 
                 ViewData["Breadcrumbs"] = breadcrumbs;
@@ -422,7 +431,11 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
-                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = $"/MembershipType/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+                                   
+                
+
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;

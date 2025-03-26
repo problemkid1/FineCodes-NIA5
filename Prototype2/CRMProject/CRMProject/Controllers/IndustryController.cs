@@ -236,7 +236,10 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
-                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = industry.IndustrySubsector, Url = $"/Industry/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                     
+                
 
                 };
 
@@ -335,7 +338,10 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
-                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = industry.IndustrySubsector, Url = $"/Industry/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+
+
 
                 };
 
@@ -369,7 +375,10 @@ namespace CRMProject.Controllers
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
-                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = industry.IndustrySubsector, Url =  $"/Industry/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+                    
+                
 
                 };
 
@@ -412,12 +421,15 @@ namespace CRMProject.Controllers
             // Proceed with deletion
             _context.Industries.Remove(industry);
             await _context.SaveChangesAsync();
-            
+
             var breadcrumbs = new List<BreadcrumbItem>
                 {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
-                    new BreadcrumbItem { Title = industry.Summary, Url = "#", IsActive = true }
+                    new BreadcrumbItem { Title = industry.IndustrySubsector, Url =  $"/Industry/Details/{id}", IsActive = false },
+                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
+
+
 
                 };
 
