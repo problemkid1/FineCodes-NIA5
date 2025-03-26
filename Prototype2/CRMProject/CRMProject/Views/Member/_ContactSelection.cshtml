@@ -1,264 +1,318 @@
-﻿@model List<CRMProject.Models.Contact>
+﻿@model MultiSelectList
 
-<div class="card mb-3">
-    <div class="card-header">
-        <strong>Select Contacts</strong>
+<div class="form-group">
+    <label for="contactSearch">Search for Contact</label>
+    <div class="input-group">
+        <input type="text" id="contactSearch" class="form-control" placeholder="Type to search...">
+        <div class="input-group-append">
+            <button type="button" id="btnAddContact" class="btn btn-primary">Add</button>
+        </div>
     </div>
-    <div class="card-body">
-        <div class="row">
-            <div class="form-group col-md-6">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="control-label">Available Contacts</span>
-                    <button type="button" id="btnAddMemberContact" class="btn btn-primary btn-sm"><strong>+</strong></button>
-                </div>
-                @Html.ListBox("availableContacts", (MultiSelectList)ViewData["availOptsContacts"], new { @size = 10, @class = "form-control" })
-            </div>
-            <div class="form-group col-md-6">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="control-label">Selected Contacts</span>
-                    <button type="button" id="btnRemoveMemberContact" class="btn btn-danger btn-sm"><strong>-</strong></button>
-                </div>
-                @Html.ListBox("selectedContacts", (MultiSelectList)ViewData["selOptsContacts"], new { @size = 10, @class = "form-control" })
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-12 text-center">
-                <button type="button" class="btn btn-primary" id="toggleContactFormBtn">
-                    <i class="fa-solid fa-plus"></i> Create New Contact
-                </button>
-            </div>
-        </div>
-
-        <!-- Slide-up/down Contact Form -->
-        <div id="contactFormSection" style="display:none" class="mt-4">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Create New Contact</h5>
-                        <button type="button" class="btn-close btn-close-white" id="closeContactForm" aria-label="Close"></button>
-                    </div>
-                </div>
-                <div class="card-body">
-                  @*   <form > *@
-
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="FirstName" class="control-label">
-                                        <span class="text-danger">*</span> First Name
-                                    </label>
-                                    <input name="FirstName" id="FirstName" class="form-control" placeholder="Enter first name" required
-                                           data-val="true"
-                                           data-val-required="First name is required."
-                                           data-val-maxlength="First name cannot be more than 50 characters long."
-                                           data-val-maxlength-max="50"
-                                           data-val-regex="First name must contain only letters."
-                                           data-val-regex-pattern="^[a-zA-Z\s]+$" />
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="LastName" class="control-label">
-                                        <span class="text-danger">*</span> Last Name
-                                    </label>
-                                    <input name="LastName" id="LastName" class="form-control" placeholder="Enter last name" required
-                                           data-val="true"
-                                           data-val-required="Last name is required."
-                                           data-val-maxlength="Last name cannot be more than 100 characters long."
-                                           data-val-maxlength-max="100"
-                                           data-val-regex="Last name must contain only letters."
-                                           data-val-regex-pattern="^[a-zA-Z\s]+$" />
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="ContactTitleRole" class="control-label">Title/Role</label>
-                                    <input name="ContactTitleRole" id="ContactTitleRole" class="form-control" placeholder="Enter title/role"
-                                           data-val="true"
-                                           data-val-maxlength="Title/Role cannot be more than 100 characters long."
-                                           data-val-maxlength-max="100"
-                                           data-val-regex="Title/Role must contain only letters."
-                                           data-val-regex-pattern="^[a-zA-Z\s]*$" />
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactTitleRole" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="ContactPhone" class="control-label">Phone</label>
-                                    <input name="ContactPhone" type="tel" id="ContactPhone" class="form-control" placeholder="Enter phone number (10 digits, no spaces)"
-                                           data-val="true"
-                                           data-val-regex="Please enter a valid 10-digit phone number (no spaces)."
-                                           data-val-regex-pattern="^\d{10}$" />
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactPhone" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="ContactEmailAddress" class="control-label">
-                                        <span class="text-danger">*</span> Email
-                                    </label>
-                                    <input name="ContactEmailAddress" id="ContactEmailAddress" type="email" class="form-control" placeholder="example@email.com" required
-                                           data-val="true"
-                                           data-val-required="Email is required."
-                                           data-val-email="Please enter a valid email address."
-                                           data-val-maxlength="Email cannot be more than 255 characters long."
-                                           data-val-maxlength-max="255" />
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailAddress" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <div class="form-group mb-3">
-                                    <label for="ContactEmailType" class="control-label">Email Type</label>
-                                    <select name="ContactEmailType" id="ContactEmailType" class="form-control" asp-items="Html.GetEnumSelectList<EmailType>()">
-                                        <option value="">Select Email Type</option>
-                                    </select>
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactEmailType" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="form-group mb-3">
-                                    <label for="ContactNotes" class="control-label">Contact Notes</label>
-                                    <textarea name="ContactNotes" id="ContactNotes" class="form-control" style="min-height: 100px;" placeholder="Add notes"></textarea>
-                                    <span class="text-danger field-validation-valid" data-valmsg-for="ContactNotes" data-valmsg-replace="true"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group text-center mt-3">
-                            <button type="button" class="btn btn-primary" id="submitContactBtn">Create Contact</button>
-                            <button type="button" class="btn btn-secondary ml-2" id="cancelContactBtn">Cancel</button>
-                        </div>
-                    @* </form> *@
-                </div>
-            </div>
-        </div>
+    <div id="searchResultsContainer" style="position: relative;">
+        <div id="searchResults" class="list-group" style="display:none; position:absolute; z-index:1000; width:100%; max-height:200px; overflow-y:auto; background-color:white; border:1px solid #ddd;"></div>
     </div>
 </div>
 
+<h5 class="mt-3">Selected Contacts</h5>
+<div id="selectedContactsContainer">
+    <ul id="selectedContactsList" class="list-group">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@item.Value">
+                    @item.Text
+                    <button type="button" class="btn btn-sm btn-danger remove-contact">Remove</button>
+                </li>
+            }
+        }
+    </ul>
+
+    <!-- No contacts message - initially hidden if there are contacts -->
+    <div id="noContactsMessage" class="alert alert-info mt-2 @(Model != null && Model.Any() ? "d-none" : "")">
+        No contacts assigned yet
+    </div>
+</div>
+
+<!-- Hidden fields for selected contacts -->
+@if (Model != null)
+{
+    @foreach (var item in Model)
+    {
+        <input type="hidden" name="selectedContacts" value="@item.Value" class="contact-id-field" />
+    }
+}
+
 <script>
     $(document).ready(function () {
-        // Prevent form submission in multiple ways
-        $("#createContactForm").attr("action", "javascript:void(0);");
-        $("#createContactForm").attr("onsubmit", "return false;");
+        console.log("Contact selection script initialized");
 
-        // Disable the default submit behavior
-        $("#createContactForm").on("submit", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("Default form submission prevented");
-            return false;
+        let searchTimeout;
+        let selectedContact = null;
+        let allContacts = []; // Store all contacts
+
+        // Check if there are any contacts initially and show/hide the message
+        updateNoContactsMessage();
+
+        // Load all contacts when the input field is focused
+        $("#contactSearch").on("focus", function () {
+            if (allContacts.length === 0) {
+                // Only load all contacts if we haven't already
+                loadAllContacts();
+            } else {
+                // If we already have contacts, just display them
+                displaySearchResults(allContacts);
+            }
         });
 
-        // Toggle contact form visibility
-        $("#toggleContactFormBtn").click(function () {
-            $("#contactFormSection").slideDown();
-            $(this).hide();
-        });
+        // Function to load all contacts
+        function loadAllContacts() {
+            console.log("Loading all contacts");
+            $.ajax({
+                url: '/Contact/GetAllContacts',
+                success: function (data) {
+                    console.log("All contacts loaded:", data);
 
-        $("#closeContactForm, #cancelContactBtn").click(function () {
-            hideContactForm();
-        });
+                    // Check if the response has a 'contacts' property (paginated format)
+                    if (data.contacts) {
+                        allContacts = data.contacts;
+                    } else if (Array.isArray(data)) {
+                        // Handle the old format (direct array)
+                        allContacts = data;
+                    } else {
+                        console.error("Unexpected data format:", data);
+                        allContacts = [];
+                    }
 
-        function hideContactForm() {
-            $("#contactFormSection").slideUp();
-            $("#toggleContactFormBtn").show();
-            $("#createContactForm")[0].reset();
-            // Clear validation errors
-            $(".field-validation-valid").text("");
-            $(".input-validation-error").removeClass("input-validation-error");
+                    displaySearchResults(allContacts);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading all contacts:", error);
+                    console.error("Status:", status);
+                    console.error("Response:", xhr.responseText);
+                }
+            });
         }
 
-        // // Load jQuery validation scripts if not already loaded
-        // if (typeof $.validator === 'undefined') {
-        //     $.getScript("/lib/jquery-validation/dist/jquery.validate.min.js", function () {
-        //         $.getScript("/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js", function () {
-        //             // Initialize validation
-        //             $.validator.unobtrusive.parse("#createContactForm");
-        //         });
-        //     });
-        // } else {
-        //     // Initialize validation if jQuery validator is already loaded
-        //     $.validator.unobtrusive.parse("#createContactForm");
-        // }
+        // Handle search input
+        $("#contactSearch").on("keyup", function () {
+            const searchTerm = $(this).val().trim().toLowerCase();
+            console.log("Search term:", searchTerm);
 
-        // // Handle the submit button click directly instead of form submission
-        // $("button[type='submit']", "#createContactForm").on("click", function (e) {
-        //     e.preventDefault();
-        //     e.stopPropagation();
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
 
-        //     console.log("Submit button clicked");
+            // If we have all contacts already loaded
+            if (allContacts.length > 0) {
+                // Filter the existing contacts
+                if (searchTerm === "") {
+                    // Show all contacts if search term is empty
+                    displaySearchResults(allContacts);
+                } else {
+                    // Filter contacts based on search term
+                    const filteredContacts = allContacts.filter(contact =>
+                        contact.label.toLowerCase().includes(searchTerm)
+                    );
+                    displaySearchResults(filteredContacts);
+                }
+                return;
+            }
 
-        //     // Check if the form is valid
-        //     var form = $("#createContactForm");
-        //     if (form.valid && !form.valid()) {
-        //         console.log("Form validation failed");
-        //         return false;
-        //     }
+            // If we don't have all contacts loaded yet, use the server-side search
+            // Set a timeout to prevent too many requests
+            searchTimeout = setTimeout(function () {
+                if (searchTerm === "") {
+                    // Load all contacts if search term is empty
+                    loadAllContacts();
+                    return;
+                }
 
-        //     // Collect form data
-        //     var formData = {
-        //         FirstName: $("#FirstName").val(),
-        //         LastName: $("#LastName").val(),
-        //         ContactTitleRole: $("#ContactTitleRole").val() || "",
-        //         ContactPhone: $("#ContactPhone").val() || "",
-        //         ContactEmailAddress: $("#ContactEmailAddress").val(),
-        //         ContactEmailType: $("#ContactEmailType").val() || "",
-        //         ContactNotes: $("#ContactNotes").val() || ""
-        //     };
+                if (searchTerm.length >= 2) {
+                    console.log("Sending search request for:", searchTerm);
+                    $.ajax({
+                        url: '/Contact/SearchContacts',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            console.log("Search results:", data);
+                            displaySearchResults(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error searching contacts:", error);
+                            console.error("Status:", status);
+                            console.error("Response:", xhr.responseText);
+                            console.error("Status code:", xhr.status);
+                            $("#searchResults").hide();
+                        }
+                    });
+                }
+            }, 300);
+        });
 
-        //     console.log("Sending contact data:", formData);
+        // Display search results
+        function displaySearchResults(results) {
+            const $results = $("#searchResults");
+            $results.empty();
 
-        //     // Send AJAX request
-        //     $.ajax({
-        //         url: '/Contact/CreateContactAjax',
-        //         type: 'POST',
-        //         contentType: 'application/json',
-        //         data: JSON.stringify(formData),
-        //         success: function (response) {
-        //             console.log("Server response:", response);
+            if (results && results.length > 0) {
+                results.forEach(function (contact) {
+                    $results.append(`
+                            <a href="#" class="list-group-item list-group-item-action contact-result"
+                               data-id="${contact.id}" data-label="${contact.label}">
+                                ${contact.label}
+                            </a>
+                        `);
+                });
+                $results.show();
+                console.log("Showing results dropdown with", results.length, "contacts");
+            } else {
+                $results.append(`
+                        <div class="list-group-item text-muted">
+                            No contacts found
+                        </div>
+                    `);
+                $results.show();
+                console.log("Showing 'No contacts found' message");
+            }
+        }
 
-        //             if (response.success) {
-        //                 // Add the new contact to the selected contacts list
-        //                 var option = new Option(response.contactName, response.contactId, true, true);
-        //                 $("#selectedContacts").append(option);
+        // Handle search result selection
+        $(document).on("click", ".contact-result", function (e) {
+            e.preventDefault();
 
-        //                 // Hide the form
-        //                 hideContactForm();
+            selectedContact = {
+                id: $(this).data("id"),
+                label: $(this).data("label")
+            };
 
-        //                 // Show success message
-        //                 alert('Contact created successfully');
-        //             } else {
-        //                 // Handle validation errors from server
-        //                 if (response.errors) {
-        //                     // Display validation errors
-        //                     $.each(response.errors, function (key, value) {
-        //                         $("[data-valmsg-for='" + key + "']").text(Array.isArray(value) ? value[0] : value);
-        //                         $("#" + key).addClass("input-validation-error");
-        //                     });
-        //                 } else {
-        //                     // Alert and log any error message returned from the server
-        //                     console.error("Error from server:", response.message);
-        //                     alert("Error: " + response.message);
-        //                 }
-        //             }
-        //         },
-        //         error: function (xhr, status, error) {
-        //             // Debug: Log detailed AJAX error information
-        //             console.error("AJAX error:", status, error);
-        //             console.error("Response text:", xhr.responseText);
-        //             alert("AJAX request failed: " + status);
-        //         }
-        //     });
+            console.log("Selected contact:", selectedContact);
+            $("#contactSearch").val(selectedContact.label);
+            $("#searchResults").hide();
+        });
 
-        //     return false;
-        // });
+        // Hide search results when clicking outside
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest("#contactSearch, #searchResults").length) {
+                $("#searchResults").hide();
+            }
+        });
+
+        // Add contact button click handler
+        $("#btnAddContact").on("click", function () {
+            console.log("Add contact button clicked");
+
+            if (selectedContact) {
+                addContact(selectedContact.id, selectedContact.label);
+                $("#contactSearch").val('');
+                selectedContact = null;
+                $("#searchResults").hide();
+            } else {
+                const searchTerm = $("#contactSearch").val().trim();
+                if (searchTerm) {
+                    // Try to find a matching contact in our loaded contacts
+                    if (allContacts.length > 0) {
+                        const matchingContact = allContacts.find(c =>
+                            c.label.toLowerCase() === searchTerm.toLowerCase() ||
+                            c.label.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+
+                        if (matchingContact) {
+                            addContact(matchingContact.id, matchingContact.label);
+                            $("#contactSearch").val('');
+                            $("#searchResults").hide();
+                            return;
+                        }
+                    }
+
+                    // If no matching contact found locally, search on the server
+                    $.ajax({
+                        url: '/Contact/SearchContacts',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            console.log("Search results for adding:", data);
+                            if (data && data.length > 0) {
+                                addContact(data[0].id, data[0].label);
+                                $("#contactSearch").val('');
+                                $("#searchResults").hide();
+                            } else {
+                                alert("No contacts found matching: " + searchTerm);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error adding contact:", error);
+                            alert("Error searching for contact. Please try again.");
+                        }
+                    });
+                } else {
+                    alert("Please enter a contact name to search");
+                }
+            }
+        });
+
+        // Support pressing Enter in the search field
+        $("#contactSearch").on("keypress", function (e) {
+            if (e.which === 13) { // Enter key
+                e.preventDefault();
+                $("#btnAddContact").click();
+            }
+        });
+
+        // Remove contact button click handler
+        $(document).on("click", ".remove-contact", function () {
+            console.log("Remove button clicked");
+            const $item = $(this).closest("li");
+            const contactId = $item.data("id");
+
+            // Remove the hidden field for this contact
+            $(`input.contact-id-field[value="${contactId}"]`).remove();
+
+            // Remove the list item
+            $item.remove();
+
+            // Check if there are any contacts left and show/hide the message
+            updateNoContactsMessage();
+        });
+
+        // Function to add a contact to the selected list
+        function addContact(contactId, contactName) {
+            console.log("Adding contact:", contactId, contactName);
+
+            // Check if contact already exists in the list
+            if ($("#selectedContactsList li[data-id='" + contactId + "']").length === 0) {
+                // Add the contact to the list
+                $("#selectedContactsList").append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${contactId}">
+                            ${contactName}
+                            <button type="button" class="btn btn-sm btn-danger remove-contact">Remove</button>
+                        </li>
+                    `);
+
+                // Add a hidden field for this contact
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'selectedContacts',
+                    value: contactId,
+                    class: 'contact-id-field'
+                }).appendTo('form');
+
+                // Hide the "No contacts" message since we now have at least one contact
+                $("#noContactsMessage").addClass("d-none");
+            } else {
+                alert("This contact is already in the list");
+            }
+        }
+
+        // Function to check if there are any contacts and show/hide the message accordingly
+        function updateNoContactsMessage() {
+            const contactCount = $("#selectedContactsList li").length;
+            console.log("Contact count:", contactCount);
+
+            if (contactCount === 0) {
+                // Show the "No contacts" message
+                $("#noContactsMessage").removeClass("d-none");
+            } else {
+                // Hide the "No contacts" message
+                $("#noContactsMessage").addClass("d-none");
+            }
+        }
     });
 </script>
-

@@ -1,0 +1,323 @@
+﻿@model MultiSelectList
+
+<div class="form-group">
+    <label for="membershipTypeSearch">Search for Membership Type</label>
+    <div class="input-group">
+        <input type="text" id="membershipTypeSearch" class="form-control" placeholder="Type to search...">
+        <div class="input-group-append">
+            <button type="button" id="btnAddMembershipType" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+    <div id="membershipTypeSearchResultsContainer" style="position: relative;">
+        <div id="membershipTypeSearchResults" class="list-group" style="display:none; position:absolute; z-index:1000; width:100%; max-height:200px; overflow-y:auto; background-color:white; border:1px solid #ddd;"></div>
+    </div>
+</div>
+
+<h5 class="mt-3">Selected Membership Types</h5>
+<div id="selectedMembershipTypesContainer">
+    <ul id="selectedMembershipTypesList" class="list-group">
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@item.Value">
+                @item.Text
+                <button type="button" class="btn btn-sm btn-danger remove-membership-type">Remove</button>
+            </li>
+        }
+    </ul>
+
+    <!-- No membership types message - initially hidden if there are membership types -->
+    <div id="noMembershipTypesMessage" class="alert alert-info mt-2 @(Model != null && Model.Any() ? "d-none" : "")">
+        No membership types assigned yet
+    </div>
+</div>
+
+<!-- Hidden fields for selected membership types - UPDATED NAME HERE -->
+@foreach (var item in Model)
+{
+    <input type="hidden" name="selectedMembership" value="@item.Value" class="membership-type-id-field" />
+}
+
+<script>
+    $(document).ready(function () {
+        console.log("Membership type selection script initialized");
+
+        // Debug logging for initial membership type fields
+        console.log("Initial membership type fields:", $('.membership-type-id-field').length);
+        $('.membership-type-id-field').each(function () {
+            console.log("Membership type field value:", $(this).val(), "Name:", $(this).attr('name'));
+        });
+
+        let searchTimeout;
+        let selectedMembershipType = null;
+        let allMembershipTypes = []; // Store all membership types
+
+        // Load all membership types when the input field is focused
+        $("#membershipTypeSearch").on("focus", function () {
+            if (allMembershipTypes.length === 0) {
+                // Only load all membership types if we haven't already
+                loadAllMembershipTypes();
+            } else {
+                // If we already have membership types, just display them
+                displaySearchResults(allMembershipTypes);
+            }
+        });
+
+        // Function to load all membership types
+        function loadAllMembershipTypes() {
+            console.log("Loading all membership types");
+            $.ajax({
+                url: '/MembershipType/GetAllMembershipTypes',
+                success: function (data) {
+                    console.log("All membership types loaded:", data);
+
+                    // Check if the response has a 'membershipTypes' property (paginated format)
+                    if (data.membershipTypes) {
+                        allMembershipTypes = data.membershipTypes;
+                    } else if (Array.isArray(data)) {
+                        // Handle the old format (direct array)
+                        allMembershipTypes = data;
+                    } else {
+                        console.error("Unexpected data format:", data);
+                        allMembershipTypes = [];
+                    }
+
+                    displaySearchResults(allMembershipTypes);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading all membership types:", error);
+                    console.error("Status:", status);
+                    console.error("Response:", xhr.responseText);
+                }
+            });
+        }
+
+        // Handle search input
+        $("#membershipTypeSearch").on("keyup", function () {
+            const searchTerm = $(this).val().trim().toLowerCase();
+            console.log("Search term:", searchTerm);
+
+            // Clear previous timeout
+            clearTimeout(searchTimeout);
+
+            // If we have all membership types already loaded
+            if (allMembershipTypes.length > 0) {
+                // Filter the existing membership types
+                if (searchTerm === "") {
+                    // Show all membership types if search term is empty
+                    displaySearchResults(allMembershipTypes);
+                } else {
+                    // Filter membership types based on search term
+                    const filteredMembershipTypes = allMembershipTypes.filter(membershipType =>
+                        membershipType.label.toLowerCase().includes(searchTerm)
+                    );
+                    displaySearchResults(filteredMembershipTypes);
+                }
+                return;
+            }
+
+            // If we don't have all membership types loaded yet, use the server-side search
+            // Set a timeout to prevent too many requests
+            searchTimeout = setTimeout(function () {
+                if (searchTerm === "") {
+                    // Load all membership types if search term is empty
+                    loadAllMembershipTypes();
+                    return;
+                }
+
+                if (searchTerm.length >= 2) {
+                    console.log("Sending search request for:", searchTerm);
+                    $.ajax({
+                        url: '/MembershipType/SearchMembershipTypes',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            console.log("Search results:", data);
+                            displaySearchResults(data);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error searching membership types:", error);
+                            console.error("Status:", status);
+                            console.error("Response:", xhr.responseText);
+                            $("#membershipTypeSearchResults").hide();
+                        }
+                    });
+                }
+            }, 300);
+        });
+
+        // Display search results
+        function displaySearchResults(results) {
+            const $results = $("#membershipTypeSearchResults");
+            $results.empty();
+
+            if (results && results.length > 0) {
+                results.forEach(function (membershipType) {
+                    $results.append(`
+                            <a href="#" class="list-group-item list-group-item-action membership-type-result"
+                               data-id="${membershipType.id}" data-label="${membershipType.label}">
+                                ${membershipType.label}
+                            </a>
+                        `);
+                });
+                $results.show();
+                console.log("Showing results dropdown with", results.length, "membership types");
+            } else {
+                $results.append(`
+                        <div class="list-group-item text-muted">
+                            No membership types found
+                        </div>
+                    `);
+                $results.show();
+                console.log("Showing 'No membership types found' message");
+            }
+        }
+
+        // Handle search result selection
+        $(document).on("click", ".membership-type-result", function (e) {
+            e.preventDefault();
+
+            selectedMembershipType = {
+                id: $(this).data("id"),
+                label: $(this).data("label")
+            };
+
+            console.log("Selected membership type:", selectedMembershipType);
+            $("#membershipTypeSearch").val(selectedMembershipType.label);
+            $("#membershipTypeSearchResults").hide();
+        });
+
+        // Hide search results when clicking outside
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest("#membershipTypeSearch, #membershipTypeSearchResults").length) {
+                $("#membershipTypeSearchResults").hide();
+            }
+        });
+
+        // Add membership type button click handler
+        $("#btnAddMembershipType").on("click", function () {
+            console.log("Add membership type button clicked");
+
+            if (selectedMembershipType) {
+                addMembershipType(selectedMembershipType.id, selectedMembershipType.label);
+                $("#membershipTypeSearch").val('');
+                selectedMembershipType = null;
+                $("#membershipTypeSearchResults").hide();
+            } else {
+                const searchTerm = $("#membershipTypeSearch").val().trim();
+                if (searchTerm) {
+                    // Try to find a matching membership type in our loaded membership types
+                    if (allMembershipTypes.length > 0) {
+                        const matchingMembershipType = allMembershipTypes.find(mt =>
+                            mt.label.toLowerCase() === searchTerm.toLowerCase() ||
+                            mt.label.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+
+                        if (matchingMembershipType) {
+                            addMembershipType(matchingMembershipType.id, matchingMembershipType.label);
+                            $("#membershipTypeSearch").val('');
+                            $("#membershipTypeSearchResults").hide();
+                            return;
+                        }
+                    }
+
+                    // If no matching membership type found locally, search on the server
+                    $.ajax({
+                        url: '/MembershipType/SearchMembershipTypes',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            console.log("Search results for adding:", data);
+                            if (data && data.length > 0) {
+                                addMembershipType(data[0].id, data[0].label);
+                                $("#membershipTypeSearch").val('');
+                                $("#membershipTypeSearchResults").hide();
+                            } else {
+                                alert("No membership types found matching: " + searchTerm);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error adding membership type:", error);
+                            alert("Error searching for membership type. Please try again.");
+                        }
+                    });
+                } else {
+                    alert("Please enter a membership type name to search");
+                }
+            }
+        });
+
+        // Support pressing Enter in the search field
+        $("#membershipTypeSearch").on("keypress", function (e) {
+            if (e.which === 13) { // Enter key
+                e.preventDefault();
+                $("#btnAddMembershipType").click();
+            }
+        });
+
+        // Remove membership type button click handler
+        $(document).on("click", ".remove-membership-type", function () {
+            console.log("Remove button clicked");
+            const $item = $(this).closest("li");
+            const membershipTypeId = $item.data("id");
+
+            // Remove the hidden field for this membership type
+            $(`input.membership-type-id-field[value="${membershipTypeId}"]`).remove();
+
+            // Remove the list item
+            $item.remove();
+
+            // Check if there are any membership types left and show/hide the message
+            updateNoMembershipTypesMessage();
+        });
+
+        // Function to add a membership type to the selected list
+        function addMembershipType(membershipTypeId, membershipTypeName) {
+            console.log("Adding membership type:", membershipTypeId, membershipTypeName);
+
+            // Check if membership type already exists in the list
+            if ($("#selectedMembershipTypesList li[data-id='" + membershipTypeId + "']").length === 0) {
+                // Add the membership type to the list
+                $("#selectedMembershipTypesList").append(`
+                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${membershipTypeId}">
+                            ${membershipTypeName}
+                            <button type="button" class="btn btn-sm btn-danger remove-membership-type">Remove</button>
+                        </li>
+                    `);
+
+                // Add a hidden field for this membership type - UPDATED NAME HERE
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'selectedMembership',  // Changed from selectedMembershipTypes
+                    value: membershipTypeId,
+                    class: 'membership-type-id-field'
+                }).appendTo('form');
+
+                // Hide the "No membership types" message since we now have at least one
+                $("#noMembershipTypesMessage").addClass("d-none");
+
+                // Log the current membership type fields after adding
+                console.log("Membership type fields after adding:", $('.membership-type-id-field').length);
+            } else {
+                alert("This membership type is already in the list");
+            }
+        }
+
+        // Function to check if there are any membership types and show/hide the message accordingly
+        function updateNoMembershipTypesMessage() {
+            const membershipTypeCount = $("#selectedMembershipTypesList li").length;
+            console.log("Membership type count:", membershipTypeCount);
+
+            if (membershipTypeCount === 0) {
+                // Show the "No membership types" message
+                $("#noMembershipTypesMessage").removeClass("d-none");
+            } else {
+                // Hide the "No membership types" message
+                $("#noMembershipTypesMessage").addClass("d-none");
+            }
+
+            // Log the current membership type fields after updating
+            console.log("Membership type fields after update:", $('.membership-type-id-field').length);
+        }
+
+        // Check if there are any membership types initially and show/hide the message
+        updateNoMembershipTypesMessage();
+    });
+</script>

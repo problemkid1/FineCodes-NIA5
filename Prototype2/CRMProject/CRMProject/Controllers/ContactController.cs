@@ -291,10 +291,6 @@ namespace CRMProject.Controllers
         //    });
         //}
 
-
-
-
-
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -403,6 +399,119 @@ namespace CRMProject.Controllers
             return View(contactToUpdate);
         }
 
+        [HttpGet]
+        public IActionResult TestContacts()
+        {
+            var allContacts = _context.Contacts
+                .Select(c => new {
+                    id = c.ID,
+                    name = $"{c.FirstName} {c.LastName}",
+                    title = c.ContactTitleRole
+                })
+                .Take(10)
+                .ToList();
+
+            return Json(allContacts);
+        }
+
+        [HttpGet]
+        [ActionName("SearchContacts")]
+        public IActionResult SearchContacts(string term)
+        {
+            System.Diagnostics.Debug.WriteLine($"SearchContacts called with term: {term}");
+
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return Json(new object[0]);
+            }
+
+            try
+            {
+                // First, check if we have any contacts at all
+                var totalContacts = _context.Contacts.Count();
+                System.Diagnostics.Debug.WriteLine($"Total contacts in database: {totalContacts}");
+
+                // Log the search condition
+                var searchCondition = $"Searching for FirstName.Contains('{term}') OR LastName.Contains('{term}') OR (FirstName + ' ' + LastName).Contains('{term}')";
+                System.Diagnostics.Debug.WriteLine(searchCondition);
+
+                // Try a more lenient search
+                var contacts = _context.Contacts
+                    .Where(c => c.FirstName.ToLower().Contains(term.ToLower()) ||
+                                c.LastName.ToLower().Contains(term.ToLower()) ||
+                                (c.FirstName + " " + c.LastName).ToLower().Contains(term.ToLower()))
+                    .Select(c => new {
+                        id = c.ID,
+                        label = $"{c.FirstName} {c.LastName}" + (string.IsNullOrEmpty(c.ContactTitleRole) ? "" : $" - {c.ContactTitleRole}")
+                    })
+                    .Take(10)
+                    .ToList();
+
+                System.Diagnostics.Debug.WriteLine($"Found {contacts.Count} contacts");
+
+                // If no results, return a test contact for debugging
+                if (contacts.Count == 0 && totalContacts > 0)
+                {
+                    System.Diagnostics.Debug.WriteLine("No matches found, returning a test contact for debugging");
+                    return Json(new[] {
+                new {
+                    id = 999,
+                    label = "Test Contact - No actual matches found"
+                }
+            });
+                }
+
+                return Json(contacts);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in SearchContacts: {ex.Message}");
+                return Json(new { error = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetAllContacts(int page = 1, int pageSize = 50)
+        {
+            try
+            {
+                // Get total count for pagination info
+                var totalCount = _context.Contacts.Count();
+
+                // Retrieve paged data
+                var contactsData = _context.Contacts
+                    .OrderBy(c => c.LastName)
+                    .ThenBy(c => c.FirstName)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(c => new {
+                        c.ID,
+                        c.FirstName,
+                        c.LastName,
+                        c.ContactTitleRole
+                    })
+                    .ToList();
+
+                // Format the data
+                var formattedContacts = contactsData.Select(c => new {
+                    id = c.ID,
+                    label = $"{c.FirstName} {c.LastName}" + (string.IsNullOrEmpty(c.ContactTitleRole) ? "" : $" - {c.ContactTitleRole}")
+                }).ToList();
+
+                return Json(new
+                {
+                    contacts = formattedContacts,
+                    totalCount = totalCount,
+                    totalPages = (int)Math.Ceiling(totalCount / (double)pageSize),
+                    currentPage = page
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in GetAllContacts: {ex.Message}");
+                return Json(new { error = ex.Message });
+            }
+        }
 
 
 
