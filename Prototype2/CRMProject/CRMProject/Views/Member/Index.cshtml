@@ -49,6 +49,15 @@
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
 @* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
+<link href="~/css/contactstyle.css" rel="stylesheet">
+
+
+
+
+
+   
+
+
 
 <div class="col-12">
     <div class="card">
@@ -62,6 +71,10 @@
                     </a>
                 }
             </div>
+            <!-- Add this button near the top of your Member/Index.cshtml -->
+            <button id="exportButton" class="btn btn-success">
+                <i class="fas fa-file-excel"></i> Export to Excel
+            </button>
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
@@ -261,7 +274,11 @@
                 }
             </div>
 
+         @*    <!-- Export Button -->
+            <button id="exportButton" class="btn btn-primary">Export to Excel</button>
 
+            <!-- Include the partial view for the modal -->
+            <partial name="ExportModal" /> *@
 
             <div class="card">
                 <!-- Table Section -->
@@ -538,14 +555,419 @@
         </div>
     </div>
 </div>
+
+<!-- Export Dialog - Add at the bottom of Member/Index.cshtml -->
+<div id="exportDialog" class="custom-dialog-overlay" style="display: none;">
+    <div class="custom-dialog" role="dialog" aria-labelledby="dialogTitle">
+        <div class="dialog-header">
+            <h5 id="dialogTitle" class="dialog-title">Export Members to Excel</h5>
+            <button type="button" class="dialog-close" aria-label="Close">×</button>
+        </div>
+        <div class="dialog-body">
+            <form id="exportForm">
+                <div class="alert alert-info mb-3">
+                    <small>Current filters will be applied to the exported data.</small>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="endDate">End Date</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate" required>
+                </div>
+
+                <h6 class="mt-4 mb-2">Select Fields to Export</h6>
+
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="form-check">
+                            <input class="form-check-input section-checkbox" type="checkbox" id="contactSection" checked>
+                            <label class="form-check-label fw-bold" for="contactSection">Contact Information</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input field-checkbox contact-field" type="checkbox" value="Contact" id="contactCheck" checked>
+                            <label class="form-check-label" for="contactCheck">Contact Details (Name, Email, Phone)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="form-check">
+                            <input class="form-check-input section-checkbox" type="checkbox" id="membershipSection" checked>
+                            <label class="form-check-label fw-bold" for="membershipSection">Membership Information</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input field-checkbox membership-field" type="checkbox" value="MembershipType" id="membershipTypeCheck" checked>
+                            <label class="form-check-label" for="membershipTypeCheck">Membership Type Details</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="form-check">
+                            <input class="form-check-input section-checkbox" type="checkbox" id="industrySection" checked>
+                            <label class="form-check-label fw-bold" for="industrySection">Industry Information</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input field-checkbox industry-field" type="checkbox" value="Industry" id="industryCheck" checked>
+                            <label class="form-check-label" for="industryCheck">Industry Details</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="form-check">
+                            <input class="form-check-input section-checkbox" type="checkbox" id="addressSection" checked>
+                            <label class="form-check-label fw-bold" for="addressSection">Address Information</label>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input field-checkbox address-field" type="checkbox" value="Address" id="addressCheck" checked>
+                            <label class="form-check-label" for="addressCheck">Address Details</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="dialog-footer">
+            <button type="button" class="btn btn-secondary dialog-close">Cancel</button>
+            <button type="button" class="btn btn-primary" id="exportSubmit">Export</button>
+        </div>
+    </div>
+</div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @section Scripts {
 
 <script src="~/js/site.js"></script>
 
+   
+    <script>
+        $(document).ready(function () {
+            // Store the element that had focus before opening dialog
+            let lastFocusedElement;
+            const dialog = $('#exportDialog');
+            const dialogContent = dialog.find('.custom-dialog');
+
+            // Set default dates from ViewData
+            function setDefaultDates() {
+                // Get dates from ViewData if available
+                const startDate = '@ViewData["StartDate"]' || '';
+                const endDate = '@ViewData["EndDate"]' || '';
+
+                if (startDate) {
+                    $('#startDate').val(startDate);
+                } else {
+                    // Default to first day of current month
+                    const firstDay = new Date();
+                    firstDay.setDate(1);
+                    $('#startDate').val(firstDay.toISOString().split('T')[0]);
+                }
+
+                if (endDate) {
+                    $('#endDate').val(endDate);
+                } else {
+                    // Default to last day of current month
+                    const lastDay = new Date();
+                    lastDay.setMonth(lastDay.getMonth() + 1);
+                    lastDay.setDate(0);
+                    $('#endDate').val(lastDay.toISOString().split('T')[0]);
+                }
+            }
+
+            // Function to open the dialog
+            function openDialog() {
+                // Save the element that currently has focus
+                lastFocusedElement = document.activeElement;
+
+                // Set default dates
+                setDefaultDates();
+
+                // Show the dialog
+                dialog.css('display', 'flex');
+
+                // Set focus to the first checkbox
+                $('#contactSection').focus();
+
+                // Add event listener for ESC key
+                $(document).on('keydown.dialog', function (e) {
+                    if (e.key === 'Escape') {
+                        closeDialog();
+                    }
+                });
+
+                // Trap focus inside the dialog
+                dialogContent.attr('tabindex', '-1');
+                setupFocusTrap();
+            }
+
+            // Function to close the dialog
+            function closeDialog() {
+                dialog.css('display', 'none');
+
+                // Remove ESC key event listener
+                $(document).off('keydown.dialog');
+
+                // Return focus to the trigger button
+                if (lastFocusedElement) {
+                    lastFocusedElement.focus();
+                }
+            }
+
+            // Setup focus trap to keep focus inside the dialog
+            function setupFocusTrap() {
+                const focusableElements = dialogContent.find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                dialogContent.on('keydown', function (e) {
+                    if (e.key === 'Tab') {
+                        if (e.shiftKey && document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        } else if (!e.shiftKey && document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                });
+            }
+
+            // Section checkbox controls child checkboxes
+            $('.section-checkbox').change(function () {
+                const isChecked = $(this).prop('checked');
+                const section = $(this).attr('id');
+
+                // Update all checkboxes in this section
+                switch (section) {
+                    case 'contactSection':
+                        $('.contact-field').prop('checked', isChecked);
+                        break;
+                    case 'membershipSection':
+                        $('.membership-field').prop('checked', isChecked);
+                        break;
+                    case 'industrySection':
+                        $('.industry-field').prop('checked', isChecked);
+                        break;
+                    case 'addressSection':
+                        $('.address-field').prop('checked', isChecked);
+                        break;
+                }
+            });
+
+            // Child checkboxes update section checkbox
+            $('.field-checkbox').change(function () {
+                const section = $(this).closest('.card').find('.section-checkbox');
+                const allFields = $(this).closest('.card-body').find('.field-checkbox');
+                const checkedFields = $(this).closest('.card-body').find('.field-checkbox:checked');
+
+                // If all fields are checked, check the section
+                // If no fields are checked, uncheck the section
+                section.prop('checked', checkedFields.length > 0);
+            });
+
+            // Show dialog when export button is clicked
+            $('#exportButton').click(function () {
+                openDialog();
+            });
+
+            // Close dialog when close button is clicked
+            $('.dialog-close').click(function () {
+                closeDialog();
+            });
+
+            // Close dialog when clicking outside the dialog content
+            dialog.click(function (e) {
+                if (e.target === dialog[0]) {
+                    closeDialog();
+                }
+            });
+
+            // Handle export logic when submit button is clicked
+            $('#exportSubmit').click(function () {
+                // Validate form
+                if (!$('#startDate').val() || !$('#endDate').val()) {
+                    alert('Please select both start and end dates');
+                    return;
+                }
+
+                // Check if at least one field is selected
+                if ($('#exportForm input.field-checkbox:checked').length === 0) {
+                    alert('Please select at least one field to export');
+                    return;
+                }
+
+                var selectedRecords = [];
+                $('#exportForm input.field-checkbox:checked').each(function () {
+                    selectedRecords.push($(this).val());
+                });
+
+                // Get date values
+                var startDate = $('#startDate').val();
+                var endDate = $('#endDate').val();
+
+                // Get current URL query parameters to maintain filters
+                var currentUrl = new URL(window.location.href);
+                var searchParams = currentUrl.searchParams;
+
+                // Create form data for the request
+                var formData = {
+                    selectedRecords: selectedRecords,
+                    startDate: startDate,
+                    endDate: endDate
+                };
+
+                // Add current filters to the export request
+                if (searchParams.has('SearchString')) {
+                    formData.SearchString = searchParams.get('SearchString');
+                }
+                if (searchParams.has('AddressCity')) {
+                    formData.AddressCity = searchParams.get('AddressCity');
+                }
+                if (searchParams.has('Contact')) {
+                    formData.Contact = searchParams.get('Contact');
+                }
+                if (searchParams.has('MemberSize')) {
+                    formData.MemberSize = searchParams.get('MemberSize');
+                }
+                if (searchParams.has('MemberStatus')) {
+                    formData.MemberStatus = searchParams.get('MemberStatus');
+                }
+                if (searchParams.has('MembershipTypeName')) {
+                    formData.MembershipTypeName = searchParams.get('MembershipTypeName');
+                }
+                if (searchParams.has('IndustryName')) {
+                    formData.IndustryName = searchParams.get('IndustryName');
+                }
+
+                // Show loading indicator
+                const submitBtn = $('#exportSubmit');
+                const originalText = submitBtn.text();
+                submitBtn.prop('disabled', true).text('Exporting...');
+
+                // Call the export action using AJAX
+                $.ajax({
+                    url: '/Export/ExportMembers',
+                    type: 'POST',
+                    data: formData,
+                    xhrFields: {
+                        responseType: 'blob' // Important for handling file downloads
+                    },
+                    success: function (data, status, xhr) {
+                        // Create a download link
+                        var blob = new Blob([data], { type: xhr.getResponseHeader('content-type') });
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+
+                        // Get filename from Content-Disposition header or use default
+                        var filename = 'Members.xlsx';
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) {
+                                filename = matches[1].replace(/['"]/g, '');
+                            }
+                        }
+
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+
+                        // Close the dialog after successful download
+                        closeDialog();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Export failed:', error);
+                        alert('Export failed. Please try again.');
+                    },
+                    complete: function () {
+                        // Reset button state
+                        submitBtn.prop('disabled', false).text(originalText);
+                    }
+
+                });
+            });
+        });
+
+        // Add this function to your existing JavaScript file
+        function adjustDialogPosition() {
+            const dialog = $('.custom-dialog');
+            const dialogHeight = dialog.outerHeight();
+            const windowHeight = $(window).height();
+
+            // If dialog is taller than window, adjust styles for scrolling
+            if (dialogHeight > windowHeight * 0.8) {
+                dialog.css('margin', '20px auto');
+                $('.custom-dialog-overlay').css('align-items', 'flex-start');
+            } else {
+                dialog.css('margin', 'auto');
+                $('.custom-dialog-overlay').css('align-items', 'center');
+            }
+        }
+
+        // Call this function when opening the dialog
+        function openDialog() {
+            // Save the element that currently has focus
+            lastFocusedElement = document.activeElement;
+
+            // Set default dates
+            setDefaultDates();
+
+            // Show the dialog
+            dialog.css('display', 'flex');
+
+            // Adjust dialog position based on content height
+            setTimeout(adjustDialogPosition, 10);
+
+            // Set focus to the first checkbox
+            $('#contactSection').focus();
+
+            // Add event listener for ESC key
+            $(document).on('keydown.dialog', function (e) {
+                if (e.key === 'Escape') {
+                    closeDialog();
+                }
+            });
+
+            // Trap focus inside the dialog
+            dialogContent.attr('tabindex', '-1');
+            setupFocusTrap();
+        }
+
+        // Also adjust on window resize
+        $(window).resize(function () {
+            if (dialog.is(':visible')) {
+                adjustDialogPosition();
+            }
+        });
 
 
+
+    </script>
+
+   
 }
+
+
+
 
 
 
