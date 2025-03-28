@@ -1,0 +1,19 @@
+﻿<!-- Modal-->
+<div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="ContactModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ContactModalLabel">Add New Contact</h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                @{
+                    var c = new CRMProject.Models.Contact();
+                    <partial name="_CreateContact" model="c" />
+                }
+            </div><br />
+            <!-- Container for success message -->
+            <div id="successMessageContainer" style="display: none; color: green;"></div>
+        </div>
+    </div>
+</div>

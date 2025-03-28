@@ -584,24 +584,57 @@ namespace CRMProject.Controllers
                     return RedirectToAction("Index", "Opportunity");
                 }
 
-                // Set success message and redirect to Create action, passing necessary data
-                TempData["SuccessMessage"] = "Edit and save the new member!";
+                // Step 2: Store the necessary data in TempData
+                TempData["MemberName"] = opportunity.OpportunityName;
+                TempData["MemberStatus"] = MemberStatus.GoodStanding;
+                TempData["MemberStartDate"] = DateTime.Today;
+                TempData["MemberLastContactDate"] = opportunity.OpportunityLastContactDate;
+                TempData["MemberNotes"] = opportunity.OpportunityAction;
 
-                // Pass data via query parameters (or use TempData for more complex data)
-                return RedirectToAction("Create", "Member", new
-                {
-                    MemberName = opportunity.OpportunityName,
-                    MemberStatus = MemberStatus.GoodStanding,
-                    MemberStartDate = DateTime.Today,
-                    MemberLastContactDate = opportunity.OpportunityLastContactDate,
-                    MemberNotes = opportunity.OpportunityAction,
-                });
+                // Step 3: Set success message and redirect to Create action
+                TempData["SuccessMessage"] = "Edit and save the new member!";
+                return RedirectToAction("Create", "Member");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "An unexpected error occurred.";
                 return RedirectToAction("Error", "Home");
             }
+        }
+
+        private SelectList ContactSelectList(string skip)
+        {
+            var contactQuery = _context.Contacts.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(skip))
+            {
+                // Convert the string to an array of integers
+                string[] avoidStrings = skip.Split('|');
+                int[] skipKeys = Array.ConvertAll(avoidStrings, s => int.Parse(s));
+                contactQuery = contactQuery.Where(c => !skipKeys.Contains(c.ID));
+            }
+
+            return new SelectList(contactQuery.OrderBy(c => c.LastName), "ID", "ContactType");
+        }
+
+        [HttpGet]
+        public JsonResult GetContacts(string searchKeyword, string skip)
+        {
+            var contacts = _context.Contacts
+                .Where(c => c.ContactType.Contains(searchKeyword))  // Modify this line based on how you search
+                .AsNoTracking()
+                .OrderBy(c => c.LastName)
+                .ToList();
+
+            var result = contacts.Select(c => new
+            {
+                c.ID,
+                c.ContactType,
+                c.LastName,
+                c.FirstName
+            });
+
+            return Json(result);
         }
 
         private void UpdateContact(string[] selectedOptions, Opportunity opportunityToUpdate)
