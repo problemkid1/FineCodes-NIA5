@@ -95,30 +95,12 @@
                 </div>
 
                 <!-- Contact Selection -->
-                <div class="card mb-4 mt-3">
-                    <div class="card-header bg-light">
-                        <strong><i class="fa-solid fa-user-group me-1"></i> Select Contacts</strong>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Contacts</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <!-- Available Contacts -->
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="control-label">Available Contacts</span>
-                                    <button type="button" id="btnAddContact" class="btn btn-success btn-sm me-2"><strong>+</strong></button>
-                                </div>
-                                @Html.ListBox("availableContact", (MultiSelectList)ViewBag.availOpts, new { @size = 10, @class = "form-control" })
-                            </div>
-
-                            <!-- Selected Contacts -->
-                            <div class="col-md-6 mb-3">
-                                <div class="d-flex align-items-center mb-2">
-                                    <span class="control-label">Selected Contacts</span>
-                                    <button type="button" id="btnRemoveContact" class="btn btn-danger btn-sm me-2"><strong>-</strong></button>
-                                </div>
-                                @Html.ListBox("selectedContact", (MultiSelectList)ViewBag.selOpts, new { @size = 10, @class = "form-control" })
-                            </div>
-                        </div>
+                        @Html.Partial("_OpportunityContactSelection", ViewData["selOpts"] as MultiSelectList)
                     </div>
                 </div>
                 

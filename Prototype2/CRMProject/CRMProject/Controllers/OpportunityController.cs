@@ -123,27 +123,17 @@ namespace CRMProject.Controllers
                 OpportunityStatus = OpportunityStatus.Qualification
             };
 
-            PopulateAssignedContact(opportunity);
+            // Create an empty MultiSelectList for the contact selection partial view
+            ViewData["selOpts"] = new MultiSelectList(new List<SelectListItem>(), "Value", "Text");
 
             var breadcrumbs = new List<BreadcrumbItem>
                     {
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = "Create", Url = "/Oppurtunity/Create", IsActive = true }
+                    new BreadcrumbItem { Title = "Create", Url = "/Opportunity/Create", IsActive = true }
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
-            //// Fetch the list of existing contacts
-            //var contacts = _context.Contacts.Select(c => new SelectListItem
-            //{
-            //    Value = c.ID.ToString(),
-            //    Text = c.FirstName + " " + c.LastName
-            //}).ToList();
-
-            //contacts.Insert(0, new SelectListItem { Value = "", Text = "Select a Contact" });
-            //ViewData["Contacts"] = new SelectList(contacts, "Value", "Text");
-
             ViewData["OpportunityId"] = opportunity.ID;
 
             return View();
@@ -161,17 +151,17 @@ namespace CRMProject.Controllers
             // Check if any contacts are selected
             if (selectedContact == null || selectedContact.Length == 0)
             {
-                ModelState.AddModelError("OpportunityContacs", "Select at least one contact.");
+                ModelState.AddModelError("OpportunityContacts", "Select at least one contact.");
 
-                // Populate the assigned data for the view
-                PopulateAssignedContact(opportunity);
+                // Create an empty MultiSelectList for the view
+                ViewData["selOpts"] = new MultiSelectList(new List<SelectListItem>(), "Value", "Text");
 
                 var opportunityBreadcrumbs = new List<BreadcrumbItem>
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
-            };
+                {
+                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
+                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = "#", IsActive = true }
+                };
                 ViewData["Breadcrumbs"] = opportunityBreadcrumbs;
                 ViewData["OpportunityId"] = opportunity.ID;
 
@@ -193,6 +183,10 @@ namespace CRMProject.Controllers
                     if (existingopportunity != null)
                     {
                         ModelState.AddModelError("OpportunityName", "opportunity with this OpportunityName already exists.");
+
+                        // Create an empty MultiSelectList for the view
+                        ViewData["selOpts"] = new MultiSelectList(new List<SelectListItem>(), "Value", "Text");
+
                         return View(opportunity);
                     }
 
@@ -223,7 +217,23 @@ namespace CRMProject.Controllers
                 TempData["ErrorMessage"] = "Please check the input data and try again.";
             }
 
-            PopulateAssignedContact(opportunity);
+            // If we get here, something went wrong - repopulate the contact selection
+            // Get the selected contacts to repopulate the view
+            var selectedContactItems = new List<SelectListItem>();
+            if (selectedContact != null && selectedContact.Length > 0)
+            {
+                var contactIds = selectedContact.Select(id => int.Parse(id)).ToList();
+                var contacts = await _context.Contacts
+                    .Where(c => contactIds.Contains(c.ID))
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.ID.ToString(),
+                        Text = c.FirstName + " " + c.LastName
+                    })
+                    .ToListAsync();
+                selectedContactItems = contacts;
+            }
+            ViewData["selOpts"] = new MultiSelectList(selectedContactItems, "Value", "Text");
 
             var breadcrumbs = new List<BreadcrumbItem>
                 {
@@ -233,7 +243,6 @@ namespace CRMProject.Controllers
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
             ViewData["OpportunityId"] = opportunity.ID;
             return View(opportunity);
         }
@@ -256,7 +265,16 @@ namespace CRMProject.Controllers
                 return NotFound();
             }
 
-            PopulateAssignedContact(opportunity);
+            // Create a MultiSelectList for the existing contacts
+            var selectedContacts = opportunity.OpportunityContacts
+                .Select(oc => new SelectListItem
+                {
+                    Value = oc.ContactID.ToString(),
+                    Text = oc.Contact.FirstName + " " + oc.Contact.LastName
+                })
+                .ToList();
+
+            ViewData["selOpts"] = new MultiSelectList(selectedContacts, "Value", "Text");
 
             var breadcrumbs = new List<BreadcrumbItem>
                 {
@@ -264,17 +282,12 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
                     new BreadcrumbItem { Title = opportunity.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
                     new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
-                     
-                
-
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
-            ViewData["Opportunity"] = opportunity.ID;
+            ViewData["OpportunityId"] = opportunity.ID;
             return View(opportunity);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -295,8 +308,16 @@ namespace CRMProject.Controllers
             {
                 ModelState.AddModelError("OpportunityContacts", "Please select at least one contact.");
 
-                // View-specific data
-                PopulateAssignedContact(opportunityToUpdate);
+                // Create a MultiSelectList for the existing contacts
+                var currentContacts = opportunityToUpdate.OpportunityContacts
+                    .Select(oc => new SelectListItem
+                    {
+                        Value = oc.ContactID.ToString(),
+                        Text = oc.Contact.FirstName + " " + oc.Contact.LastName
+                    })
+                    .ToList();
+
+                ViewData["selOpts"] = new MultiSelectList(currentContacts, "Value", "Text");
 
                 ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
                 {
@@ -306,7 +327,7 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
                 };
 
-                ViewData["Opportunity"] = opportunityToUpdate.ID;
+                ViewData["OpportunityId"] = opportunityToUpdate.ID;
                 TempData["ErrorMessage"] = "Please select at least one contact.";
 
                 return View(opportunityToUpdate);
@@ -321,7 +342,22 @@ namespace CRMProject.Controllers
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage));
 
-                PopulateAssignedContact(opportunityToUpdate);
+                // Create a MultiSelectList for the selected contacts
+                var selectedContactItems = new List<SelectListItem>();
+                if (selectedContact != null && selectedContact.Length > 0)
+                {
+                    var contactIds = selectedContact.Select(cid => int.Parse(cid)).ToList();
+                    var contacts = await _context.Contacts
+                        .Where(c => contactIds.Contains(c.ID))
+                        .Select(c => new SelectListItem
+                        {
+                            Value = c.ID.ToString(),
+                            Text = c.FirstName + " " + c.LastName
+                        })
+                        .ToListAsync();
+                    selectedContactItems = contacts;
+                }
+                ViewData["selOpts"] = new MultiSelectList(selectedContactItems, "Value", "Text");
 
                 ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
                 {
@@ -363,21 +399,34 @@ namespace CRMProject.Controllers
             }
 
             // Repopulate view data on failure
-            PopulateAssignedContact(opportunityToUpdate);
+            // Create a MultiSelectList for the selected contacts
+            var selectedContactsForView = new List<SelectListItem>();
+            if (selectedContact != null && selectedContact.Length > 0)
+            {
+                var contactIds = selectedContact.Select(cid => int.Parse(cid)).ToList();
+                var contacts = await _context.Contacts
+                    .Where(c => contactIds.Contains(c.ID))
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.ID.ToString(),
+                        Text = c.FirstName + " " + c.LastName
+                    })
+                    .ToListAsync();
+                selectedContactsForView = contacts;
+            }
+            ViewData["selOpts"] = new MultiSelectList(selectedContactsForView, "Value", "Text");
 
             ViewData["Breadcrumbs"] = new List<BreadcrumbItem>
             {
-                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
-                    new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Opportunities", Url = "/Opportunity/Index", IsActive = false },
+                new BreadcrumbItem { Title = opportunityToUpdate.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
             };
 
-            ViewData["Opportunity"] = opportunityToUpdate.ID;
+            ViewData["OpportunityId"] = opportunityToUpdate.ID;
             return View(opportunityToUpdate);
         }
-
-
 
         // GET: Opportunity/Delete/5
         [Authorize(Roles = "Admin")]
@@ -400,14 +449,10 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
                     new BreadcrumbItem { Title = opportunity.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
                     new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
-                    
-                
-
                 };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-
-            ViewData["Opportunity"] = opportunity.ID;
+            ViewData["OpportunityId"] = opportunity.ID;
             return View(opportunity);
         }
 
@@ -451,8 +496,6 @@ namespace CRMProject.Controllers
             return Json(new { success = false, message = "Failed to add contact", errors = errors });
         }
 
-
-
         // POST: Opportunity/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -470,21 +513,10 @@ namespace CRMProject.Controllers
             }
             else
             {
-                // If Insudtry not found, set an error message
+                // If Opportunity not found, set an error message
                 TempData["ErrorMessage"] = "Opportunity not found!";
             }
-            var breadcrumbs = new List<BreadcrumbItem>
-                {
-                    new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                    new BreadcrumbItem { Title = "Opportunity", Url = "/Opportunity/Index", IsActive = false },
-                    new BreadcrumbItem { Title = opportunity.OpportunityName, Url = $"/Opportunity/Details/{id}", IsActive = false },
-                    new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
 
-                };
-
-            ViewData["Breadcrumbs"] = breadcrumbs;
-
-            ViewData["Opportunity"] = opportunity.ID;
             // Redirect to the Index or other appropriate page
             return RedirectToAction(nameof(Index));
         }
@@ -530,12 +562,10 @@ namespace CRMProject.Controllers
             return RedirectToAction("Details", new { id = opportunityID });
         }
 
-
         private bool OpportunityExists(int id)
         {
             return _context.Opportunities.Any(e => e.ID == id);
         }
-
 
         // Action to convert Opportunity to Member
         [Authorize(Roles = "Admin")]
@@ -574,39 +604,6 @@ namespace CRMProject.Controllers
             }
         }
 
-
-        private void PopulateAssignedContact(Opportunity opportunity)
-        {
-            //For this to work, you must have Included the child collection in the parent object
-            var allOptions = _context.Contacts;
-            var currentOptionsHS = new HashSet<int>(opportunity.OpportunityContacts.Select(b => b.ContactID));
-            //Instead of one list with a boolean, we will make two lists
-            var selected = new List<ListOptionVM>();
-            var available = new List<ListOptionVM>();
-            foreach (var s in allOptions)
-            {
-                if (currentOptionsHS.Contains(s.ID))
-                {
-                    selected.Add(new ListOptionVM
-                    {
-                        ID = s.ID,
-                        DisplayText = s.Summary
-
-                    });
-                }
-                else
-                {
-                    available.Add(new ListOptionVM
-                    {
-                        ID = s.ID,
-                        DisplayText = s.Summary
-                    });
-                }
-            }
-
-            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
-            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
-        }
         private void UpdateContact(string[] selectedOptions, Opportunity opportunityToUpdate)
         {
             // Only initialize if null, don't clear existing data
@@ -631,8 +628,8 @@ namespace CRMProject.Controllers
                     {
                         opportunityToUpdate.OpportunityContacts.Add(new Models.OpportunityContact
                         {
-                            ContactID  = s.ID,
-                            OpportunityID  = opportunityToUpdate.ID
+                            ContactID = s.ID,
+                            OpportunityID = opportunityToUpdate.ID
                         });
                     }
                 }
@@ -640,7 +637,7 @@ namespace CRMProject.Controllers
                 {
                     if (currentOptionsHS.Contains(s.ID))
                     {
-                        Models.OpportunityContact? specToRemove = opportunityToUpdate.OpportunityContacts.FirstOrDefault(d => d.ContactID == s.ID);
+                        Models.OpportunityContact specToRemove = opportunityToUpdate.OpportunityContacts.FirstOrDefault(d => d.ContactID == s.ID);
                         if (specToRemove != null)
                         {
                             _context.Remove(specToRemove);
@@ -649,7 +646,5 @@ namespace CRMProject.Controllers
                 }
             }
         }
-
-
     }
 }
