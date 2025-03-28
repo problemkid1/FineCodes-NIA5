@@ -64,10 +64,8 @@
                             <label asp-for="MembershipTypeName" class="control-label">
                                 <span class="text-danger">*</span> MembershipTypeName
                             </label>
-                            <select asp-for="MembershipTypeName" class="form-control"
-                                    asp-items="ViewBag.MembershipTypeNameList">
-                                <option value="">Select a Membership Type</option>
-                            </select>
+                            <input asp-for="MembershipTypeName" class="form-control">
+                               @*  <option value="">Select a Membership Type</option> *@
                             <span asp-validation-for="MembershipTypeName" class="text-danger"></span>
                         </div>
                     </div>

@@ -76,6 +76,10 @@ namespace CRMProject.Controllers
 
             MemberAdminVm memberAdmin = new MemberAdminVm();
             PopulateAssignedRoleData(memberAdmin);
+
+            // Remove the Admin role from the list of roles
+            ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
+
             return View(memberAdmin);
         }
 
@@ -85,7 +89,7 @@ namespace CRMProject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FirstName,LastName,Phone," +
-            "Email")] MemberLogin memberlogin, string[] selectedRoles)
+            "Email")] MemberLogin memberlogin/*, string[] selectedRoles*/)
         {
             var breadcrumbs = new List<BreadcrumbItem>
             {
@@ -103,6 +107,8 @@ namespace CRMProject.Controllers
                     _context.Add(memberlogin);
                     await _context.SaveChangesAsync();
 
+                    // Default role to "User"
+                    string[] selectedRoles = new string[] { "User" };
                     InsertIdentityUser(memberlogin.Email, selectedRoles);
 
                     //Send Email to new Employee - commented out till email configured
@@ -132,11 +138,15 @@ namespace CRMProject.Controllers
                 LastName = memberlogin.LastName,
                 Phone = memberlogin.Phone
             };
-            foreach (var role in selectedRoles)
-            {
-                memberAdminVm.UserRoles.Add(role);
-            }
+            //foreach (var role in selectedRoles)
+            //{
+            //    memberAdminVm.UserRoles.Add(role);
+            //}
             PopulateAssignedRoleData(memberAdminVm);
+
+            // Remove the Admin role from the list of roles
+            ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
+
             return View(memberAdminVm);
         }
 
@@ -182,6 +192,16 @@ namespace CRMProject.Controllers
                 //Add the current roles
                 var r = await _userManager.GetRolesAsync(user);
                 memberLogin.UserRoles = (List<string>)r;
+
+                //// Check if user is the only Admin
+                //if (memberLogin.UserRoles.Contains("Admin"))
+                //{
+                //    var allAdmins = await _userManager.GetUsersInRoleAsync("Admin");
+                //    if (allAdmins.Count == 1 && allAdmins[0].Email == memberLogin.Email)
+                //    {
+                //        ViewData["IsSoleAdmin"] = true;
+                //    }
+                //}
             }
             PopulateAssignedRoleData(memberLogin);
 
@@ -238,7 +258,12 @@ namespace CRMProject.Controllers
                     {
                         //You reactivating the user, create them and
                         //give them the selected roles
-                        InsertIdentityUser(memberLoginToUpdate.Email, selectedRoles);
+                        //InsertIdentityUser(memberLoginToUpdate.Email, selectedRoles);
+
+                        // Reactivating the user, create them and
+                        // give them the "User" role
+                        string[] roles = new string[] { "User" };
+                        InsertIdentityUser(memberLoginToUpdate.Email, roles);
                     }
                     else if (memberLoginToUpdate.Active == true && ActiveStatus == true)
                     {

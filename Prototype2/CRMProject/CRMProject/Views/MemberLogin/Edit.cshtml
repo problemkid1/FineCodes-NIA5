@@ -59,14 +59,16 @@
                     </div>
 
                     <!-- Active Toggle -->
+                    @if (!Model.UserRoles.Contains("Admin"))
+                    {
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label d-block">Status</label>
-                            <div class="custom-control custom-switch">
-                                <input asp-for="Active"
-                                       type="checkbox"
-                                       class="custom-control-input"
-                                       id="statusSwitchEdit" />
+                            <div class="custom-control custom-switch">                                
+                                    <input asp-for="Active"
+                                           type="checkbox"
+                                           class="custom-control-input"
+                                           id="statusSwitchEdit" />                                
                                 <label class="custom-control-label" for="statusSwitchEdit">
                                     @(Model.Active ? "Active" : "Inactive")
                                 </label>
@@ -80,9 +82,10 @@
                             </div>
                         </div>
                     </div>
+                    }
 
                     <!-- Assign Roles -->
-                    <div class="col-12">
+                    @* <div class="col-12">
                         <div class="form-group">
                             <label class="control-label fw-bold">Assign Roles</label>
                             <div class="border rounded p-3">
@@ -99,13 +102,25 @@
                                             cnt++;
                                             <div class="col-md-4">
                                                 <div class="form-check form-switch">
+                                                @{
+                                                    bool isSoleAdmin = ViewData["IsSoleAdmin"] != null && (bool)ViewData["IsSoleAdmin"];
+                                                }
+
                                                     <input class="form-check-input" type="checkbox"
                                                            id="@role.RoleName-CheckBox"
                                                            name="selectedRoles"
                                                            value="@role.RoleName"
-                                                           @(role.Assigned ? "checked" : "") />
+                                                           @(role.Assigned ? "checked" : "")
+                                                           @if (role.RoleName == "Admin" && isSoleAdmin)
+                                                           {
+                                                               <text>disabled</text>
+                                                           } />
                                                     <label class="form-check-label" for="@role.RoleName-CheckBox">
                                                         @role.RoleName
+                                                        @if (role.RoleName == "Admin" && isSoleAdmin)
+                                                        {
+                                                            <span class="text-muted">(cannot unassign the only Admin)</span>
+                                                        }
                                                     </label>
                                                 </div>
                                             </div>
@@ -114,7 +129,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> *@
                 </div>
 
                 <!-- Buttons -->

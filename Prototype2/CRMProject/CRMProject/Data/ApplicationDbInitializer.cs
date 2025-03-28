@@ -103,7 +103,10 @@ namespace CRMProject.Data
                             };
 
                             IdentityResult result = userManager.CreateAsync(user, defaultPassword).Result;
-                            //Not in any role
+                            if (result.Succeeded)
+                            {
+                                userManager.AddToRoleAsync(user, "User").Wait();
+                            }
                         }
                     }
                     catch (Exception ex)

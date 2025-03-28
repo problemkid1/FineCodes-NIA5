@@ -50,5 +50,5 @@ namespace CRMProject.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = "";
 
- }
+    }
 }

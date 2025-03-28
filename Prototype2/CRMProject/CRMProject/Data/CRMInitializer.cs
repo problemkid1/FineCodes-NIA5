@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using CRMProject.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -1086,25 +1087,6 @@ namespace CRMProject.Data
                         }
                     }
 
-                    //Seeding data for Member Logins
-                    if (!context.MemberLogins.Any())
-                    {
-                        context.MemberLogins.AddRange(
-                         new MemberLogin
-                         {
-                             FirstName = "Jordan",
-                             LastName = "Sherlock",
-                             Email = "admin@outlook.com"
-                         },
-                         new MemberLogin
-                         {
-                             FirstName = "Bismark",
-                             LastName = "Addae",
-                             Email = "user@outlook.com"
-                         });
-
-                        context.SaveChanges();
-                    }
                     //Seeding data for Brain Dumps
                     if (!context.BrainDumps.Any())
                     {
@@ -1167,6 +1149,31 @@ namespace CRMProject.Data
                          {
                              Initiative = "Member-Generated Content & Case Studies",
                              InboundInitiativeNotes = "Encourage members to share their experiences, case studies, and best practices to foster engagement."
+                         });
+
+                        context.SaveChanges();
+                    }
+
+
+                    //Seeding data for Member Logins
+                    if (!context.MemberLogins.Any())
+                    {
+                        context.MemberLogins.AddRange(
+                         new MemberLogin
+                         {
+                             FirstName = "Jordan",
+                             LastName = "Sherlock",
+                             Phone = "",
+                             Email = "admin@outlook.com",
+                             Active = true
+                         },
+                         new MemberLogin
+                         {
+                             FirstName = "Bismark",
+                             LastName = "Addae",
+                             Phone = "1234567890",
+                             Email = "user@outlook.com",
+                             Active = true
                          });
 
                         context.SaveChanges();

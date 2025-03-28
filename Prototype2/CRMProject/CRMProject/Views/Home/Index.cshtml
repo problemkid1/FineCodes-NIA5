@@ -19,8 +19,10 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-        <div class="dashboard-controls">
-            <button id="themeToggle" class="btn btn-outline-secondary mr-2">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="dashboard-controls">
+                <button id="themeToggle" class="btn btn-outline-secondary mr-2">
                 <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span>
             </button>
             <button id="editDashboardBtn" class="btn btn-primary">
@@ -36,6 +38,7 @@
                 </button>
             </div>
         </div>
+        }
     </div>
 
 
