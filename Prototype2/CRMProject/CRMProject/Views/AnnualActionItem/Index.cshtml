@@ -47,7 +47,7 @@
                                 <th>@Html.DisplayNameFor(model => model.First().DueDate)</th>
                                 <th>@Html.DisplayNameFor(model => model.First().Status)</th>
                                 <th>@Html.DisplayNameFor(model => model.First().Notes)</th>
-                                <th>Actions</th>
+                                <th style="width: 170px; text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,7 +67,7 @@
                                         <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
                                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Notes)</td>
-                                        <td>
+                                        <td style="text-align: center;">
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Edit">
                                                     <i class="bi bi-pencil-square"></i>

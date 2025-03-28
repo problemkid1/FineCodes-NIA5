@@ -46,7 +46,7 @@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().UserRoles)</th>
                                 <th class="text-center">Status</th>
                                 @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Active)</th> *@
-                                <th class="text-center">Action</th>
+                                <th class="text-center" style="width: 170px; text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,7 +96,7 @@
                                                 </label>
                                             </div> *@
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center" style="text-align: center;">
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" title="Edit">
                                                     <i class="bi bi-pencil-square"></i>
