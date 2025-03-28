@@ -10,6 +10,7 @@ using CRMProject.Models;
 using CRMProject.Utilities;
 using System.Numerics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CRMProject.Controllers
 {
@@ -190,6 +191,20 @@ namespace CRMProject.Controllers
             ViewData["ContactId"] = contact.ID;
             PopulateAssignedMemberData(contact);
             // Return to the Create view in case of failure or validation errors
+
+           //_CreateConatact Partial view validation
+            if (!ModelState.IsValid && Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                string errorMessage = "";
+                foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        errorMessage += error.ErrorMessage + "|";
+                    }
+                }
+                return BadRequest(errorMessage);
+            }
             return View(contact);
         }
 

@@ -236,20 +236,25 @@ namespace CRMProject.Controllers
         // GET: Member/Create
         // GET: Member/Create
         [Authorize(Roles = "Admin")]
-        public IActionResult Create(string MemberName, DateTime? MemberStartDate, DateTime? MemberLastContactDate, string MemberNotes)
+        public IActionResult Create()
         {
+            // Initialize a new member
             Member member = new Member
             {
-                MemberName = MemberName ?? "", // Ensures it's not null
-                MemberStartDate = MemberStartDate ?? DateTime.Today,
-                MemberLastContactDate = MemberLastContactDate,
-                MemberNotes = MemberNotes,
-                MemberStatus = MemberStatus.GoodStanding,
+                MemberName = TempData["MemberName"] as string ?? "",
+                MemberStartDate = TempData["MemberStartDate"] as DateTime? ?? DateTime.Today,
+                MemberLastContactDate = TempData["MemberLastContactDate"] as DateTime?,
+                MemberNotes = TempData["MemberNotes"] as string ?? "",
+                MemberStatus = TempData["MemberStatus"] != null ? (MemberStatus)TempData["MemberStatus"] : MemberStatus.GoodStanding
             };
 
-            PopulateAssignedIndustryData(member);
-            PopulateAssignedMembershipData(member);
-            PopulateAssignedContactData(member);
+            // Only populate the data if it's a GET request (not POST)
+            if (Request.Method == "GET")
+            {
+                PopulateAssignedIndustryData(member);
+                PopulateAssignedMembershipData(member);
+                PopulateAssignedContactData(member);
+            }
 
             var breadcrumbs = new List<BreadcrumbItem>
                     {
@@ -260,8 +265,9 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             ViewData["MemberId"] = member.ID;
-            return View();
+            return View(member);
         }
+
 
         // POST: Member/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -1137,6 +1143,42 @@ namespace CRMProject.Controllers
             System.Diagnostics.Debug.WriteLine($"Added contacts. Total count: {memberToUpdate.MemberContacts.Count}");
 
             System.Diagnostics.Debug.WriteLine("=== End UpdateMemberContacts ===");
+        }
+
+
+        private SelectList ContactSelectList(string skip)
+        {
+            var contactQuery = _context.Contacts.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(skip))
+            {
+                // Convert the string to an array of integers
+                string[] avoidStrings = skip.Split('|');
+                int[] skipKeys = Array.ConvertAll(avoidStrings, s => int.Parse(s));
+                contactQuery = contactQuery.Where(c => !skipKeys.Contains(c.ID));
+            }
+
+            return new SelectList(contactQuery.OrderBy(c => c.LastName), "ID", "ContactType");
+        }
+
+        [HttpGet]
+        public JsonResult GetContacts(string searchKeyword, string skip)
+        {
+            var contacts = _context.Contacts
+                .Where(c => c.ContactType.Contains(searchKeyword))  // Modify this line based on how you search
+                .AsNoTracking()
+                .OrderBy(c => c.LastName)
+                .ToList();
+
+            var result = contacts.Select(c => new
+            {
+                c.ID,
+                c.ContactType,
+                c.LastName,
+                c.FirstName
+            });
+
+            return Json(result);
         }
 
 

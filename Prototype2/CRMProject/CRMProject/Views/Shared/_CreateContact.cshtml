@@ -1,0 +1,34 @@
+﻿@model CRMProject.Models.Contact
+
+<form asp-controller="Contact" asp-action="Create" method="post" id="createContactForm">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-danger validation-summary-errors">
+                <ul id="ErrorList"></ul>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactEmailAddress" class="control-label"></label>
+                <input asp-for="ContactEmailAddress" class="form-control" />
+                <span asp-validation-for="ContactEmailAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactPhone" class="control-label">Phone Number</label>
+                <input asp-for="ContactPhone" class="form-control" />
+                <span asp-validation-for="ContactPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="submitContactCreate" value="Save" class="btn btn-outline-dark" />
+            </div>
+        </div>
+    </div>
+</form>

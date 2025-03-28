@@ -1,5 +1,7 @@
 ﻿@model CRMProject.Models.Member
 
+<partial name="_addContactModal" />
+
 @{
     ViewData["Title"] = "Create";
 
@@ -216,6 +218,14 @@
                         <h5>Contacts</h5>
                     </div>
                     <div class="card-body">
+                        <div class="form-group col-md-6">
+                            <!-- Add Contact Button -->
+                            <button class="btn btn-sm btn-outline-secondary" id="nowAddContact"
+                                    data-bs-toggle="modal" data-bs-target="#addContactModal"
+                                    type="button">
+                                <strong>Add New Contact</strong>
+                            </button>
+                        </div>
                         @Html.Partial("_ContactSelection", ViewData["selOptsContacts"])
                     </div>
                 </div>
@@ -239,6 +249,100 @@
 </div>
 
 <script src="~/js/multiselect.js"></script>
+<script src="~/js/refreshDDL.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Show modal and reset form when opened
+        $('#addContactModal').on('show.bs.modal', function () {
+            $('#createContactForm')[0].reset();
+            ClearErrors();
+            $('#successMessageContainer').hide();
+            $('#submitContactCreate').prop('disabled', false); // Ensure button is enabled
+        });
+
+        $('#submitContactCreate').click(function (event) {
+            event.preventDefault(); // Prevent default form submission
+            ClearErrors();
+
+            var form = $('#createContactForm');
+
+            if (form.valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        // Show success message but **don't close modal**
+                        $('#successMessageContainer').html('<div class="alert alert-success">Contact created successfully!</div>').show();
+
+                        // Reset form fields for the next input
+                        form[0].reset();
+
+                        // Enable button after operation
+                        $('#submitContactCreate').prop('disabled', false);
+
+                        // Add new contact dynamically to the list
+                        addContactToSelect(response);
+                    },
+                    error: function (xhr) {
+                        $('#submitContactCreate').prop('disabled', false); // Re-enable button if error occurs
+                        displayErrors(xhr);
+                    }
+                });
+            }
+        });
+
+        // Function to add contact dynamically to select list
+        function addContactToSelect(contact) {
+            var contactSelect = $('#availableContact'); // Ensure this is the correct select list ID
+
+            // Check if the contact already exists to avoid duplicates
+            if (contactSelect.find("option[value='" + contact.id + "']").length === 0) {
+                var newOption = $('<option>', {
+                    value: contact.id,
+                    text: contact.name
+                });
+
+                contactSelect.append(newOption);
+            }
+        }
+
+        // Function to display error messages
+        function displayErrors(xhr) {
+            var errorMessages = [];
+            switch (xhr.status) {
+                case 401:
+                    errorMessages.push("You must be logged in first.");
+                    break;
+                case 403:
+                    errorMessages.push("You are not authorized for this action.");
+                    break;
+                default:
+                    errorMessages = xhr.responseText.split("|").slice(0, -1);
+            }
+            if (!errorMessages.some((str) => str !== "")) {
+                errorMessages.push("Error: Unable to complete operation");
+            }
+
+            var ul = document.getElementById("ErrorList");
+            ul.innerHTML = ''; // Clear old errors
+            errorMessages.forEach((msg) => {
+                var li = document.createElement("li");
+                li.innerHTML = msg;
+                ul.appendChild(li);
+            });
+        }
+
+        // Clear error messages
+        function ClearErrors() {
+            $('#ErrorList').empty();
+        }
+    });
+</script>
+
+
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
