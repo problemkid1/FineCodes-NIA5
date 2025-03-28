@@ -63,7 +63,7 @@
                 }
             </div>
 
-            @* <form asp-action="Index" method="get">
+            <form asp-action="Index" method="get">
                 <div class="form-horizontal">
                     <button class="btn btn-outline-primary  @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
                             data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-            </form> *@
+            </form>
 
 
             <div class="card">
@@ -123,7 +123,6 @@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactEmailAddress)</th>
-                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactWebsite)</th> *@
                                 <th>Actions</th>
                             </tr>
                         </thead>

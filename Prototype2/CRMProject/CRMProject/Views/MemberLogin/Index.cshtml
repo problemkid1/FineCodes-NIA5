@@ -44,8 +44,9 @@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Phone)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().UserRoles)</th>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Active)</th>
-                                <th class="text-center">Actions</th>
+                                <th class="text-center">Status</th>
+                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Active)</th> *@
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,19 +78,24 @@
                                             }
                                         </td>
                                         <td class="text-center">
-                                            <div class="custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input toggle-status"
+                                            <span>@(item.Active ? "Active" : "Inactive")</span>
+                                            @* <div class="custom-control custom-switch">                                                
+                                                @* @{
+                                                    bool isAdmin = item.UserRoles.Contains("Admin");
+                                                } *@
+
+                                                @* <input type="checkbox"
+                                                       class="custom-control-input toggle-status"
                                                        id="statusSwitch_@item.ID"
                                                        data-id="@item.ID"
-                                                @(Html.Raw(item.Active ? "checked=\"checked\"" : "")) />
-                                                <label class="custom-control-label" for="statusSwitch_@item.ID">
+                                                @(Html.Raw(item.Active ? "checked=\"checked\"" : ""))
+                                                @(isAdmin ? "disabled" : "") /> *@
+
+                                                @* <label class="custom-control-label" for="statusSwitch_@item.ID">
                                                     @(item.Active ? "Active" : "Inactive")
                                                 </label>
-                                            </div>
+                                            </div> *@
                                         </td>
-
-
-
                                         <td class="text-center">
                                             <div class="btn-group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" title="Edit">

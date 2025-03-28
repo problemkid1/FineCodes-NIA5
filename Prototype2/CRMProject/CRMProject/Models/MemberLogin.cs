@@ -49,5 +49,5 @@ namespace CRMProject.Models
         public bool Active { get; set; } = true;
 
         public ICollection<Subscription> Subscriptions { get; set; } = new HashSet<Subscription>();
- }
+    }
 }
