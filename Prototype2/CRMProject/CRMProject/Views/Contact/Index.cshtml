@@ -123,7 +123,7 @@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactTitleRole)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneFormatted)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ContactEmailAddress)</th>
-                                <th>Actions</th>
+                                <th style="width: 170px; text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -229,7 +229,7 @@
                                                 <span>N/A</span>
                                             }
                                         </td>
-                                        <td>
+                                        <td style="text-align: center;">
                                             <div class="btn-group" style="float: none; ">
                                                 @if (User.IsInRole("Admin"))
                                                 {

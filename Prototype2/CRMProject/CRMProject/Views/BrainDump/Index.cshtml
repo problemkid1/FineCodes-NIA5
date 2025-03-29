@@ -61,7 +61,7 @@
                                     <th>@Html.DisplayNameFor(model => model.FirstOrDefault().BrainDumpStatus)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().BrainDumpTerm)</th>
                                     <th>@Html.DisplayNameFor(model => model.FirstOrDefault().BrainDumpNotes)</th>
-                                    <th>Actions</th>
+                                    <th style="width: 170px; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,7 +91,7 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.BrainDumpNotes)
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <div class="btn-group" style="float:none; ">
                                                     @if (User.IsInRole("Admin"))
                                                     {

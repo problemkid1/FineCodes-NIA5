@@ -8,6 +8,52 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
+<!-- Add consistent dark mode styling -->
+<style>
+    /* Consistent dark mode styling */
+    body.dark-mode {
+        background-color: #1a202c;
+        color: #e0e0e0;
+    }
+
+        body.dark-mode .card {
+            background-color: #2c3e50;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .card-header {
+            background-color: #1e2b38 !important;
+            border-bottom-color: #34495e !important;
+        }
+
+        body.dark-mode .text-gray-1200 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-primary {
+            color: #4e95d3 !important;
+        }
+
+        body.dark-mode .btn-outline-primary {
+            color: #4e95d3;
+            border-color: #4e95d3;
+        }
+
+        body.dark-mode .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        body.dark-mode .btn-outline-secondary {
+            color: #858796;
+            border-color: #858796;
+        }
+
+    /* Ensure consistent transitions */
+    .card, .card-header, .card-body, .text-gray-1200, .text-primary {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+</style>
 
 <div class="container-fluid" id="dashboardContainer">
     <!-- Theme Toggle -->
@@ -23,21 +69,21 @@
         {
             <div class="dashboard-controls">
                 <button id="themeToggle" class="btn btn-outline-secondary mr-2">
-                <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span>
-            </button>
-            <button id="editDashboardBtn" class="btn btn-primary">
-                <i class="fas fa-edit mr-1"></i> Edit Dashboard
-            </button>
-            <!-- Rest of your controls -->
-            <div id="dashboardEditControls" style="display: none;">
-                <button id="saveDashboardBtn" class="btn btn-success mr-2">
-                    <i class="fas fa-save mr-1"></i> Save Changes
+                    <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span>
                 </button>
-                <button id="cancelEditBtn" class="btn btn-secondary">
-                    <i class="fas fa-times mr-1"></i> Cancel
+                <button id="editDashboardBtn" class="btn btn-primary">
+                    <i class="fas fa-edit mr-1"></i> Edit Dashboard
                 </button>
+                <!-- Rest of your controls -->
+                <div id="dashboardEditControls" style="display: none;">
+                    <button id="saveDashboardBtn" class="btn btn-success mr-2">
+                        <i class="fas fa-save mr-1"></i> Save Changes
+                    </button>
+                    <button id="cancelEditBtn" class="btn btn-secondary">
+                        <i class="fas fa-times mr-1"></i> Cancel
+                    </button>
+                </div>
             </div>
-        </div>
         }
     </div>
 
@@ -374,6 +420,109 @@
         console.log("Widget structure fixed");
     }
 
+    // Enhanced dark mode function to ensure consistency across layouts
+    function applyDarkMode(isDarkMode) {
+        // Apply dark mode to body
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            if (themeToggle) {
+                const themeLabel = themeToggle.querySelector('.theme-label');
+                themeLabel.textContent = 'Light Mode';
+                themeToggle.querySelector('i').classList.remove('fa-moon');
+                themeToggle.querySelector('i').classList.add('fa-sun');
+            }
+        } else {
+            document.body.classList.remove('dark-mode');
+            if (themeToggle) {
+                const themeLabel = themeToggle.querySelector('.theme-label');
+                themeLabel.textContent = 'Dark Mode';
+                themeToggle.querySelector('i').classList.remove('fa-sun');
+                themeToggle.querySelector('i').classList.add('fa-moon');
+            }
+        }
+
+        // Apply consistent dark mode styling to all cards regardless of layout
+        const isDark = document.body.classList.contains('dark-mode');
+
+        // Style for metric cards
+        document.querySelectorAll('.metrics-item .card').forEach(card => {
+            if (isDark) {
+                card.style.backgroundColor = '#2c3e50';
+                card.style.color = '#e0e0e0';
+
+                // Style the text elements inside cards
+                card.querySelectorAll('.text-gray-1200').forEach(el => {
+                    el.style.color = '#ffffff';
+                });
+
+                card.querySelectorAll('.text-primary').forEach(el => {
+                    el.style.color = '#4e95d3 !important';
+                });
+            } else {
+                card.style.backgroundColor = '';
+                card.style.color = '';
+
+                // Reset text elements
+                card.querySelectorAll('.text-gray-1200').forEach(el => {
+                    el.style.color = '';
+                });
+
+                card.querySelectorAll('.text-primary').forEach(el => {
+                    el.style.color = '';
+                });
+            }
+        });
+
+        // Style for chart cards
+        document.querySelectorAll('#chartsContainer .card').forEach(card => {
+            if (isDark) {
+                card.style.backgroundColor = '#2c3e50';
+                card.style.color = '#e0e0e0';
+
+                // Style card headers
+                const header = card.querySelector('.card-header');
+                if (header) {
+                    header.style.backgroundColor = '#1e2b38';
+                    header.style.borderBottomColor = '#34495e';
+                }
+
+                // Style card bodies
+                const body = card.querySelector('.card-body');
+                if (body) {
+                    body.style.backgroundColor = '#2c3e50';
+                }
+
+                // Style text elements
+                card.querySelectorAll('.text-primary').forEach(el => {
+                    el.style.color = '#4e95d3 !important';
+                });
+            } else {
+                card.style.backgroundColor = '';
+                card.style.color = '';
+
+                // Reset card headers
+                const header = card.querySelector('.card-header');
+                if (header) {
+                    header.style.backgroundColor = '';
+                    header.style.borderBottomColor = '';
+                }
+
+                // Reset card bodies
+                const body = card.querySelector('.card-body');
+                if (body) {
+                    body.style.backgroundColor = '';
+                }
+
+                // Reset text elements
+                card.querySelectorAll('.text-primary').forEach(el => {
+                    el.style.color = '';
+                });
+            }
+        });
+
+        // Update charts with new theme
+        updateChartsTheme();
+    }
 
     document.addEventListener("DOMContentLoaded", function () {
          // Fix widget structure
@@ -448,56 +597,27 @@
         var currentPieChartType = 'doughnut';
 
         // Theme toggle functionality
-       const themeToggle = document.getElementById('themeToggle');
-        // const themeLabel = themeToggle.querySelector('.theme-label');
-        // const dashboardContainer = document.getElementById('dashboardContainer');
+        const themeToggle = document.getElementById('themeToggle');
 
-            if (themeToggle) {
-        const themeLabel = themeToggle.querySelector('.theme-label');
+        if (themeToggle) {
+            const themeLabel = themeToggle.querySelector('.theme-label');
 
-        // Check for saved theme preference
-        const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
-        if (darkModeEnabled) {
-            document.body.classList.add('dark-mode');
-            themeLabel.textContent = 'Light Mode';
-            themeToggle.querySelector('i').classList.remove('fa-moon');
-            themeToggle.querySelector('i').classList.add('fa-sun');
-        }
+            // Check for saved theme preference
+            const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
+            if (darkModeEnabled) {
+                applyDarkMode(true);
+            }
 
             // Add this to your existing dark mode toggle event listener
-        themeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        localStorage.setItem('darkModeEnabled', isDarkMode);
-
-        if (isDarkMode) {
-            themeLabel.textContent = 'Light Mode';
-            themeToggle.querySelector('i').classList.remove('fa-moon');
-            themeToggle.querySelector('i').classList.add('fa-sun');
-        } else {
-            themeLabel.textContent = 'Dark Mode';
-            themeToggle.querySelector('i').classList.remove('fa-sun');
-            themeToggle.querySelector('i').classList.add('fa-moon');
+            themeToggle.addEventListener('click', function() {
+                const isDarkMode = !document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkModeEnabled', isDarkMode);
+                applyDarkMode(isDarkMode);
+            });
         }
 
-        // Update charts with new theme
-        updateChartsTheme();
-
-        // Ensure metrics remain visible after theme change
-        if (layoutSplit.checked) {
-            // Re-apply split layout to fix any visibility issues
-            applySplitLayout();
-        } else {
-            // Re-apply standard layout
-            applyStandardLayout();
-        }
-    });
-
-    }
-
-            // Function to update chart themes based on dark mode
-        function updateChartsTheme()
-        {
+        // Function to update chart themes based on dark mode
+        function updateChartsTheme() {
             const isDarkMode = document.body.classList.contains('dark-mode');
             const textColor = isDarkMode ? '#e0e0e0' : '#666';
 
@@ -706,12 +826,6 @@
                 }
             });
 
-
-
-
-
-
-
             // Chart type toggle
             document.querySelectorAll('.chart-type').forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -913,7 +1027,9 @@
                 setTimeout(() => {
                     applySplitLayout();
 
-                    // Additional check to ensure metrics are visible
+
+
+                   // Additional check to ensure metrics are visible
                     document.querySelectorAll('.metrics-item .widget').forEach(widget => {
                         if (widget.style.display !== 'none') {
                             widget.style.visibility = 'visible';
@@ -1085,24 +1201,24 @@
                 widget.classList.remove('widget-edit-mode');
             });
         }
-        function saveDashboardConfig()
-        {
-                const config = {
-                    layout: layoutSplit.checked ? 'split' : 'standard',
-                    splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
-                    widgets: {},
-                    darkMode: document.body.classList.contains('dark-mode')
-                };
 
-                widgets.forEach(widget => {
-                    const id = widget.getAttribute('data-widget-id');
-                    config.widgets[id] = widget.style.display !== 'none';
-                });
+        function saveDashboardConfig() {
+            const config = {
+                layout: layoutSplit.checked ? 'split' : 'standard',
+                splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
+                widgets: {},
+                darkMode: document.body.classList.contains('dark-mode')
+            };
 
-                localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
+            widgets.forEach(widget => {
+                const id = widget.getAttribute('data-widget-id');
+                config.widgets[id] = widget.style.display !== 'none';
+            });
+
+            localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
         }
 
-         function loadDashboardConfig() {
+        function loadDashboardConfig() {
             const savedConfig = localStorage.getItem('crmDashboardConfig');
 
             if (savedConfig) {
@@ -1141,15 +1257,9 @@
                     refreshIntervalSelect.value = config.refreshInterval;
                 }
 
-                 // Apply dark mode if saved
+                // Apply dark mode if saved
                 if (config.darkMode) {
-                        document.body.classList.add('dark-mode');
-                        if (themeToggle) {
-                            const themeLabel = themeToggle.querySelector('.theme-label');
-                            themeLabel.textContent = 'Light Mode';
-                            themeToggle.querySelector('i').classList.remove('fa-moon');
-                            themeToggle.querySelector('i').classList.add('fa-sun');
-                        }
+                    applyDarkMode(true);
                 }
             } else {
                 // Default configuration - standard layout
@@ -1170,55 +1280,60 @@
         }
 
         function applyStandardLayout() {
-                         // Remove any split layout row
-                const splitRow = document.getElementById('splitLayoutRow');
-                if (splitRow) {
-                    // Move containers back to dashboard content
-                    const dashboardContent = document.getElementById('dashboardContent');
+            // Remove any split layout row
+            const splitRow = document.getElementById('splitLayoutRow');
+            if (splitRow) {
+                // Move containers back to dashboard content
+                const dashboardContent = document.getElementById('dashboardContent');
 
-                    // Get the containers from the split row
-                    const containers = splitRow.querySelectorAll('#metricsContainer, #chartsContainer');
-                    containers.forEach(container => {
-                        dashboardContent.appendChild(container);
-                    });
+                // Get the containers from the split row
+                const containers = splitRow.querySelectorAll('#metricsContainer, #chartsContainer');
+                containers.forEach(container => {
+                    dashboardContent.appendChild(container);
+                });
 
-                    // Remove the split row
-                    splitRow.remove();
+                // Remove the split row
+                splitRow.remove();
+            }
+
+            // Reset all column classes for metrics items
+            document.querySelectorAll('.metrics-item').forEach(item => {
+                item.className = 'col-xl-3 col-md-6 mb-4 metrics-item';
+            });
+
+            // Reset all column classes for chart containers
+            document.querySelectorAll('#chartsContainer > div').forEach(item => {
+                item.className = 'col-lg-6 mb-4';
+            });
+
+            // Ensure containers have row class
+            metricsContainer.className = 'row';
+            chartsContainer.className = 'row';
+
+            // Force redraw of all widgets
+            document.querySelectorAll('.widget').forEach(widget => {
+                // Make sure widget is visible
+                if (widget.style.display !== 'none') {
+                    // Force a reflow
+                    const display = window.getComputedStyle(widget).display;
+                    widget.style.display = 'none';
+                    void widget.offsetHeight; // Force reflow
+                    widget.style.display = display;
                 }
+            });
 
-                // Reset all column classes for metrics items
-                document.querySelectorAll('.metrics-item').forEach(item => {
-                    item.className = 'col-xl-3 col-md-6 mb-4 metrics-item';
-                });
+            // Resize charts if they exist
+            setTimeout(function() {
+                if (pieChart) pieChart.resize();
+                if (breakdownChart) breakdownChart.resize();
+            }, 100);
 
-                // Reset all column classes for chart containers
-                document.querySelectorAll('#chartsContainer > div').forEach(item => {
-                    item.className = 'col-lg-6 mb-4';
-                });
+            // Re-apply dark mode if enabled
+            if (document.body.classList.contains('dark-mode')) {
+                applyDarkMode(true);
+            }
 
-                // Ensure containers have row class
-                metricsContainer.className = 'row';
-                chartsContainer.className = 'row';
-
-                // Force redraw of all widgets
-                document.querySelectorAll('.widget').forEach(widget => {
-                    // Make sure widget is visible
-                    if (widget.style.display !== 'none') {
-                        // Force a reflow
-                        const display = window.getComputedStyle(widget).display;
-                        widget.style.display = 'none';
-                        void widget.offsetHeight; // Force reflow
-                        widget.style.display = display;
-                    }
-                });
-
-                // Resize charts if they exist
-                setTimeout(function() {
-                    if (pieChart) pieChart.resize();
-                    if (breakdownChart) breakdownChart.resize();
-                }, 100);
-
-                console.log("Standard layout applied");
+            console.log("Standard layout applied");
         }
 
         function applySplitLayout(config = null) {
@@ -1303,6 +1418,11 @@
                 if (breakdownChart) breakdownChart.resize();
             }, 100);
 
+            // Re-apply dark mode if enabled
+            if (document.body.classList.contains('dark-mode')) {
+                applyDarkMode(true);
+            }
+
             console.log("Split layout applied:", config);
         }
 
@@ -1369,7 +1489,9 @@
             }, 100);
         }
 
-        // Handle window resize events
+
+
+                // Handle window resize events
         let resizeTimer;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimer);
@@ -1470,6 +1592,7 @@
         });
     });
 </script>
+
 
 
 

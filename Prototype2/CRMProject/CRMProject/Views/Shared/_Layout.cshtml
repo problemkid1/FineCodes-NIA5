@@ -205,8 +205,8 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
+                <nav class="navbar navbar-expand navbar-light bg-white topbar cb-4 static-top shadow">
+                    @*mb-4*@
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -365,13 +365,14 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Breadcrumb Row -->
-                    <div class="row no-print">
+                    <div class="row no-print mb-4">
                         @if (ViewData["Breadcrumbs"] != null)
                         {
                             var breadcrumbs = ViewData["Breadcrumbs"] as List<CRMProject.Models.BreadcrumbItem>;
                             @await Component.InvokeAsync("Breadcrumb", new { breadcrumbs = breadcrumbs })
                         }
                     </div>
+
 
                     <!-- Main Content -->
                     <div class="row">

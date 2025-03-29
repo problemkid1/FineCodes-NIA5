@@ -58,7 +58,7 @@
                                 <tr>
                                     <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Initiative)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().InboundInitiativeNotes)</th>
-                                    <th>Actions</th>
+                                    <th style="width: 170px; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,7 +79,7 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.InboundInitiativeNotes)
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <div class="btn-group" style="float:none; ">
                                                     @if (User.IsInRole("Admin"))
                                                     {
