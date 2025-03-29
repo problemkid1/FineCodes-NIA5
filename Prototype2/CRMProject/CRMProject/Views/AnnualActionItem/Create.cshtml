@@ -51,7 +51,7 @@
                     <div class="col-12 col-md-6 mb-3">
                         <label asp-for="DueDate" class="form-label">Due Date</label>
                         <span class="text-danger">*</span>
-                        <input asp-for="DueDate" class="form-control" type="date" />
+                        <input asp-for="DueDate" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                         <span asp-validation-for="DueDate" class="text-danger"></span>
                     </div>
 
@@ -59,7 +59,13 @@
                     <div class="col-12 col-md-6 mb-3">
                         <label asp-for="Status" class="form-label">Status</label>
                         <span class="text-danger">*</span>
-                        <input asp-for="Status" class="form-control" placeholder="Enter status" />
+                        <select asp-for="Status" class="form-control">
+                            <option value="">Select status</option>
+                            <option value="Not Started">Not Started</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="On Hold">On Hold</option>
+                        </select>
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
 

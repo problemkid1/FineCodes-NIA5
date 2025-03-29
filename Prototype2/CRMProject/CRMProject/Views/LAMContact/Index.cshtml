@@ -62,7 +62,7 @@
                                         <td>
                                             @if (item.Contact != null)
                                             {
-                                                @item.Contact.FirstName @item.Contact.LastName
+                                                @($"{item.Contact.FirstName} {item.Contact.LastName}")
                                             }
                                             else
                                             {
