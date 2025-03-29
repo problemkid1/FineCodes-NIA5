@@ -71,6 +71,7 @@
                     </a>
                 }
             </div>
+            <!-- Add this button near the top of your Member/Index.cshtml -->
             <button id="exportButton" class="btn btn-success">
                 <i class="fas fa-file-excel"></i> Export to Excel
             </button>
@@ -286,17 +287,15 @@
                         <table id="example1" class="table table-bordered table-striped ">
                             <thead class="table-light">
                                 <tr>
-
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberName)</th>
                                     @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberSize)</th> *@
                                     @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
-                                    @*<th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>*@
+                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th style="width: 170px; text-align: center;">Actions</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -386,9 +385,8 @@
                                             </td>
 
                                             <td style="min-width: 150px;">
-
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
-                                            </td> *@
+                                            </td>
                                             <!-- For Memberships cell -->
                                             <td style="min-width: 150px;">
                                                 @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())

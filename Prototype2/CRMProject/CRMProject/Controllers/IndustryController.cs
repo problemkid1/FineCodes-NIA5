@@ -1,9 +1,15 @@
-﻿using CRMProject.Data;
-using CRMProject.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using CRMProject.Data;
+using CRMProject.Models;
 using OfficeOpenXml;
+using CRMProject.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
@@ -19,7 +25,7 @@ namespace CRMProject.Controllers
 
         // GET: Industry
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode, int? page, int? pageSizeID)
+        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode )
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -69,14 +75,8 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-            // Handle Paging
-            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
-            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
-            var pagedData = await PaginatedList<Industry>.CreateAsync(industries.AsNoTracking(), page ?? 1, pageSize);
-
-            return View(pagedData);
             // Return the filtered list of industries with the related MemberIndustries and Member data
-            //return View(await industries.ToListAsync());
+            return View(await industries.ToListAsync());
         }
 
 
@@ -238,8 +238,8 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
                     new BreadcrumbItem { Title = industry.IndustrySubsector, Url = $"/Industry/Details/{id}", IsActive = false },
                     new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
-
-
+                     
+                
 
                 };
 
@@ -377,8 +377,8 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Industry", Url = "/Industry/Index", IsActive = false },
                     new BreadcrumbItem { Title = industry.IndustrySubsector, Url =  $"/Industry/Details/{id}", IsActive = false },
                     new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
-
-
+                    
+                
 
                 };
 
@@ -449,8 +449,7 @@ namespace CRMProject.Controllers
                 .Where(i => i.IndustrySector.Contains(term) ||
                             i.IndustrySubsector.Contains(term) ||
                             i.IndustryNAICSCode.Contains(term))
-                .Select(i => new
-                {
+                .Select(i => new {
                     id = i.ID,
                     label = i.IndustrySector + " - " + i.IndustrySubsector + " (" + i.IndustryNAICSCode + ")"
                 })
