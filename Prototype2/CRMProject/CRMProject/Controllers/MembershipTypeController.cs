@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CRMProject.Data;
+using CRMProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CRMProject.Data;
-using CRMProject.Models;
-using CRMProject.Utilities;
-using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
@@ -24,7 +19,7 @@ namespace CRMProject.Controllers
 
         // GET: MembershipType
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee)
+        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee, int? page, int? pageSizeID)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -47,7 +42,7 @@ namespace CRMProject.Controllers
                 membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName
                                                                .ToLower() == MembershipTypeName.ToLower());
                 numberFilters++;
-            }                     
+            }
 
             // Filter by Membership Type Description
             if (!string.IsNullOrEmpty(MembershipTypeDescription))
@@ -88,8 +83,12 @@ namespace CRMProject.Controllers
         .Distinct()
         .OrderBy(mt => mt.Text)
         .ToList();
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<MembershipType>.CreateAsync(membershipTypes.AsNoTracking(), page ?? 1, pageSize);
 
-            return View(await membershipTypes.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: MembershipType/Details/5
@@ -345,7 +344,7 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
                     new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = $"/MembershipType/Details/{id}", IsActive = false },
                      new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
-                   
+
 
                 };
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -433,8 +432,8 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Membership Type", Url = "/MembershipType/Index", IsActive = false },
                     new BreadcrumbItem { Title = membershipType.MembershipTypeName, Url = $"/MembershipType/Details/{id}", IsActive = false },
                     new BreadcrumbItem { Title = "Delete", Url = "#", IsActive = true }
-                                   
-                
+
+
 
                 };
 
@@ -453,7 +452,8 @@ namespace CRMProject.Controllers
             {
                 // Retrieve the basic data from the database
                 var membershipTypesData = _context.MembershipTypes
-                    .Select(mt => new {
+                    .Select(mt => new
+                    {
                         mt.ID,
                         mt.MembershipTypeName
                     })
@@ -462,7 +462,8 @@ namespace CRMProject.Controllers
                     .ToList(); // Execute the query and bring data to memory
 
                 // Format the data on the client side
-                var formattedMembershipTypes = membershipTypesData.Select(mt => new {
+                var formattedMembershipTypes = membershipTypesData.Select(mt => new
+                {
                     id = mt.ID,
                     label = mt.MembershipTypeName
                 }).ToList();
@@ -490,7 +491,8 @@ namespace CRMProject.Controllers
 
                 var membershipTypes = _context.MembershipTypes
                     .Where(mt => mt.MembershipTypeName.Contains(term))
-                    .Select(mt => new {
+                    .Select(mt => new
+                    {
                         id = mt.ID,
                         label = mt.MembershipTypeName
                     })
