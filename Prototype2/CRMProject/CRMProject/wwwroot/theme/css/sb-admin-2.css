@@ -7876,6 +7876,11 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
     margin-right: 1.5rem !important
 }
 
+.cb-4, .cy-4 {
+    margin-bottom: 1.5rem !important;
+    
+}
+
 .mb-4, .my-4 {
     margin-bottom: 1.5rem !important
 }

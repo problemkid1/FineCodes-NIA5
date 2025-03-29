@@ -286,15 +286,17 @@
                         <table id="example1" class="table table-bordered table-striped ">
                             <thead class="table-light">
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.First().MemberName)</th>
-                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberSize)</th> *@
-                                    @* <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
-                                    <th >@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
-                                    @* <th >@Html.DisplayNameFor(model => model.First().MemberStatus)</th> *@
-                                    <th >@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
-                                    <th >@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
-                                    <th >@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
-                                    <th >Actions</th>
+
+                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberName)</th>
+                                    @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberSize)</th> *@
+                                    @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
+                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
+                                    @*<th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>*@
+                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
+                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
+                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
+                                    <th style="width: 170px; text-align: center;">Actions</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -309,7 +311,7 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>
+                                            <td style="min-width: 150px;">
                                                 @item.MemberName
                                             </td>
                                             @* <td class="d-none d-sm-table-cell">
@@ -357,7 +359,7 @@
                                                 }                                                
                                             </td> *@
 
-                                            <td >
+                                            <td style="min-width: 150px;">
                                                 @if (item.Address != null && !string.IsNullOrEmpty(item.Address.AddressCity))
                                                 {
                                                     @item.Address.AddressCity
@@ -383,11 +385,12 @@
                                                 }
                                             </td>
 
-                                            @* <td >
+                                            <td style="min-width: 150px;">
+
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
                                             </td> *@
                                             <!-- For Memberships cell -->
-                                            <td>
+                                            <td style="min-width: 150px;">
                                                 @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())
                                                 {
                                                     var membershipList = item.MemberMembershipTypes.Select(m => m.MembershipType.MembershipTypeName).ToList();
@@ -418,7 +421,7 @@
                                             </td>
 
                                             <!-- For Industries cell -->
-                                            <td>
+                                            <td style="min-width: 150px;">
                                                 @if (item.MemberIndustries != null && item.MemberIndustries.Any())
                                                 {
                                                     var industries = item.MemberIndustries.Select(m => m.Industry.IndustrySector).ToList();
@@ -449,8 +452,8 @@
                                             </td>
 
 
-                                            <td >@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
-                                            <td >
+                                            <td style="min-width: 150px;">@Html.DisplayFor(modelItem => item.MemberStartDate)</td>
+                                            <td style="text-align: center;">
                                                 <div class="btn-group" style="align-content: center;">
                                                     @if (@item.MemberStatus == MemberStatus.Cancelled)
                                                     {

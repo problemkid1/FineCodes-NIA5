@@ -184,7 +184,7 @@
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MembershipTypeDescription)</th>
                                     <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.FirstOrDefault().MembershipTypeFee)</th>
                                     <th>Total Members</th>
-                                    <th>Actions</th>
+                                    <th style="width: 170px; text-align: center;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -240,7 +240,7 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.MemberMembershipTypes.Select(m => m.Member).Where(m => m.MemberStatus.ToString() != "Cancelled").ToList().Count)
                                             </td>
-                                            <td>
+                                            <td style="text-align: center;">
                                                 <div class="btn-group" style="float:none; ">
                                                     @if (User.IsInRole("Admin"))
                                                     {

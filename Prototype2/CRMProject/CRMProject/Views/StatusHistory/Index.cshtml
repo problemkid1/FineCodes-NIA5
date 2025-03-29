@@ -198,7 +198,7 @@
                                 <th>@Html.DisplayNameFor(model => model.Reason)</th>
                                 <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Notes)</th>
                                 <th>@Html.DisplayNameFor(model => model.Date)</th>
-                                <th>Actions</th>
+                                <th style="width: 150px; text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -282,7 +282,7 @@
 
 
                                         <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                                        <td>
+                                        <td style="text-align: center;">
                                             <div class="btn-group">
                                                 @if (User.IsInRole("Admin"))
                                                 {

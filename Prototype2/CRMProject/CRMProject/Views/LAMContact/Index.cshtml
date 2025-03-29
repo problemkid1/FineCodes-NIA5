@@ -43,7 +43,7 @@
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Position)</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Notes)</th>
                                 
-                                <th>Actions</th>
+                                <th style="width: 170px; text-align: center;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -71,8 +71,8 @@
                                         </td>
                                         <td>@item.Position</td>
                                         <td>@item.Notes</td>
-                                        
-                                        <td>
+
+                                        <td style="text-align: center;">
                                             <div class="btn-group" role="group">
                                                 <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary" title="Edit">
                                                     <i class="bi bi-pencil-square"></i>
