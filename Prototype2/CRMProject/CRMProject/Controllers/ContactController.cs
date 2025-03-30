@@ -25,8 +25,10 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact
+
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole)
+        public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole, int? page, int? pageSizeID)
+
         {
             // Initialize the queryable contacts dataset
             var contacts = _context.Contacts
@@ -95,8 +97,12 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
-            // Execute the query and pass the results to the view
-            return View(await contacts.ToListAsync());
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Contact>.CreateAsync(contacts.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 

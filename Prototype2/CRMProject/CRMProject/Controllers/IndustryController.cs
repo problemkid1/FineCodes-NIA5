@@ -25,7 +25,8 @@ namespace CRMProject.Controllers
 
         // GET: Industry
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode )
+        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode, int? page, int? pageSizeID)
+
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -75,8 +76,12 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-            // Return the filtered list of industries with the related MemberIndustries and Member data
-            return View(await industries.ToListAsync());
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Industry>.CreateAsync(industries.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 

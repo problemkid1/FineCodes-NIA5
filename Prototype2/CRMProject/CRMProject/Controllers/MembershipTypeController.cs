@@ -23,8 +23,10 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType
+
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee)
+        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee, int? page, int? pageSizeID)
+
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -88,8 +90,12 @@ namespace CRMProject.Controllers
         .Distinct()
         .OrderBy(mt => mt.Text)
         .ToList();
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<MembershipType>.CreateAsync(membershipTypes.AsNoTracking(), page ?? 1, pageSize);
 
-            return View(await membershipTypes.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: MembershipType/Details/5

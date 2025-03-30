@@ -22,17 +22,23 @@ namespace CRMProject.Controllers
         }
 
         // GET: AnnualActionItem
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( int? page, int? pageSizeID)
         {
             var breadcrumbs = new List<BreadcrumbItem>
             {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Annual Action Items", Url = "/AnnualActionItem/Index", IsActive = true }
             };
+            var annualActionItems= _context.AnnualActionItems
+                 .AsNoTracking();
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<AnnualActionItem>.CreateAsync(annualActionItems.AsNoTracking(), page ?? 1, pageSize);
 
-            return View(await _context.AnnualActionItems.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: AnnualActionItem/Details/5

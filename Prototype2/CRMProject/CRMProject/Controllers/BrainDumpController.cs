@@ -24,7 +24,7 @@ namespace CRMProject.Controllers
 
         // GET: BrainDump
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( int? page, int? pageSizeID)
         {
             // Add breadcrumbs
             var breadcrumbs = new List<BreadcrumbItem>
@@ -32,7 +32,8 @@ namespace CRMProject.Controllers
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Brain Dumps", Url = "/BrainDump/Index", IsActive = true }
             };
-
+            var brainDumps = _context.BrainDumps
+                .AsNoTracking();
             ViewData["Breadcrumbs"] = breadcrumbs;
 
             // Populate BrainDumpStatus list
@@ -46,8 +47,12 @@ namespace CRMProject.Controllers
                 .Cast<BrainDumpTerm>()
                 .Select(t => new { Value = t, Text = GetEnumDisplayName(t) }),
                 "Value", "Text");
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<BrainDump>.CreateAsync(brainDumps.AsNoTracking(), page ?? 1, pageSize);
 
-            return View(await _context.BrainDumps.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: BrainDump/Details/5
