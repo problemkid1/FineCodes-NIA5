@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class StatusHistoryController : Controller
     {
         private readonly CRMContext _context;

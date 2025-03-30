@@ -14,7 +14,7 @@ using CRMProject.Data.CRMMigrations;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class OpportunityController : Controller
     {
         private readonly CRMContext _context;

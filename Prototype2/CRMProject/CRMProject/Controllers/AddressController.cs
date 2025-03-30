@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AddressController : Controller
     {
         private readonly CRMContext _context;

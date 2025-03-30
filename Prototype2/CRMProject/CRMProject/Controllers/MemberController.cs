@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class MemberController : Controller
     {
         private readonly CRMContext _context;

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MembershipTypeController : Controller
     {
         private readonly CRMContext _context;
@@ -23,8 +23,10 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType
-        [Authorize(Roles = "Admin, User")]
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee, int? page, int? pageSizeID)
+
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -97,7 +99,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType/Details/5
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -451,6 +453,7 @@ namespace CRMProject.Controllers
 
         // GET: MembershipType/GetAllMembershipTypes
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllMembershipTypes()
         {
             try
@@ -483,6 +486,7 @@ namespace CRMProject.Controllers
 
         // GET: MembershipType/SearchMembershipTypes
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult SearchMembershipTypes(string term)
         {
             try
