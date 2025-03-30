@@ -68,9 +68,9 @@
         @if (User.IsInRole("Admin"))
         {
             <div class="dashboard-controls">
-                <button id="themeToggle" class="btn btn-outline-secondary mr-2">
-                    <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span>
-                </button>
+                @* <button id="themeToggle" class="btn btn-outline-secondary mr-2"> *@
+                @*     <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span> *@
+                @* </button> *@
                 <button id="editDashboardBtn" class="btn btn-primary">
                     <i class="fas fa-edit mr-1"></i> Edit Dashboard
                 </button>
@@ -609,10 +609,15 @@
             }
 
             // Add this to your existing dark mode toggle event listener
-            themeToggle.addEventListener('click', function() {
+                themeToggle.addEventListener('click', function() {
                 const isDarkMode = !document.body.classList.contains('dark-mode');
                 localStorage.setItem('darkModeEnabled', isDarkMode);
                 applyDarkMode(isDarkMode);
+            });
+
+            // Add this event listener to respond to theme changes from the layout
+            document.addEventListener('themeChange', function(e) {
+                applyDarkMode(e.detail.darkMode);
             });
         }
 

@@ -174,6 +174,61 @@ body.dark-mode {
     }
 
 
+
+    /* Table header styling for dark mode */
+    body.dark-mode .table th {
+        background-color: #3a3a3a !important; /* Match card-header background */
+        color: #e0e0e0 !important;
+        border-color: #444 !important;
+    }
+
+    /* DataTables specific styling for dark mode */
+    body.dark-mode .dataTables_wrapper .dataTables_length,
+    body.dark-mode .dataTables_wrapper .dataTables_filter,
+    body.dark-mode .dataTables_wrapper .dataTables_info,
+    body.dark-mode .dataTables_wrapper .dataTables_processing,
+    body.dark-mode .dataTables_wrapper .dataTables_paginate {
+        color: #e0e0e0 !important;
+    }
+
+        body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: #e0e0e0 !important;
+        }
+
+            body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+            body.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+                background: #4e73df !important;
+                color: white !important;
+                border-color: #444 !important;
+            }
+
+    /* Form controls in dark mode */
+    body.dark-mode .form-control,
+    body.dark-mode .custom-select {
+        background-color: #333 !important;
+        color: #e0e0e0 !important;
+        border-color: #444 !important;
+    }
+
+        body.dark-mode .form-control:focus,
+        body.dark-mode .custom-select:focus {
+            border-color: #4e73df !important;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25) !important;
+        }
+
+    /* Table striping in dark mode */
+    body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* Table hover effect in dark mode */
+    body.dark-mode .table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.075) !important;
+    }
+
+
+
+
     /* Chart Dark Mode Styling */
     body.dark-mode .chart-container,
     body.dark-mode .chart-bar,
