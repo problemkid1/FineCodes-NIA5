@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CRMProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BrainDumpController : Controller
     {
         private readonly CRMContext _context;

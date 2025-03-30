@@ -1,5 +1,6 @@
 ﻿using CRMProject.Data;
 using CRMProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace CRMProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ExportController : Controller
     {
         private readonly CRMContext _context;
