@@ -8,69 +8,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-<!-- Add consistent dark mode styling -->
-<style>
-    /* Consistent dark mode styling */
-    body.dark-mode {
-        background-color: #1a202c;
-        color: #e0e0e0;
-    }
-
-        body.dark-mode .card {
-            background-color: #2c3e50;
-            color: #e0e0e0;
-        }
-
-        body.dark-mode .card-header {
-            background-color: #1e2b38 !important;
-            border-bottom-color: #34495e !important;
-        }
-
-        body.dark-mode .text-gray-1200 {
-            color: #ffffff !important;
-        }
-
-        body.dark-mode .text-primary {
-            color: #4e95d3 !important;
-        }
-
-        body.dark-mode .btn-outline-primary {
-            color: #4e95d3;
-            border-color: #4e95d3;
-        }
-
-        body.dark-mode .btn-primary {
-            background-color: #4e73df;
-            border-color: #4e73df;
-        }
-
-        body.dark-mode .btn-outline-secondary {
-            color: #858796;
-            border-color: #858796;
-        }
-
-    /* Ensure consistent transitions */
-    .card, .card-header, .card-body, .text-gray-1200, .text-primary {
-        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    }
-</style>
-
 <div class="container-fluid" id="dashboardContainer">
-    <!-- Theme Toggle -->
-    @* <div class="mb-3 text-right"> *@
-
-    @* </div> *@
-
     <!-- Page Heading with Edit Controls -->
-
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         @if (User.IsInRole("Admin"))
         {
             <div class="dashboard-controls">
-                @* <button id="themeToggle" class="btn btn-outline-secondary mr-2"> *@
-                @*     <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span> *@
-                @* </button> *@
                 <button id="editDashboardBtn" class="btn btn-primary">
                     <i class="fas fa-edit mr-1"></i> Edit Dashboard
                 </button>
@@ -86,9 +30,6 @@
             </div>
         }
     </div>
-
-
-
 
     <!-- Layout Controls - Only visible in edit mode -->
     <div id="layoutControls" class="card shadow mb-4" style="display: none;">
@@ -169,9 +110,6 @@
                                             <span class="count-up" data-value="@ViewData["MemberCount"]">@ViewData["MemberCount"]</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     @* <i class="fas fa-users fa-2x text-gray-300"></i> *@ 
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -197,9 +135,6 @@
                                             <span class="count-up" data-value="@ViewData["IndustryCount"]">@ViewData["IndustryCount"]</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     <i class="fas fa-industry fa-2x text-gray-300"></i> *@
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -225,9 +160,6 @@
                                             <span class="count-up" data-value="@ViewData["CancellationCount"]">@ViewData["CancellationCount"]</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     <i class="fas fa-ban fa-2x text-gray-300"></i> *@
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -253,9 +185,6 @@
                                             <span class="count-up" data-value="@newMemberCount">@newMemberCount</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     <i class="fas fa-user-plus fa-2x text-gray-300"></i> *@
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -386,8 +315,6 @@
     </div>
 </div>
 
-
-
 <script>
     // Add this at the beginning of your script
     function fixWidgetStructure() {
@@ -420,112 +347,8 @@
         console.log("Widget structure fixed");
     }
 
-    // Enhanced dark mode function to ensure consistency across layouts
-    function applyDarkMode(isDarkMode) {
-        // Apply dark mode to body
-        if (isDarkMode) {
-            document.body.classList.add('dark-mode');
-            if (themeToggle) {
-                const themeLabel = themeToggle.querySelector('.theme-label');
-                themeLabel.textContent = 'Light Mode';
-                themeToggle.querySelector('i').classList.remove('fa-moon');
-                themeToggle.querySelector('i').classList.add('fa-sun');
-            }
-        } else {
-            document.body.classList.remove('dark-mode');
-            if (themeToggle) {
-                const themeLabel = themeToggle.querySelector('.theme-label');
-                themeLabel.textContent = 'Dark Mode';
-                themeToggle.querySelector('i').classList.remove('fa-sun');
-                themeToggle.querySelector('i').classList.add('fa-moon');
-            }
-        }
-
-        // Apply consistent dark mode styling to all cards regardless of layout
-        const isDark = document.body.classList.contains('dark-mode');
-
-        // Style for metric cards
-        document.querySelectorAll('.metrics-item .card').forEach(card => {
-            if (isDark) {
-                card.style.backgroundColor = '#2c3e50';
-                card.style.color = '#e0e0e0';
-
-                // Style the text elements inside cards
-                card.querySelectorAll('.text-gray-1200').forEach(el => {
-                    el.style.color = '#ffffff';
-                });
-
-                card.querySelectorAll('.text-primary').forEach(el => {
-                    el.style.color = '#4e95d3 !important';
-                });
-            } else {
-                card.style.backgroundColor = '';
-                card.style.color = '';
-
-                // Reset text elements
-                card.querySelectorAll('.text-gray-1200').forEach(el => {
-                    el.style.color = '';
-                });
-
-                card.querySelectorAll('.text-primary').forEach(el => {
-                    el.style.color = '';
-                });
-            }
-        });
-
-        // Style for chart cards
-        document.querySelectorAll('#chartsContainer .card').forEach(card => {
-            if (isDark) {
-                card.style.backgroundColor = '#2c3e50';
-                card.style.color = '#e0e0e0';
-
-                // Style card headers
-                const header = card.querySelector('.card-header');
-                if (header) {
-                    header.style.backgroundColor = '#1e2b38';
-                    header.style.borderBottomColor = '#34495e';
-                }
-
-                // Style card bodies
-                const body = card.querySelector('.card-body');
-                if (body) {
-                    body.style.backgroundColor = '#2c3e50';
-                }
-
-                // Style text elements
-                card.querySelectorAll('.text-primary').forEach(el => {
-                    el.style.color = '#4e95d3 !important';
-                });
-            } else {
-                card.style.backgroundColor = '';
-                card.style.color = '';
-
-                // Reset card headers
-                const header = card.querySelector('.card-header');
-                if (header) {
-                    header.style.backgroundColor = '';
-                    header.style.borderBottomColor = '';
-                }
-
-                // Reset card bodies
-                const body = card.querySelector('.card-body');
-                if (body) {
-                    body.style.backgroundColor = '';
-                }
-
-                // Reset text elements
-                card.querySelectorAll('.text-primary').forEach(el => {
-                    el.style.color = '';
-                });
-            }
-        });
-
-        // Update charts with new theme
-        updateChartsTheme();
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
-         // Fix widget structure
+        // Fix widget structure
         fixWidgetStructure();
 
         // Fix widget structure for better compatibility with split view
@@ -595,49 +418,6 @@
         var breakdownChart = null;
         var refreshInterval = null;
         var currentPieChartType = 'doughnut';
-
-        // Theme toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-
-        if (themeToggle) {
-            const themeLabel = themeToggle.querySelector('.theme-label');
-
-            // Check for saved theme preference
-            const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
-            if (darkModeEnabled) {
-                applyDarkMode(true);
-            }
-
-            // Add this to your existing dark mode toggle event listener
-                themeToggle.addEventListener('click', function() {
-                const isDarkMode = !document.body.classList.contains('dark-mode');
-                localStorage.setItem('darkModeEnabled', isDarkMode);
-                applyDarkMode(isDarkMode);
-            });
-
-            // Add this event listener to respond to theme changes from the layout
-            document.addEventListener('themeChange', function(e) {
-                applyDarkMode(e.detail.darkMode);
-            });
-        }
-
-        // Function to update chart themes based on dark mode
-        function updateChartsTheme() {
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            const textColor = isDarkMode ? '#e0e0e0' : '#666';
-
-            if (breakdownChart) {
-                breakdownChart.options.scales.x.ticks.color = textColor;
-                breakdownChart.options.scales.y.ticks.color = textColor;
-                breakdownChart.options.plugins.legend.labels.color = textColor;
-                breakdownChart.update();
-            }
-
-            if (pieChart) {
-                pieChart.options.plugins.legend.labels.color = textColor;
-                pieChart.update();
-            }
-        }
 
         // Number animation for metric cards
         document.querySelectorAll('.count-up').forEach(counter => {
@@ -731,22 +511,26 @@
                 updateChartView('membershipType', this);
             });
 
-            function updateChartView(viewType, buttonElement) {
+            // Function to update chart view - made global for access from responsive code
+            window.updateChartView = function(viewType, buttonElement) {
                 // Show loading indicator
                 const chartContainer = buttonElement.closest('.card').querySelector('.chart-container');
                 const loader = chartContainer.querySelector('.chart-loader');
                 if (loader) loader.style.display = 'flex';
 
-                // Update button states
+                // Update button states for the regular button group
                 document.querySelectorAll('#viewMunicipality, #viewIndustry, #viewMembershipType').forEach(btn => {
                     btn.classList.remove('active');
                     btn.classList.remove('btn-primary');
                     btn.classList.add('btn-outline-primary');
                 });
 
-                buttonElement.classList.add('active');
-                buttonElement.classList.add('btn-primary');
-                buttonElement.classList.remove('btn-outline-primary');
+                // If the clicked element is from the button group, update its state
+                if (buttonElement.id === 'viewMunicipality' || buttonElement.id === 'viewIndustry' || buttonElement.id === 'viewMembershipType') {
+                    buttonElement.classList.add('active');
+                    buttonElement.classList.add('btn-primary');
+                    buttonElement.classList.remove('btn-outline-primary');
+                }
 
                 // Simulate loading delay for better UX
                 setTimeout(() => {
@@ -770,13 +554,12 @@
                     // Hide loading indicator
                     if (loader) loader.style.display = 'none';
                 }, 500);
-            }
+            };
         } catch (error) {
             console.error("Error initializing breakdown chart:", error);
             document.getElementById("breakdownBarChart").parentNode.innerHTML =
                 '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
         }
-
 
         // Initialize the pie chart
         try {
@@ -859,432 +642,432 @@
                 });
             });
 
-            // Download chart
-            document.getElementById('downloadPieChart').addEventListener('click', function(e) {
-                e.preventDefault();
-                const canvas = document.getElementById('memberPieChart');
-                const image = canvas.toDataURL('image/png');
-                const link = document.createElement('a');
-                link.download = 'membership-overview.png';
-                link.href = image;
-                link.click();
-            });
 
-        } catch (error) {
-            console.error("Error initializing pie chart:", error);
-            document.getElementById("memberPieChart").parentNode.innerHTML =
-                '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
-        }
 
-        // Dashboard Edit Functionality
-        const editDashboardBtn = document.getElementById('editDashboardBtn');
-        const saveDashboardBtn = document.getElementById('saveDashboardBtn');
-        const cancelEditBtn = document.getElementById('cancelEditBtn');
-        const dashboardEditControls = document.getElementById('dashboardEditControls');
-        const widgetSelector = document.getElementById('widgetSelector');
-        const layoutControls = document.getElementById('layoutControls');
-        const widgets = document.querySelectorAll('.widget');
-        const widgetControls = document.querySelectorAll('.widget-controls');
-        const metricsContainer = document.getElementById('metricsContainer');
-        const chartsContainer = document.getElementById('chartsContainer');
-        const refreshDataBtn = document.getElementById('refreshDataBtn');
-        const applyRefreshBtn = document.getElementById('applyRefreshBtn');
-        const refreshIntervalSelect = document.getElementById('refreshInterval');
 
-        // Layout control elements
-        const layoutStandard = document.getElementById('layoutStandard');
-        const layoutSplit = document.getElementById('layoutSplit');
-        const splitViewOptions = document.getElementById('splitViewOptions');
-        const splitConfigMetricsLeft = document.getElementById('splitConfigMetricsLeft');
-        const splitConfigChartsLeft = document.getElementById('splitConfigChartsLeft');
 
-        // Load saved dashboard configuration
-        loadDashboardConfig();
 
-        // Initialize refresh interval from saved config
-        const savedRefreshInterval = localStorage.getItem('dashboardRefreshInterval');
-        if (savedRefreshInterval) {
-            refreshIntervalSelect.value = savedRefreshInterval;
-            if (parseInt(savedRefreshInterval) > 0) {
-                startAutoRefresh(parseInt(savedRefreshInterval));
-            }
-        }
 
-        // Apply refresh interval
-        applyRefreshBtn.addEventListener('click', function() {
-            const interval = parseInt(refreshIntervalSelect.value);
-            localStorage.setItem('dashboardRefreshInterval', interval);
-
-            // Clear existing interval if any
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
-                refreshInterval = null;
-            }
-
-            // Start new interval if selected
-            if (interval > 0) {
-                startAutoRefresh(interval);
-                showToast('Auto-refresh enabled. Dashboard will refresh every ' +
-                    (interval < 60 ? interval + ' seconds.' : (interval / 60) + ' minutes.'));
-            } else {
-                showToast('Auto-refresh disabled.');
-            }
-        });
-
-        // Manual refresh
-        refreshDataBtn.addEventListener('click', function() {
-            this.disabled = true;
-            this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Refreshing...';
-
-            // Show loading indicators
-            document.querySelectorAll('.chart-loader').forEach(loader => {
-                loader.style.display = 'flex';
-            });
-
-            // Simulate data refresh (in a real app, this would be an AJAX call)
-            setTimeout(function() {
-                // Update last refreshed time
-                document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
-
-                // Hide loading indicators
-                document.querySelectorAll('.chart-loader').forEach(loader => {
-                    loader.style.display = 'none';
+    // Download chart
+                document.getElementById('downloadPieChart').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const canvas = document.getElementById('memberPieChart');
+                    const image = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.download = 'membership-overview.png';
+                    link.href = image;
+                    link.click();
                 });
 
-                // Re-enable refresh button
-                refreshDataBtn.disabled = false;
-                refreshDataBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Data';
-
-                showToast('Dashboard data refreshed successfully!');
-            }, 1500);
-        });
-
-        function startAutoRefresh(seconds) {
-            refreshInterval = setInterval(function() {
-                // Simulate a click on the refresh button
-                refreshDataBtn.click();
-            }, seconds * 1000);
-        }
-
-        function showToast(message) {
-            // Create toast element if it doesn't exist
-            let toastContainer = document.querySelector('.toast-container');
-            if (!toastContainer) {
-                toastContainer = document.createElement('div');
-                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
-                document.body.appendChild(toastContainer);
+            } catch (error) {
+                console.error("Error initializing pie chart:", error);
+                document.getElementById("memberPieChart").parentNode.innerHTML =
+                    '<div class="alert alert-danger">Error initializing chart: ' + error.message + '</div>';
             }
 
-            const toastId = 'toast-' + Date.now();
-            const toastHtml = `
-                <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Dashboard</strong>
-                        <small>Just now</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        ${message}
-                    </div>
-                </div>
-            `;
+            // Dashboard Edit Functionality
+            const editDashboardBtn = document.getElementById('editDashboardBtn');
+            const saveDashboardBtn = document.getElementById('saveDashboardBtn');
+            const cancelEditBtn = document.getElementById('cancelEditBtn');
+            const dashboardEditControls = document.getElementById('dashboardEditControls');
+            const widgetSelector = document.getElementById('widgetSelector');
+            const layoutControls = document.getElementById('layoutControls');
+            const widgets = document.querySelectorAll('.widget');
+            const widgetControls = document.querySelectorAll('.widget-controls');
+            const metricsContainer = document.getElementById('metricsContainer');
+            const chartsContainer = document.getElementById('chartsContainer');
+            const refreshDataBtn = document.getElementById('refreshDataBtn');
+            const applyRefreshBtn = document.getElementById('applyRefreshBtn');
+            const refreshIntervalSelect = document.getElementById('refreshInterval');
 
-            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+            // Layout control elements
+            const layoutStandard = document.getElementById('layoutStandard');
+            const layoutSplit = document.getElementById('layoutSplit');
+            const splitViewOptions = document.getElementById('splitViewOptions');
+            const splitConfigMetricsLeft = document.getElementById('splitConfigMetricsLeft');
+            const splitConfigChartsLeft = document.getElementById('splitConfigChartsLeft');
 
-            // Use Bootstrap's toast functionality if available, otherwise use a simple timeout
-            const toastElement = document.getElementById(toastId);
-            if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
-                const toast = new bootstrap.Toast(toastElement);
-                toast.show();
-            } else {
-                toastElement.style.display = 'block';
-                setTimeout(() => {
-                    toastElement.style.display = 'none';
-                    toastElement.remove();
-                }, 3000);
-            }
-        }
-
-        // Layout Type Radio Change
-        layoutStandard.addEventListener('change', function() {
-            if (this.checked) {
-                splitViewOptions.style.display = 'none';
-                applyStandardLayout();
-            }
-        });
-
-        layoutSplit.addEventListener('change', function() {
-            if (this.checked) {
-                splitViewOptions.style.display = 'block';
-
-                // Force redraw of all widgets before applying split layout
-                document.querySelectorAll('.widget').forEach(widget => {
-                    // Temporarily hide and show to force redraw
-                    const originalDisplay = widget.style.display;
-                    widget.style.display = 'block';
-                    // Force a reflow
-                    void widget.offsetHeight;
-                    // Restore original display
-                    widget.style.display = originalDisplay || '';
-                });
-
-                // Apply split layout with a slight delay to ensure DOM updates
-                setTimeout(() => {
-                    applySplitLayout();
-
-
-
-                   // Additional check to ensure metrics are visible
-                    document.querySelectorAll('.metrics-item .widget').forEach(widget => {
-                        if (widget.style.display !== 'none') {
-                            widget.style.visibility = 'visible';
-                            widget.style.opacity = '1';
-
-                            // Ensure the link and card are visible
-                            const link = widget.querySelector('a');
-                            if (link) {
-                                link.style.visibility = 'visible';
-                                link.style.opacity = '1';
-                                link.style.display = 'block';
-                            }
-
-                            const card = widget.querySelector('.card');
-                            if (card) {
-                                card.style.visibility = 'visible';
-                                card.style.opacity = '1';
-                            }
-                        }
-                    });
-                }, 50);
-            }
-        });
-
-        // Split Config Radio Change
-        splitConfigMetricsLeft.addEventListener('change', function() {
-            if (this.checked) {
-                applySplitLayout('metricsLeft');
-            }
-        });
-
-        splitConfigChartsLeft.addEventListener('change', function() {
-            if (this.checked) {
-                applySplitLayout('chartsLeft');
-            }
-        });
-
-        // Enter edit mode
-        editDashboardBtn.addEventListener('click', function() {
-            enterEditMode();
-        });
-
-        // Save changes
-        saveDashboardBtn.addEventListener('click', function() {
-            saveChanges();
-        });
-
-        // Cancel edit mode
-        cancelEditBtn.addEventListener('click', function() {
-            cancelEdit();
-        });
-
-        // Add event listeners for widget removal buttons
-        document.querySelectorAll('.widget-remove').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                const widget = this.closest('.widget');
-
-                // Add fade-out animation
-                widget.style.opacity = '1';
-                widget.style.transition = 'opacity 0.3s ease';
-                widget.style.opacity = '0';
-
-                setTimeout(() => {
-                    widget.style.display = 'none';
-                    updateLayout();
-                }, 300);
-            });
-        });
-
-        // Add event listeners for widget addition buttons
-        document.querySelectorAll('.add-widget').forEach(button => {
-            button.addEventListener('click', function() {
-                const widgetId = this.getAttribute('data-widget-id');
-                const widget = document.querySelector(`.widget[data-widget-id="${widgetId}"]`);
-                if (widget) {
-                    // Add fade-in animation
-                    widget.style.display = '';
-                    widget.style.opacity = '0';
-                    widget.classList.add('widget-appear');
-
-                    setTimeout(() => {
-                        widget.style.opacity = '1';
-                        updateLayout();
-
-                        // Ensure charts are properly sized after showing
-                        if (widgetId === 'membership-pie' || widgetId === 'municipality-chart') {
-                            setTimeout(function() {
-                                if (pieChart && widgetId === 'membership-pie') pieChart.resize();
-                                if (breakdownChart && widgetId === 'municipality-chart') breakdownChart.resize();
-                            }, 100);
-                        }
-                    }, 10);
-                }
-            });
-        });
-
-        function enterEditMode() {
-            // Show edit controls
-            editDashboardBtn.style.display = 'none';
-            dashboardEditControls.style.display = 'inline-block';
-            widgetSelector.style.display = 'block';
-            layoutControls.style.display = 'block';
-
-            // Show widget controls
-            widgetControls.forEach(control => {
-                control.style.display = 'block';
-            });
-
-            // Add edit styling
-            widgets.forEach(widget => {
-                widget.classList.add('widget-edit-mode');
-            });
-
-            // Disable auto-refresh during edit mode
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
-            }
-        }
-
-        function saveChanges() {
-            // Hide edit controls
-            exitEditMode();
-
-            // Save configuration to localStorage
-            saveDashboardConfig();
-
-            // Update layout based on current settings
-            updateLayout();
-
-            // Restart auto-refresh if enabled
-            const interval = parseInt(refreshIntervalSelect.value);
-            if (interval > 0) {
-                startAutoRefresh(interval);
-            }
-
-            // Show success notification
-            showToast('Dashboard configuration saved successfully!');
-        }
-
-        function cancelEdit() {
-            // Hide edit controls
-            exitEditMode();
-
-            // Revert to saved configuration
+            // Load saved dashboard configuration
             loadDashboardConfig();
 
-            // Restart auto-refresh if enabled
-            const interval = parseInt(refreshIntervalSelect.value);
-            if (interval > 0) {
-                startAutoRefresh(interval);
+            // Initialize refresh interval from saved config
+            const savedRefreshInterval = localStorage.getItem('dashboardRefreshInterval');
+            if (savedRefreshInterval) {
+                refreshIntervalSelect.value = savedRefreshInterval;
+                if (parseInt(savedRefreshInterval) > 0) {
+                    startAutoRefresh(parseInt(savedRefreshInterval));
+                }
             }
-        }
 
-        function exitEditMode() {
-            editDashboardBtn.style.display = 'inline-block';
-            dashboardEditControls.style.display = 'none';
-            widgetSelector.style.display = 'none';
-            layoutControls.style.display = 'none';
+            // Apply refresh interval
+            applyRefreshBtn.addEventListener('click', function() {
+                const interval = parseInt(refreshIntervalSelect.value);
+                localStorage.setItem('dashboardRefreshInterval', interval);
 
-            // Hide widget controls
-            widgetControls.forEach(control => {
-                control.style.display = 'none';
-            });
+                // Clear existing interval if any
+                if (refreshInterval) {
+                    clearInterval(refreshInterval);
+                    refreshInterval = null;
+                }
 
-            // Remove edit styling
-            widgets.forEach(widget => {
-                widget.classList.remove('widget-edit-mode');
-            });
-        }
-
-        function saveDashboardConfig() {
-            const config = {
-                layout: layoutSplit.checked ? 'split' : 'standard',
-                splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
-                widgets: {},
-                darkMode: document.body.classList.contains('dark-mode')
-            };
-
-            widgets.forEach(widget => {
-                const id = widget.getAttribute('data-widget-id');
-                config.widgets[id] = widget.style.display !== 'none';
-            });
-
-            localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
-        }
-
-        function loadDashboardConfig() {
-            const savedConfig = localStorage.getItem('crmDashboardConfig');
-
-            if (savedConfig) {
-                const config = JSON.parse(savedConfig);
-
-                // Set layout type
-                if (config.layout === 'split') {
-                    layoutSplit.checked = true;
-                    splitViewOptions.style.display = 'block';
-
-                    // Set split configuration
-                    if (config.splitConfig === 'chartsLeft') {
-                        splitConfigChartsLeft.checked = true;
-                    } else {
-                        splitConfigMetricsLeft.checked = true;
-                    }
-
-                    applySplitLayout(config.splitConfig);
+                // Start new interval if selected
+                if (interval > 0) {
+                    startAutoRefresh(interval);
+                    showToast('Auto-refresh enabled. Dashboard will refresh every ' +
+                        (interval < 60 ? interval + ' seconds.' : (interval / 60) + ' minutes.'));
                 } else {
-                    layoutStandard.checked = true;
+                    showToast('Auto-refresh disabled.');
+                }
+            });
+
+            // Manual refresh
+            refreshDataBtn.addEventListener('click', function() {
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Refreshing...';
+
+                // Show loading indicators
+                document.querySelectorAll('.chart-loader').forEach(loader => {
+                    loader.style.display = 'flex';
+                });
+
+                // Simulate data refresh (in a real app, this would be an AJAX call)
+                setTimeout(function() {
+                    // Update last refreshed time
+                    document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+
+                    // Hide loading indicators
+                    document.querySelectorAll('.chart-loader').forEach(loader => {
+                        loader.style.display = 'none';
+                    });
+
+                    // Re-enable refresh button
+                    refreshDataBtn.disabled = false;
+                    refreshDataBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh Data';
+
+                    showToast('Dashboard data refreshed successfully!');
+                }, 1500);
+            });
+
+            function startAutoRefresh(seconds) {
+                refreshInterval = setInterval(function() {
+                    // Simulate a click on the refresh button
+                    refreshDataBtn.click();
+                }, seconds * 1000);
+            }
+
+            function showToast(message) {
+                // Create toast element if it doesn't exist
+                let toastContainer = document.querySelector('.toast-container');
+                if (!toastContainer) {
+                    toastContainer = document.createElement('div');
+                    toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                    document.body.appendChild(toastContainer);
+                }
+
+                const toastId = 'toast-' + Date.now();
+                const toastHtml = `
+                    <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto">Dashboard</strong>
+                            <small>Just now</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                    </div>
+                `;
+
+                toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+
+                // Use Bootstrap's toast functionality if available, otherwise use a simple timeout
+                const toastElement = document.getElementById(toastId);
+                if (typeof bootstrap !== 'undefined' && bootstrap.Toast) {
+                    const toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+                } else {
+                    toastElement.style.display = 'block';
+                    setTimeout(() => {
+                        toastElement.style.display = 'none';
+                        toastElement.remove();
+                    }, 3000);
+                }
+            }
+
+            // Layout Type Radio Change
+            layoutStandard.addEventListener('change', function() {
+                if (this.checked) {
+                    splitViewOptions.style.display = 'none';
                     applyStandardLayout();
                 }
+            });
 
-                // Apply widget visibility
-                if (config.widgets) {
-                    widgets.forEach(widget => {
-                        const id = widget.getAttribute('data-widget-id');
-                        if (config.widgets.hasOwnProperty(id)) {
-                            widget.style.display = config.widgets[id] ? '' : 'none';
-                        }
+            layoutSplit.addEventListener('change', function() {
+                if (this.checked) {
+                    splitViewOptions.style.display = 'block';
+
+                    // Force redraw of all widgets before applying split layout
+                    document.querySelectorAll('.widget').forEach(widget => {
+                        // Temporarily hide and show to force redraw
+                        const originalDisplay = widget.style.display;
+                        widget.style.display = 'block';
+                        // Force a reflow
+                        void widget.offsetHeight;
+                        // Restore original display
+                        widget.style.display = originalDisplay || '';
                     });
+
+                    // Apply split layout with a slight delay to ensure DOM updates
+                    setTimeout(() => {
+                        applySplitLayout();
+
+                       // Additional check to ensure metrics are visible
+                        document.querySelectorAll('.metrics-item .widget').forEach(widget => {
+                            if (widget.style.display !== 'none') {
+                                widget.style.visibility = 'visible';
+                                widget.style.opacity = '1';
+
+                                // Ensure the link and card are visible
+                                const link = widget.querySelector('a');
+                                if (link) {
+                                    link.style.visibility = 'visible';
+                                    link.style.opacity = '1';
+                                    link.style.display = 'block';
+                                }
+
+                                const card = widget.querySelector('.card');
+                                if (card) {
+                                    card.style.visibility = 'visible';
+                                    card.style.opacity = '1';
+                                }
+                            }
+                        });
+                    }, 50);
+                }
+            });
+
+            // Split Config Radio Change
+            splitConfigMetricsLeft.addEventListener('change', function() {
+                if (this.checked) {
+                    applySplitLayout('metricsLeft');
+                }
+            });
+
+            splitConfigChartsLeft.addEventListener('change', function() {
+                if (this.checked) {
+                    applySplitLayout('chartsLeft');
+                }
+            });
+
+            // Enter edit mode
+            editDashboardBtn.addEventListener('click', function() {
+                enterEditMode();
+            });
+
+            // Save changes
+            saveDashboardBtn.addEventListener('click', function() {
+                saveChanges();
+            });
+
+            // Cancel edit mode
+            cancelEditBtn.addEventListener('click', function() {
+                cancelEdit();
+            });
+
+            // Add event listeners for widget removal buttons
+            document.querySelectorAll('.widget-remove').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const widget = this.closest('.widget');
+
+                    // Add fade-out animation
+                    widget.style.opacity = '1';
+                    widget.style.transition = 'opacity 0.3s ease';
+                    widget.style.opacity = '0';
+
+                    setTimeout(() => {
+                        widget.style.display = 'none';
+                        updateLayout();
+                    }, 300);
+                });
+            });
+
+            // Add event listeners for widget addition buttons
+            document.querySelectorAll('.add-widget').forEach(button => {
+                button.addEventListener('click', function() {
+                    const widgetId = this.getAttribute('data-widget-id');
+                    const widget = document.querySelector(`.widget[data-widget-id="${widgetId}"]`);
+                    if (widget) {
+                        // Add fade-in animation
+                        widget.style.display = '';
+                        widget.style.opacity = '0';
+                        widget.classList.add('widget-appear');
+
+                        setTimeout(() => {
+                            widget.style.opacity = '1';
+                            updateLayout();
+
+                            // Ensure charts are properly sized after showing
+                            if (widgetId === 'membership-pie' || widgetId === 'municipality-chart') {
+                                setTimeout(function() {
+                                    if (pieChart && widgetId === 'membership-pie') pieChart.resize();
+                                    if (breakdownChart && widgetId === 'municipality-chart') breakdownChart.resize();
+                                }, 100);
+                            }
+                        }, 10);
+                    }
+                });
+            });
+
+            function enterEditMode() {
+                // Show edit controls
+                editDashboardBtn.style.display = 'none';
+                dashboardEditControls.style.display = 'inline-block';
+                widgetSelector.style.display = 'block';
+                layoutControls.style.display = 'block';
+
+                // Show widget controls
+                widgetControls.forEach(control => {
+                    control.style.display = 'block';
+                });
+
+                // Add edit styling
+                widgets.forEach(widget => {
+                    widget.classList.add('widget-edit-mode');
+                });
+
+                // Disable auto-refresh during edit mode
+                if (refreshInterval) {
+                    clearInterval(refreshInterval);
+                }
+            }
+
+            function saveChanges() {
+                // Hide edit controls
+                exitEditMode();
+
+                // Save configuration to localStorage
+                saveDashboardConfig();
+
+                // Update layout based on current settings
+                updateLayout();
+
+                // Restart auto-refresh if enabled
+                const interval = parseInt(refreshIntervalSelect.value);
+                if (interval > 0) {
+                    startAutoRefresh(interval);
                 }
 
-                // Set refresh interval
-                if (config.refreshInterval) {
-                    refreshIntervalSelect.value = config.refreshInterval;
-                }
+                // Show success notification
+                showToast('Dashboard configuration saved successfully!');
+            }
 
-                // Apply dark mode if saved
-                if (config.darkMode) {
-                    applyDarkMode(true);
-                }
-            } else {
-                // Default configuration - standard layout
-                layoutStandard.checked = true;
-                applyStandardLayout();
+            function cancelEdit() {
+                // Hide edit controls
+                exitEditMode();
 
-                // Make sure all metrics are visible
-                document.querySelectorAll('.metrics-item .widget').forEach(widget => {
-                    widget.style.display = '';
+                // Revert to saved configuration
+                loadDashboardConfig();
+
+                // Restart auto-refresh if enabled
+                const interval = parseInt(refreshIntervalSelect.value);
+                if (interval > 0) {
+                    startAutoRefresh(interval);
+                }
+            }
+
+            function exitEditMode() {
+                editDashboardBtn.style.display = 'inline-block';
+                dashboardEditControls.style.display = 'none';
+                widgetSelector.style.display = 'none';
+                layoutControls.style.display = 'none';
+
+                // Hide widget controls
+                widgetControls.forEach(control => {
+                    control.style.display = 'none';
+                });
+
+                // Remove edit styling
+                widgets.forEach(widget => {
+                    widget.classList.remove('widget-edit-mode');
                 });
             }
 
-            // Update layout to handle any empty containers
-            updateLayout();
+            function saveDashboardConfig() {
+                const config = {
+                    layout: layoutSplit.checked ? 'split' : 'standard',
+                    splitConfig: splitConfigChartsLeft.checked ? 'chartsLeft' : 'metricsLeft',
+                    widgets: {}
+                };
 
-            // Apply theme to charts
-            updateChartsTheme();
-        }
+                widgets.forEach(widget => {
+                    const id = widget.getAttribute('data-widget-id');
+                    config.widgets[id] = widget.style.display !== 'none';
+                });
 
-        function applyStandardLayout() {
+                localStorage.setItem('crmDashboardConfig', JSON.stringify(config));
+            }
+
+            function loadDashboardConfig() {
+                const savedConfig = localStorage.getItem('crmDashboardConfig');
+
+                if (savedConfig) {
+                    const config = JSON.parse(savedConfig);
+
+                    // Set layout type
+                    if (config.layout === 'split') {
+                        layoutSplit.checked = true;
+                        splitViewOptions.style.display = 'block';
+
+                        // Set split configuration
+                        if (config.splitConfig === 'chartsLeft') {
+                            splitConfigChartsLeft.checked = true;
+                        } else {
+                            splitConfigMetricsLeft.checked = true;
+                        }
+
+                        applySplitLayout(config.splitConfig);
+                    } else {
+                        layoutStandard.checked = true;
+                        applyStandardLayout();
+                    }
+
+                    // Apply widget visibility
+                    if (config.widgets) {
+                        widgets.forEach(widget => {
+                            const id = widget.getAttribute('data-widget-id');
+                            if (config.widgets.hasOwnProperty(id)) {
+                                widget.style.display = config.widgets[id] ? '' : 'none';
+                            }
+                        });
+                    }
+
+                    // Set refresh interval
+                    if (config.refreshInterval) {
+                        refreshIntervalSelect.value = config.refreshInterval;
+                    }
+                } else {
+                    // Default configuration - standard layout
+                    layoutStandard.checked = true;
+                    applyStandardLayout();
+
+                    // Make sure all metrics are visible
+                    document.querySelectorAll('.metrics-item .widget').forEach(widget => {
+                        widget.style.display = '';
+                    });
+                }
+
+                // Update layout to handle any empty containers
+                updateLayout();
+            }
+
+
+
+
+
+
+                function applyStandardLayout() {
             // Remove any split layout row
             const splitRow = document.getElementById('splitLayoutRow');
             if (splitRow) {
@@ -1332,11 +1115,6 @@
                 if (pieChart) pieChart.resize();
                 if (breakdownChart) breakdownChart.resize();
             }, 100);
-
-            // Re-apply dark mode if enabled
-            if (document.body.classList.contains('dark-mode')) {
-                applyDarkMode(true);
-            }
 
             console.log("Standard layout applied");
         }
@@ -1423,11 +1201,6 @@
                 if (breakdownChart) breakdownChart.resize();
             }, 100);
 
-            // Re-apply dark mode if enabled
-            if (document.body.classList.contains('dark-mode')) {
-                applyDarkMode(true);
-            }
-
             console.log("Split layout applied:", config);
         }
 
@@ -1494,9 +1267,7 @@
             }, 100);
         }
 
-
-
-                // Handle window resize events
+        // Handle window resize events
         let resizeTimer;
         window.addEventListener('resize', function() {
             clearTimeout(resizeTimer);
@@ -1511,6 +1282,9 @@
                     layoutStandard.checked = true;
                     applyStandardLayout();
                 }
+
+                // Update chart view controls for responsive design
+                updateChartViewControls();
             }, 250);
         });
 
@@ -1522,6 +1296,9 @@
                 layoutStandard.checked = true;
                 applyStandardLayout();
             }
+
+            // Update chart view controls for responsive design
+            updateChartViewControls();
         }
 
         // Register the listener
@@ -1595,12 +1372,92 @@
         window.addEventListener('afterprint', function() {
             loadDashboardConfig();
         });
+
+        // Function to check if we're on a mobile device or small screen
+        function isMobileView() {
+            return window.innerWidth < 768;
+        }
+
+        // Function to convert buttons to dropdown for responsive design
+        function updateChartViewControls() {
+            const chartHeader = document.querySelector('.widget[data-widget-id="municipality-chart"] .card-header');
+            if (!chartHeader) return;
+
+            // Get the existing elements
+            const title = chartHeader.querySelector('h5');
+            const btnGroup = chartHeader.querySelector('.btn-group');
+
+            if (isMobileView()) {
+                // If mobile view and dropdown doesn't exist yet
+                if (!chartHeader.querySelector('.dropdown')) {
+                    // Hide button group
+                    if (btnGroup) btnGroup.style.display = 'none';
+
+                    // Create dropdown
+                    const dropdown = document.createElement('div');
+                    dropdown.className = 'dropdown';
+                    dropdown.innerHTML = `
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="chartViewDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            View Options
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="chartViewDropdown">
+                            <a class="dropdown-item active" href="#" id="dropdownMunicipality">By Municipality</a>
+                            <a class="dropdown-item" href="#" id="dropdownIndustry">By Industry</a>
+                            <a class="dropdown-item" href="#" id="dropdownMembershipType">By Membership Type</a>
+                        </div>
+                    `;
+
+                    // Add dropdown after title
+                    title.after(dropdown);
+
+                    // Add event listeners to dropdown items
+                    document.getElementById('dropdownMunicipality').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        updateChartView('municipality', this);
+                        updateDropdownActiveState(this);
+                    });
+
+                    document.getElementById('dropdownIndustry').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        updateChartView('industry', this);
+                        updateDropdownActiveState(this);
+                    });
+
+                    document.getElementById('dropdownMembershipType').addEventListener('click', function(e) {
+                        e.preventDefault();
+                        updateChartView('membershipType', this);
+                        updateDropdownActiveState(this);
+                    });
+                }
+            } else {
+                // If desktop view, show buttons and remove dropdown if it exists
+                if (btnGroup) btnGroup.style.display = '';
+
+                const dropdown = chartHeader.querySelector('.dropdown');
+                if (dropdown) {
+                    dropdown.remove();
+                }
+            }
+        }
+
+        // Helper function to update active state in dropdown
+        function updateDropdownActiveState(clickedItem) {
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            clickedItem.classList.add('active');
+
+            // Update dropdown button text
+            const dropdownButton = document.getElementById('chartViewDropdown');
+            if (dropdownButton) {
+                dropdownButton.textContent = clickedItem.textContent;
+            }
+        }
+
+        // Call initially to set up responsive controls
+        updateChartViewControls();
     });
 </script>
-
-
-
-
 
 
 
