@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(Roles = "Admin")]
     public class ContactController : Controller
     {
         private readonly CRMContext _context;
@@ -25,7 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole)
         {
             // Initialize the queryable contacts dataset
@@ -101,7 +101,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Contact/Details/5
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -420,6 +420,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult TestContacts()
         {
             var allContacts = _context.Contacts
@@ -436,6 +437,7 @@ namespace CRMProject.Controllers
 
         [HttpGet]
         [ActionName("SearchContacts")]
+        [Authorize(Roles = "Admin")]
         public IActionResult SearchContacts(string term)
         {
             System.Diagnostics.Debug.WriteLine($"SearchContacts called with term: {term}");
@@ -491,6 +493,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllContacts(int page = 1, int pageSize = 50)
         {
             try
