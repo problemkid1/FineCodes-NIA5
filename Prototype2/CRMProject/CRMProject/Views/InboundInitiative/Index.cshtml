@@ -31,11 +31,10 @@
 <!-- Custom styles for this template-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<!-- Custom styles for this template-->
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
-
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
+<link href="~/customs/css/style.css" rel="stylesheet">
+@* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
+<link href="~/css/contactstyle.css" rel="stylesheet">
 
 <div class="col-12">
     <div class="card">
@@ -114,9 +113,11 @@
                     </div>
                 </div>
             </div>
+
             <form asp-action="Index" method="get">
                 <partial name="_PagingNavBar" />
             </form>
+
             @section Scripts {
                 <script src="~/js/site.js"></script>
                 <script>

@@ -38,6 +38,92 @@
     <link rel="stylesheet" href="~/theme/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="~/theme/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 </head>
+<!-- Dark Mode Styling -->
+<style>
+    /* Consistent dark mode styling */
+    body.dark-mode {
+        background-color: #1a202c;
+        color: #e0e0e0;
+    }
+
+        body.dark-mode .card {
+            background-color: #2c3e50;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .card-header {
+            background-color: #1e2b38 !important;
+            border-bottom-color: #34495e !important;
+        }
+
+        body.dark-mode .text-gray-1200 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-primary {
+            color: #4e95d3 !important;
+        }
+
+        body.dark-mode .btn-outline-primary {
+            color: #4e95d3;
+            border-color: #4e95d3;
+        }
+
+        body.dark-mode .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        body.dark-mode .btn-outline-secondary {
+            color: #858796;
+            border-color: #858796;
+        }
+
+        body.dark-mode .sidebar {
+            background-color: #1e2b38;
+        }
+
+        body.dark-mode .navbar {
+            background-color: #2c3e50 !important;
+            border-color: #34495e !important;
+        }
+
+        body.dark-mode .navbar-light .navbar-nav .nav-link {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .dropdown-menu {
+            background-color: #2c3e50;
+            color: #e0e0e0;
+            border-color: #34495e;
+        }
+
+        body.dark-mode .dropdown-item {
+            color: #e0e0e0;
+        }
+
+            body.dark-mode .dropdown-item:hover {
+                background-color: #34495e;
+            }
+
+        body.dark-mode .table {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .table-bordered {
+            border-color: #34495e;
+        }
+
+        body.dark-mode .footer {
+            background-color: #2c3e50 !important;
+            color: #e0e0e0;
+        }
+
+    /* Ensure consistent transitions */
+    .card, .card-header, .card-body, .text-gray-1200, .text-primary, .navbar, .sidebar, .dropdown-menu, .table {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+</style>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
@@ -127,64 +213,78 @@
                             <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Contact" ? "text-decoration: underline;" : "");">Contacts</span>
                         </a>
                     </li>
-                    <!-- Nav Item - LAM Contacts -->
-                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "active" : "")">
-                        <a class="nav-link" asp-controller="LAMContact" asp-action="Index">
-                            <i class="bi bi-person-rolodex"></i>
-                            <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "text-decoration: underline;" : "");">LAM Contacts</span>
-                        </a>
-                    </li>
+                    @* <!-- Nav Item - LAM Contacts --> *@
+                    @* <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "active" : "")"> *@
+                    @*     <a class="nav-link" asp-controller="LAMContact" asp-action="Index"> *@
+                    @*         <i class="bi bi-person-rolodex"></i> *@
+                    @*         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "text-decoration: underline;" : "");">LAM Contacts</span> *@
+                    @*     </a> *@
+                    @* </li> *@
 
-                    <!-- Nav Item - Annual Action Items -->
-                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "AnnualActionItem" ? "active" : "")">
-                        <a class="nav-link" asp-controller="AnnualActionItem" asp-action="Index">
-                            <i class="fas fa-fw fa-tasks"></i>
-                            <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "AnnualActionItem" ? "text-decoration: underline;" : "");">Annual Action Items</span>
-                        </a>
-                    </li>
+                    @* <!-- Nav Item - Annual Action Items --> *@
+                    @* <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "AnnualActionItem" ? "active" : "")"> *@
+                    @*     <a class="nav-link" asp-controller="AnnualActionItem" asp-action="Index"> *@
+                    @*         <i class="fas fa-fw fa-tasks"></i> *@
+                    @*         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "AnnualActionItem" ? "text-decoration: underline;" : "");">Annual Action Items</span> *@
+                    @*     </a> *@
+                    @* </li> *@
                
-                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "active" : "")">
-                        <a class="nav-link" asp-controller="BrainDump" asp-action="Index">
-                            <i class="fas fa-lightbulb"></i>
-                            <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "text-decoration: underline;" : "");">Brain Dump</span>
-                        </a>
-                    </li>
-                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "active" : "")">
-                        <a class="nav-link" asp-controller="InboundInitiative" asp-action="Index">
-                            <i class="bi bi-bar-chart-steps"></i>
-                            <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "text-decoration: underline;" : "");">Inbound Initiative</span>
-                        </a>
-                    </li>
-                     <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "active" : "")">
-                    <a class="nav-link" asp-controller="MemberLogin" asp-action="Index">
-                            <i class="bi bi-person-fill-gear"></i>
-                        <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "text-decoration: underline;" : "");">Maintain Users</span>
-                    </a>
-                </li>
+                    @* <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "active" : "")"> *@
+                    @*     <a class="nav-link" asp-controller="BrainDump" asp-action="Index"> *@
+                    @*         <i class="fas fa-lightbulb"></i> *@
+                    @*         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "text-decoration: underline;" : "");">Brain Dump</span> *@
+                    @*     </a> *@
+                    @* </li> *@
+                    @* <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "active" : "")"> *@
+                    @*     <a class="nav-link" asp-controller="InboundInitiative" asp-action="Index"> *@
+                    @*         <i class="bi bi-bar-chart-steps"></i> *@
+                    @*         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "text-decoration: underline;" : "");">Inbound Initiative</span> *@
+                    @*     </a> *@
+                    @* </li> *@
+                @*      <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "active" : "")"> *@
+                @*     <a class="nav-link" asp-controller="MemberLogin" asp-action="Index"> *@
+                @*             <i class="bi bi-person-fill-gear"></i> *@
+                @*         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "text-decoration: underline;" : "");">Maintain Users</span> *@
+                @*     </a> *@
+                @* </li> *@
                 }
 
 
 
-            @* <!-- Nav Item - Pages Collapse Menu --> *@
-            @* <li class="nav-item"> *@
-            @*     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" *@
-            @*        aria-expanded="true" aria-controls="collapsePages"> *@
-            @*         <i class="fas fa-fw fa-folder"></i> *@
-            @*         <span>Pages</span> *@
-            @*     </a> *@
-            @*     <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar"> *@
-            @*         <div class="bg-white py-2 collapse-inner rounded"> *@
-            @*             <h6 class="collapse-header">Login Screens:</h6> *@
-            @*             <a class="collapse-item" href="login.html">Login</a> *@
-            @*             <a class="collapse-item" href="register.html">Register</a> *@
-            @*             <a class="collapse-item" href="forgot-password.html">Forgot Password</a> *@
-            @*             <div class="collapse-divider"></div> *@
-            @*             <h6 class="collapse-header">Other Pages:</h6> *@
-            @*             <a class="collapse-item" href="404.html">404 Page</a> *@
-            @*             <a class="collapse-item" href="blank.html">Blank Page</a> *@
-            @*         </div> *@
-            @*     </div> *@
-            @* </li> *@
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                       aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Add-Ons</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">LAM System:</h6>
+
+                            <a class="collapse-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "LAMContact" ? "active" : "")"
+                               asp-controller="LAMContact" asp-action="Index">
+                                <i class="bi bi-person-rolodex"></i> LAM Contacts
+                            </a>
+
+                            <a class="collapse-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "AnnualActionItem" ? "active" : "")"
+                               asp-controller="AnnualActionItem" asp-action="Index">
+                                <i class="fas fa-fw fa-tasks"></i> Annual Action Items
+                            </a>
+
+                            <a class="collapse-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "BrainDump" ? "active" : "")"
+                               asp-controller="BrainDump" asp-action="Index">
+                                <i class="fas fa-lightbulb"></i> Brain Dump
+                            </a>
+
+                            <a class="collapse-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "InboundInitiative" ? "active" : "")"
+                               asp-controller="InboundInitiative" asp-action="Index">
+                                <i class="bi bi-bar-chart-steps"></i> Inbound Initiative
+                            </a>
+                        </div>
+                    </div>
+                </li>
+
 
 
 
@@ -253,6 +353,15 @@
                         @*         </form> *@
                         @*     </div> *@
                         @* </li> *@
+
+                        <!-- Dark Mode Toggle -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <button id="layoutThemeToggle" class="btn btn-link nav-link">
+                                <i class="fas fa-moon fa-fw"></i>
+                            </button>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -335,9 +444,12 @@
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                      aria-labelledby="userDropdown">
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                        Profile
+                                    <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLogin" ? "active" : "")"
+                                       asp-controller="MemberLogin" asp-action="Index">
+                                        <i class="bi bi-person-fill-gear"></i>
+                                        <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLogin" ? "text-decoration: underline;" : "");">
+                                            Maintain Users
+                                        </span>
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -347,6 +459,7 @@
                                         </button>
                                     </form>
                                 </div>
+
                             }
                             else
                             {
@@ -478,92 +591,46 @@
             setInterval(updatePageTitle, 1000); // Update title every second
             updatePageTitle(); // Set title immediately on page load
 
-            // Initialize DataTable with enhanced export options
-            var table = $("#example1").DataTable({
+            $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
+
                 "paging": false,
                 "info": false,
                 "dom": 'Bfrtip', // Positions the buttons at the top
+
                 "buttons": [
-                    // Add Column Visibility button first
-                    {
-                        extend: 'colvis',
-                        text: 'Select Columns',
-                        className: 'btn-primary',
-                        postfixButtons: ['colvisRestore'],
-                        collectionLayout: 'fixed two-column'
-                    },
-                    // Export buttons that respect column visibility
                     {
                         extend: "copy",
-                        text: 'Copy Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: function(idx, data, node) {
-                                // Include all visible columns except the last one (typically Actions)
-                                return $(node).is(':visible') &&
-                                       table.column(idx).index() !== table.columns().nodes().length - 1;
-                            },
-                            orthogonal: 'export'
+                            columns: ':not(:last-child)' // Exclude last column (Actions)
                         }
                     },
                     {
                         extend: "excel",
-                        text: 'Excel Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: function(idx, data, node) {
-                                return $(node).is(':visible') &&
-                                       table.column(idx).index() !== table.columns().nodes().length - 1;
-                            },
-                            orthogonal: 'export'
+                            columns: ':not(:last-child)'
                         }
                     },
                     {
                         extend: "pdf",
-                        text: 'PDF Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: function(idx, data, node) {
-                                return $(node).is(':visible') &&
-                                       table.column(idx).index() !== table.columns().nodes().length - 1;
-                            },
-                            orthogonal: 'export'
+                            columns: ':not(:last-child)'
                         }
                     },
                     {
                         extend: "print",
-                        text: 'Print Selected',
                         title: function () { return pageTitle + " - " + getFormattedDateTime(); },
                         exportOptions: {
-                            columns: function(idx, data, node) {
-                                return $(node).is(':visible') &&
-                                       table.column(idx).index() !== table.columns().nodes().length - 1;
-                            },
-                            orthogonal: 'export'
-                        }
-                    }
-                ],
-                // Add this to ensure proper column data is used for export
-                "columnDefs": [
-                    {
-                        "targets": "_all",
-                        "render": function(data, type, row, meta) {
-                            // For export, use the raw data
-                            if (type === 'export') {
-                                return data;
-                            }
-                            // Otherwise use the default rendering
-                            return data;
+                            columns: ':not(:last-child)'
                         }
                     }
                 ]
-            });
-
-            // Move buttons to the proper container
-            table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             $('#example2').DataTable({
                 "paging": true,
@@ -575,10 +642,6 @@
                 "responsive": true,
             });
         });
-
-
-
-
 
         // $(document).ready(function() {
         //     Scroll to top button appearance
@@ -637,6 +700,57 @@
 
     </script>
 
+    <script>
+                document.addEventListener("DOMContentLoaded", function() {
+            // Dark mode toggle functionality
+            const layoutThemeToggle = document.getElementById('layoutThemeToggle');
+
+            // Check for saved theme preference - MODIFY THIS PART
+            const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
+
+            // Only apply dark mode if explicitly set to true, otherwise default to light mode
+            if (darkModeEnabled) {
+                applyDarkMode(true);
+            } else {
+                // Ensure light mode is the default by explicitly setting it
+                localStorage.setItem('darkModeEnabled', 'false');
+                applyDarkMode(false);
+            }
+
+            // Toggle dark mode when button is clicked
+            if (layoutThemeToggle) {
+                layoutThemeToggle.addEventListener('click', function() {
+                    const isDarkMode = !document.body.classList.contains('dark-mode');
+                    localStorage.setItem('darkModeEnabled', isDarkMode);
+                    applyDarkMode(isDarkMode);
+                });
+            }
+
+            // Function to apply dark mode
+            function applyDarkMode(isDarkMode) {
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    if (layoutThemeToggle) {
+                        layoutThemeToggle.querySelector('i').classList.remove('fa-moon');
+                        layoutThemeToggle.querySelector('i').classList.add('fa-sun');
+                    }
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    if (layoutThemeToggle) {
+                        layoutThemeToggle.querySelector('i').classList.remove('fa-sun');
+                        layoutThemeToggle.querySelector('i').classList.add('fa-moon');
+                    }
+                }
+
+                // Dispatch an event so other pages can respond to theme changes
+                const themeChangeEvent = new CustomEvent('themeChange', {
+                    detail: { darkMode: isDarkMode }
+                });
+                document.dispatchEvent(themeChangeEvent);
+            }
+        });
+
+    </script>
 
 
 
