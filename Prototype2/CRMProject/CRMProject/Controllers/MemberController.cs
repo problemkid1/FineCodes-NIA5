@@ -29,11 +29,13 @@ namespace CRMProject.Controllers
             int? MemberSize, int? page, int? pageSizeID, MemberStatus? MemberStatus,
             string? MembershipTypeName, string? IndustryName, DateTime StartDate, DateTime EndDate)
         {
+            bool userProvidedDateFilter = StartDate != DateTime.MinValue || EndDate != DateTime.MinValue;
             // Set date range if not specified
             if (EndDate == DateTime.MinValue)
             {
                 StartDate = _context.Members.Min(m => m.MemberStartDate).Date;
                 EndDate = _context.Members.Max(m => m.MemberStartDate).Date;
+                userProvidedDateFilter = false;
             }
 
             if (EndDate < StartDate)
@@ -120,7 +122,11 @@ namespace CRMProject.Controllers
                 members = members.Where(m => m.MemberIndustries.Any(mi => mi.Industry.IndustrySector.ToLower() == IndustryName.ToLower()));
                 numberFilters++;
             }
-
+            //Filter by Date
+            if (userProvidedDateFilter)
+            {
+                numberFilters++;
+            }
             // Feedback for applied filters
             if (numberFilters != 0)
             {

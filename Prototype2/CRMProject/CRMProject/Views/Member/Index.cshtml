@@ -291,7 +291,7 @@
                                     @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberSize)</th> *@
                                     @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
-                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStatus)</th>
+                                    @* <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStatus)</th> *@
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
@@ -384,9 +384,9 @@
                                                 }
                                             </td>
 
-                                            <td style="min-width: 150px;">
+                                            @* <td style="min-width: 150px;">
                                                 @Html.DisplayFor(modelItem => item.MemberStatus)
-                                            </td>
+                                            </td> *@
                                             <!-- For Memberships cell -->
                                             <td style="min-width: 150px;">
                                                 @if (item.MemberMembershipTypes != null && item.MemberMembershipTypes.Any())

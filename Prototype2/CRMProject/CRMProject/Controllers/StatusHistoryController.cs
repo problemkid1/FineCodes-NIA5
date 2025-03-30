@@ -25,7 +25,7 @@ namespace CRMProject.Controllers
 
         // GET: StatusHistory
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index(string? SearchString, DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate)
+        public async Task<IActionResult> Index(string? SearchString, DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate, int? page, int? pageSizeID)
         {
 
             //If first time loading the page, set date range to the current date
@@ -124,8 +124,12 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-            // Return the filtered list of status histories with associated Member data
-            return View(await statusHistories.ToListAsync());
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<StatusHistory>.CreateAsync(statusHistories.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 
