@@ -14,7 +14,7 @@ using CRMProject.Data.CRMMigrations;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class OpportunityController : Controller
     {
         private readonly CRMContext _context;
@@ -26,7 +26,7 @@ namespace CRMProject.Controllers
 
         // GET: Opportunity
         [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index(string? OpportunityName, OpportunityStatus? OpportunityStatus, string? OpportunityPriority)
+        public async Task<IActionResult> Index(string? OpportunityName, OpportunityStatus? OpportunityStatus, string? OpportunityPriority, int? page, int? pageSizeID)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -79,7 +79,12 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-            return View(await opportunities.ToListAsync());
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Opportunity>.CreateAsync(opportunities.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 

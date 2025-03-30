@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class InboundInitiativeController : Controller
     {
         private readonly CRMContext _context;
@@ -20,17 +22,21 @@ namespace CRMProject.Controllers
         }
 
         // GET: InboundInitiative
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, int? pageSizeID)
         {
             var breadcrumbs = new List<BreadcrumbItem>
             {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Inbound Initiatives", Url = "/InboundInitiative/Index", IsActive = true }
             };
-
+            var inboundInitiatives = _context.InboundInitiatives.AsNoTracking();
             ViewData["Breadcrumbs"] = breadcrumbs;
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<InboundInitiative>.CreateAsync(inboundInitiatives.AsNoTracking(), page ?? 1, pageSize);
 
-            return View(await _context.InboundInitiatives.ToListAsync());
+            return View(pagedData);
         }
 
         // GET: InboundInitiative/Details/5
