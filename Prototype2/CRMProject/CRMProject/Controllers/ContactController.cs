@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(Roles = "Admin")]
     public class ContactController : Controller
     {
         private readonly CRMContext _context;
@@ -25,8 +25,10 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole)
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole, int? page, int? pageSizeID)
+
         {
             // Initialize the queryable contacts dataset
             var contacts = _context.Contacts
@@ -95,13 +97,17 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
-            // Execute the query and pass the results to the view
-            return View(await contacts.ToListAsync());
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Contact>.CreateAsync(contacts.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 
         // GET: Contact/Details/5
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -420,6 +426,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult TestContacts()
         {
             var allContacts = _context.Contacts
@@ -436,6 +443,7 @@ namespace CRMProject.Controllers
 
         [HttpGet]
         [ActionName("SearchContacts")]
+        [Authorize(Roles = "Admin")]
         public IActionResult SearchContacts(string term)
         {
             System.Diagnostics.Debug.WriteLine($"SearchContacts called with term: {term}");
@@ -491,6 +499,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllContacts(int page = 1, int pageSize = 50)
         {
             try

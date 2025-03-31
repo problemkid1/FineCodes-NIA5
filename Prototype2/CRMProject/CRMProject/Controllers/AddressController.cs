@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AddressController : Controller
     {
         private readonly CRMContext _context;
@@ -29,7 +29,8 @@ namespace CRMProject.Controllers
             MemberStatus? memberStatus,
             string? memberSize,
             string? searchString,
-            string? membershipTypeName)
+            string? membershipTypeName,
+            int? page, int? pageSizeID)
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -106,7 +107,13 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-            return View(await addresses.ToListAsync());
+
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Address>.CreateAsync(addresses.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
     
 
