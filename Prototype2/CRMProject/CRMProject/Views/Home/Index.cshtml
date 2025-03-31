@@ -53,24 +53,28 @@
     .card, .card-header, .card-body, .text-gray-1200, .text-primary {
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
+
+    /* Heading styles to maintain visual appearance while using proper hierarchy */
+    .h5-style {
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .h6-style {
+        font-size: 0.7rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
 </style>
 
 <div class="container-fluid" id="dashboardContainer">
-    <!-- Theme Toggle -->
-    @* <div class="mb-3 text-right"> *@
-
-    @* </div> *@
-
     <!-- Page Heading with Edit Controls -->
-
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         @if (User.IsInRole("Admin"))
         {
             <div class="dashboard-controls">
-                @* <button id="themeToggle" class="btn btn-outline-secondary mr-2"> *@
-                @*     <i class="fas fa-moon mr-1"></i> <span class="theme-label">Dark Mode</span> *@
-                @* </button> *@
                 <button id="editDashboardBtn" class="btn btn-primary">
                     <i class="fas fa-edit mr-1"></i> Edit Dashboard
                 </button>
@@ -87,13 +91,10 @@
         }
     </div>
 
-
-
-
     <!-- Layout Controls - Only visible in edit mode -->
     <div id="layoutControls" class="card shadow mb-4" style="display: none;">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Dashboard Layout</h6>
+            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Dashboard Layout</h2>
         </div>
         <div class="card-body">
             <div class="row">
@@ -163,15 +164,12 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>Total Members</h5>
+                                            <h2 class="h5-style">Total Members</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["MemberCount"]">@ViewData["MemberCount"]</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     @* <i class="fas fa-users fa-2x text-gray-300"></i> *@ 
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -191,15 +189,12 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>Industries</h5>
+                                            <h2 class="h5-style">Industries</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["IndustryCount"]">@ViewData["IndustryCount"]</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     <i class="fas fa-industry fa-2x text-gray-300"></i> *@
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -219,15 +214,12 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>Cancellations</h5>
+                                            <h2 class="h5-style">Cancellations</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["CancellationCount"]">@ViewData["CancellationCount"]</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     <i class="fas fa-ban fa-2x text-gray-300"></i> *@
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -247,15 +239,12 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>New Members (@DateTime.Now.Year)</h5>
+                                            <h2 class="h5-style">New Members (@DateTime.Now.Year)</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@newMemberCount">@newMemberCount</span>
                                         </div>
                                     </div>
-                                    @* <div class="col-auto"> *@
-                                    @*     <i class="fas fa-user-plus fa-2x text-gray-300"></i> *@
-                                    @* </div> *@
                                 </div>
                             </div>
                         </div>
@@ -263,7 +252,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Container for charts -->
         <div id="chartsContainer" class="row">
@@ -275,7 +263,7 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Member Breakdown</h5>
+                            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Member Breakdown</h2>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Chart view options">
                                 <button type="button" class="btn btn-primary active" id="viewMunicipality">By Municipality</button>
                                 <button type="button" class="btn btn-outline-primary" id="viewIndustry">By Industry</button>
@@ -304,7 +292,7 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Members Status Overview</h5>
+                            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Members Status Overview</h2>
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="pieChartOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -1597,24 +1585,6 @@
         });
     });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
