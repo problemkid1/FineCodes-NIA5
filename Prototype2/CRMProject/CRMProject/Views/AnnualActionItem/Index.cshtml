@@ -30,7 +30,6 @@
 
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
-@* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 <link href="~/css/contactstyle.css" rel="stylesheet">
 
 <!-- Custom styles for this template-->
@@ -39,11 +38,6 @@
 <!-- DataTables CSS -->
 <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css" rel="stylesheet">
 
-
-<!-- Custom styles for this template-->
-@* <link href="~/customs/css/style.css" rel="stylesheet"> *@
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
-
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 
 <!-- Main Card Layout -->
@@ -51,7 +45,7 @@
     <div class="card shadow">
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h2 class="h2 mb-0 text-gray-1400">Annual Action Items</h2>
+                <h1 style="font-size: 1.75rem;" class="mb-0 text-gray-1400">Annual Action Items</h1>
                 <a asp-action="Create" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus"></i> Add Action Item
                 </a>
@@ -59,6 +53,7 @@
 
             <div class="card">
                 <div class="card-body">
+                    <h2 style="font-size: 1.5rem;">Action Items List</h2>
                     <table id="actionItemsTable" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
@@ -129,5 +124,4 @@
             });
         });
     </script>
-
-            }
+}
