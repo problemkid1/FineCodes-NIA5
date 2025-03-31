@@ -5,6 +5,7 @@
 
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
+<link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
@@ -238,9 +239,10 @@
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h5 class="m-0 font-weight-bold text-primary">Members Status Overview</h5>
                             <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="pieChartOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-toggle" href="#" role="button" id="pieChartOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block; width: 100%;" aria-label="Pie Chart Options">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                 </a>
+
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="pieChartOptions">
                                     <div class="dropdown-header">Chart Options:</div>
                                     <a class="dropdown-item chart-type" href="#" data-type="doughnut">Doughnut Chart</a>
@@ -308,9 +310,9 @@
 
         <!-- Last updated info -->
         <div class="text-right mt-3 mb-4">
-            <small class="text-muted">
-                Last updated: <span id="lastUpdated">@DateTime.Now.ToString("MMM dd, yyyy HH:mm:ss")</span>
-                <button id="refreshDataBtn" class="btn btn-sm btn-outline-primary ml-2">
+            <small class="text-muted" style="color: #4a5568; background-color: rgb(248, 249, 252);">
+                Last updated: <span id="lastUpdated" style="color: #4a5568; background-color: rgb(248, 249, 252);">@DateTime.Now.ToString("MMM dd, yyyy HH:mm:ss")</span>
+                <button id="refreshDataBtn" class="btn btn-sm btn-outline-primary ml-2" style="color: #2b6cb0; border-color: #2b6cb0;">
                     <i class="fas fa-sync-alt"></i> Refresh Data
                 </button>
             </small>
