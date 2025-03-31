@@ -295,10 +295,13 @@
                                                         <i class="bi bi-search"></i>
                                                     </a>
                                                 }
+                                                else
+                                                {
                                                 <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
                                                    role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
                                                     <i class="bi bi-search"></i>
                                                 </a>
+                                                }
                                             </div>
                                         </td>
                                     </tr>

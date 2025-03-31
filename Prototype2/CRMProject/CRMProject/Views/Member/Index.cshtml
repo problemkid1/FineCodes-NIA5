@@ -70,11 +70,7 @@
                         <i class="fas fa-plus"></i> Add Member
                     </a>
                 }
-            </div>
-            <!-- Add this button near the top of your Member/Index.cshtml -->
-            <button id="exportButton" class="btn btn-success">
-                <i class="fas fa-file-excel"></i> Export to Excel
-            </button>
+            </div>            
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
@@ -280,7 +276,14 @@
             <!-- Include the partial view for the modal -->
             <partial name="ExportModal" /> *@
 
+            <!-- Add this button near the top of your Member/Index.cshtml -->
+            
+
             <div class="card">
+                <div>
+                    <button id="exportButton" class="btn btn-primary" style="margin:15px 0px 0px 20px">Customized Export
+                </button>
+                </div>
                 <!-- Table Section -->
                 <div class="card-body">
                     <div class="table-responsive">
