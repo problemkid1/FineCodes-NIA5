@@ -293,7 +293,10 @@
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                    <!-- For the sidebar toggle button -->
+                    <button class="rounded-circle border-0" id="sidebarToggle"
+                            title="Toggle Sidebar" aria-label="Toggle Sidebar">
+                    </button>
             </div>
         </ul>
         <!-- End of Sidebar -->
@@ -307,8 +310,9 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-1 static-top shadow">
                     @*mb-4*@
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <!-- For the top sidebar toggle button -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"
+                            title="Toggle Sidebar" aria-label="Toggle Sidebar">
                         <i class="fa fa-bars"></i>
                     </button>
 
@@ -364,35 +368,34 @@
                         @* <div class="topbar-divider d-none d-sm-block"></div> *@
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter"></span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                @* <a class="dropdown-item d-flex align-items-center" href="#"> *@
-                                @*     <div class="mr-3"> *@
-                                @*         <div class="icon-circle bg-primary"> *@
-                                @*             <i class="fas fa-file-alt text-white"></i> *@
-                                @*         </div> *@
-                                @*     </div> *@
-                                @*     <div> *@
-                                @*         <div class="small text-gray-500">December 12, 2019</div> *@
-                                @*         <span class="font-weight-bold">A new monthly report is ready to download!</span> *@
-                                @*     </div> *@
-                                @* </a> *@
+                        @* <li class="nav-item dropdown no-arrow mx-1"> *@
+                        @*     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Alerts"> *@
+                        @*         <i class="fas fa-bell fa-fw"></i> *@
+                        @*         <span class="badge badge-danger badge-counter">3+</span> <!-- Example of meaningful content --> *@
+                        @*     </a> *@
+
+                        @*     <!-- Dropdown - Alerts --> *@
+                        @*     <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" *@
+                        @*          aria-labelledby="alertsDropdown"> *@
+                        @*         <h6 class="dropdown-header"> *@
+                        @*             Alerts Center *@
+                        @*         </h6> *@
+                        @*         <a class="dropdown-item d-flex align-items-center" href="#">  *@
+                        @*              <div class="mr-3">  *@
+                        @*                  <div class="icon-circle bg-primary">  *@
+                        @*                     <i class="fas fa-file-alt text-white"></i>  *@
+                        @*                  </div>  *@
+                        @*              </div>  *@
+                        @*              <div>  *@
+                        @*                  <div class="small text-gray-500">December 12, 2019</div>  *@
+                        @*                  <span class="font-weight-bold">A new monthly report is ready to download!</span>  *@
+                        @*             </div>  *@
+                        @*          </a> *@
 
 
-                                <a class="dropdown-item text-center small text-gray-500" href="#">No Alerts for now..</a>
-                            </div>
-                        </li>
+                        @*         <a class="dropdown-item text-center small text-gray-500" href="#">No Alerts for now..</a> *@
+                        @*     </div> *@
+                        @* </li> *@
 
                         <!-- Nav Item - Messages -->
                         @* <li class="nav-item dropdown no-arrow mx-1"> *@
@@ -438,8 +441,10 @@
                             {
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
-                                    <img class="img-profile rounded-circle" src="~/theme/img/undraw_profile.svg">
+                                    <span class="mr-2 d-none d-lg-inline text-dark small">
+                                        @User.Identity.Name
+                                    </span>
+                                    <img class="img-profile rounded-circle" src="~/theme/img/undraw_profile.svg" alt="Profile Logo">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -498,7 +503,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; CRM Management @DateOnly.FromDateTime(DateTime.Today) </span>
+                        <span class="text-dark">Copyright &copy; CRM Management @DateOnly.FromDateTime(DateTime.Today)</span>
                     </div>
                 </div>
             </footer>
@@ -510,9 +515,10 @@
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+    <a class="scroll-to-top rounded" href="#page-top" aria-label="Scroll to top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
 
     <!-- Logout Modal-->
     @* <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" *@
@@ -571,7 +577,58 @@
     <script src="~/theme/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="~/theme/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="~/theme/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- For breadcrumb links, add this to the head section of _Layout.cshtml -->
+    <style>
+        /* Improve contrast for breadcrumb links */
+        .breadcrumb-item a {
+            color: #2c5282 !important; /* Darker blue */
+            font-weight: 500;
+        }
+
+        /* Improve contrast for active breadcrumb item */
+        .breadcrumb-item.active {
+            color: #1a365d !important; /* Very dark blue */
+            font-weight: 600;
+        }
+
+        /* Improve contrast for text-muted elements */
+        .text-muted {
+            color: #4a5568 !important; /* Darker gray */
+        }
+
+        /* Improve contrast for refresh button */
+        .btn-outline-primary {
+            color: #2b6cb0 !important;
+            border-color: #2b6cb0 !important;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: #2b6cb0 !important;
+                color: white !important;
+            }
+    </style>
+
     <script>
+                // Add this to your JavaScript
+        function enableHighContrast() {
+            document.body.classList.add('high-contrast-mode');
+            localStorage.setItem('highContrastMode', 'true');
+        }
+
+        function disableHighContrast() {
+            document.body.classList.remove('high-contrast-mode');
+            localStorage.setItem('highContrastMode', 'false');
+        }
+
+        // Check user preference
+        if (localStorage.getItem('highContrastMode') === 'true') {
+            enableHighContrast();
+        }
+
+                $(function () {
+          $('[data-toggle="tooltip"]').tooltip();
+        });
+
                 $(function () {
             var pageTitle = '@ViewData["Title"]'; // Get the current page title
 

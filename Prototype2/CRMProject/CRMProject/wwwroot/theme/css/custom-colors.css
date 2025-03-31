@@ -17,6 +17,38 @@
     vertical-align: middle;
 }
 
+
+/* Improve contrast for breadcrumb links */
+.breadcrumb-item a {
+    color: #2c5282 !important; /* Darker blue */
+    font-weight: 500;
+}
+
+/* Improve contrast for active breadcrumb item */
+.breadcrumb-item.active {
+    color: #1a365d !important; /* Very dark blue */
+    font-weight: 600;
+}
+
+/* Improve contrast for text-muted elements */
+.text-muted {
+    color: #4a5568 !important; /* Darker gray */
+}
+
+/* Improve contrast for refresh button */
+.btn-outline-primary {
+    color: #2b6cb0 !important;
+    border-color: #2b6cb0 !important;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #2b6cb0 !important;
+        color: white !important;
+    }
+
+
+
+
 /*.breadcrumb {
     background-color: #f8f9fc;
     border-radius: 0.35rem;
@@ -692,6 +724,39 @@ select.form-check-input:focus::-ms-value {
 */
 
 
+
+.text-gray-600 {
+    color: #5a5c69 !important; /* Darker gray for better contrast */
+}
+
+
+.breadcrumb-item, .breadcrumb-item.active {
+    color: #495057 !important; /* Darker color for breadcrumbs */
+}
+
+
+footer .copyright {
+    color: #495057 !important;
+}
+
+/* For small muted text */
+.text-muted {
+    color: #6c757d !important; /* Bootstrap's default, but ensure it's dark enough */
+}
+
+
+/* High contrast mode styles */
+body.high-contrast-mode {
+    background-color: white;
+    color: black;
+}
+
+    body.high-contrast-mode .text-gray-600,
+    body.high-contrast-mode .text-muted,
+    body.high-contrast-mode .breadcrumb-item,
+    body.high-contrast-mode footer .copyright {
+        color: black !important;
+    }
 
 
 .input-group-text {
