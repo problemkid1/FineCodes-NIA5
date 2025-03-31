@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class IndustryController : Controller
     {
         private readonly CRMContext _context;
@@ -24,8 +24,9 @@ namespace CRMProject.Controllers
         }
 
         // GET: Industry
-        [Authorize(Roles = "Admin, User")]
-        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode )
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index(string? IndustrySector, string? IndustrySubsector, string? IndustryNAICSCode, int? page, int? pageSizeID)
+
         {
             // Count the number of filters applied - start by assuming no filters
             ViewData["Filtering"] = "btn-outline-secondary";
@@ -75,14 +76,18 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
-            // Return the filtered list of industries with the related MemberIndustries and Member data
-            return View(await industries.ToListAsync());
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<Industry>.CreateAsync(industries.AsNoTracking(), page ?? 1, pageSize);
+
+            return View(pagedData);
         }
 
 
 
         // GET: Industry/Details/5
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -443,6 +448,7 @@ namespace CRMProject.Controllers
         // Add these methods to your IndustryController class
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public JsonResult SearchIndustries(string term)
         {
             var industries = _context.Industries
@@ -461,6 +467,7 @@ namespace CRMProject.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public JsonResult GetAllIndustries()
         {
             var industries = _context.Industries

@@ -1163,7 +1163,7 @@ namespace CRMProject.Data
                          {
                              FirstName = "Jordan",
                              LastName = "Sherlock",
-                             Phone = "",
+                             Phone = "1234567891",
                              Email = "admin@outlook.com",
                              Active = true
                          },

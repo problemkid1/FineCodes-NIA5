@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CRMProject.Data;
 using CRMProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class LAMContactController : Controller
     {
         private readonly CRMContext _context;
@@ -20,7 +22,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: LAMContact
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( int? page, int? pageSizeID)
         {
             var cRMContext = _context.LAMContacts.Include(l => l.Contact);
 
@@ -31,8 +33,12 @@ namespace CRMProject.Controllers
             };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+            // Handle Paging
+            int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
+            ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);
+            var pagedData = await PaginatedList<LAMContact>.CreateAsync(cRMContext.AsNoTracking(), page ?? 1, pageSize);
 
-            return View(await cRMContext.ToListAsync());
+            return View(pagedData);
 
 
         }

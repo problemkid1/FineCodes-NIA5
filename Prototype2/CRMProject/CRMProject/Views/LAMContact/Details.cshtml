@@ -67,7 +67,7 @@
                 <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
                     @if (Model.Contact != null)
                     {
-                        @Model.Contact.FirstName @Model.Contact.LastName
+                        @($"{Model.Contact.FirstName} {Model.Contact.LastName}")
                     }
                     else
                     {

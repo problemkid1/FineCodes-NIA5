@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
+
 <!-- Add responsive styles for dashboard -->
 <style type="text/css">
     @@media (min-width: 768px) and (max-width: 1200px) {
@@ -29,6 +30,67 @@
             font-size: 0.8rem;
             padding: 0.25rem 0.5rem;
         }
+    }
+</style>
+
+
+<!-- Add consistent dark mode styling -->
+<style>
+    /* Consistent dark mode styling */
+    body.dark-mode {
+        background-color: #1a202c;
+        color: #e0e0e0;
+    }
+
+        body.dark-mode .card {
+            background-color: #2c3e50;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .card-header {
+            background-color: #1e2b38 !important;
+            border-bottom-color: #34495e !important;
+        }
+
+        body.dark-mode .text-gray-1200 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-primary {
+            color: #4e95d3 !important;
+        }
+
+        body.dark-mode .btn-outline-primary {
+            color: #4e95d3;
+            border-color: #4e95d3;
+        }
+
+        body.dark-mode .btn-primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+        }
+
+        body.dark-mode .btn-outline-secondary {
+            color: #858796;
+            border-color: #858796;
+        }
+
+    /* Ensure consistent transitions */
+    .card, .card-header, .card-body, .text-gray-1200, .text-primary {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Heading styles to maintain visual appearance while using proper hierarchy */
+    .h5-style {
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .h6-style {
+        font-size: 0.7rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
     }
 </style>
 
@@ -59,7 +121,7 @@
     <!-- Layout Controls - Only visible in edit mode -->
     <div id="layoutControls" class="card shadow mb-4" style="display: none;">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Dashboard Layout</h6>
+            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Dashboard Layout</h2>
         </div>
         <div class="card-body">
             <div class="row">
@@ -129,7 +191,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>Total Members</h5>
+                                            <h2 class="h5-style">Total Members</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["MemberCount"]">@ViewData["MemberCount"]</span>
@@ -154,7 +216,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>Industries</h5>
+                                            <h2 class="h5-style">Industries</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["IndustryCount"]">@ViewData["IndustryCount"]</span>
@@ -179,7 +241,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>Cancellations</h5>
+                                            <h2 class="h5-style">Cancellations</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["CancellationCount"]">@ViewData["CancellationCount"]</span>
@@ -204,7 +266,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h5>New Members (@DateTime.Now.Year)</h5>
+                                            <h2 class="h5-style">New Members (@DateTime.Now.Year)</h2>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@newMemberCount">@newMemberCount</span>
@@ -218,7 +280,6 @@
             </div>
         </div>
 
-
         <!-- Container for charts -->
         <div id="chartsContainer" class="row">
             <!-- Municipality/Industry chart -->
@@ -229,7 +290,7 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Member Breakdown</h5>
+                            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Member Breakdown</h2>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Chart view options">
                                 <button type="button" class="btn btn-primary active" id="viewMunicipality">By Municipality</button>
                                 <button type="button" class="btn btn-outline-primary" id="viewIndustry">By Industry</button>
@@ -258,7 +319,7 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h5 class="m-0 font-weight-bold text-primary">Members Status Overview</h5>
+                            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Members Status Overview</h2>
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="pieChartOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -1531,6 +1592,8 @@
         handleChartResponsiveness();
     });
 </script>
+
+
 
 
 

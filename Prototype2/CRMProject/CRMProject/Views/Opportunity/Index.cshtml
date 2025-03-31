@@ -56,7 +56,7 @@
         <div class="card-body">
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h2 class="h2 mb-0 text-gray-1400">Opportunities</h2>
+                <h1 style="font-size: 1.5rem;" class="mb-0 text-gray-1400">Opportunities</h1>
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Create" class="btn btn-primary btn-lg ">
@@ -120,7 +120,7 @@
                 {
                     <div class="card">
                         <div class="card-header bg-light">
-                            <h5 class="mb-0">Active Filters</h5>
+                            <h2 style="font-size: 1.25rem;" class="mb-0">Active Filters</h2>
                         </div>
                         <div class="card-body bg-light">
                             <div class="row">
@@ -260,19 +260,16 @@
                                         <td>
                                             @if (item.OpportunityContacts != null && item.OpportunityContacts.Any())
                                             {
-                                                var contacts = item.OpportunityContacts.Select(oc => oc.Contact.Summary).ToList();
+                                                var contacts = item.OpportunityContacts.Select(oc => oc.Contact).ToList();
                                                 var contactCount = contacts.Count;
                                                 var collapseId = $"collapseContact{item.ID}";
-                                                var fullContactSummaries = string.Join(", ", contacts); // Full contact summaries for export
+                                                var fullContactSummaries = string.Join(", ", contacts.Select(c => c.Summary)); // Full contact summaries for export
 
                                                 <!-- Hidden span to store full contact summaries for export -->
                                                 <span class="export-contact-data" style="display:none;">@fullContactSummaries</span>
 
                                                 <span>
-
-                                                    <a href="javascript:void(0);" class="role-button"
-                                                       data-bs-target="#@collapseId">
-
+                                                    <a href="javascript:void(0);" class="role-button" data-bs-target="#@collapseId">
                                                         Contacts (@contactCount)
                                                         <i class="bi bi-chevron-down" id="arrowContact@(item.ID)"></i>
                                                     </a>
@@ -280,7 +277,9 @@
                                                         <ul class="list-unstyled">
                                                             @foreach (var contact in contacts)
                                                             {
-                                                                <li>@contact</li>
+                                                                <li>
+                                                                    <a asp-action="Details" asp-controller="Contact" asp-route-id="@contact.ID">@contact.Summary</a>
+                                                                </li>
                                                             }
                                                         </ul>
                                                     </div>
@@ -332,6 +331,9 @@
             </div>
         </div>
     </div>
+    <form asp-action="Index" method="get">
+        <partial name="_PagingNavBar" />
+    </form>
 </div>
 @section Scripts {
     <script src="~/js/site.js"></script>

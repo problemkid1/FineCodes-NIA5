@@ -145,39 +145,37 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             @if (Model.OpportunityContacts != null && Model.OpportunityContacts.Any())
-
                             {
                                 @foreach (var opportunityContact in Model.OpportunityContacts)
                                 {
                                     var contact = opportunityContact.Contact;
                                     <tr>
-                                        <td>@contact.Summary</td>
+                                        <td>
+                                            <a asp-action="Details" asp-controller="Contact" asp-route-id="@contact.ID">@contact.Summary</a>
+                                        </td>
                                         <td>@contact.ContactTitleRole</td>
-                                        <td>@contact.ContactPhone</td>
-                                        <td>@contact.ContactEmailAddress</td>
-
+                                        <td>
+                                            @{
+                                                var formattedPhone = string.IsNullOrEmpty(contact.ContactPhone) || contact.ContactPhone.Length != 10
+                                                ? contact.ContactPhone
+                                                : $"({contact.ContactPhone.Substring(0, 3)}) {contact.ContactPhone.Substring(3, 3)}-{contact.ContactPhone.Substring(6)}";
+                                            }
+                                            <a href="tel:@formattedPhone">@formattedPhone</a>
+                                        </td>
+                                        <td>
+                                            <a href="mailto:@contact.ContactEmailAddress">@contact.ContactEmailAddress</a>
+                                        </td>
                                         @if (User.IsInRole("Admin"))
                                         {
                                             <td>
                                                 <div class="btn-group">
-                                                    <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@contact.ID"
-                                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                                       data-bs-toggle="tooltip" title="Edit Contact">
+                                                    <a asp-action="Edit" asp-controller="Contact" asp-route-id="@contact.ID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false" data-bs-toggle="tooltip" title="Edit Contact">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                    <a asp-action="RemoveContact" asp-controller="Opportunity" asp-route-contactID="@opportunityContact.ContactID" asp-route-opportunityID="@opportunityContact.OpportunityID"
-                                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
-                                                       data-bs-toggle="tooltip" title="Remove Contact">
+                                                    <a asp-action="RemoveContact" asp-controller="Opportunity" asp-route-contactID="@opportunityContact.ContactID" asp-route-opportunityID="@opportunityContact.OpportunityID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false" data-bs-toggle="tooltip" title="Remove Contact">
                                                         <i class="bi bi-trash"></i>
                                                     </a>
-                                                    @* <a asp-action="Details" asp-controller="Contact" asp-route-ID="@contact.ID"
-                                                   class="btn btn-md btn-outline-primary" role="button"
-                                                   data-bs-toggle="tooltip" title="Details Contact">
-
-                                                    <i class="bi bi-search"></i>
-                                                </a> *@
                                                 </div>
                                             </td>
                                         }
