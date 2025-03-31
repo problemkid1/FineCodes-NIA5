@@ -174,7 +174,6 @@ body.dark-mode {
     }
 
 
-
     /* Table header styling for dark mode */
     body.dark-mode .table th {
         background-color: #3a3a3a !important; /* Match card-header background */
@@ -225,8 +224,6 @@ body.dark-mode {
     body.dark-mode .table-hover tbody tr:hover {
         background-color: rgba(255, 255, 255, 0.075) !important;
     }
-
-
 
 
     /* Chart Dark Mode Styling */

@@ -355,13 +355,13 @@
                         @* </li> *@
 
                         <!-- Dark Mode Toggle -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <button id="layoutThemeToggle" class="btn btn-link nav-link">
-                                <i class="fas fa-moon fa-fw"></i>
-                            </button>
-                        </li>
+                        @* <li class="nav-item dropdown no-arrow mx-1"> *@
+                        @*     <button id="layoutThemeToggle" class="btn btn-link nav-link"> *@
+                        @*         <i class="fas fa-moon fa-fw"></i> *@
+                        @*     </button> *@
+                        @* </li> *@
 
-                        <div class="topbar-divider d-none d-sm-block"></div>
+                        @* <div class="topbar-divider d-none d-sm-block"></div> *@
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -431,7 +431,7 @@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
+                        
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             @if (SignInManager.IsSignedIn(User))
@@ -700,57 +700,57 @@
 
     </script>
 
-    <script>
-                document.addEventListener("DOMContentLoaded", function() {
-            // Dark mode toggle functionality
-            const layoutThemeToggle = document.getElementById('layoutThemeToggle');
+    @* <script> *@
+    @*             document.addEventListener("DOMContentLoaded", function() { *@
+    @*         // Dark mode toggle functionality *@
+    @*         const layoutThemeToggle = document.getElementById('layoutThemeToggle'); *@
 
-            // Check for saved theme preference - MODIFY THIS PART
-            const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true';
+    @*         // Check for saved theme preference - MODIFY THIS PART *@
+    @*         const darkModeEnabled = localStorage.getItem('darkModeEnabled') === 'true'; *@
 
-            // Only apply dark mode if explicitly set to true, otherwise default to light mode
-            if (darkModeEnabled) {
-                applyDarkMode(true);
-            } else {
-                // Ensure light mode is the default by explicitly setting it
-                localStorage.setItem('darkModeEnabled', 'false');
-                applyDarkMode(false);
-            }
+    @*         // Only apply dark mode if explicitly set to true, otherwise default to light mode *@
+    @*         if (darkModeEnabled) { *@
+    @*             applyDarkMode(true); *@
+    @*         } else { *@
+    @*             // Ensure light mode is the default by explicitly setting it *@
+    @*             localStorage.setItem('darkModeEnabled', 'false'); *@
+    @*             applyDarkMode(false); *@
+    @*         } *@
 
-            // Toggle dark mode when button is clicked
-            if (layoutThemeToggle) {
-                layoutThemeToggle.addEventListener('click', function() {
-                    const isDarkMode = !document.body.classList.contains('dark-mode');
-                    localStorage.setItem('darkModeEnabled', isDarkMode);
-                    applyDarkMode(isDarkMode);
-                });
-            }
+    @*         // Toggle dark mode when button is clicked *@
+    @*         if (layoutThemeToggle) { *@
+    @*             layoutThemeToggle.addEventListener('click', function() { *@
+    @*                 const isDarkMode = !document.body.classList.contains('dark-mode'); *@
+    @*                 localStorage.setItem('darkModeEnabled', isDarkMode); *@
+    @*                 applyDarkMode(isDarkMode); *@
+    @*             }); *@
+    @*         } *@
 
-            // Function to apply dark mode
-            function applyDarkMode(isDarkMode) {
-                if (isDarkMode) {
-                    document.body.classList.add('dark-mode');
-                    if (layoutThemeToggle) {
-                        layoutThemeToggle.querySelector('i').classList.remove('fa-moon');
-                        layoutThemeToggle.querySelector('i').classList.add('fa-sun');
-                    }
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    if (layoutThemeToggle) {
-                        layoutThemeToggle.querySelector('i').classList.remove('fa-sun');
-                        layoutThemeToggle.querySelector('i').classList.add('fa-moon');
-                    }
-                }
+    @*         // Function to apply dark mode *@
+    @*         function applyDarkMode(isDarkMode) { *@
+    @*             if (isDarkMode) { *@
+    @*                 document.body.classList.add('dark-mode'); *@
+    @*                 if (layoutThemeToggle) { *@
+    @*                     layoutThemeToggle.querySelector('i').classList.remove('fa-moon'); *@
+    @*                     layoutThemeToggle.querySelector('i').classList.add('fa-sun'); *@
+    @*                 } *@
+    @*             } else { *@
+    @*                 document.body.classList.remove('dark-mode'); *@
+    @*                 if (layoutThemeToggle) { *@
+    @*                     layoutThemeToggle.querySelector('i').classList.remove('fa-sun'); *@
+    @*                     layoutThemeToggle.querySelector('i').classList.add('fa-moon'); *@
+    @*                 } *@
+    @*             } *@
 
-                // Dispatch an event so other pages can respond to theme changes
-                const themeChangeEvent = new CustomEvent('themeChange', {
-                    detail: { darkMode: isDarkMode }
-                });
-                document.dispatchEvent(themeChangeEvent);
-            }
-        });
+    @*             // Dispatch an event so other pages can respond to theme changes *@
+    @*             const themeChangeEvent = new CustomEvent('themeChange', { *@
+    @*                 detail: { darkMode: isDarkMode } *@
+    @*             }); *@
+    @*             document.dispatchEvent(themeChangeEvent); *@
+    @*         } *@
+    @*     }); *@
 
-    </script>
+    @* </script> *@
 
 
 
