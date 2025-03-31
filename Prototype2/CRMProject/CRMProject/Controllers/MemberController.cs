@@ -1297,7 +1297,7 @@ namespace CRMProject.Controllers
                     {
                         string name = workSheet.Cells[row, 1].Text?.Trim();
                         string sizeText = workSheet.Cells[row, 2].Text?.Trim();
-                        string statusText = workSheet.Cells[row, 3].Text?.Trim();
+                        string statusText = workSheet.Cells[row, 3].Text?.Trim().Replace(" ", "");
                         string payableEmail = workSheet.Cells[row, 4].Text?.Trim();
                         string startDateText = workSheet.Cells[row, 5].Text?.Trim();
 
