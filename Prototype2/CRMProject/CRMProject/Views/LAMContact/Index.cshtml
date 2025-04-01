@@ -26,6 +26,7 @@
     </div>
 }
 
+
 <!-- Custom styles for this template-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -40,8 +41,7 @@
         <div class="card-body">
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <!-- Changed from h2 to h1 with inline styling to maintain appearance -->
-                <h1 style="font-size: 1.75rem; margin-bottom: 0; font-weight: 500;" class="text-gray-1400">LAM Contacts</h1>
+                <h2 class="h2 mb-0 text-gray-1400">LAM Contacts</h2>
                 <a asp-action="Create" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus"></i> Add LAM Contact
                 </a>
@@ -49,9 +49,6 @@
 
             <div class="card">
                 <div class="card-body">
-                    <!-- Added h2 heading for the table section -->
-                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Contact List</h2>
-
                     <table id="lamContactTable" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
@@ -119,7 +116,7 @@
             $('#lamContactTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'excel', 'pdf', 'print'
                 ],
                 responsive: true,
                 lengthChange: false
