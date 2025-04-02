@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Super, Admin")]
     public class ExportController : Controller
     {
         private readonly CRMContext _context;

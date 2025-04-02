@@ -1159,6 +1159,14 @@ namespace CRMProject.Data
                     if (!context.MemberLogins.Any())
                     {
                         context.MemberLogins.AddRange(
+                            new MemberLogin
+                            {
+                                FirstName = "Super",
+                                LastName = "admin",
+                                Phone = "1234567891",
+                                Email = "super@outlook.com",
+                                Active = true
+                            },
                          new MemberLogin
                          {
                              FirstName = "Jordan",

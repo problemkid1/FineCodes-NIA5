@@ -9,11 +9,12 @@ using Microsoft.EntityFrameworkCore.Storage;
 using NuGet.Packaging;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Diagnostics;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(Roles = "Super, Admin, User")]
     public class MemberController : Controller
     {
         private readonly CRMContext _context;
@@ -24,7 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Super, Admin, User")]
         public async Task<IActionResult> Index(string? SearchString, string? AddressCity, string? Contact,
             int? MemberSize, int? page, int? pageSizeID, MemberStatus? MemberStatus,
             string? MembershipTypeName, string? IndustryName, DateTime StartDate, DateTime EndDate)
@@ -203,7 +204,7 @@ namespace CRMProject.Controllers
         }
 
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Super, Admin, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -241,7 +242,7 @@ namespace CRMProject.Controllers
 
         // GET: Member/Create
         // GET: Member/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public IActionResult Create()
         {
             // Initialize a new member
@@ -290,7 +291,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Create(
     [Bind("ID,MemberName,MemberSize,MemberStatus,MemberAccountsPayableEmail,MemberWebsite,MemberStartDate,MemberEndDate,MemberLastContactDate,MemberNotes")] Member member,
     IFormFile? thePicture,
@@ -505,7 +506,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -548,7 +549,7 @@ namespace CRMProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Edit(int id, string? chkRemoveImage, IFormFile? thePicture,
     string[] selectedMembership, string[] selectedIndustry, string[] selectedContacts)
         {
@@ -688,7 +689,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/CancelMember/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Cancel(int? id)
         {
 
@@ -721,7 +722,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Member/RemoveContact/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> RemoveContact(int contactID, int memberID)
         {
             var memberContact = await _context.MemberContacts
@@ -741,7 +742,7 @@ namespace CRMProject.Controllers
         // POST: Member/RemoveContact/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> RemoveContactConfirmed(int contactID, int memberID)
         {
             var memberContact = await _context.MemberContacts
@@ -761,7 +762,7 @@ namespace CRMProject.Controllers
             return RedirectToAction("Details", new { id = memberID });
         }
 
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Super, Admin, User")]
         public async Task<IActionResult> GetMemberContacts(int id)
         {
             var memberContacts = await _context.MemberContacts
@@ -774,7 +775,7 @@ namespace CRMProject.Controllers
 
 
         // GET: Member/ActivateMember/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Activate(int? id)
         {
 
@@ -807,7 +808,7 @@ namespace CRMProject.Controllers
         // POST: Member/CancelMember/5
         [HttpPost, ActionName("Cancel")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> CancelConfirmed([Bind("ID,Date,Status,Reason,Notes")] StatusHistory input)
         {
             var member = await _context.Members
@@ -867,7 +868,7 @@ namespace CRMProject.Controllers
         // POST: Member/ActivateMember/5
         [HttpPost, ActionName("Activate")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> ActivateConfirmed([Bind("ID,Date,Status,Reason,Notes")] StatusHistory input)
         {
             var member = await _context.Members
@@ -1168,6 +1169,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Super, Admin")]
         public JsonResult GetContacts(string searchKeyword, string skip)
         {
             var contacts = _context.Contacts
@@ -1227,7 +1229,7 @@ namespace CRMProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {
             string feedBack = string.Empty;
@@ -1384,7 +1386,7 @@ namespace CRMProject.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> UpdatePhoto(int id, IFormFile thePicture)
         {
             if (thePicture == null || thePicture.Length == 0)
