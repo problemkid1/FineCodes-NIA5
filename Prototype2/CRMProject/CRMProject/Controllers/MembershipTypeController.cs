@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Super, Admin")]
     public class MembershipTypeController : Controller
     {
         private readonly CRMContext _context;
@@ -23,8 +23,6 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType
-
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee, int? page, int? pageSizeID)
 
         {
@@ -99,7 +97,6 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType/Details/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -137,7 +134,6 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewBag.MemberID = new SelectList(_context.Members, "ID", "MemberName");
@@ -165,7 +161,6 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ID,MembershipTypeName,MembershipTypeDescription,MembershipTypeFee,MembershipTypeBenefits")] MembershipType membershipType)
         {
             if (ModelState.IsValid)
@@ -235,7 +230,6 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType/Edit/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -285,7 +279,6 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,MembershipTypeName,MembershipTypeDescription,MembershipTypeFee,MembershipTypeBenefits")] MembershipType membershipType)
         {
             if (id != membershipType.ID)
@@ -370,7 +363,6 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType/Delete/5
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -412,7 +404,6 @@ namespace CRMProject.Controllers
         // POST: MembershipType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var membershipType = await _context.MembershipTypes
@@ -453,7 +444,6 @@ namespace CRMProject.Controllers
 
         // GET: MembershipType/GetAllMembershipTypes
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public IActionResult GetAllMembershipTypes()
         {
             try
@@ -486,7 +476,6 @@ namespace CRMProject.Controllers
 
         // GET: MembershipType/SearchMembershipTypes
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public IActionResult SearchMembershipTypes(string term)
         {
             try

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin, User")] // Add this attribute to require authentication for all actions in this controller
+    [Authorize(Roles = "Super, Admin, User")] // Add this attribute to require authentication for all actions in this controller
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

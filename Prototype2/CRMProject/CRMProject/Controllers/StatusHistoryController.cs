@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(Roles = "Super, Admin, User")]
     public class StatusHistoryController : Controller
     {
         private readonly CRMContext _context;
@@ -24,7 +24,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: StatusHistory
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Super, Admin, User")]
         public async Task<IActionResult> Index(string? SearchString, DateTime? Date, string? Status, string? Reason, string? Notes, DateTime StartDate, DateTime EndDate, int? page, int? pageSizeID)
         {
 
@@ -134,7 +134,7 @@ namespace CRMProject.Controllers
 
 
         // GET: StatusHistory/Details/5
-        [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Super, Admin, User")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -163,7 +163,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: StatusHistory/Create
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public IActionResult Create()
         {
             var breadcrumbs = new List<BreadcrumbItem>
@@ -183,7 +183,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Create([Bind("ID,Date,Status,Reason,Notes,MemberID")] StatusHistory statusHistory)
         {
             if (ModelState.IsValid)
@@ -225,7 +225,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: StatusHistory/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -268,7 +268,7 @@ namespace CRMProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Date,Reason,Notes,MemberID")] StatusHistory statusHistory)
         {
             if (id != statusHistory.ID)
@@ -350,7 +350,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: StatusHistory/Delete/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -382,7 +382,7 @@ namespace CRMProject.Controllers
         // POST: StatusHistory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var statusHistory = await _context.StatusHistories.FindAsync(id);

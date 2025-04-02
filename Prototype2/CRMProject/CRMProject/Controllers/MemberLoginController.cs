@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Super")]
     public class MemberLoginController : CognizantController
     {
         private readonly CRMContext _context;

@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CRMProject.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Super, Admin")]
     public class BrainDumpController : Controller
     {
         private readonly CRMContext _context;
@@ -23,7 +23,6 @@ namespace CRMProject.Controllers
         }
 
         // GET: BrainDump
-        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Index( int? page, int? pageSizeID)
         {
             // Add breadcrumbs

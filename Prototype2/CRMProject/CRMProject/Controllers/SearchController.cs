@@ -5,7 +5,7 @@ namespace CRMProject.Controllers
 {
     public class SearchController : Controller
     {
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Super, Admin")]
         public IActionResult Search(string query)
         {
             if (string.IsNullOrEmpty(query))

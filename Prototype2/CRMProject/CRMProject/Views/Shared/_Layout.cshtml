@@ -191,7 +191,7 @@
                     <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Opportunity" ? "text-decoration: underline;" : "");">Opportunities</span>
                 </a>
             </li>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                 {
                     <li><hr class="dropdown-divider"></li>
             <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Industry" ? "active" : "")">
@@ -247,7 +247,7 @@
                 @*         <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLoginController" ? "text-decoration: underline;" : "");">Maintain Users</span> *@
                 @*     </a> *@
                 @* </li> *@
-                }
+                
 
 
 
@@ -285,7 +285,7 @@
                     </div>
                 </li>
 
-
+                }
 
 
 
@@ -439,7 +439,7 @@
                         
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            @if (SignInManager.IsSignedIn(User))
+                            @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                             {
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -467,6 +467,34 @@
                                     </form>
                                 </div>
 
+                            }
+                            else if (User.IsInRole("User"))
+                            {
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-dark small">
+                                        @User.Identity.Name
+                                    </span>
+                                    <img class="img-profile rounded-circle" src="~/theme/img/undraw_profile.svg" alt="Profile Logo">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                     aria-labelledby="userDropdown">
+                                    @* <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLogin" ? "active" : "")"
+                                       asp-controller="MemberLogin" asp-action="Index">
+                                        <i class="bi bi-person-fill-gear"></i>
+                                        <span style="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "MemberLogin" ? "text-decoration: underline;" : "");">
+                                            Maintain Users
+                                        </span>
+                                    </a> *@
+                                    @* <div class="dropdown-divider"></div> *@
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
                             }
                             else
                             {
