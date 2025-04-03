@@ -122,7 +122,7 @@
 
 
                 <div class="form-group text-center mt-3">
-                    @if (Model?.ID != null && User.IsInRole("Admin"))                           
+                    @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
 
                     {
 

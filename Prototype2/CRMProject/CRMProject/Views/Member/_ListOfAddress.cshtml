@@ -10,8 +10,8 @@
                     <h4 class="panel-title"><strong>Address Information</strong></h4>
                     @if (!Model.Any()) // Show button only if no addresses exist
                     {
-                        <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]" class="no-print">
-                            @if (User.IsInRole("Admin"))
+                        <a asp-controller="Address" asp-action="Create" asp-route-memberId="@ViewData["MemberId"]">
+                            @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                             {
                                 <button class="btn btn-primary" data-bs-toggle="tooltip" title="Add Address">
                                     <strong><i class="fa-solid fa-plus "></i> Add</strong>
@@ -47,17 +47,17 @@
                                         <td>@Html.DisplayFor(modelItem => item.PostalCode)</td>
                                         <td class="d-none d-sm-table-cell" style="float: right;">
                                             <div class="btn-group">
-                                                @if (User.IsInRole("Admin"))
+                                                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                                 {
                                                     <a asp-action="Edit" asp-controller="Address" asp-route-ID="@item.ID" asp-route-memberId="@ViewData["MemberId"]"
-                                                    class="btn btn-md btn-outline-primary no-print" data-bs-toggle="tooltip" title="Edit Address">
+                                                    class="btn btn-md btn-outline-primary" data-bs-toggle="tooltip" title="Edit Address">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
-                                                    @* <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary no-print"
+                                                    @* <a asp-action="Details" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
                                                     data-bs-toggle="tooltip" title="View Address Details">
                                                         <i class="bi bi-search "></i>
                                                     </a> *@
-                                                    <a asp-action="Delete" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary no-print"
+                                                    <a asp-action="Delete" asp-controller="Address" asp-route-ID="@item.ID" class="btn btn-md btn-outline-primary"
                                                     data-bs-toggle="tooltip" title="Delete Address">
                                                         <i class="bi bi-trash"></i>
                                                     </a>

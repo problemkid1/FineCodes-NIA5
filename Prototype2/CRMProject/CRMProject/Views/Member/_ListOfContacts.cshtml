@@ -9,9 +9,9 @@
             <div class="panel-heading">
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="panel-title mb-0"><strong>Contact Information</strong></h4>
-                    @if (User.IsInRole("Admin"))
+                    @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                     {
-                        <button class="btn btn-primary no-print" onclick="showContactForm()" title="Add Contact">
+                        <button class="btn btn-primary" onclick="showContactForm()" title="Add Contact">
                             <strong><i class="fa-solid fa-plus"></i> Add</strong>
                         </button>
                     }
@@ -188,22 +188,22 @@
                                         @*     } *@
 
                                         @* </td> *@
-                                        @if (User.IsInRole("Admin"))
+                                        @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                         {
                                             <td class="d-none d-sm-table-cell" style="float: right; ">
                                                 <div class="btn-group">
                                                     <a asp-action="Edit" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                                    class="btn btn-md btn-outline-primary no-print" role="button" aria-disabled="false"
+                                                    class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                     data-bs-toggle="tooltip" title="Edit Contact">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
                                                     <a asp-action="RemoveContact" asp-controller="Member" asp-route-contactID="@item.ContactID" asp-route-memberID="@item.MemberID"
-                                                    class="btn btn-md btn-outline-primary no-print" role="button" aria-disabled="false"
+                                                    class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                     data-bs-toggle="tooltip" title="Remove Contact">
                                                         <i class="bi bi-trash"></i>
                                                     </a>
                                                     <a asp-action="Details" asp-controller="Contact" asp-route-ID="@item.ContactID"
-                                                       class="btn btn-md btn-outline-primary no-print" role="button" aria-disabled="false"
+                                                       class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Detail">
                                                         <i class="bi bi-search"></i>
                                                     </a>

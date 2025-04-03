@@ -38,12 +38,9 @@
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 style="font-size: 1.75rem;" class="mb-0 text-gray-1400">Brain Dump</h1>
-                @if (User.IsInRole("Admin"))
-                {
-                    <a asp-action="Create" class="btn btn-primary btn-lg">
-                        <i class="fas fa-plus fs-4"></i> Add Activity
-                    </a>
-                }
+                <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <i class="fas fa-plus fs-4"></i> Add Activity
+                </a>
             </div>
             <div class="card">
                 <!-- Table Section -->
@@ -89,28 +86,19 @@
                                             </td>
                                             <td style="text-align: center;">
                                                 <div class="btn-group" style="float:none; ">
-                                                    @if (User.IsInRole("Admin"))
-                                                    {
-                                                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                           data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
-                                                            <i class="bi bi-pencil-square"></i>
-                                                        </a>
-                                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                           role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                                            <i class="bi bi-search"></i>
-                                                        </a>
-                                                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                           data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
-                                                            <i class="bi bi-trash"></i>
-                                                        </a>
-                                                    }
-                                                    else
-                                                    {
-                                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                           role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                                            <i class="bi bi-search"></i>
-                                                        </a>
-                                                    }
+
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                       data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-search"></i>
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                       data-bs-toggle="tooltip" title="Delete @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
                                                 </div>
                                             </td>
                                         </tr>

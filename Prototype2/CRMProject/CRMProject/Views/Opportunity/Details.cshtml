@@ -121,7 +121,7 @@
             <div id="contactForm" class="mt-3" style="display: none;">
                 @await Html.PartialAsync("_OpportunityContacts", new CRMProject.Models.Contact())
             </div>
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Super") || User.IsInRole("Admin"))
             {
                 <div class="mt-4">
                     <button class="btn btn-primary" onclick="showContactForm()">Add Contact</button>
@@ -138,7 +138,7 @@
                                 <th>Title/Role</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                @if (User.IsInRole("Admin"))
+                                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                 {
                                     <th>Actions</th>
                                 }
@@ -166,7 +166,7 @@
                                         <td>
                                             <a href="mailto:@contact.ContactEmailAddress">@contact.ContactEmailAddress</a>
                                         </td>
-                                        @if (User.IsInRole("Admin"))
+                                        @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                         {
                                             <td>
                                                 <div class="btn-group">
@@ -193,7 +193,7 @@
                 </div>
             </div>
 
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Super") || User.IsInRole("Admin"))
             {
                 <form method="post" action="@Url.Action("ConvertToMember", "Opportunity", new { opportunityId = Model.ID })">
                     <button type="submit" class="btn btn-primary">Convert to Member</button>
@@ -201,7 +201,7 @@
             }
 
             <div class="form-group text-center mt-3">
-                @if (Model?.ID != null && User.IsInRole("Admin"))
+                @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
 
                 {
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Opportunity</a>

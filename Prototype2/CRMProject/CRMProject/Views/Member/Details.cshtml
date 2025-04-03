@@ -30,7 +30,6 @@
 <!-- Custom styles for this template-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
 
@@ -43,7 +42,7 @@
                 @* "bg-danger" : "bg-success" *@
                 @Html.DisplayFor(model => model.MemberStatus)
             </span>
-            <button class="btn btn-primary no-print" onclick="window.print()" title="Print">
+            <button class="btn btn-primary" onclick="window.print()" title="Print">
                 <i class="fa-solid fa-print"></i> Print
             </button>
         </div>
@@ -68,7 +67,7 @@
                                 <img src="~/image/blankProfile.jpg" alt="Default Profile" class="img-thumbnail rounded-3 shadow-sm profile-image" id="memberPhoto" />
                             }
 
-                            @if (Model?.ID != null && Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled && User.IsInRole("Admin"))
+                            @if (Model?.ID != null && Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled && User.IsInRole("Super") || User.IsInRole("Admin"))
                             {
                                 <div class="profile-image-overlay">
                                     <label for="photoUpload" class="upload-label">
@@ -252,7 +251,7 @@
 
     <!-- Original position for action buttons -->
     <div class="form-group text-center mt-3">
-        @if (Model?.ID != null && User.IsInRole("Admin"))
+        @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
         {
             @if (Model.MemberStatus != CRMProject.Models.MemberStatus.Cancelled)
             {
@@ -260,10 +259,10 @@
             }
             else
             {
-                <a class="btn btn-warning no-print" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
+                <a class="btn btn-warning" style="display: none !important;" asp-action="Edit" asp-route-id="@Model.ID">Edit Member</a>
             }
         }
-        <a class="btn btn-secondary ml-2 no-print" asp-action="Index">Back to Members</a>
+        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Members</a>
     </div>
 </div>
 @section Scripts {

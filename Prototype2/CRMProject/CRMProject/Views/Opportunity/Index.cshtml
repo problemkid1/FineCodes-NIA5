@@ -57,7 +57,7 @@
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 style="font-size: 1.5rem;" class="mb-0 text-gray-1400">Opportunities</h1>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                 {
                     <a asp-action="Create" class="btn btn-primary btn-lg ">
                         <i class="fas fa-plus fs-4"></i> Add Opportunity
@@ -298,7 +298,7 @@
                                         <!-- For the table cell with buttons -->
                                         <td style="text-align: center;">
                                             <div class="btn-group" style="float: none; display: inline-flex;">
-                                                @if (User.IsInRole("Admin"))
+                                                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                                 {
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" role="button" aria-disabled="false"
                                                        data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">

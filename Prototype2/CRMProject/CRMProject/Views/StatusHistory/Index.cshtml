@@ -291,7 +291,7 @@
                                         <td>@Html.DisplayFor(modelItem => item.Date)</td>
                                         <td style="text-align: center;">
                                             <div class="btn-group">
-                                                @if (User.IsInRole("Admin"))
+                                                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                                 {
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
                                                     data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
