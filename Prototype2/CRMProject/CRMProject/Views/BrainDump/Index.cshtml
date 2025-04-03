@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<CRMProject.Models.BrainDump>
 
-
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Brain Dump Index";
@@ -32,7 +30,6 @@
 
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
 <link href="~/customs/css/style.css" rel="stylesheet">
-@* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 <link href="~/css/contactstyle.css" rel="stylesheet">
 
 <div class="col-12">
@@ -40,7 +37,7 @@
         <div class="card-body">
             <!-- Header Section -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h2 class="h2 mb-0 text-gray-1400">Brain Dump</h2>
+                <h1 style="font-size: 1.75rem;" class="mb-0 text-gray-1400">Brain Dump</h1>
                 @if (User.IsInRole("Admin"))
                 {
                     <a asp-action="Create" class="btn btn-primary btn-lg">
@@ -128,14 +125,3 @@
             <form asp-action="Index" method="get">
                 <partial name="_PagingNavBar" />
             </form>
-
-
-            @section Scripts {
-                <script src="~/js/site.js"></script>
-                <script>
-                    $(document).ready(function () {
-                        $('[data-bs-toggle="tooltip"]').tooltip();
-                    });
-                </script>
-
-            }

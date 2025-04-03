@@ -9,6 +9,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
+
+
+
 <div class="container-fluid" id="dashboardContainer">
     <!-- Page Heading with Edit Controls -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -35,7 +38,7 @@
     <!-- Layout Controls - Only visible in edit mode -->
     <div id="layoutControls" class="card shadow mb-4" style="display: none;">
         <div class="card-header py-3">
-            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Dashboard Layout</h2>
+            <h6 class="m-0 font-weight-bold text-primary">Dashboard Layout</h6>
         </div>
         <div class="card-body">
             <div class="row">
@@ -105,7 +108,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h2 style="font-size: 1.25rem;">Total Members</h2>
+                                            <h5>Total Members</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["MemberCount"]">@ViewData["MemberCount"]</span>
@@ -130,7 +133,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h2 style="font-size: 1.25rem;">Industries</h2>
+                                            <h5>Industries</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["IndustryCount"]">@ViewData["IndustryCount"]</span>
@@ -155,7 +158,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h2 style="font-size: 1.25rem;">Cancellations</h2>
+                                            <h5>Cancellations</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@ViewData["CancellationCount"]">@ViewData["CancellationCount"]</span>
@@ -180,7 +183,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-4">
-                                            <h2 style="font-size: 1.25rem;">New Members (@DateTime.Now.Year)</h2>
+                                            <h5>New Members (@DateTime.Now.Year)</h5>
                                         </div>
                                         <div class="h1 mb-0 font-weight-bold text-gray-1200">
                                             <span class="count-up" data-value="@newMemberCount">@newMemberCount</span>
@@ -205,7 +208,7 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1.25rem;">Member Breakdown</h2>
+                            <h5 class="m-0 font-weight-bold text-primary">Member Breakdown</h5>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Chart view options">
                                 <button type="button" class="btn btn-primary active" id="viewMunicipality">By Municipality</button>
                                 <button type="button" class="btn btn-outline-primary" id="viewIndustry">By Industry</button>
@@ -234,7 +237,7 @@
                     </div>
                     <div class="card shadow h-100">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1.25rem;">Members Status Overview</h2>
+                            <h5 class="m-0 font-weight-bold text-primary">Members Status Overview</h5>
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" href="#" role="button" id="pieChartOptions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display: block; width: 100%;" aria-label="Pie Chart Options">
                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -267,15 +270,10 @@
         <!-- Widget Selector Menu (Hidden by default) -->
         <div id="widgetSelector" class="card shadow mt-4" style="display: none;">
             <div class="card-header py-3">
-                <h2 class="m-0 font-weight-bold text-primary" style="font-size: 1rem;">Add Widgets</h2>
+                <h6 class="m-0 font-weight-bold text-primary">Add Widgets</h6>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="total-members">
-                            <i class="fas fa-users mr-1"></i> Total Members
-                        </button>
-                    </div>
                     <div class="col-md-3 mb-3">
                         <button class="btn btn-outline-primary btn-block add-widget" data-widget-id="total-members">
                             <i class="fas fa-users mr-1"></i> Total Members
@@ -369,7 +367,7 @@
                 font-size: 0.75rem;
             }
 
-            .card-header h2 {
+            .card-header h5 {
                 font-size: 1rem;
             }
 
@@ -404,7 +402,7 @@
                     widget.style.display = '';
 
                     // Ensure all content is visible
-                    widget.querySelectorAll('a, .card, .card-body, .row, .col, h2, div').forEach(el => {
+                    widget.querySelectorAll('a, .card, .card-body, .row, .col, h5, div').forEach(el => {
                         el.style.visibility = 'visible';
                         el.style.opacity = '1';
                     });
