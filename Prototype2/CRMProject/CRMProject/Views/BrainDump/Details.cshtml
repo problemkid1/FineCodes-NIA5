@@ -54,60 +54,55 @@
 
                     <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.Assignee)</dt>
                     <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
-                    @if (Model.Assignee != null)
-                    {
-                    @Model.Assignee
-                    }
-                    else
-                    {
-                        <span>N/A</span>
-                    }
-
-                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.BrainDumpStatus)</dt>
-                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
-                        @if (Model.BrainDumpStatus != null)
+                        @if (Model.Assignee != null)
                         {
-                            @Model.BrainDumpStatus.ToString()
+                            @Model.Assignee
                         }
                         else
                         {
                             <span>N/A</span>
                         }
+
+                    <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.BrainDumpStatus)</dt>
+                    <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
+                            @if (Model.BrainDumpStatus != null)
+                            {
+                                @Model.BrainDumpStatus.ToString()
+                            }
+                            else
+                            {
+                            <span>N/A</span>
+                            }
                     </dd>
 
                     <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.BrainDumpTerm)</dt>
                     <dd class="col-sm-10 col-md-9 bg-light p-2 rounded">
-                        @if (Model.BrainDumpTerm != null)
-                        {
-                            @Model.BrainDumpTerm.ToString()
-                        }
-                        else
-                        {
+                            @if (Model.BrainDumpTerm != null)
+                            {
+                                @Model.BrainDumpTerm.ToString()
+                            }
+                            else
+                            {
                             <span>N/A</span>
-                        }
+                            }
                     </dd>
 
                     <dt class="col-sm-2 col-md-2">@Html.DisplayNameFor(model => model.BrainDumpNotes)</dt>
                     <dd class="col-sm-10 col-md-9">
-                        @if (Model.BrainDumpNotes != null)
-                        {
+                            @if (Model.BrainDumpNotes != null)
+                            {
                             <textarea class="form-control bg-light" rows="1" readonly>@Model.BrainDumpNotes</textarea>
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <span class="bg-light p-2 d-block rounded">No Current Notes</span>
-                        }
+                            }
                     </dd>
                 </dl>
 
 
                 <div class="form-group text-center mt-3">
-                    @if (Model?.ID != null && User.IsInRole("Admin"))
-
-                    {
-
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Activity</a>
-                    }
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Activity</a>
                     <a class="btn btn-secondary ml-2" asp-action="Index">Back to Activities</a>
                 </div>
             </div>
