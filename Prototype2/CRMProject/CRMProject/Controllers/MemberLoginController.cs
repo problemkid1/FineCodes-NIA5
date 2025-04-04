@@ -75,10 +75,49 @@ namespace CRMProject.Controllers
             ViewData["Breadcrumbs"] = breadcrumbs;
 
             MemberAdminVm memberAdmin = new MemberAdminVm();
-            PopulateAssignedRoleData(memberAdmin);
+
+
+            var allRoles = _identityContext.Roles.ToList();
+            var currentRoles = memberAdmin.UserRoles ?? new List<string>();
+            var viewModel = new List<RoleVM>();
+
+            foreach (var role in allRoles)
+            {
+                if (User.IsInRole("Admin") && role.Name == "User")
+                {
+                    viewModel.Add(new RoleVM
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name,
+                        Assigned = currentRoles.Contains(role.Name)
+                    });
+                }
+                else if (User.IsInRole("Super") && (role.Name == "User" || role.Name == "Admin"))
+                {
+                    viewModel.Add(new RoleVM
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name,
+                        Assigned = currentRoles.Contains(role.Name)
+                    });
+                }
+            }
+
+            //foreach (var role in allRoles)
+            //{
+            //    viewModel.Add(new RoleVM
+            //    {
+            //        RoleId = role.Id,
+            //        RoleName = role.Name,
+            //        Assigned = currentRoles.Contains(role.Name)
+            //    });
+            //}
+
+            ViewBag.Roles = viewModel;
+
 
             // Remove the Admin role from the list of roles
-            ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
+            //ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
 
             return View(memberAdmin);
         }
@@ -88,15 +127,14 @@ namespace CRMProject.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Phone," +
-            "Email")] MemberLogin memberlogin/*, string[] selectedRoles*/)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Phone,Email")] MemberLogin memberlogin, string selectedRole)
         {
             var breadcrumbs = new List<BreadcrumbItem>
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
-                new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
-            };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+        new BreadcrumbItem { Title = "Create", Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
@@ -104,15 +142,26 @@ namespace CRMProject.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (selectedRole == "Super")
+                    {
+                        ModelState.AddModelError("Role", "You cannot assign the Super role.");
+                        return View(memberlogin);
+                    }
+
+                    if (User.IsInRole("Admin") && selectedRole != "User")
+                    {
+                        ModelState.AddModelError("Role", "Admins can only assign the User role.");
+                        return View(memberlogin);
+                    }
+
                     _context.Add(memberlogin);
                     await _context.SaveChangesAsync();
 
                     // Default role to "User"
-                    string[] selectedRoles = new string[] { "User" };
-                    InsertIdentityUser(memberlogin.Email, selectedRoles);
+                    //string[] selectedRoles = new string[] { "User" };
 
-                    //Send Email to new Employee - commented out till email configured
-                    //await InviteUserToResetPassword(employee, null);
+                    string[] selectedRoles = new string[] { selectedRole };
+                    InsertIdentityUser(memberlogin.Email, selectedRoles);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -128,7 +177,7 @@ namespace CRMProject.Controllers
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                 }
             }
-            //We are here because something went wrong and need to redisplay
+
             MemberAdminVm memberAdminVm = new MemberAdminVm
             {
                 Email = memberlogin.Email,
@@ -138,19 +187,14 @@ namespace CRMProject.Controllers
                 LastName = memberlogin.LastName,
                 Phone = memberlogin.Phone
             };
-            //foreach (var role in selectedRoles)
-            //{
-            //    memberAdminVm.UserRoles.Add(role);
-            //}
             PopulateAssignedRoleData(memberAdminVm);
 
-            // Remove the Admin role from the list of roles
-            ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
+            //ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
 
             return View(memberAdminVm);
         }
 
-        // GET: Employees/Edit/5
+        // GET: MemberLogin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -208,12 +252,12 @@ namespace CRMProject.Controllers
             return View(memberLogin);
         }
 
-        // POST: Employees/Edit/5
+        // POST: MemberLogin/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, bool Active, string[] selectedRoles)
+        public async Task<IActionResult> Edit(int id, bool Active, string selectedRole)
         {
             var memberLoginToUpdate = await _context.MemberLogins
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -223,19 +267,17 @@ namespace CRMProject.Controllers
             }
 
             var breadcrumbs = new List<BreadcrumbItem>
-            {
-                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
-                new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
-                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
-            };
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+        new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+        new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+    };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
-            //Note the current Email and Active Status
             bool ActiveStatus = memberLoginToUpdate.Active;
             string databaseEmail = memberLoginToUpdate.Email;
-
 
             if (await TryUpdateModelAsync<MemberLogin>(memberLoginToUpdate, "",
                 e => e.FirstName, e => e.LastName, e => e.Phone, e => e.Email,
@@ -243,45 +285,32 @@ namespace CRMProject.Controllers
             {
                 try
                 {
+                    if (selectedRole == "Super")
+                    {
+                        ModelState.AddModelError("Role", "You cannot assign the Super role.");
+                        return View(memberLoginToUpdate);
+                    }
                     await _context.SaveChangesAsync();
-                    //Save successful so go on to related changes
 
-                    //Check for changes in the Active state
                     if (memberLoginToUpdate.Active == false && ActiveStatus == true)
                     {
-                        //Deactivating them so delete the IdentityUser
-                        //This deletes the user's login from the security system
                         await DeleteIdentityUser(memberLoginToUpdate.Email);
-
                     }
                     else if (memberLoginToUpdate.Active == true && ActiveStatus == false)
                     {
-                        //You reactivating the user, create them and
-                        //give them the selected roles
-                        //InsertIdentityUser(memberLoginToUpdate.Email, selectedRoles);
-
-                        // Reactivating the user, create them and
-                        // give them the "User" role
-                        string[] roles = new string[] { "User" };
+                        string[] roles = new string[] { selectedRole };
                         InsertIdentityUser(memberLoginToUpdate.Email, roles);
                     }
                     else if (memberLoginToUpdate.Active == true && ActiveStatus == true)
                     {
-                        //No change to Active status so check for a change in Email
-                        //If you Changed the email, Delete the old login and create a new one
-                        //with the selected roles
                         if (memberLoginToUpdate.Email != databaseEmail)
                         {
-                            //Add the new login with the selected roles
-                            InsertIdentityUser(memberLoginToUpdate.Email, selectedRoles);
-
-                            //This deletes the user's old login from the security system
+                            InsertIdentityUser(memberLoginToUpdate.Email, new string[] { selectedRole });
                             await DeleteIdentityUser(databaseEmail);
                         }
                         else
                         {
-                            //Finially, Still Active and no change to Email so just Update
-                            await UpdateUserRoles(selectedRoles, memberLoginToUpdate.Email);
+                            await UpdateUserRoles(new string[] { selectedRole }, memberLoginToUpdate.Email);
                         }
                     }
 
@@ -310,7 +339,7 @@ namespace CRMProject.Controllers
                     }
                 }
             }
-            //We are here because something went wrong and need to redisplay
+
             MemberAdminVm memberAdminVm = new MemberAdminVm
             {
                 Email = memberLoginToUpdate.Email,
@@ -320,10 +349,7 @@ namespace CRMProject.Controllers
                 LastName = memberLoginToUpdate.LastName,
                 Phone = memberLoginToUpdate.Phone
             };
-            foreach (var role in selectedRoles)
-            {
-                memberAdminVm.UserRoles.Add(role);
-            }
+            memberAdminVm.UserRoles.Add(selectedRole);
             PopulateAssignedRoleData(memberAdminVm);
             return View(memberAdminVm);
         }
@@ -401,7 +427,7 @@ namespace CRMProject.Controllers
         }
 
         private void PopulateAssignedRoleData(MemberAdminVm memberAdmin)
-        {//Prepare checkboxes for all Roles
+        {
             var allRoles = _identityContext.Roles;
             var currentRoles = memberAdmin.UserRoles;
             var viewModel = new List<RoleVM>();
@@ -414,20 +440,19 @@ namespace CRMProject.Controllers
                     Assigned = currentRoles.Contains(r.Name)
                 });
             }
-            ViewBag.Roles = viewModel;
+            memberAdmin.AvailableRoles = viewModel;
         }
 
 
         private async Task UpdateUserRoles(string[] selectedRoles, string Email)
         {
-            var _user = await _userManager.FindByEmailAsync(Email);//IdentityUser
+            var _user = await _userManager.FindByEmailAsync(Email);
             if (_user != null)
             {
-                var UserRoles = (List<string>)await _userManager.GetRolesAsync(_user);//Current roles user is in
+                var UserRoles = (List<string>)await _userManager.GetRolesAsync(_user);
 
                 if (selectedRoles == null)
                 {
-                    //No roles selected so just remove any currently assigned
                     foreach (var r in UserRoles)
                     {
                         await _userManager.RemoveFromRoleAsync(_user, r);
@@ -435,13 +460,6 @@ namespace CRMProject.Controllers
                 }
                 else
                 {
-                    //At least one role checked so loop through all the roles
-                    //and add or remove as required
-
-                    //We need to do this next line because foreach loops don't always work well
-                    //for data returned by EF when working async.  Pulling it into an IList<>
-                    //first means we can safely loop over the colleciton making async calls and avoid
-                    //the error 'New transaction is not allowed because there are other threads running in the session'
                     IList<IdentityRole> allRoles = _identityContext.Roles.ToList<IdentityRole>();
 
                     foreach (var r in allRoles)
@@ -467,17 +485,14 @@ namespace CRMProject.Controllers
 
         private void InsertIdentityUser(string Email, string[] selectedRoles)
         {
-            //Create the IdentityUser in the IdentitySystem
-            //Note: this is similar to what we did in ApplicationSeedData
             if (_userManager.FindByEmailAsync(Email).Result == null)
             {
                 IdentityUser user = new IdentityUser
                 {
                     UserName = Email,
                     Email = Email,
-                    EmailConfirmed = true //since we are creating it!
+                    EmailConfirmed = true
                 };
-                //Create a random password with a default 8 characters
                 string password = MakePassword.Generate();
                 password = "Pa55w@rd";
                 IdentityResult result = _userManager.CreateAsync(user, password).Result;
@@ -549,5 +564,5 @@ namespace CRMProject.Controllers
         }
     }
 
-    
+
 }
