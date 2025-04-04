@@ -58,42 +58,33 @@
                         </div>
                     </div>
 
-                    <!-- Active Toggle -->
+                    <!-- Active Select List -->
                     @if (!Model.UserRoles.Contains("Admin"))
                     {
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label d-block">Status</label>
-                            <div class="custom-control custom-switch">                                
-                                    <input asp-for="Active"
-                                           type="checkbox"
-                                           class="custom-control-input"
-                                           id="statusSwitchEdit" />                                
-                                <label class="custom-control-label" for="statusSwitchEdit">
-                                    @(Model.Active ? "Active" : "Inactive")
-                                </label>
-                            </div>
-                            <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
-                                <strong>
-                                    @(Model.Active
-                                        ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
-                                        : "If you make this user active, inform them to use Forgot Password to set a new one.")
-                                </strong>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label d-block">Status</label>
+                                <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control"></select>
+                                <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
+                                    <strong>
+                                        @(Model.Active
+                                            ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
+                                            : "If you make this user active, inform them to use Forgot Password to set a new one.")
+                                    </strong>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
 
                     <!-- Assign Roles -->
-                    @* <div class="col-12">
+                    <div class="col-12">
                         <div class="form-group">
                             <label class="control-label fw-bold">Assign Roles</label>
                             <div class="border rounded p-3">
                                 <div class="row">
                                     @{
                                         int cnt = 0;
-                                        List<CRMProject.ViewModels.RoleVM> roles = ViewBag.Roles;
-                                        foreach (var role in roles)
+                                        foreach (var role in Model.AvailableRoles.Where(r => r.RoleName != "Super"))
                                         {
                                             if (cnt % 3 == 0 && cnt != 0)
                                             {
@@ -102,26 +93,16 @@
                                             cnt++;
                                             <div class="col-md-4">
                                                 <div class="form-check form-switch">
-                                                @{
-                                                    bool isSoleAdmin = ViewData["IsSoleAdmin"] != null && (bool)ViewData["IsSoleAdmin"];
-                                                }
-
-                                                    <input class="form-check-input" type="checkbox"
+                                                
+                                                    <input class="form-check-input" type="radio"
                                                            id="@role.RoleName-CheckBox"
-                                                           name="selectedRoles"
+                                                           name="selectedRole"
                                                            value="@role.RoleName"
-                                                           @(role.Assigned ? "checked" : "")
-                                                           @if (role.RoleName == "Admin" && isSoleAdmin)
-                                                           {
-                                                               <text>disabled</text>
-                                                           } />
+                                                           @(role.Assigned ? "checked" : "") />
                                                     <label class="form-check-label" for="@role.RoleName-CheckBox">
                                                         @role.RoleName
-                                                        @if (role.RoleName == "Admin" && isSoleAdmin)
-                                                        {
-                                                            <span class="text-muted">(cannot unassign the only Admin)</span>
-                                                        }
                                                     </label>
+                                                
                                                 </div>
                                             </div>
                                         }
@@ -129,7 +110,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> *@
+                    </div>
                 </div>
 
                 <!-- Buttons -->
@@ -144,16 +125,4 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
-    <script>
-        // Optional: Dynamically update label text for the Active toggle
-        document.addEventListener("DOMContentLoaded", function () {
-            const toggle = document.getElementById("statusSwitchEdit");
-            const label = document.querySelector("label[for='statusSwitchEdit']");
-
-            toggle.addEventListener("change", function () {
-                label.textContent = this.checked ? "Active" : "Inactive";
-            });
-        });
-    </script>
 }

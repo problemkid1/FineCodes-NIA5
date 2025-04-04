@@ -54,7 +54,37 @@
                     </div>
 
                     <!-- Assign Roles -->
-                    @* <div class="col-12">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="control-label fw-bold">Assign Roles</label>
+                            <div class="border rounded p-3">
+                                <div class="row">
+                                    @{
+                                        List<CRMProject.ViewModels.RoleVM> roles = ViewBag.Roles;
+                                        //var selectedRole = roles.FirstOrDefault(r => r.Assigned)?.RoleName;
+                                        <div class="form-group">
+                                            <label for="selectedRole">Select a Role</label>
+                                            <select id="selectedRole" name="selectedRole" class="form-select">
+                                                @foreach (var role in roles)
+                                                {
+                                                    @if (role.RoleName != "Super")
+                                                    {
+                                                        <option value="@role.RoleName">
+                                                            @role.RoleName
+                                                        </option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    @*  <!-- Assign Roles -->
+                    <div class="col-12">
                         <div class="form-group">
                             <label class="control-label fw-bold">Assign Roles</label>
                             <div class="border rounded p-3">
@@ -70,12 +100,13 @@
                                             }
                                             cnt++;
                                             <div class="col-md-4">
-                                                <div class="form-check form-switch">
+                                                <div class="form-check form-switch">                                              
                                                     <input class="form-check-input" type="checkbox"
                                                            id="@role.RoleName-CheckBox"
                                                            name="selectedRoles"
                                                            value="@role.RoleName"
-                                                           @(role.Assigned ? "checked" : "") />
+                                                           @(role.Assigned ? "checked" : "checked") />
+
                                                     <label class="form-check-label" for="@role.RoleName-CheckBox">
                                                         @role.RoleName
                                                     </label>
@@ -87,6 +118,8 @@
                             </div>
                         </div>
                     </div> *@
+
+
                 </div>
 
                 <div class="form-group text-center mt-3">

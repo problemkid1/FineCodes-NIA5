@@ -39,7 +39,7 @@
     <div class="card">
         <div class="card-body">
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h2 class="h2 mb-0 text-gray-1400">Member Administration</h2>
+                <h2 class="h2 mb-0 text-gray-1400">Maintain Users</h2>
                 <a asp-action="Create" class="btn btn-primary btn-lg">
                     <i class="fas fa-plus"></i> Add User
                 </a>
@@ -62,7 +62,7 @@
                             @if (!Model.Any())
                             {
                                 <tr>
-                                    <td colspan="5" class="text-center">No members available.</td>
+                                    <td colspan="5" class="text-center">No users available.</td>
                                 </tr>
                             }
                             else
@@ -74,7 +74,7 @@
                                             @Html.DisplayFor(modelItem => item.Summary)<br />
                                             <strong>Email:</strong> @Html.DisplayFor(modelItem => item.Email)
                                         </td>
-                                        <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Phone)</td>
                                         <td>
                                             @if (item.UserRoles != null && item.UserRoles.Any())
                                             {
@@ -107,9 +107,12 @@
                                         </td>
                                         <td class="text-center" style="text-align: center;">
                                             <div class="btn-group">
-                                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" title="Edit">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
+                                                @if (item.UserRoles != null && !item.UserRoles.Contains("Super"))
+                                                {
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary" title="Edit">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
+                                                }
                                                 @if (item.NumberOfPushSubscriptions > 0)
                                                 {
                                                     <a asp-controller="WebPush" asp-action="Send" asp-route-id="@item.ID" class="btn btn-md btn-outline-secondary" title="Send Notification">
