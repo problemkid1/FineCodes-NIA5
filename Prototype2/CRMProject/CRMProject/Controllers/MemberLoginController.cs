@@ -102,22 +102,7 @@ namespace CRMProject.Controllers
                     });
                 }
             }
-
-            //foreach (var role in allRoles)
-            //{
-            //    viewModel.Add(new RoleVM
-            //    {
-            //        RoleId = role.Id,
-            //        RoleName = role.Name,
-            //        Assigned = currentRoles.Contains(role.Name)
-            //    });
-            //}
-
             ViewBag.Roles = viewModel;
-
-
-            // Remove the Admin role from the list of roles
-            //ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
 
             return View(memberAdmin);
         }
@@ -188,9 +173,6 @@ namespace CRMProject.Controllers
                 Phone = memberlogin.Phone
             };
             PopulateAssignedRoleData(memberAdminVm);
-
-            //ViewBag.Roles = ((List<RoleVM>)ViewBag.Roles).Where(r => r.RoleName != "Admin").ToList();
-
             return View(memberAdminVm);
         }
 
@@ -241,6 +223,13 @@ namespace CRMProject.Controllers
                 //Add the current roles
                 var r = await _userManager.GetRolesAsync(user);
                 memberLogin.UserRoles = (List<string>)r;
+
+                // Restrict any edit operations on Super users
+                if (memberLogin.UserRoles.Contains("Super"))
+                {
+                    TempData["ErrorMessage"] = "You are not authorized to edit a Super user.";
+                    return RedirectToAction(nameof(Index));
+                }
 
                 var targetUser = await _userManager.FindByEmailAsync(memberLogin.Email);
                 var targetRoles = targetUser != null ? await _userManager.GetRolesAsync(targetUser) : new List<string>();
@@ -312,12 +301,12 @@ namespace CRMProject.Controllers
             }
 
             var breadcrumbs = new List<BreadcrumbItem>
-    {
-        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-        new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
-        new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
-        new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
-    };
+            {
+                new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
+                new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+            };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
@@ -327,6 +316,17 @@ namespace CRMProject.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             string currentEmail = currentUser?.Email;
             bool isEditingSelf = currentEmail == memberLoginToUpdate.Email;
+
+            var user = await _userManager.FindByEmailAsync(memberLoginToUpdate.Email);
+            if (user != null)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains("Super"))
+                {
+                    TempData["ErrorMessage"] = "You are not authorized to edit a Super user.";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
 
             if (await TryUpdateModelAsync<MemberLogin>(memberLoginToUpdate, "",
                 e => e.FirstName, e => e.LastName, e => e.Phone, e => e.Email,
