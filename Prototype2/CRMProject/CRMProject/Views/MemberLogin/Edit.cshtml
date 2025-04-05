@@ -59,7 +59,25 @@
                     </div>
 
                     <!-- Active Select List -->
-                    @if (!Model.UserRoles.Contains("Admin"))
+                    @if (User.Identity.Name == Model.Email)
+                    {
+                        <div class="col-md-6" hidden>
+                            <div class="form-group">
+                                <label class="control-label d-block">Status</label>
+                                <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control"></select>
+                                <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
+                                    <strong>
+                                        @(
+                                            Model.Active
+                                            ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
+                                            : "If you make this user active, inform them to use Forgot Password to set a new one."
+                                            )
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
                     {
                         <div class="col-md-6">
                             <div class="form-group">
@@ -67,22 +85,72 @@
                                 <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control"></select>
                                 <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
                                     <strong>
-                                        @(Model.Active
+                                        @(
+                                            Model.Active
                                             ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
-                                            : "If you make this user active, inform them to use Forgot Password to set a new one.")
+                                            : "If you make this user active, inform them to use Forgot Password to set a new one."
+                                            )
                                     </strong>
                                 </div>
                             </div>
                         </div>
                     }
 
+                    @* <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label d-block">Status</label>
+                            @if (User.Identity.Name == Model.Email)
+                            {
+                                <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control" disabled="disabled"></select>
+                            }
+                            else
+                            {
+                                <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control"></select>
+                            }
+                            @* <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control" @(User.Identity.Name == Model.Email ? "disabled=\"disabled\"" : "")></select> *@
+                    @* <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
+                                <strong>
+                                    @(Model.Active
+                                        ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
+                                        : "If you make this user active, inform them to use Forgot Password to set a new one.")
+                                </strong>
+                            </div>
+                        </div>
+                    </div>  *@
+
+
                     <!-- Assign Roles -->
                     <div class="col-12">
-                        <div class="form-group">
-                            <label class="control-label fw-bold">Assign Roles</label>
-                            <div class="border rounded p-3">
-                                <div class="row">
-                                    @{
+                        @if (User.Identity.Name == Model.Email)
+                        {
+                            <div class="form-group" hidden>
+                                <label class="control-label fw-bold">Assign Roles</label>
+                                <div class="border rounded p-3">
+                                    <div class="row">
+                                        @{
+                                            List<CRMProject.ViewModels.RoleVM> roles = ViewBag.Roles;
+                                        }
+
+                                        <div class="form-group">
+
+                                            <label for="selectedRole">Select a Role</label>
+
+                                            <select id="selectedRole" name="selectedRole" class="form-select">
+                                                @foreach (var role in roles)
+                                                {
+                                                    @if (role.RoleName != "Super")
+                                                    {
+                                                        <option value="@role.RoleName" selected="@(role.Assigned ? "selected" : null)">
+                                                            @role.RoleName
+                                                        </option>
+                                                    }
+                                                }
+                                            </select>
+
+                                        </div>
+
+
+                                        @* @{
                                         int cnt = 0;
                                         foreach (var role in Model.AvailableRoles.Where(r => r.RoleName != "Super"))
                                         {
@@ -93,7 +161,7 @@
                                             cnt++;
                                             <div class="col-md-4">
                                                 <div class="form-check form-switch">
-                                                
+
                                                     <input class="form-check-input" type="radio"
                                                            id="@role.RoleName-CheckBox"
                                                            name="selectedRole"
@@ -102,22 +170,50 @@
                                                     <label class="form-check-label" for="@role.RoleName-CheckBox">
                                                         @role.RoleName
                                                     </label>
-                                                
+
                                                 </div>
                                             </div>
                                         }
-                                    }
+                                    } *@
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label class="control-label fw-bold">Assign Roles</label>
+                                <div class="border rounded p-3">
+                                    <div class="row">
+                                        @{
+                                            List<CRMProject.ViewModels.RoleVM> roles = ViewBag.Roles;
+                                        }
 
-                <!-- Buttons -->
-                <div class="form-group text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Cancel</a>
-                </div>
+                                        <div class="form-group">
+
+                                            <label for="selectedRole">Select a Role</label>
+                                            <select id="selectedRole" name="selectedRole" class="form-select">
+                                                @foreach (var role in roles)
+                                                {
+                                                    @if (role.RoleName != "Super")
+                                                    {
+                                                        <option value="@role.RoleName" selected="@(role.Assigned ? "selected" : null)">
+                                                            @role.RoleName
+                                                        </option>
+                                                    }
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <!-- Buttons -->
+                        <div class="form-group text-center mt-3">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a asp-action="Index" class="btn btn-secondary ml-2">Cancel</a>
+                        </div>
             </form>
         </div>
     </div>

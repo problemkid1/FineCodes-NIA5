@@ -231,23 +231,68 @@ namespace CRMProject.Controllers
 
             //Get the user from the Identity system
             var user = await _userManager.FindByEmailAsync(memberLogin.Email);
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            string currentEmail = currentUser?.Email;
+            bool isEditingSelf = currentEmail == memberLogin.Email;
+
             if (user != null)
             {
                 //Add the current roles
                 var r = await _userManager.GetRolesAsync(user);
                 memberLogin.UserRoles = (List<string>)r;
 
-                //// Check if user is the only Admin
-                //if (memberLogin.UserRoles.Contains("Admin"))
-                //{
-                //    var allAdmins = await _userManager.GetUsersInRoleAsync("Admin");
-                //    if (allAdmins.Count == 1 && allAdmins[0].Email == memberLogin.Email)
-                //    {
-                //        ViewData["IsSoleAdmin"] = true;
-                //    }
-                //}
+                var targetUser = await _userManager.FindByEmailAsync(memberLogin.Email);
+                var targetRoles = targetUser != null ? await _userManager.GetRolesAsync(targetUser) : new List<string>();
+
+                bool isTargetAdmin = targetRoles.Contains("Admin");
+                bool isTargetSuper = targetRoles.Contains("Super");
+
+                if (User.IsInRole("Admin"))
+                {
+                    // Allow Admin to edit themselves, but:
+                    if (!isEditingSelf && (isTargetAdmin || isTargetSuper))
+                    {
+                        //Admin trying to edit another Admin or a Super
+                        TempData["ErrorMessage"] = "You are not authorized to edit this user.";
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    if (isEditingSelf && isTargetSuper)
+                    {
+                        // Extra safety check: should never happen, but just in case
+                        TempData["ErrorMessage"] = "You are not authorized to edit a Super user.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
-            PopulateAssignedRoleData(memberLogin);
+            var allRoles = _identityContext.Roles.ToList();
+            var currentRoles = memberLogin.UserRoles ?? new List<string>();
+            var viewModel = new List<RoleVM>();
+
+            foreach (var role in allRoles)
+            {
+                if (User.IsInRole("Admin") && role.Name == "User")
+                {
+                    viewModel.Add(new RoleVM
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name,
+                        Assigned = currentRoles.Contains(role.Name)
+                    });
+                }
+                else if (User.IsInRole("Super") && (role.Name == "User" || role.Name == "Admin"))
+                {
+                    viewModel.Add(new RoleVM
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name,
+                        Assigned = currentRoles.Contains(role.Name)
+                    });
+                }
+            }
+
+            ViewBag.Roles = viewModel;
 
             return View(memberLogin);
         }
@@ -279,6 +324,10 @@ namespace CRMProject.Controllers
             bool ActiveStatus = memberLoginToUpdate.Active;
             string databaseEmail = memberLoginToUpdate.Email;
 
+            var currentUser = await _userManager.GetUserAsync(User);
+            string currentEmail = currentUser?.Email;
+            bool isEditingSelf = currentEmail == memberLoginToUpdate.Email;
+
             if (await TryUpdateModelAsync<MemberLogin>(memberLoginToUpdate, "",
                 e => e.FirstName, e => e.LastName, e => e.Phone, e => e.Email,
                  e => e.Active))
@@ -290,6 +339,20 @@ namespace CRMProject.Controllers
                         ModelState.AddModelError("Role", "You cannot assign the Super role.");
                         return View(memberLoginToUpdate);
                     }
+
+                    if (User.IsInRole("Admin") && selectedRole != "User")
+                    {
+                        ModelState.AddModelError("Role", "Admins can only assign the User role.");
+                        return View(memberLoginToUpdate);
+                    }
+
+                    if (isEditingSelf)
+                    {
+                        // Prevent Admin from changing their own role or making themselves inactive
+                        selectedRole = "Admin";
+                        memberLoginToUpdate.Active = true;
+                    }
+
                     await _context.SaveChangesAsync();
 
                     if (memberLoginToUpdate.Active == false && ActiveStatus == true)
