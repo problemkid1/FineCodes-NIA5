@@ -20,13 +20,13 @@
 
 /* Improve contrast for breadcrumb links */
 .breadcrumb-item a {
-    color: #2c5282 !important; /* Darker blue */
+    color: #384B82 !important; /* Darker blue */
     font-weight: 500;
 }
 
 /* Improve contrast for active breadcrumb item */
 .breadcrumb-item.active {
-    color: #1a365d !important; /* Very dark blue */
+    color: #4e73df !important; /* Very dark blue */
     font-weight: 600;
 }
 
@@ -36,15 +36,15 @@
 }
 
 /* Improve contrast for refresh button */
-.btn-outline-primary {
-    color: #2b6cb0 !important;
-    border-color: #2b6cb0 !important;
+/*.btn-outline-primary {
+    color: #fff;
+    border-color: #384B82;
 }
 
     .btn-outline-primary:hover {
         background-color: #2b6cb0 !important;
         color: white !important;
-    }
+    }*/
 
 
 
@@ -60,7 +60,7 @@
     content: ">";
 }*/
 
-.text-primary {
+/*.text-primary {
     color: #384B82 !important;
 }
 
@@ -68,7 +68,7 @@ input[type="file"] {
     display: block !important;
     opacity: 1 !important;
     pointer-events: auto !important;
-}
+}*/
 
 
 
@@ -188,7 +188,7 @@ body {
 }
 
 .btn-outline-primary {
-    color: #384B82;
+    color: #fff;
     border-color: #384B82;
 }
 

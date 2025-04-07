@@ -2723,7 +2723,7 @@ a.btn.disabled, fieldset:disabled a.btn {
     }
 
     .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-        color: #4e73df;
+        color: #fff;
         background-color: transparent;
     }
 
