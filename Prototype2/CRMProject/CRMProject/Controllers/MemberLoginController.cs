@@ -205,8 +205,8 @@ namespace CRMProject.Controllers
             {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
-                new BreadcrumbItem { Title = $"{memberLogin.FirstName} {memberLogin.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
-                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                //new BreadcrumbItem { Title = $"{memberLogin.FirstName} {memberLogin.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit"  + "-" +( $"{memberLogin.FirstName} {memberLogin.LastName}"), Url = "#", IsActive = true }
             };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
@@ -304,8 +304,8 @@ namespace CRMProject.Controllers
             {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                 new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = false },
-                new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
-                new BreadcrumbItem { Title = "Edit", Url = "#", IsActive = true }
+                //new BreadcrumbItem { Title = $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}", Url = $"/MemberLogin/Details/{id}", IsActive = false },
+                new BreadcrumbItem { Title = "Edit"  +  "-" + ( $"{memberLoginToUpdate.FirstName} {memberLoginToUpdate.LastName}"), Url = "#", IsActive = true }
             };
 
             ViewData["Breadcrumbs"] = breadcrumbs;

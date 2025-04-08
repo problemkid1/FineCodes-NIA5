@@ -65,10 +65,16 @@
 
             <form asp-action="Index" method="get">
                 <div class="form-horizontal">
-                    <button class="btn btn-outline-primary  @ViewData["Filtering"]" type="button" data-bs-toggle="collapse" id="filterToggle"
-                            data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                    <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
+                            id="filterToggle"
+                            aria-expanded="false"
+                            aria-controls="collapseFilter">
                         Filter/Search @ViewData["numberFilters"]
-                    </button><br />
+                    </button>
+
+
+                    <div class="mb-4"></div> <!-- Added spacer div -->
+
                     <div class="collapse @ViewData["ShowFilter"]" id="collapseFilter">
                         <div class="card card-body bg-light">
                             <div class="row">

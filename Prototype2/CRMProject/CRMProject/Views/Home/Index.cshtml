@@ -411,15 +411,15 @@
         };
 
         // Add a button to manually fix visibility issues (for debugging)
-        const debugButton = document.createElement('button');
-        debugButton.textContent = 'Fix Visibility';
-        debugButton.className = 'btn btn-sm btn-outline-secondary mt-2';
-        debugButton.style.position = 'fixed';
-        debugButton.style.bottom = '10px';
-        debugButton.style.right = '10px';
-        debugButton.style.zIndex = '9999';
-        debugButton.addEventListener('click', window.fixWidgetVisibility);
-        document.body.appendChild(debugButton);
+        @* const debugButton = document.createElement('button'); *@
+        @* debugButton.textContent = 'Fix Visibility'; *@
+        @* debugButton.className = 'btn btn-sm btn-outline-secondary mt-2'; *@
+        @* debugButton.style.position = 'fixed'; *@
+        @* debugButton.style.bottom = '10px'; *@
+        @* debugButton.style.right = '10px'; *@
+        @* debugButton.style.zIndex = '9999'; *@
+        @* debugButton.addEventListener('click', window.fixWidgetVisibility); *@
+        @* document.body.appendChild(debugButton); *@
 
         // Debug data coming from the server
         console.log("Municipality Labels:", @Html.Raw(Json.Serialize(ViewData["MunicipalityLabels"] ?? new List<string>())));

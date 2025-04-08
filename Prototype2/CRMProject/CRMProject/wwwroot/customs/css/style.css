@@ -100,7 +100,7 @@
 }
 
 /* Dark Mode Styles */
-body.dark-mode {
+/*body.dark-mode {
     background-color: #595555;
     color: #e0e0e0;
 }
@@ -192,18 +192,18 @@ body.dark-mode {
         background-color: #5a2a2a;
         border-color: #6a3a3a;
         color: #ff9090;
-    }
+    }*/
 
 
     /* Table header styling for dark mode */
-    body.dark-mode .table th {
-        background-color: #3a3a3a !important; /* Match card-header background */
-        color: #e0e0e0 !important;
+    /*body.dark-mode .table th {
+        background-color: #3a3a3a !important;*/ /* Match card-header background */
+        /*color: #e0e0e0 !important;
         border-color: #444 !important;
-    }
+    }*/
 
     /* DataTables specific styling for dark mode */
-    body.dark-mode .dataTables_wrapper .dataTables_length,
+    /*body.dark-mode .dataTables_wrapper .dataTables_length,
     body.dark-mode .dataTables_wrapper .dataTables_filter,
     body.dark-mode .dataTables_wrapper .dataTables_info,
     body.dark-mode .dataTables_wrapper .dataTables_processing,
@@ -220,10 +220,10 @@ body.dark-mode {
                 background: #4e73df !important;
                 color: white !important;
                 border-color: #444 !important;
-            }
+            }*/
 
     /* Form controls in dark mode */
-    body.dark-mode .form-control,
+    /*body.dark-mode .form-control,
     body.dark-mode .custom-select {
         background-color: #333 !important;
         color: #e0e0e0 !important;
@@ -234,54 +234,54 @@ body.dark-mode {
         body.dark-mode .custom-select:focus {
             border-color: #4e73df !important;
             box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25) !important;
-        }
+        }*/
 
     /* Table striping in dark mode */
-    body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    /*body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
         background-color: rgba(255, 255, 255, 0.05) !important;
-    }
+    }*/
 
     /* Table hover effect in dark mode */
-    body.dark-mode .table-hover tbody tr:hover {
+    /*body.dark-mode .table-hover tbody tr:hover {
         background-color: rgba(255, 255, 255, 0.075) !important;
-    }
+    }*/
 
 
     /* Chart Dark Mode Styling */
-    body.dark-mode .chart-container,
+    /*body.dark-mode .chart-container,
     body.dark-mode .chart-bar,
     body.dark-mode .chart-pie {
         background-color: #333 !important;
         color: #e0e0e0;
-    }
+    }*/
 
     /* Make sure canvas elements in charts inherit the dark background */
-    body.dark-mode canvas {
+    /*body.dark-mode canvas {
         background-color: #333 !important;
         color: #e0e0e0;
-    }
+    }*/
 
     /* Style chart legends in dark mode */
-    body.dark-mode .chartjs-legend li span,
+    /*body.dark-mode .chartjs-legend li span,
     body.dark-mode .chartjs-tooltip {
         color: #e0e0e0 !important;
-    }
+    }*/
 
     /* Style chart grid lines and text in dark mode */
-    body.dark-mode .chartjs-render-monitor {
+    /*body.dark-mode .chartjs-render-monitor {
         color: #e0e0e0 !important;
-    }
+    }*/
 
     /* Ensure chart containers in cards have the right background */
-    body.dark-mode .card .chart-container,
+    /*body.dark-mode .card .chart-container,
     body.dark-mode .card .chart-bar,
     body.dark-mode .card .chart-pie {
         background-color: #333 !important;
         color: #e0e0e0;
-    }
+    }*/
 
 /* For media query dark mode support */
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
     .dark-mode-enabled .chart-container,
     .dark-mode-enabled .chart-bar,
     .dark-mode-enabled .chart-pie {
@@ -293,13 +293,13 @@ body.dark-mode {
         background-color: #333 !important;
         color: #e0e0e0;
     }
-}
+}*/
 
 /* Ensure chart tooltips are visible in dark mode */
-body.dark-mode .chartjs-tooltip {
+/*body.dark-mode .chartjs-tooltip {
     background-color: rgba(50, 50, 50, 0.8) !important;
     border-color: #444 !important;
-}
+}*/
 
 
 
@@ -323,7 +323,7 @@ body.dark-mode .chartjs-tooltip {
     }
 
 /* Dark mode specific fixes for split view */
-body.dark-mode .col-md-6 .metrics-item .card {
+/*body.dark-mode .col-md-6 .metrics-item .card {
     background-color: #333 !important;
     color: #e0e0e0 !important;
 }
@@ -334,10 +334,10 @@ body.dark-mode .col-md-6 .metrics-item .card {
 
     body.dark-mode .col-md-6 .metrics-item .card .text-primary {
         color: #8bb9ff !important;
-    }
+    }*/
 
 /* Light mode specific fixes for split view */
-body:not(.dark-mode) .col-md-6 .metrics-item .card {
+/*body:not(.dark-mode) .col-md-6 .metrics-item .card {
     background-color: #fff !important;
     color: #5a5c69 !important;
 }
@@ -348,7 +348,7 @@ body:not(.dark-mode) .col-md-6 .metrics-item .card {
 
     body:not(.dark-mode) .col-md-6 .metrics-item .card .text-primary {
         color: #4e73df !important;
-    }
+    }*/
 
 
 /* Fix for split view widget visibility */
