@@ -15,15 +15,18 @@
 
 <h5 class="mt-3">Selected Membership Types</h5>
 <div id="selectedMembershipTypesContainer">
-    <ul id="selectedMembershipTypesList" class="list-group">
+    <div id="selectedMembershipTypesList">
         @foreach (var item in Model)
         {
-            <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@item.Value">
-                @item.Text
-                <button type="button" class="btn btn-sm btn-danger remove-membership-type">Remove</button>
-            </li>
+            <div class="input-group mb-2" data-id="@item.Value">
+                <input type="text" class="form-control" value="@item.Text" readonly>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger remove-membership-type">Remove</button>
+                </div>
+            </div>
+
         }
-    </ul>
+    </div>
 
     <!-- No membership types message - initially hidden if there are membership types -->
     <div id="noMembershipTypesMessage" class="alert alert-info mt-2 @(Model != null && Model.Any() ? "d-none" : "")">
@@ -255,7 +258,7 @@
         // Remove membership type button click handler
         $(document).on("click", ".remove-membership-type", function () {
             console.log("Remove button clicked");
-            const $item = $(this).closest("li");
+            const $item = $(this).closest(".input-group");
             const membershipTypeId = $item.data("id");
 
             // Remove the hidden field for this membership type
@@ -273,14 +276,17 @@
             console.log("Adding membership type:", membershipTypeId, membershipTypeName);
 
             // Check if membership type already exists in the list
-            if ($("#selectedMembershipTypesList li[data-id='" + membershipTypeId + "']").length === 0) {
+            if ($("#selectedMembershipTypesList [data-id='" + membershipTypeId + "']").length === 0) {
                 // Add the membership type to the list
-                $("#selectedMembershipTypesList").append(`
-                        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${membershipTypeId}">
-                            ${membershipTypeName}
-                            <button type="button" class="btn btn-sm btn-danger remove-membership-type">Remove</button>
-                        </li>
+                   $("#selectedMembershipTypesList").append(`
+                        <div class="input-group mb-2" data-id="${membershipTypeId}">
+                            <input type="text" class="form-control" value="${membershipTypeName}" readonly>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-danger remove-membership-type">Remove</button>
+                            </div>
+                        </div>
                     `);
+
 
                 // Add a hidden field for this membership type - UPDATED NAME HERE
                 $('<input>').attr({
@@ -301,21 +307,19 @@
         }
 
         // Function to check if there are any membership types and show/hide the message accordingly
-        function updateNoMembershipTypesMessage() {
-            const membershipTypeCount = $("#selectedMembershipTypesList li").length;
-            console.log("Membership type count:", membershipTypeCount);
+            function updateNoMembershipTypesMessage() {
+                const membershipTypeCount = $("#selectedMembershipTypesList .input-group").length;
+                console.log("Membership type count:", membershipTypeCount);
 
-            if (membershipTypeCount === 0) {
-                // Show the "No membership types" message
-                $("#noMembershipTypesMessage").removeClass("d-none");
-            } else {
-                // Hide the "No membership types" message
-                $("#noMembershipTypesMessage").addClass("d-none");
+                if (membershipTypeCount === 0) {
+                    $("#noMembershipTypesMessage").removeClass("d-none");
+                } else {
+                    $("#noMembershipTypesMessage").addClass("d-none");
+                }
+
+                console.log("Membership type fields after update:", $('.membership-type-id-field').length);
             }
 
-            // Log the current membership type fields after updating
-            console.log("Membership type fields after update:", $('.membership-type-id-field').length);
-        }
 
         // Check if there are any membership types initially and show/hide the message
         updateNoMembershipTypesMessage();
