@@ -612,7 +612,8 @@
 
 
 .btn-outline-primary {
-    color: #384B82;
+    background-color: #384B82;
+    color: #e0e0e0;
     border-color: #384B82;
 }
 
