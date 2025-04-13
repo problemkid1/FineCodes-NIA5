@@ -47,7 +47,14 @@
 <!-- Custom styles for this template-->
 <link href="~/customs/css/style.css" rel="stylesheet">
 <link href="~/theme/css/custom-colors.css" rel="stylesheet">
-
+<style>
+    #SameZiseBtn,
+    #filterToggle {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -56,7 +63,7 @@
                 <h1 class="mb-0 text-gray-1400" style="font-size: 1.75rem;">Contacts</h1>
                 @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                 {
-                    <a asp-action="Create" class="btn btn-primary btn-lg ">
+                    <a asp-action="Create" class="btn btn-primary btn-lg" id="SameZiseBtn">
                         <i class="fas fa-plus"></i>Add Contact
                     </a>
                 }
@@ -81,25 +88,51 @@
                                 <!-- Filter by First Name -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by First Name:</label>
-                                    @Html.TextBox("FirstName", null, new { @class = "form-control", placeholder = "Enter first name" })
+                                    @Html.DropDownList("FirstName",
+                                             new SelectList(ViewBag.FirstNameList, "Value", "Text"),
+                                             "All First Names",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by Last Name -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Last Name:</label>
-                                    @Html.TextBox("LastName", null, new { @class = "form-control", placeholder = "Enter last name" })
+                                    @Html.DropDownList("LastName",
+                                             new SelectList(ViewBag.LastNameList, "Value", "Text"),
+                                             "All Last Names",
+                                             new { @class = "form-control" })
+                                </div>
+
+                                <!-- Filter by Member Name -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Member Name:</label>
+                                    @Html.DropDownList("MemberName",
+                                             new SelectList(ViewBag.contactMemberList, "Value", "Text"),
+                                             "All Member Names",
+                                             new { @class = "form-control" })
+                                </div>                                                             
+
+                                <!-- Filter by Title/Role -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Title/Role:</label>
+                                    @Html.DropDownList("ContactTitleRole",
+                                             new SelectList(ViewBag.ContactTitleList, "Value", "Text"),
+                                             "All Titles/Roles",
+                                             new { @class = "form-control" })
+                                </div>
+                                <!-- Filter by Email Type -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Email Type:</label>
+                                    @Html.DropDownList("ContactEmailType",
+                                             new SelectList(ViewBag.ContactEmailType, "Value", "Text"),
+                                             "All Email Types",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by Phone -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Phone:</label>
                                     @Html.TextBox("ContactPhone", null, new { @class = "form-control", placeholder = "Enter phone number" })
-                                </div>
-
-                                <!-- Filter by Title/Role -->
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Title/Role:</label>
-                                    @Html.TextBox("ContactTitleRole", null, new { @class = "form-control", placeholder = "Enter title or role" })
                                 </div>
 
                                 <!-- Filter Actions -->

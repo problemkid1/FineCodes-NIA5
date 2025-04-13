@@ -50,7 +50,7 @@
                     <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
                             id="filterToggle"
                             aria-expanded="false"
-                            aria-controls="collapseFilter">
+                            aria-controls="collapseFilter" style="min-width: 155px; min-height: 50px; align-content: center;">
 
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
@@ -61,7 +61,10 @@
                                 <!-- Filter by Member Name -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Member Name:</label>
-                                    @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                                    @Html.DropDownList("SearchString",
+                                             new SelectList(ViewBag.memberList, "Value", "Text"),
+                                             "All Member Names",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by Status -->
@@ -77,26 +80,22 @@
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Member Status:</label>
                                     @Html.DropDownList("Status",
-                                                      memberStatusList, // Use filtered list
-                                                      new { @class = "form-control" })
+                                             memberStatusList, // Use filtered list
+                                             new { @class = "form-control" })
                                 </div>
 
-                                <!-- Filter by Notes -->
+                                <!-- Filter by Join Date Range -->
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Notes:</label>
-                                    @Html.TextBox("Notes", null, new { @class = "form-control", placeholder = "Enter notes" })
-                                </div><br />
-
-                                <!-- Filter by Date Range -->
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Date:</label>
-                                    <div class="d-flex">
-                                        <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
-                                        <span class="mx-2">to</span>
-                                        <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                                    <label class="control-label">Filter by Join Date:</label>
+                                    <div class="d-flex flex-wrap align-items-center">
+                                        <div class="me-2 mb-2 flex-grow-1">
+                                            <input type="date" name="StartDate" value="@ViewData["StartDate"]" class="form-control" placeholder="Start Date" />
+                                        </div>
+                                        <span class="mx-1 mb-2">to</span>
+                                        <div class="ms-2 mb-2 flex-grow-1">
+                                            <input type="date" name="EndDate" value="@ViewData["EndDate"]" class="form-control" placeholder="End Date" />
+                                        </div>
                                     </div>
-
-                                    <span class="text-danger">@ViewData["NotesCount"]</span>
                                 </div>
 
                                 <span class="text-danger">@ViewData["NotesCount"]</span>
@@ -106,7 +105,7 @@
                                 <!-- Filter Actions -->
                                 <div class="form-group col-md-4 align-self-end">
                                     <button type="submit" name="actionButton"
-                                    class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
+                                            class="btn btn-outline-primary @(string.IsNullOrEmpty(ViewData["numberFilters"]?.ToString()) ? "btn-outline-primary" : "btn-danger")">
                                         Filter @ViewData["numberFilters"]
                                     </button>
                                     <a asp-action="Index" class="btn btn-outline-primary">Clear</a>
@@ -133,11 +132,11 @@
                                         <span class="badge bg-primary text-white p-3 fs-4 fw-bold">
                                             Member Name: @Context.Request.Query["SearchString"]
                                             <a asp-action="Index"
-                                            asp-route-MemberStatus="@Context.Request.Query["MemberStatus"]"
-                                            asp-route-Notes="@Context.Request.Query["Notes"]"
-                                            asp-route-StartDate="@Context.Request.Query["StartDate"]"
-                                            asp-route-EndDate="@Context.Request.Query["EndDate"]"
-                                            class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
+                                               asp-route-MemberStatus="@Context.Request.Query["MemberStatus"]"
+                                               asp-route-Notes="@Context.Request.Query["Notes"]"
+                                               asp-route-StartDate="@Context.Request.Query["StartDate"]"
+                                               asp-route-EndDate="@Context.Request.Query["EndDate"]"
+                                               class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
                                         </span>
                                     </div>
                                 }
@@ -147,25 +146,11 @@
                                         <span class="badge bg-primary text-white p-3 fs-4 fw-bold">
                                             Status: @(Context.Request.Query["MemberStatus"] == "1" ? "Cancelled" : Context.Request.Query["MemberStatus"])
                                             <a asp-action="Index"
-                                            asp-route-SearchString="@Context.Request.Query["SearchString"]"
-                                            asp-route-Notes="@Context.Request.Query["Notes"]"
-                                            asp-route-StartDate="@Context.Request.Query["StartDate"]"
-                                            asp-route-EndDate="@Context.Request.Query["EndDate"]"
-                                            class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
-                                        </span>
-                                    </div>
-                                }
-                                @if (!string.IsNullOrEmpty(Context.Request.Query["Notes"]))
-                                {
-                                    <div class="col-auto mb-3 me-3">
-                                        <span class="badge bg-primary text-white p-3 fs-4 fw-bold">
-                                            Notes: @Context.Request.Query["Notes"]
-                                            <a asp-action="Index"
-                                            asp-route-SearchString="@Context.Request.Query["SearchString"]"
-                                            asp-route-MemberStatus="@Context.Request.Query["MemberStatus"]"
-                                            asp-route-StartDate="@Context.Request.Query["StartDate"]"
-                                            asp-route-EndDate="@Context.Request.Query["EndDate"]"
-                                            class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
+                                               asp-route-SearchString="@Context.Request.Query["SearchString"]"
+                                               asp-route-Notes="@Context.Request.Query["Notes"]"
+                                               asp-route-StartDate="@Context.Request.Query["StartDate"]"
+                                               asp-route-EndDate="@Context.Request.Query["EndDate"]"
+                                               class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
                                         </span>
                                     </div>
                                 }
@@ -175,10 +160,10 @@
                                         <span class="badge bg-primary text-white p-3 fs-4 fw-bold">
                                             Date Range: @Context.Request.Query["StartDate"] to @Context.Request.Query["EndDate"]
                                             <a asp-action="Index"
-                                            asp-route-SearchString="@Context.Request.Query["SearchString"]"
-                                            asp-route-MemberStatus="@Context.Request.Query["MemberStatus"]"
-                                            asp-route-Notes="@Context.Request.Query["Notes"]"
-                                            class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
+                                               asp-route-SearchString="@Context.Request.Query["SearchString"]"
+                                               asp-route-MemberStatus="@Context.Request.Query["MemberStatus"]"
+                                               asp-route-Notes="@Context.Request.Query["Notes"]"
+                                               class="ms-2 text-white"><i class="fas fa-times-circle"></i></a>
                                         </span>
                                     </div>
                                 }
@@ -212,7 +197,7 @@
                             @if (!Model.Any())
                             {
                                 <tr>
-                                    <td colspan="5" class="text-center">No records available.</td>
+                                    <td colspan="6" class="text-center">No records available.</td>
                                 </tr>
                             }
                             else
@@ -294,7 +279,7 @@
                                                 @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                                                 {
                                                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                    data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                       data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
                                                         <i class="bi bi-pencil-square"></i>
                                                     </a>
                                                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
@@ -304,10 +289,10 @@
                                                 }
                                                 else
                                                 {
-                                                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                   role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                                    <i class="bi bi-search"></i>
-                                                </a>
+                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                        <i class="bi bi-search"></i>
+                                                    </a>
                                                 }
                                             </div>
                                         </td>
@@ -333,50 +318,50 @@
     </script>
 
 
-<script>
-    // Toggle for Member Name
-    function toggleTextName(itemId) {
-        var moreText = document.getElementById("moreTextName" + itemId);
-        var readMore = document.getElementById("readMoreName" + itemId);
+    <script>
+        // Toggle for Member Name
+        function toggleTextName(itemId) {
+            var moreText = document.getElementById("moreTextName" + itemId);
+            var readMore = document.getElementById("readMoreName" + itemId);
 
-        // Toggle member name text
-        if (moreText.style.display === "none") {
-            moreText.style.display = "inline";
-            readMore.innerHTML = " Read less";
-        } else {
-            moreText.style.display = "none";
-            readMore.innerHTML = "... ";
+            // Toggle member name text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
         }
-    }
 
-    // Toggle for Reason
-    function toggleTextReason(itemId) {
-        var moreText = document.getElementById("moreTextReason" + itemId);
-        var readMore = document.getElementById("readMoreReason" + itemId);
+        // Toggle for Reason
+        function toggleTextReason(itemId) {
+            var moreText = document.getElementById("moreTextReason" + itemId);
+            var readMore = document.getElementById("readMoreReason" + itemId);
 
-        // Toggle reason text
-        if (moreText.style.display === "none") {
-            moreText.style.display = "inline";
-            readMore.innerHTML = " Read less";
-        } else {
-            moreText.style.display = "none";
-            readMore.innerHTML = "... ";
+            // Toggle reason text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
         }
-    }
 
-    // Toggle for Notes
-    function toggleTextNotes(itemId) {
-        var moreText = document.getElementById("moreTextNotes" + itemId);
-        var readMore = document.getElementById("readMoreNotes" + itemId);
+        // Toggle for Notes
+        function toggleTextNotes(itemId) {
+            var moreText = document.getElementById("moreTextNotes" + itemId);
+            var readMore = document.getElementById("readMoreNotes" + itemId);
 
-        // Toggle notes text
-        if (moreText.style.display === "none") {
-            moreText.style.display = "inline";
-            readMore.innerHTML = " Read less";
-        } else {
-            moreText.style.display = "none";
-            readMore.innerHTML = "... ";
+            // Toggle notes text
+            if (moreText.style.display === "none") {
+                moreText.style.display = "inline";
+                readMore.innerHTML = " Read less";
+            } else {
+                moreText.style.display = "none";
+                readMore.innerHTML = "... ";
+            }
         }
-    }
-</script>
+    </script>
 }

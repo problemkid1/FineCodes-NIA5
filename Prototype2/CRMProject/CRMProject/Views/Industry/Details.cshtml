@@ -32,7 +32,13 @@
 
 <!-- Compact Definition List Styling -->
 <link href="~/customs/css/style.css" rel="stylesheet">
-
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 
 <div class="col-12">
     <div class="card">
@@ -102,9 +108,9 @@
                 @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
 
                 {
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Industry</a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID" id="SameZiseBtn">Edit Industry</a>
                 }
-                <a class="btn btn-secondary ml-2" asp-action="Index">Back to Industries</a>
+                <a class="btn btn-secondary ml-2" asp-action="Index" id="SameZiseBtn">Back to Industries</a>
             </div>
         </div>
     </div>

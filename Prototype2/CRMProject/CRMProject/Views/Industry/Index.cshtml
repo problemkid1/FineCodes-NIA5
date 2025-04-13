@@ -46,6 +46,14 @@
 <link href="~/customs/css/style.css" rel="stylesheet">
 @* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 <link href="~/css/contactstyle.css" rel="stylesheet">
+<style>
+    #SameZiseBtn,
+    #filterToggle {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 
 <div class="col-12">
     <div class="card">
@@ -55,7 +63,7 @@
                 <h1 class="mb-0 text-gray-1400" style="font-size: 1.5rem;">Industries</h1>
                 @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                 {
-                    <a asp-action="Create" class="btn btn-primary btn-lg ">
+                    <a asp-action="Create" class="btn btn-primary btn-lg " id="SameZiseBtn">
                         <i class="fas fa-plus"></i> Add Industry
                     </a>
                 }
@@ -78,19 +86,25 @@
                                 <!-- Filter by Industry Sector -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Industry Sector:</label>
-                                    @Html.TextBox("IndustrySector", null, new { @class = "form-control", placeholder = "Enter industry sector" })
+                                    @Html.DropDownList("IndustrySector", new SelectList(ViewBag.IndustrySector, "Value", "Text"),
+                                             "All Sectors",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by Industry Subsector -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Industry Subsector:</label>
-                                    @Html.TextBox("IndustrySubsector", null, new { @class = "form-control", placeholder = "Enter subsector" })
+                                    @Html.DropDownList("IndustrySubsector", new SelectList(ViewBag.SubsectorList, "Value", "Text"),
+                                             "All Subsectors",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by NAICS Code -->
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by NAICS Code:</label>
-                                    @Html.TextBox("IndustryNAICSCode", null, new { @class = "form-control", placeholder = "Enter NAICS code" })
+                                    <label class="control-label">Filter by NAICS Code:</label>                                    
+                                    @Html.DropDownList("IndustryNAICSCode", new SelectList(ViewBag.NAICSCodeList, "Value", "Text"),
+                                             "All NAICS Codes",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter Actions -->
@@ -154,7 +168,7 @@
                                 }
                             </div>
                             <div class="mt-4">
-                                <a asp-action="Index" class="btn btn-danger fs-4 fw-bold px-4 py-2">Clear All Filters</a>
+                                <a asp-action="Index" class="btn btn-danger fs-4 fw-bold px-4 py-2" id="SameZiseBtn">Clear All Filters</a>
                             </div>
                         </div>
                     </div>
@@ -320,7 +334,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="Upload Data" class="btn btn-primary" />
+                                    <input type="submit" value="Upload Data" class="btn btn-primary" id="SameZiseBtn" />
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -333,7 +347,7 @@
 
                                 <li>
                                     <a href="@Url.Content("~/files/Industry_Upload_Example.xlsx")" download>
-                                        <i class="fa-solid fa-file-excel"></i> Download Industry Upload Template
+                                        <i class="fa-solid fa-file-excel"></i> Download Industry Upload Example
                                     </a>
                                 </li>
                             </div>

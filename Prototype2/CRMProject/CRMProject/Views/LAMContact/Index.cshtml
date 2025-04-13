@@ -33,7 +33,13 @@
 <link href="~/customs/css/style.css" rel="stylesheet">
 @* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 <link href="~/css/contactstyle.css" rel="stylesheet">
-
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 <!-- Page Content -->
 <div class="col-12">
     <div class="card shadow">
@@ -42,16 +48,13 @@
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <!-- Changed from h2 to h1 with inline styling to maintain appearance -->
                 <h1 style="font-size: 1.75rem; margin-bottom: 0; font-weight: 500;" class="text-gray-1400">LAM Contacts</h1>
-                <a asp-action="Create" class="btn btn-primary btn-lg">
+                <a asp-action="Create" class="btn btn-primary btn-lg" id="SameZiseBtn">
                     <i class="fas fa-plus"></i> Add LAM Contact
                 </a>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <!-- Added h2 heading for the table section -->
-                    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Contact List</h2>
-
                     <table id="lamContactTable" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
@@ -119,7 +122,30 @@
             $('#lamContactTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    }
                 ],
                 responsive: true,
                 lengthChange: false

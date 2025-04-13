@@ -10,6 +10,13 @@
 
 <!-- Optional custom style -->
 <link href="~/customs/css/style.css" rel="stylesheet">
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 
 <!-- Display Success or Error Messages -->
 @if (TempData["SuccessMessage"] != null)
@@ -31,7 +38,6 @@
         </button>
     </div>
 }
-
 
 <div class="col-12">
     <div class="card">
@@ -107,8 +113,8 @@
     </div>
 
     <div class="form-group text-center mt-4">
-        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit LAM Contact</a>
-        <a class="btn btn-secondary ms-2" asp-action="Index">Back to LAM Contacts</a>
+        <a class="btn btn-warning" id="SameZiseBtn" asp-action="Edit" asp-route-id="@Model.ID">Edit LAM Contact</a>
+        <a class="btn btn-secondary ms-2" id="SameZiseBtn" asp-action="Index">Back to LAM Contacts</a>
     </div>
 </div>
 

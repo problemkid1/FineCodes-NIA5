@@ -50,11 +50,11 @@
                             </label>
                             <input asp-for="Email" class="form-control" placeholder="Enter email address" />
                             <span asp-validation-for="Email" class="text-danger"></span>
-                            <div class="alert alert-warning mt-2 p-2">
+                            @* <div class="alert alert-warning mt-2 p-2">
                                 <small>
                                     <strong>Note:</strong> Changing the email will reset the password. The user must use Forgot Password with the new email.
                                 </small>
-                            </div>
+                            </div> *@
                         </div>
                     </div>
 
@@ -67,10 +67,15 @@
                                 <select asp-for="Active" asp-items="Model.ActiveStatusList" class="form-control"></select>
                                 <div class="alert @(Model.Active ? "alert-danger" : "alert-info") mt-2 p-2">
                                     <strong>
-                                        @(
+                                        @* @(
                                             Model.Active
                                             ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
                                             : "If you make this user active, inform them to use Forgot Password to set a new one."
+                                            ) *@
+                                        @(
+                                            Model.Active
+                                            ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active."
+                                            : ""
                                             )
                                     </strong>
                                 </div>
@@ -87,8 +92,8 @@
                                     <strong>
                                         @(
                                             Model.Active
-                                            ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active and have them use Forgot Password."
-                                            : "If you make this user active, inform them to use Forgot Password to set a new one."
+                                            ? "Warning! If you make this user inactive, their login will be removed. To re-enable, mark them as Active."
+                                            : ""
                                             )
                                     </strong>
                                 </div>
