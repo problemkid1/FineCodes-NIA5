@@ -32,7 +32,13 @@
 <link href="~/customs/css/style.css" rel="stylesheet">
 
 @* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
-
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -72,9 +78,9 @@
     <div class="form-group text-center mt-4">
         @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
         {
-            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Initiative</a>
+            <a class="btn btn-warning" id="SameZiseBtn" asp-action="Edit" asp-route-id="@Model.ID">Edit Initiative</a>
         }
-        <a class="btn btn-secondary ml-2" asp-action="Index">Back to Initiatives</a>
+        <a class="btn btn-secondary ml-2" id="SameZiseBtn" asp-action="Index">Back to Initiatives</a>
     </div>
 </div>
 

@@ -30,7 +30,14 @@
 
 <!-- Compact Definition List Styling -->
 <link href="~/customs/css/style.css" rel="stylesheet">
-
+<style>
+    #SameZiseBtn,
+    #btnSubmit {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -126,9 +133,9 @@
 
                     {
 
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Contact</a>
+                        <a class="btn btn-warning" id="SameZiseBtn" asp-action="Edit" asp-route-id="@Model.ID">Edit Contact</a>
                     }
-                    <a class="btn btn-secondary ml-2" asp-action="Index">Back to Contacts</a>
+                    <a class="btn btn-secondary ml-2" id="SameZiseBtn" asp-action="Index">Back to Contacts</a>
                 </div>
             </div>
         </div>

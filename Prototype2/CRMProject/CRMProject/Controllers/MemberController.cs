@@ -146,6 +146,14 @@ namespace CRMProject.Controllers
 
             ViewData["Breadcrumbs"] = breadcrumbs;
 
+            // Get member name list for dropdown
+            ViewBag.memberList = _context.Members
+                .Select(a => new { Value = a.MemberName, Text = a.MemberName })
+                .Where(a => !string.IsNullOrEmpty(a.Value))
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
+
             // Get address city list for dropdown
             ViewBag.addressCityList = _context.Addresses
                 .Select(a => new { Value = a.AddressCity, Text = a.AddressCity })
@@ -165,6 +173,14 @@ namespace CRMProject.Controllers
 
             ViewBag.IndustryList = _context.Industries
                 .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
+            //Get contact list for dropdown
+
+            ViewBag.ContactList = _context.Contacts
+                .Select(i => new { Value = i.FirstName, Text = i.FirstName })
                 .Distinct()
                 .OrderBy(i => i.Text)
                 .ToList();

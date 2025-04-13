@@ -28,7 +28,13 @@
 
 <!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 <!-- Card Container -->
 <div class="col-12">
     <div class="card shadow mb-4">
@@ -92,8 +98,8 @@
 
                 <!-- Submit Buttons -->
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary">Create Industry</button>
-                    <a asp-action="Index" class="btn btn-secondary ms-2">Back to Industries</a>
+                    <button type="submit" class="btn btn-primary" id="SameZiseBtn">Create Industry</button>
+                    <a asp-action="Index" class="btn btn-secondary ms-2" id="SameZiseBtn">Back to Industries</a>
                 </div>
             </form>
         </div>

@@ -23,7 +23,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: MembershipType
-        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeDescription, string? MembershipTypeFee, int? page, int? pageSizeID)
+        public async Task<IActionResult> Index(string? MembershipTypeName, string? MembershipTypeFee, int? page, int? pageSizeID)
 
         {
             // Count the number of filters applied - start by assuming no filters
@@ -47,21 +47,16 @@ namespace CRMProject.Controllers
                 membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeName
                                                                .ToLower() == MembershipTypeName.ToLower());
                 numberFilters++;
-            }                     
-
-            // Filter by Membership Type Description
-            if (!string.IsNullOrEmpty(MembershipTypeDescription))
-            {
-                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeDescription != null && mt.MembershipTypeDescription.ToLower().Contains(MembershipTypeDescription.ToLower()));
-                numberFilters++;
             }
 
             // Filter by Membership Type Fee as a string for flexible matching
             if (!string.IsNullOrEmpty(MembershipTypeFee))
             {
-                membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeFee.HasValue &&
-                    mt.MembershipTypeFee.Value.ToString().Contains(MembershipTypeFee.ToLower()));
-                numberFilters++;
+                if (decimal.TryParse(MembershipTypeFee, out decimal fee))
+                {
+                    membershipTypes = membershipTypes.Where(mt => mt.MembershipTypeFee == (double)fee);
+                    numberFilters++;
+                }
             }
 
             // Give feedback about the state of the filters
@@ -84,10 +79,15 @@ namespace CRMProject.Controllers
             ViewData["Breadcrumbs"] = breadcrumbs;
 
             ViewBag.MembershipTypeNameList = _context.MembershipTypes
-        .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })
-        .Distinct()
-        .OrderBy(mt => mt.Text)
-        .ToList();
+            .Select(mt => new { Value = mt.MembershipTypeName, Text = mt.MembershipTypeName })
+            .Distinct()
+            .OrderBy(mt => mt.Text)
+            .ToList();
+            ViewBag.MembershipTypeFee = _context.MembershipTypes
+            .Select(mt => new { Value = mt.MembershipTypeFee, Text = mt.MembershipTypeFee })
+            .Distinct()
+            .OrderBy(mt => mt.Text)
+            .ToList();
             // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);

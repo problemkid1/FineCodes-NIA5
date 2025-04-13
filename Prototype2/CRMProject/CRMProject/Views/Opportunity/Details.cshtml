@@ -124,7 +124,7 @@
             @if (User.IsInRole("Super") || User.IsInRole("Admin"))
             {
                 <div class="mt-4">
-                    <button class="btn btn-primary" onclick="showContactForm()">Add Contact</button>
+                    <button class="btn btn-primary" style="min-height:50px; min-width:155px" onclick="showContactForm()">Add Contact</button>
                 </div>
             }
             <div class="mt-4">
@@ -196,7 +196,7 @@
             @if (User.IsInRole("Super") || User.IsInRole("Admin"))
             {
                 <form method="post" action="@Url.Action("ConvertToMember", "Opportunity", new { opportunityId = Model.ID })">
-                    <button type="submit" class="btn btn-primary">Convert to Member</button>
+                    <button type="submit" class="btn btn-primary" style="min-height:50px; min-width:155px">Convert to Member</button>
                 </form>
             }
 
@@ -204,9 +204,9 @@
                 @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
 
                 {
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Opportunity</a>
+                    <a class="btn btn-warning" style="min-height:50px; min-width:155px; align-content:center" asp-action="Edit" asp-route-id="@Model.ID">Edit Opportunity</a>
                 }
-                <a class="btn btn-secondary ml-2" asp-action="Index">Back to Opportunities</a>
+                <a class="btn btn-secondary ml-2" asp-action="Index" style="min-height:50px; min-width:155px; align-content:center">Back to Opportunities</a>
             </div>
         </div>
     </div>

@@ -48,7 +48,14 @@
 <!-- Custom styles for this template-->
 @* <link href="~/customs/css/style.css" rel="stylesheet"> *@
 @* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
-
+<style>
+    #SameZiseBtn,
+    #btnSubmit {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 <div class="col-12">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -150,8 +157,8 @@
                 </div>
 
                 <div class="form-group text-center">
-                    <input type="submit" value="Create Contact" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Contacts</a>
+                    <input type="submit" value="Create Contact" class="btn btn-primary" id="SameZiseBtn" />
+                    <a asp-action="Index" class="btn btn-secondary ml-2" id="SameZiseBtn">Back to Contacts</a>
                 </div>
             </form>
         </div>

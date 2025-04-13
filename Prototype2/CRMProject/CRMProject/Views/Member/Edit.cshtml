@@ -47,8 +47,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
 <!-- Custom styles for this template-->
-@* <link href="~/css/contactstyle.css" rel="stylesheet"> *@
-@* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
+<style>
+    .btn-secondary {
+        min-width: 155px;
+        min-height: 50px;
+        align-content: center;
+    }
+</style>
 
 <div class="col-12">
     <div class="card shadow mb-4">
@@ -206,7 +211,7 @@
                 </div>
 
                 <div class="form-group text-center">
-                    <input type="submit" value="Save Member" id="btnSubmit" class="btn btn-primary" />
+                    <input type="submit" value="Save Member" id="btnSubmit" class="btn btn-secondary" />
                     <a asp-action="Index" class="btn btn-secondary ml-2">Back to Members</a>
                 </div>
             </form>

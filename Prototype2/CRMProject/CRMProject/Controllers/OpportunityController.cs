@@ -79,6 +79,23 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+
+            // Get Opportunity name list for dropdown
+            ViewBag.OpportunitiesList = _context.Opportunities
+                .Select(a => new { Value = a.OpportunityName, Text = a.OpportunityName })
+                .Where(a => !string.IsNullOrEmpty(a.Value))
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
+
+
+            // Get Priorities list for dropdown
+            ViewBag.PrioritiesList = _context.Opportunities
+                .Select(a => new { Value = a.OpportunityPriority, Text = a.OpportunityPriority })
+                .Where(a => !string.IsNullOrEmpty(a.Value))
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
             // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);

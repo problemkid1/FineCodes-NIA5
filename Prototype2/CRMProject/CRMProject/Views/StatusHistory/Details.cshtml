@@ -109,9 +109,9 @@
                 <div class="form-group text-center mt-4">
                     @if (Model?.ID != null && User.IsInRole("Super") || User.IsInRole("Admin"))
                     {
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.ID">Edit Status History</a>
+                        <a class="btn btn-warning" style="min-height:50px; min-width:155px; align-content:center" asp-action="Edit" asp-route-id="@Model.ID">Edit Status History</a>
                     }
-                    <a class="btn btn-secondary ml-2" asp-action="Index">Back to Status Histories</a>
+                    <a class="btn btn-secondary ml-2" style="min-height:50px; min-width:155px; align-content:center" asp-action="Index">Back to Status Histories</a>
                 </div>
             </div>
         </div>

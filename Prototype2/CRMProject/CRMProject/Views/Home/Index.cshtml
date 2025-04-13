@@ -9,9 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-
-
-
 <div class="container-fluid" id="dashboardContainer">
     <!-- Page Heading with Edit Controls -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -19,15 +16,15 @@
         @if (User.IsInRole("Super") || User.IsInRole("Admin"))
         {
             <div class="dashboard-controls">
-                <button id="editDashboardBtn" class="btn btn-primary">
+                <button id="editDashboardBtn" class="btn btn-primary" style="min-height: 50px; min-width: 155px; align-content: center;">
                     <i class="fas fa-edit mr-1"></i> Edit Dashboard
                 </button>
                 <!-- Rest of your controls -->
                 <div id="dashboardEditControls" style="display: none;">
-                    <button id="saveDashboardBtn" class="btn btn-success mr-2">
+                    <button id="saveDashboardBtn" class="btn btn-success mr-2" style="min-height: 50px; min-width: 155px; align-content: center;">
                         <i class="fas fa-save mr-1"></i> Save Changes
                     </button>
-                    <button id="cancelEditBtn" class="btn btn-secondary">
+                    <button id="cancelEditBtn" class="btn btn-secondary" style="min-height: 50px; min-width: 155px; align-content: center;">
                         <i class="fas fa-times mr-1"></i> Cancel
                     </button>
                 </div>
@@ -312,7 +309,7 @@
         <div class="text-right mt-3 mb-4">
             <small class="text-muted" style="color: #4a5568; background-color: rgb(248, 249, 252);">
                 Last updated: <span id="lastUpdated" style="color: #4a5568; background-color: rgb(248, 249, 252);">@DateTime.Now.ToString("MMM dd, yyyy HH:mm:ss")</span>
-                <button id="refreshDataBtn" class="btn btn-sm btn-outline-primary ml-2" style="color: #2b6cb0; border-color: #2b6cb0;">
+                <button id="refreshDataBtn" class="btn btn-sm btn-outline-primary ml-2" style="color: #fff; border-color: #2b6cb0; min-height: 50px; min-width: 155px; align-content: center;">
                     <i class="fas fa-sync-alt"></i> Refresh Data
                 </button>
             </small>

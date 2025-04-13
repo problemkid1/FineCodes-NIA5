@@ -75,6 +75,22 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+
+            ViewBag.IndustrySector = _context.Industries
+                .Select(i => new { Value = i.IndustrySector, Text = i.IndustrySector })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+            ViewBag.SubsectorList = _context.Industries
+                .Select(i => new { Value = i.IndustrySubsector, Text = i.IndustrySubsector })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+            ViewBag.NAICSCodeList = _context.Industries
+                .Select(i => new { Value = i.IndustryNAICSCode, Text = i.IndustryNAICSCode })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
             // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);
             ViewData["pageSizeID"] = PageSizeHelper.PageSizeList(pageSize);

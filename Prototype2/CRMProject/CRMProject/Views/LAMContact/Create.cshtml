@@ -25,7 +25,13 @@
         </button>
     </div>
 }
-
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
 
 <div class="col-12">
     <div class="card shadow mb-4">
@@ -80,8 +86,8 @@
                 </div>
 
                 <div class="form-group text-center mt-4">
-                    <input type="submit" value="Create LAM Contact" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to LAM Contacts</a>
+                    <input type="submit" value="Create LAM Contact" class="btn btn-primary" id="SameZiseBtn" />
+                    <a asp-action="Index" class="btn btn-secondary ml-2" id="SameZiseBtn">Back to LAM Contacts</a>
                 </div>
             </form>
         </div>

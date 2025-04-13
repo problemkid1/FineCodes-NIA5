@@ -48,6 +48,14 @@
 @* <link href="~/customs/css/style.css" rel="stylesheet"> *@
 @* <link href="~/theme/css/custom-colors.css" rel="stylesheet"> *@
 
+<style>
+    #SameZiseBtn {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
+
 <div class="col-12">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -81,7 +89,7 @@
                             <span asp-validation-for="IndustrySector" class="text-danger"></span>
                             <div class="input-group mt-2">
                                 <input type="text" id="NewIndustrySector" class="form-control" placeholder="Enter new sector">
-                                <button type="button" id="AddIndustrySector" class="btn btn-outline-primary">Add</button>
+                                <button type="button" id="AddIndustrySector" class="btn btn-primary" style="min-width: 85px">Add</button>
                             </div>
                         </div>
                     </div>                    
@@ -106,7 +114,7 @@
                             <span asp-validation-for="IndustrySubsector" class="text-danger"></span>
                             <div class="input-group mt-2">
                                 <input type="text" id="NewIndustrySubsector" class="form-control" placeholder="Enter new subsector">
-                                <button type="button" id="AddIndustrySubsector" class="btn btn-outline-primary">Add</button>
+                                <button type="button" id="AddIndustrySubsector" class="btn btn-primary" style="min-width: 85px">Add</button>
                             </div>
                         </div>
                     </div>
@@ -124,8 +132,8 @@
                 </div>
 
                 <div class="form-group text-center">
-                    <input type="submit" value="Save Industry" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-secondary ml-2">Back to Industries</a>
+                    <input type="submit" value="Save Industry" class="btn btn-primary" id="SameZiseBtn" />
+                    <a asp-action="Index" class="btn btn-secondary ml-2" id="SameZiseBtn">Back to Industries</a>
                 </div>
             </form>
         </div>

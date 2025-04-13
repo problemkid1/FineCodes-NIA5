@@ -53,7 +53,6 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h2 style="font-size: 1.5rem;">Action Items List</h2>
                     <table id="actionItemsTable" class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
@@ -115,7 +114,30 @@
             $('#actionItemsTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'excel', 'pdf', 'print'
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(:last-child)' // Exclude the last column (actions)
+                        }
+                    }
                 ],
                 responsive: true,
                 columnDefs: [

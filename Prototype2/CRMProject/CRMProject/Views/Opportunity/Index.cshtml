@@ -71,7 +71,7 @@
                     <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
                             id="filterToggle"
                             aria-expanded="false"
-                            aria-controls="collapseFilter">
+                            aria-controls="collapseFilter" style="min-height:50px; min-width:155px">
 
                         Filter/Search @ViewData["numberFilters"]
                     </button><br />
@@ -82,7 +82,10 @@
                                 <!-- Filter by Opportunity Name -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Opportunity Name:</label>
-                                    @Html.TextBox("OpportunityName", null, new { @class = "form-control", placeholder = "Enter opportunity name" })
+                                    @Html.DropDownList("SearchString",
+                                             new SelectList(ViewBag.OpportunitiesList, "Value", "Text"),
+                                             "All Opportunity Names",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by Opportunity Status -->
@@ -97,7 +100,10 @@
                                 <!-- Filter by Opportunity Priority -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Opportunity Priority:</label>
-                                    @Html.TextBox("OpportunityPriority", null, new { @class = "form-control", placeholder = "Enter priority" })
+                                    @Html.DropDownList("OpportunityPriority",
+                                             new SelectList(ViewBag.PrioritiesList, "Value", "Text"),
+                                             "All Priorities",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter Actions -->

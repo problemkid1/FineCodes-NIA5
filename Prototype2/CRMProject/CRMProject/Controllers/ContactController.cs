@@ -25,7 +25,7 @@ namespace CRMProject.Controllers
         }
 
         // GET: Contact
-        public async Task<IActionResult> Index(string? SearchString, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole, int? page, int? pageSizeID)
+        public async Task<IActionResult> Index(string? SearchString, string? MemberName, EmailType? ContactEmailType, string? FirstName, string? LastName, string? ContactPhone, string? ContactTitleRole, int? page, int? pageSizeID)
 
         {
             // Initialize the queryable contacts dataset
@@ -42,6 +42,20 @@ namespace CRMProject.Controllers
             if (!string.IsNullOrEmpty(SearchString))
             {
                 contacts = contacts.Where(c => c.Summary.Contains(SearchString));
+                numberFilters++;
+            }
+
+            // Filter by Member Name
+            if (!string.IsNullOrEmpty(MemberName))
+            {
+                contacts = contacts.Where(c => c.MemberContacts.Any(m => m.Member.MemberName.ToLower().Contains(MemberName.ToLower())));
+                numberFilters++;
+            }
+
+            // Filter by Contact Email Type
+            if (ContactEmailType != null)
+            {
+                contacts = contacts.Where(c => c.ContactEmailType == ContactEmailType);
                 numberFilters++;
             }
 
@@ -94,6 +108,36 @@ namespace CRMProject.Controllers
                     };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
+            ViewBag.FirstNameList = _context.Contacts
+                .Select(i => new { Value = i.FirstName, Text = i.FirstName })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
+            ViewBag.LastNameList = _context.Contacts
+                .Select(i => new { Value = i.LastName, Text = i.LastName })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
+            ViewBag.contactMemberList = _context.Members
+                .Select(a => new { Value = a.MemberName, Text = a.MemberName })
+                .Where(a => !string.IsNullOrEmpty(a.Value))
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
+
+            ViewBag.ContactTitleList = _context.Contacts
+                .Select(i => new { Value = i.ContactTitleRole, Text = i.ContactTitleRole })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
+
+            ViewBag.ContactEmailType = _context.Contacts
+                .Select(i => new { Value = i.ContactEmailType, Text = i.ContactEmailType })
+                .Distinct()
+                .OrderBy(i => i.Text)
+                .ToList();
 
             // Handle Paging
             int pageSize = PageSizeHelper.SetPageSize(HttpContext, pageSizeID);

@@ -54,6 +54,15 @@
 @* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 <link href="~/css/contactstyle.css" rel="stylesheet">
 
+<style>
+    #SameZiseBtn,
+    #filterToggle {
+        min-height: 50px;
+        min-width: 155px;
+        align-content: center;
+    }
+</style>
+
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -62,7 +71,7 @@
                 <h1 style="font-size: 1.5rem; margin-bottom: 0; color: var(--gray-1400);" class="mb-0">Membership Types</h1>
                 @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                 {
-                    <a asp-action="Create" class="btn btn-primary btn-lg">
+                    <a asp-action="Create" class="btn btn-primary btn-lg" id="SameZiseBtn">
                         <i class="fas fa-plus fs-4"></i> Add Membership
                     </a>
                 }
@@ -87,20 +96,17 @@
                                     <label for="MembershipTypeName">Filter by Membership Type</label>
                                     @Html.DropDownList("MembershipTypeName",
                                                       new SelectList(ViewBag.MembershipTypeNameList, "Value", "Text"),
-                                                      "Select Membership Type",
+                                                      "All Membership Types",
                                                       new { @class = "form-control" })
-                                </div>
-
-                                <!-- Filter by Membership Type Description -->
-                                <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Membership Type Description:</label>
-                                    @Html.TextBox("MembershipTypeDescription", null, new { @class = "form-control", placeholder = "Enter description" })
-                                </div>
+                                </div>                               
 
                                 <!-- Filter by Membership Type Fee -->
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Membership Type Fee:</label>
-                                    @Html.TextBox("MembershipTypeFee", null, new { @class = "form-control", placeholder = "Enter fee" })
+                                    <label class="control-label">Filter by Membership Fee:</label>
+                                    @Html.DropDownList("MembershipTypeFee",
+                                             new SelectList(ViewBag.MembershipTypeFee, "Value", "Text"),
+                                             "All Membership Fees",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter Actions -->

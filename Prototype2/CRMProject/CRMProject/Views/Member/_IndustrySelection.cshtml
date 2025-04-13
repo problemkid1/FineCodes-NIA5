@@ -5,7 +5,7 @@
     <div class="input-group">
         <input type="text" id="industrySearch" class="form-control" placeholder="Type to search...">
         <div class="input-group-append">
-            <button type="button" id="btnAddIndustry" class="btn btn-primary">Add</button>
+            <button type="button" id="btnAddIndustry" class="btn btn-primary" style="min-width: 85px">Add</button>
         </div>
     </div>
     <div id="industrySearchResultsContainer" style="position: relative;">
@@ -21,7 +21,7 @@
             <div class="input-group mb-2" data-id="@item.Value">
                 <input type="text" class="form-control" value="@item.Text" readonly>
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-danger remove-industry">Remove</button>
+                    <button type="button" class="btn btn-danger remove-industry" style="min-width: 85px">Remove</button>
                 </div>
             </div>
         }

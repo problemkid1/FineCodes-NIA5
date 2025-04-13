@@ -50,15 +50,6 @@
 <link href="~/customs/css/style.css" rel="stylesheet">
 @* <link href="~/customs/css/members-table.css" rel="stylesheet"> *@
 <link href="~/css/contactstyle.css" rel="stylesheet">
-
-
-
-
-
-
-
-
-
 <div class="col-12">
     <div class="card">
         <div class="card-body">
@@ -95,7 +86,7 @@
                     <button class="btn btn-outline-secondary @ViewData["Filtering"] mb-3" type="button"
                             id="filterToggle"
                             aria-expanded="false"
-                            aria-controls="collapseFilter">
+                            aria-controls="collapseFilter" style="min-height:50px; min-width:155px">
                         Filter/Search @ViewData["numberFilters"]
                     </button>
 
@@ -107,8 +98,11 @@
                             <div class="row">
                                 <!-- Filter by Member Name -->
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">Filter by Member Name:</label>
-                                    @Html.TextBox("SearchString", null, new { @class = "form-control", placeholder = "Enter name" })
+                                    <label class="control-label">Filter by Member Name:</label>                                    
+                                    @Html.DropDownList("SearchString",
+                                             new SelectList(ViewBag.memberList, "Value", "Text"),
+                                             "All Member Names",
+                                             new { @class = "form-control" })
                                 </div>
 
                                 <!-- Filter by City -->
@@ -120,11 +114,14 @@
                                              new { @class = "form-control" })
                                 </div><hr />
 
-                                <!-- Filter by Contact -->
+                                @* <!-- Filter by Contact -->
                                 <div class="form-group col-md-4">
                                     <label class="control-label">Filter by Contact:</label>
-                                    @Html.TextBox("Contact", null, new { @class = "form-control", placeholder = "Enter first name" })
-                                </div>
+                                    @Html.DropDownList("Contact",
+                                             new SelectList(ViewBag.ContactList, "Value", "Text"),
+                                             "All Contacts",
+                                             new { @class = "form-control" })
+                                </div> *@
 
                                 @* <!-- Filter by Size -->
                                 <div class="form-group col-md-4">
@@ -146,6 +143,15 @@
                                     @Html.DropDownList("MembershipTypeName",
                                              new SelectList(ViewBag.MembershipTypeNameList, "Value", "Text"),
                                              "All Types",
+                                             new { @class = "form-control" })
+                                </div>
+
+                                <!-- Filter by Industry -->
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">Filter by Industry Sector:</label>
+                                    @Html.DropDownList("MembershipTypeName",
+                                             new SelectList(ViewBag.IndustryList, "Value", "Text"),
+                                             "All Industry Sectors",
                                              new { @class = "form-control" })
                                 </div><hr />
 
@@ -300,7 +306,7 @@
                 @if (User.IsInRole("Super") || User.IsInRole("Admin"))
                 {
                     <div>
-                        <button id="exportButton" class="btn btn-primary" style="margin:15px 0px 0px 20px">
+                        <button id="exportButton" class="btn btn-primary" style="margin:15px 0px 0px 20px; min-height:50px; min-width:155px">
                             Customized Export
                         </button>
                     </div>
@@ -316,7 +322,7 @@
                                     @* <th class="d-none d-sm-table-cell" style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberContacts)</th> *@
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().Address.AddressCity)</th>
                                     @* <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStatus)</th> *@
-                                    <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
+                                    <th style="min-width: 175px;">@Html.DisplayNameFor(model => model.First().MemberMembershipTypes)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberIndustries)</th>
                                     <th style="min-width: 120px;">@Html.DisplayNameFor(model => model.First().MemberStartDate)</th>
                                     <th style="width: 170px; text-align: center;">Actions</th>
@@ -550,7 +556,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" value="Upload Data" class="btn btn-primary" />
+                                    <input type="submit" value="Upload Data" class="btn btn-primary" style="min-height:50px; min-width:155px" />
                                 </div>
                             </div>
                             <div class="col-md-7">
@@ -565,7 +571,7 @@
                                     <ul>
                                         <li>
                                             <a href="@Url.Content("~/files/Member_Upload_Example.xlsx")" download>
-                                                <i class="fa-solid fa-file-excel"></i> Download Member Upload Template
+                                                <i class="fa-solid fa-file-excel"></i> Download Member Upload Example
                                             </a>
                                         </li>
                                     </ul>

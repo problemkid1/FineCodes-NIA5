@@ -122,6 +122,13 @@ namespace CRMProject.Controllers
                     new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
                     new BreadcrumbItem { Title = "Status History", Url = "/Status History/Index", IsActive = true }
                     };
+            // Get member name list for dropdown
+            ViewBag.memberList = _context.Members
+                .Select(a => new { Value = a.MemberName, Text = a.MemberName })
+                .Where(a => !string.IsNullOrEmpty(a.Value))
+                .Distinct()
+                .OrderBy(mt => mt.Text)
+                .ToList();
 
             ViewData["Breadcrumbs"] = breadcrumbs;
             // Handle Paging
