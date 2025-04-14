@@ -15,16 +15,29 @@
 
 <h5 class="mt-3">Selected Contacts</h5>
 <div id="selectedContactsContainer">
-     @foreach (var item in Model)
+  @*   <ul id="selectedContactsList" class="list-group">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-id="@item.Value">
+                    @item.Text
+                    <button type="button" class="btn btn-danger remove-contact" style="min-width: 85px">Remove</button>
+                </li>
+            }
+        }
+    </ul> *@
+    <div id="selectedContactsList">
+        @foreach (var item in Model)
         {
             <div class="input-group mb-2" data-id="@item.Value">
                 <input type="text" class="form-control" value="@item.Text" readonly>
                 <div class="input-group-append">
                     <button type="button" class="btn btn-danger remove-contact" style="min-width: 85px">Remove</button>
+                </div>
             </div>
-        </div>
-    }
-
+        }
+    </div>
     <!-- No contacts message - initially hidden if there are contacts -->
     <div id="noContactsMessage" class="alert alert-info mt-2 @(Model != null && Model.Any() ? "d-none" : "")">
         No contacts assigned yet
@@ -245,7 +258,7 @@
         // Remove contact button click handler
         $(document).on("click", ".remove-contact", function () {
             console.log("Remove button clicked");
-            const $item = $(this).closest("li");
+            const $item = $(this).closest(".input-group");
             const contactId = $item.data("id");
             // Remove the hidden field for this contact
             $(`input.contact-id-field[value="${contactId}"]`).remove();
@@ -261,11 +274,13 @@
             // Check if contact already exists in the list
             if ($("#selectedContactsList li[data-id='" + contactId + "']").length === 0) {
                 // Add the contact to the list
-                $("#selectedContactsList").append(`
-                            <li class="list-group-item d-flex justify-content-between align-items-center" data-id="${contactId}">
-                                ${contactName}
-                                <button type="button" class="btn btn-sm btn-danger remove-contact">Remove</button>
-                            </li>
+                $("#selectedContactsList").append(`                            
+                            <div class="input-group mb-2" data-id="${contactId}">
+                <input type="text" class="form-control" value="${contactName}" readonly>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger remove-contact" style="min-width: 85px">Remove</button>
+                </div>
+            </div>
                         `);
                 // Add a hidden field for this contact
                 $('<input>').attr({
@@ -283,7 +298,7 @@
 
         // Function to check if there are any contacts and show/hide the message accordingly
         function updateNoContactsMessage() {
-            const contactCount = $("#selectedContactsList li").length;
+            const contactCount = $("#selectedContactsList .input-group").length;
             console.log("Contact count:", contactCount);
             if (contactCount === 0) {
                 // Show the "No contacts" message
