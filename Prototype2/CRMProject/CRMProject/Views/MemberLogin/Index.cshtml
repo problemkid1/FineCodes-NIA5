@@ -45,14 +45,19 @@
                 </a>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <table id="memberTable" class="table table-bordered table-striped">
+            
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                       
                         <thead class="table-light">
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th>
+                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().UserRoles)</th> *@
+                                <th>User Roles</th>
+                                @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Summary)</th> *@
+                                <th>Email</th>
                                 <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Phone)</th>
-                                <th>@Html.DisplayNameFor(model => model.FirstOrDefault().UserRoles)</th>
+                                
                                 <th class="text-center">Status</th>
                                 @* <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Active)</th> *@
                                 <th class="text-center" style="width: 170px; text-align: center;">Action</th>
@@ -71,11 +76,6 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Summary)<br />
-                                            <strong>Email:</strong> @Html.DisplayFor(modelItem => item.Email)
-                                        </td>
-                                        <td>@Html.DisplayFor(modelItem => item.Phone)</td>
-                                        <td>
                                             @if (item.UserRoles != null && item.UserRoles.Any())
                                             {
                                                 <ul class="list-unstyled">
@@ -86,6 +86,12 @@
                                                 </ul>
                                             }
                                         </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Summary)<br />
+                                             @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                        
                                         <td class="text-center">
                                             <span>@(item.Active ? "Active" : "Inactive")</span>
                                             @* <div class="custom-control custom-switch">                                                

@@ -182,125 +182,130 @@
             <div class="card">
                 <!-- Table Section -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Member.MemberName)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Status)</th>
-                                <th>@Html.DisplayNameFor(model => model.Reason)</th>
-                                <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.Notes)</th>
-                                <th>@Html.DisplayNameFor(model => model.Date)</th>
-                                <th style="width: 150px; text-align: center;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (!Model.Any())
-                            {
+                    <div class="table-responsive">
+                        <table id="example1" class="table table-bordered table-striped ">
+    
+
+                           <thead class="table-light">
                                 <tr>
-                                    <td colspan="6" class="text-center">No records available.</td>
+                                    <th >@Html.DisplayNameFor(model => model.Member.MemberName)</th>
+                                    <th >@Html.DisplayNameFor(model => model.Status)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Reason)</th>
+                                    <th >@Html.DisplayNameFor(model => model.Notes)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Date)</th>
+                                    <th style="width: 150px; text-align: center;">Actions</th>
                                 </tr>
-                            }
-                            else
-                            {
-                                @foreach (var item in Model)
+                            </thead>
+                            <tbody>
+                                @if (!Model.Any())
                                 {
                                     <tr>
-                                        <!-- Member Name -->
-                                        <td class="d-none d-sm-table-cell">
-                                            @if (item.Member != null)
-                                            {
-                                                var memberName = item.Member.MemberName;
-                                                var words = memberName.Split(' ');
-                                                var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : memberName;
-                                                var fullName = memberName;
-
-                                                <span>
-                                                    @shortName
-                                                    @if (words.Length > 3)
-                                                    {
-                                                        <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
-                                                        <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">... </a>
-                                                    }
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span>N/A</span>
-                                            }
-                                        </td>
-
-                                        <!-- Status -->
-                                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-
-                                        <!-- Reason -->
-                                        <td>
-                                            @if (!string.IsNullOrEmpty(item.Reason))
-                                            {
-                                                var reason = item.Reason;
-                                                var words = reason.Split(' ');
-                                                var shortReason = words.Length > 3 ? string.Join(" ", words.Take(3)) : reason;
-                                                var fullReason = reason;
-
-                                                <span>
-                                                    @shortReason
-                                                    @if (words.Length > 3)
-                                                    {
-                                                        <span id="moreTextReason@(item.ID)" style="display: none;"> @fullReason.Substring(shortReason.Length) </span>
-                                                        <a href="javascript:void(0);" id="readMoreReason@(item.ID)" onclick="toggleTextReason(@item.ID)">... </a>
-                                                    }
-                                                </span>
-                                            }
-                                        </td>
-
-                                        <!-- Notes -->
-                                        <td class="d-none d-sm-table-cell">
-                                            @if (!string.IsNullOrEmpty(item.Notes))
-                                            {
-                                                var notes = item.Notes;
-                                                var words = notes.Split(' ');
-                                                var shortNotes = words.Length > 3 ? string.Join(" ", words.Take(3)) : notes;
-                                                var fullNotes = notes;
-
-                                                <span>
-                                                    @shortNotes
-                                                    @if (words.Length > 3)
-                                                    {
-                                                        <span id="moreTextNotes@(item.ID)" style="display: none;"> @fullNotes.Substring(shortNotes.Length) </span>
-                                                        <a href="javascript:void(0);" id="readMoreNotes@(item.ID)" onclick="toggleTextNotes(@item.ID)">... </a>
-                                                    }
-                                                </span>
-                                            }
-                                        </td>
-
-
-                                        <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                                        <td style="text-align: center;">
-                                            <div class="btn-group">
-                                                @if (User.IsInRole("Super") || User.IsInRole("Admin"))
+                                        <td colspan="6" class="text-center">No records available.</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <!-- Member Name -->
+                                            <td >
+                                                @if (item.Member != null)
                                                 {
-                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
-                                                       data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
-                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                                        <i class="bi bi-search"></i>
-                                                    </a>
+                                                    var memberName = item.Member.MemberName;
+                                                    var words = memberName.Split(' ');
+                                                    var shortName = words.Length > 3 ? string.Join(" ", words.Take(3)) : memberName;
+                                                    var fullName = memberName;
+
+                                                    <span>
+                                                        @shortName
+                                                        @if (words.Length > 3)
+                                                        {
+                                                            <span id="moreTextName@(item.ID)" style="display: none;"> @fullName.Substring(shortName.Length) </span>
+                                                            <a href="javascript:void(0);" id="readMoreName@(item.ID)" onclick="toggleTextName(@item.ID)">... </a>
+                                                        }
+                                                    </span>
                                                 }
                                                 else
                                                 {
-                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
-                                                       role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
-                                                        <i class="bi bi-search"></i>
-                                                    </a>
+                                                    <span>N/A</span>
                                                 }
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+
+                                            <!-- Status -->
+                                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+
+                                            <!-- Reason -->
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.Reason))
+                                                {
+                                                    var reason = item.Reason;
+                                                    var words = reason.Split(' ');
+                                                    var shortReason = words.Length > 3 ? string.Join(" ", words.Take(3)) : reason;
+                                                    var fullReason = reason;
+
+                                                    <span>
+                                                        @shortReason
+                                                        @if (words.Length > 3)
+                                                        {
+                                                            <span id="moreTextReason@(item.ID)" style="display: none;"> @fullReason.Substring(shortReason.Length) </span>
+                                                            <a href="javascript:void(0);" id="readMoreReason@(item.ID)" onclick="toggleTextReason(@item.ID)">... </a>
+                                                        }
+                                                    </span>
+                                                }
+                                            </td>
+
+                                            <!-- Notes -->
+                                            <td >
+                                                @if (!string.IsNullOrEmpty(item.Notes))
+                                                {
+                                                    var notes = item.Notes;
+                                                    var words = notes.Split(' ');
+                                                    var shortNotes = words.Length > 3 ? string.Join(" ", words.Take(3)) : notes;
+                                                    var fullNotes = notes;
+
+                                                    <span>
+                                                        @shortNotes
+                                                        @if (words.Length > 3)
+                                                        {
+                                                            <span id="moreTextNotes@(item.ID)" style="display: none;"> @fullNotes.Substring(shortNotes.Length) </span>
+                                                            <a href="javascript:void(0);" id="readMoreNotes@(item.ID)" onclick="toggleTextNotes(@item.ID)">... </a>
+                                                        }
+                                                    </span>
+                                                }
+                                            </td>
+
+
+                                            <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                                            <td style="text-align: center;">
+                                                <div class="btn-group">
+                                                    @if (User.IsInRole("Super") || User.IsInRole("Admin"))
+                                                    {
+                                                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary " role="button" aria-disabled="false"
+                                                           data-bs-toggle="tooltip" title="Edit @ViewData["ControllerFriendlyName"]">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </a>
+                                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                           role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                            <i class="bi bi-search"></i>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-md btn-outline-primary"
+                                                           role="button" data-bs-toggle="tooltip" title="Details @ViewData["ControllerFriendlyName"]">
+                                                            <i class="bi bi-search"></i>
+                                                        </a>
+                                                    }
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    
+                     </div>
                 </div>
             </div>
             <form asp-action="Index" method="get">

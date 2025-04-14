@@ -33,7 +33,7 @@ namespace CRMProject.Controllers
             var breadcrumbs = new List<BreadcrumbItem>
             {
                 new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
-                new BreadcrumbItem { Title = "Member Logins", Url = "/MemberLogin/Index", IsActive = true }
+                new BreadcrumbItem { Title = "Maintain Users", Url = "/MemberLogin/Index", IsActive = true }
             };
 
             ViewData["Breadcrumbs"] = breadcrumbs;
